@@ -1,0 +1,215 @@
+* Notes
+
+** gnome-icon-* .gtkrc-2.0 pcmanfm icon %![Error: (wrong-number-of-arguments (1 . 1) 2)] :fvwm:
+   :PROPERTIES:
+   :Created:  [2019-10-26 Sat 01:11]
+   :Linked:
+   :END:
+
+**  %![Error: (wrong-number-of-arguments (1 . 1) 2)]                          :blog:
+   :PROPERTIES:
+   :Created:  [2019-10-23 Wed 19:52]
+   :Linked:   [[gnus:nnrss:Zhihu#49@Zhihu.nnrss][数据分析]]
+   :END:
+ 提问的现象是个本末倒置的典型。
+
+ 提问中数据分析的路径，是“先数据，后问题”。在不清楚要回答什么问题的情况下，就先收集数据、收集方法；之后进行数据分析，也并没有明确的目
+ 标，而是指望通过高大上的方法来点石成金。问题是，数据是企业过往行为的反馈。如果把商业决策比方成开车，那指望着基于数据去分析出对企业未来
+ 决策有用的结论，无异于看着后视镜开车，本质上就是不效率的。这种思路导致数据分析师看起来做了很多工作，却很难得到真正有价值的结论。而这时
+ 如果怀疑自己“想法枯竭”而去追求“更好的方法”，其实是在错误的路径上越走越远。
+
+ 但与此同时，美国互联网企业，或者国内高技术的互联网企业，已经完全养成了商业决策依赖数据分析的文化。我之前在亚马逊做经济学家，现在脸书做
+ 资深数据科学家。这两个公司每天产生的数据都以PB计；而维度之多、复杂程度之高，更是让数据丰富程度堪称“海量”。他们招聘了来自各行各业的顶尖
+ 数据分析师来建立世界一流的数据库、数据架构、分析工具、数据模型等等。但是，每当做起数据分析，我们常常深感手中数据不是太多，而是太少了。
+ 因为数据再多，也多不过问题。接下来，我详解一下题目中路径的问题在那里，正确的路径是什么样，以及数据分析师在其中能做的具体工作。
+
+ 数据分析的正确路径
+
+ 仍然是拿开车作比方：真正的商业环境中，驾驶员是没有全知全能的GPS的，而是面对着一片迷雾：终点在哪个方向？前面的路有没有人走过？团队有没
+ 有能力走？是走阳关大道还是华容小道？解决这些问题，有时候依赖创始人的直觉，有时候依赖精干的团队逢山开道遇水搭桥。但如何长久地提高决策的
+ 效率、如何衡量决策的效果、如何在多条路径中选出最性价比最高的路径？这时，数据科学家的角色就像一个知识丰富的向导：通过把过往经验总结清
+ 楚，在决策的时候提供最值得信赖的参谋。如果一个企业想系统、长远地发展，数据分析必不可少。
+
+ 提问是拿着数据去寻找问题，而正确的做法永远是要拿着问题去数据中寻找答案。对应的路径应该是：（1）理解你所面对的商业模式；（2）寻找商业模
+ 式中的关键问题和假设；（3）用数据分析来验证假设和解决问题。
+
+ 有些读者可能已经发现，拿掉“数据分析”四字定语，这流程和所有的商业决策流程没有任何区别。这样看来，岂不是从创始人到一线员工，每个人都应该
+ 做数据分析，从而进行更好的决策吗？当然没错！这不是我自己说的，是Jeff Bezos和Mark Zuckerberg说的。因为直觉、经验、道听途说，都会带着偏见，
+ 而数据是真实的，自然应该在决策中占最重要的地位。
+
+ 数据分析师的职责
+
+ 数据分析师作为处理数据能力最专业，对数据最了解的人，在这过程中的重要性不言而喻。从数据行程决策的过程中，数据分析师应该做好如下四件事：
+
+ 1 记录数据：
+
+ 有用的数据要经过有心的设计，才能有效率地存储下来。按照“拿着问题去数据中寻找答案的思路”，不妨想一想，当你做一个决策时，有什么信息是对决
+ 策有用的？这里面哪些是现有数据覆盖的，哪些还需要进一步收集？再进一步，好的数据分析师，不但了解每种数据的信息量，还了解不同数据收集时的
+ 难易程度，以及如何设计机制来保证信息收集的准确。
+
+ 比如，若一个电商平台想知道所售商品是否为假货，那应该尽可能全面地了解产品信息、卖家信息，以及消费者反馈。当收集卖家信息时，什么信息容易
+ 作假？对法律法规了解的数据分析师可能会着重审核卖家的法律资质，而对机器学习擅长的数据分析师可能会从图像识别入手。哪个路径精确更高，更容
+ 易落地，很大程度上可以决定一个商业模式的生死。
+
+ 对商业模式了解以外，好的数据分析师也会对数据工程有深刻理解。这样才知道，在收集到数据之后，哪些放在数据库，哪些扔进数据湖？如何让最有价
+ 值的数据能最快被读取和展示，TB、PB级的数据应该如何存储才能在成本与效率之间优化？
+
+ 2. 处理数据：
+
+ 商业复杂后，数据会产生于不同部门。从其他部门高效地整合数据，并对数据质量有把控，也是数据分析师的重要素质。当整合了有用的数据后，把数据
+ 清理好、保证质量，做到结构完整、条理清晰，会让基于此的数据分析事半功倍。这一步看起来很轻松，当企业越大、部门越多、数据越复杂的时候，越
+ 重要。在亚马逊和脸书，专职于记录数据和处理数据的“数据工程师（data engineer）”与负责分析数据的“数据科学家（data scientist）”大概人数是1：2。
+
+ 3. 分析数据：
+
+ 这一步涵盖了太多内容，包括实验、预测、归因、制定关键指标、行研、深挖、仪表盘，等等等等，每一个环节都能单独出一本书来讲解。点到为止，不
+ 赘述了。
+
+ 4. 决策自动化：
+
+ 这里是机器学习大放异彩的地方了，无论是专家系统、监督学习或者无监督学习，归根结底，都是基于数据总结出来规律，将商业决策自动化。好的数据
+ 分析师，除了根据商业问题选择适用模型，提高模型表现和提高数据质量之外，还应该知道什么决策适合被机器学习解决；知道机器学习的长处与短板；
+ 知道如何收集/制造标签来赋能机器学习模型；知道如何建立机器学习的优化目标和损失函数；等等。
+
+ 小结
+
+ 其实，大数据的概念虽然提了很久，但是真正意义上的多维度、大规模的数据，是近几年才真正发展起来的。很多公司连处理大数据的能力都没有，更别
+ 提有效应用了。别的不说，微信这种超级app上，几乎有关于个人的所有维度的信息了，但是连一个广告推荐都还没做好。所以，数据分析在国内是一个刚
+ 起步的行业，希望对这行业有兴趣的同学，可以及早摆正思路，让数据分析发挥潜力，得到自己应有的地位。
+
+ 来源：知乎 www.zhihu.com
+ 作者：孙煜征
+
+**  %![Error: (wrong-number-of-arguments (1 . 1) 2)]                          :emacs:
+   :PROPERTIES:
+   :Created:  [2019-10-22 Tue 19:42]
+   :Linked:   [[https://www.zhihu.com/question/19580096][rss 订阅源]]
+   :END:
+有什么RSS源推荐给我吗？
+
+先列举一下我的订阅源吧（记住链接不是用来直接访问，而是粘贴进阅读器）：
+
+拓宽知识类
+知乎每日精选（强烈推荐）：http://www.zhihu.com/rss
+知乎日报（非常宝贵的源）：http://feeds.feedburner.com/zhihu-daily
+nhzy资讯（健康生活）：http://www.nhzy.org/?feed=rss2
+果壳网（科普生活）：http://www.guokr.com/rss/
+科学松鼠会（科普）：http://songshuhui.net/feed
+科学公园（分析各种误区）：http://www.scipark.net/feed/
+泛科学（台湾的科普资讯）：http://pansci.tw/feed
+Matrix67（数学爱好者）：http://www.matrix67.com/blog/feed.asp
+战隼的学习探索（效率生活）：http://feed.read.org.cn/
+
+新闻资讯类
+每日鲜果精选：http://xianguo.com/service/dailyshare
+凤凰网：http://feed43.com/1726484643045386.xml
+科学网头条：http://fullrss.net/a/http/www.sciencenet.cn/xml/news.aspx?di=0
+联合早报国际：http://zaobao.feedsportal.com/c/34003/f/616931/index.rss
+联合早报国内：http://zaobao.feedsportal.com/c/34003/f/616930/index.rss
+
+深度阅读类
+科学网博文精选：http://fullrss.net/a/http/www.sciencenet.cn/xml/blog.aspx?di=20
+译言精选：http://feed.yeeyan.org/select
+美文日赏：http://meiwenrishang.com/rss
+南都周刊：http://www.nbweekly.com/rss/smw/
+网易新闻·有态度专栏：http://news.163.com/special/00011K6L/rss_newsattitude.xml
+
+IT资讯类
+http://cnBeta.COM业界资讯：http://feeds2.feedburner.com/cnbeta_full
+月光博客：http://feed.williamlong.info/
+Engadget 中国版：http://cn.engadget.com/rss.xml
+36氪：http://feed.36kr.com/c/33346/f/566026/index.rss
+微软亚洲研究院：http://blog.sina.com.cn/rss/1286528122.xml
+善用佳软：http://feed.xbeta.info
+小众软件：http://feed.appinn.com/
+异次元软件世界：http://fullrss.net/a/http/feed.iplaysoft.com/
+小木虫论坛热门资源：http://emuch.net/bbs/rss.php?fid=300
+
+交大福利类
+交大鹊桥（谁用谁知道）：https://bbs.sjtu.edu.cn/bbsrss?board=LoveBridge
+爱心屋新品秒杀：http://www.feed43.com/8080041653871617.xml
+交大新闻：https://bbs.sjtu.edu.cn/bbsrss?board=SJTUNews
+交大勤工岗位：https://bbs.sjtu.edu.cn/bbsrss?board=PartTime
+交大招聘信息：https://bbs.sjtu.edu.cn/bbsrss?board=JobInfo
+交大文体活动：http://feed43.com/8210045573607001.xml
+交大志愿活动：http://feed43.com/5756215750585476.xml
+交大数码产品交易信息：https://bbs.sjtu.edu.cn/bbsrss?board=DigiPCTrade
+交大二手产品交易信息：https://bbs.sjtu.edu.cn/bbsrss?board=Secondhand
+招聘宣讲会：http://www.feed43.com/7056352854247810.xml
+大师讲坛通知：http://www.feed43.com/7287583325216227.xml
+研究生院通知：http://www.feed43.com/2866727272883204.xml
+
+再推荐一个功能强劲的RSS源搜索引擎：RSS Search Engine
+
+总之，好的RSS源实在是不胜枚举。
+
+进阶使用与提高
+
+1.其实QQ空间、新浪微博都可以输出成RSS源。
+你QQ空间的RSS源就是：http://feeds.qzone.qq.com/cgi-bin/cgi_rss_out?uin=你的QQ号码
+
+新浪微博RSS输出教程：
+新浪微博档案
+
+2.没有RSS源的网页也可以搞出RSS源。
+教程：FEED43 – 为没有 Feed 的网页生成 RSS 格式订阅源[教程]
+
+3.可以让摘要模式的RSS源变成全文输出模式。
+教程：fullrss.net RSSReader
+
+4.打造你自己的个性化极速通知神器。
+如果你和我一样喜欢折腾，并且还没有用过IFTTT这款软件，那么请赶紧尝试吧~
+
+ ifttt是“if this then that”的缩写，事实上是让你的网络行为能够引发连锁反应、让你使用更为方便，其宗旨是“Put the internet to work for you”（让互联
+ 网为你服务）。ifttt旨在帮助人们利用各网站的开放API，将Facebook、Twitter等各个网站或应用衔接，完成任务，使“每个人都可以成为整个互联网不
+ 用编程的程序员”。
+
+目前已经同时支持iOS、Android以及网页版：Put the internet to work for you.
+有了它可以实现非常多非常好玩有用的功能，爱折腾的同学肯定能自行研究出各种厉害的用法。
+入门介绍：iFTTT 入门介绍与简单使用设置教程
+
+这里只介绍和RSS功能结合起来的基本应用：
+注册了IFTTT账号、在手机上下载客户端后，就能够在线编辑你想要的各种网络任务了。
+比如实现这个：“如果在交大BBS上有人出售ipad的话，在手机上弹窗通知我”
+
+** 安全风险评估风险计算方法有矩阵法和相乘法                                     :note:
+   :PROPERTIES:
+   :Created:  [2019-10-15 Tue 13:29]
+   :Linked:   [[docview:/home/paulwp86/%E4%B8%8B%E8%BD%BD/%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0.pdf::25][风险的计算方法]]
+   :END:
+   
+** 风险评估原理                                                                 :note:
+   :PROPERTIES:
+   :Created:  [2019-10-15 Tue 13:19]
+   :Linked:   [[docview:/home/paulwp86/%E4%B8%8B%E8%BD%BD/%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0.pdf::18][风险评估原理]]
+   :END:
+
+** 安全风险评估要素图                                                           :note:
+   :PROPERTIES:
+   :Created:  [2019-10-15 Tue 13:07]
+   :Linked:   [[docview:/home/paulwp86/%E4%B8%8B%E8%BD%BD/%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0.pdf::9][安全风险评估要素图]]
+   :END:
+
+** 能不能为 info 和 man 文件创建 tags 文件，然后进行搜索                        :note:
+   :PROPERTIES:
+   :Created:  [2019-10-14 Mon 11:17]
+   :Linked:
+   :END:
+
+** Emacs Lisp 学习完毕后书写一篇博客                                            :note:
+   :PROPERTIES:
+   :Created:  [2019-10-11 Fri 19:42]
+   :Linked:
+   :END:
+
+* Jobs
+
+hk1 149.129.120.145 Alyllzk9+9hk1
+PORT:10697
+UUID:b2bcb9aa-896b-440c-853f-9b49761fb780
+
+hk2 149.129.119.96 Alyllzk9+9hk2
+pyinstaller -w -F -p . --hidden-import='PIL._tkinter_finder' stampemgr.py 
+pm2 --name "webgui" -f start ssmgr -x -- -c webgui.yml
+pm2 --name "ss" -f start ssmgr -x -- -c default.yml -r libev:chacha20 -p ythfhjklnmVYCjklgsui
+

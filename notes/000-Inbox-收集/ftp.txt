@@ -1,0 +1,6 @@
+open 192.168.1.12
+user Anonymous User@
+cd  软件/数据库
+binary
+get mysql-connector-odbc-5.3.4-win32.msi F:\杨刚工作2015\mysql_driver.msi
+quit

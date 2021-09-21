@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2019-10-28 Mon 03:25 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs lisp 手册 Modes 翻译</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Emacs lisp 手册 Modes 翻译</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org12610d0">1. 主模式和附模式</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org12610d0" class="outline-2">
+<h2 id="org12610d0"><span class="section-number-2">1</span> 主模式和附模式</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+模式是自定义Emacs 行为的一套非常有用的定义。这有两种不同的模式：“附模式”，主要
+提供用户可以在编辑过程中开启和关闭的一些特性；“主模式”，主要用于与某种特定的文
+本编辑和操作的模式。每个缓冲只能绑定一个主模式。
+</p>
+
+<p>
+这章阐述如何写主模式和子模式，怎样将他们加入模式行中，他们是如何运行用户添加的钩
+子的。对于涉及的键盘映射和语法表请看相关章节。
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org22b7f4f"></a>钩子<br />
+<div class="outline-text-3" id="text-1-1">
+<p>
+钩子是一个可以存储函数的变量，存储的函数会被已存在的程序在某种特定情况下进行调用。
+Emacs 是为了增加用户自由才提供的钩子机制。通常情况下，钩子在初始化文件中进行设置，
+但 Lisp 程序同样可以设置他们。请查看 Standard Hooks ，了解标准钩子变量的列表。
+</p>
+
+<p>
+Emacs 中的大多数钩子都是 "normal hooks"。这些变量存储的函数在调用时不需要参数。
+经约定，钩子函数的名字以 "-hook" 结尾，这告诉你它是一个常规钩子。我们尽量将钩子
+做成常规钩子，这样的话你可以按统一的方式来使用他们。
+</p>
+
+<p>
+每一个主模式命令都会以最后一个初始化步骤中调用 "mode hook" 来运行常规钩子函数。
+这让用户可以通过重新绑定模式定义的缓冲区变量的值，很简单地来自定义模式的行为方式。
+大多数的子模式同样会在最后运行模式钩子。但钩子同样可能会被用于其他上下文中。比如，
+"suspend-hook" 在 Emacs 暂停时运行（请看 Suspending Emacs）。
+</p>
+
+<p>
+推荐的添加钩子的方式是使用 "add-hook" 函数（请看 Setting Hooks）。钩子函数是
+"funcall" 函数可以接收的任何合法格式的函数（请看 What Is a Function）。 大多数普
+通钩子变量在初始化时其值为空； "add-hook" 知道如何来应对这种情况，你可以使用他为
+添加全局或者局部的钩子。
+</p>
+
+<p>
+如果钩子变量的名字不是由 "-hook" 结尾，那就表示他是一个非常规的钩子，绑定在他上面
+的钩子函数要使用参数来进行调用，或者他们的返回值还会被使用。 Hook 的文档说了这些
+函数会被怎么调用。你同样可以使用 "add-hook" 来将函数加入到非常规的钩子中，但你必须
+在写钩子时遵循调用约定。经约定，非常规的钩子名字由 "-functions" 结尾。
+</p>
+
+<p>
+如果一个变量的名字以 "-function" 结尾，那他的值只有一个变量，而不是一个函数的列
+表。 "add-hook" 不能用来修改这样一个单个值的函数钩子，你不得不使用
+"add-function" (请看 Advising Functions)
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org340081f"></a>运行钩子<br />
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+这节我们讨论用于运行常规钩子的 "run-hooks" 函数，以及运行非常规钩子的其他函数。
+</p>
+
+<p>
+&#x2013; 函数： run-hooks &amp;rest hookvars
+</p>
+
+<p>
+这个函数接受 1 个或者多个常规钩子变量名作为参数，并依次运行每个钩子。每个参数应
+该是一个常规钩子变量的符号。
+</p>
+
+<p>
+如果一个钩子变量的值不是空的话，他应该是一个函数列表。 "run-hookks" 依次调用每个
+函数，不传入参数。
+</p>
+
+<p>
+钩子变量的值同样可以是单个函数，或者 lambda 表达式，或者一个绑定有函数定义的符号。
+但这种用法已经被废弃了。
+</p>
+
+<p>
+如果钩子变量是局部的，则调用时将使用局部变量而不是全局变量。但是，如果局部变量包
+含有元素 "t"，则全局钩子变量会被执行。
+</p>
+
+<p>
+&#x2013; 函数： run-hook-with-args hook &amp;rest args
+</p>
+
+<p>
+这个函数用来调用存储在HOOK中的非常规钩子，将参数 ARGS 传入到每一个钩子中。
+</p>
+
+<p>
+&#x2013; 函数： run-hook-with-args-until-failure hook &amp;rest args
+</p>
+
+<p>
+这个函数依次调用每个一非常规钩子函数，直到其中一个返回 nil 。参数 ARGS 会在调用
+中传入每个钩子函数。如果这个函数因为其中一个函数失败，则返囘值为 "nil"，否则他的
+返回值是一个 non-`nil' 值。
+</p>
+
+<p>
+&#x2013; 函数： run-hook-with-args-until-success hook &amp;rest args
+</p>
+
+<p>
+这个函数调用每个非常规钩子，直到其中一个返回值是 non-`nil' 。参数 ARGS 会被传入
+每一个钩子函数。如果这个函数因为其中一个钩子返回 non-`nil' 而结束，他的返回值就
+是这个值，否则，他的返回值为 `nil'。
+</p>
+</div>
+</li>
+
+<li><a id="orgb38edf3"></a>设置钩子<br />
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+这有一个使用模式钩子在 Lisp 交互模式中来打开 Auto Fill 模式的的例子：
+</p>
+
+<p>
+(add-hook 'lisp-interaction-mode-hook 'auto-fill-mode)
+</p>
+
+<p>
+&#x2013; 函数： add-hook hook function &amp;optional append local
+</p>
+
+<p>
+这个函数是将函数 FUNCTION 添加到钩子变量 HOOK 中的便捷方式。你可以使用它来像添加
+常规钩子一样添加非常规钩子。FUNCTION 可以是任何可以接受恰当个数参数的钩子函数。
+比如：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'text-mode-hook 'my-text-hook-function<span style="color: #707183;">)</span>
+</pre>
+</div>
+<p>
+将 `my-text-hook-function' 添加到 `text-mode-hook'。
+</p>
+
+<p>
+如果 FUNCTION 已经在 HOOK 中了（使用 `equal' 比较），“add-hook”不会再次将这个
+函数加入钩子中。
+</p>
+
+<p>
+对于常规钩子，钩子函数应该被设计成执行的先后顺序不影响期望结果。任何对于顺序的信
+赖都会造成一些麻烦。但是被执行的顺序是可以知道的：通常情况下， FUNCTION 会被添加
+到钩子列表的头部，所以它会被第一个执行（不包含其他的 'add-hook' 调用）。 如果可
+选参数 APPEND 不是 'nil'，新钩子会被添加取列表的尾部，并且最后被执行。
+</p>
+
+<p>
+"add-hook" 可以处理那种 HOOK 是的值是 void 或者他的值是单个函数的民政部，他会设
+置或修改其值为一个函数列表。
+</p>
+
+<p>
+如果 LOCAL 不是 'nil'，这会要求其将 FUNCTION 添加到缓冲区局部的而不是全局的钩子
+列表。这会使钩子变成缓冲局部的，并会添加 't' 到 buffer-local 。这会设置一个标志，
+默认情况下像在局部变量中一样运行钩子函数。
+</p>
+
+<p>
+&#x2013; 函数： remove-hook hook function &amp;optional local
+</p>
+
+<p>
+这个函数会将 FUNCTION 从钩子变量 HOOK 中移除。他会使用 'equal' 来比较 FUNCTION
+和 HOOK 中的元素，所以这对于符号和 lambda 表达式一样的效果。
+</p>
+
+<p>
+如果 LOCAL 的值不是 'nil'，意思是说从缓冲局部的钩子列表而不是全局的钩子列表中移
+除 FUNCTION。
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="orga6df42d"></a>主模式<br />
+<div class="outline-text-3" id="text-1-2">
+<p>
+主模式设置 Emacs 用来编辑或者处理特定种类的文本。每个缓冲同时只有一个主模式。每
+个主模式与一个主模式命令绑定，命令的名字应该以 "-mode" 结尾，这个命令会设置缓冲
+局部的变量，比如局部键盘映射，来处理模式切换。请看 Major Mode Convention 。注意
+的是，不像子模式，没有办法关闭一个主模式，除非将缓冲切换到其他不同的主模式上。
+</p>
+
+<p>
+最基本的主模式是 "Fundamental mode"，其实没有模式的特别定义和变量设置。
+</p>
+
+<p>
+&#x2013; 命令： fundamental-modesto
+</p>
+
+<p>
+这是 Fundamental 模式的主模式命令。与其他模式命令不同的是，它不执行任何钩子，因
+为你不能在这个模式中自定义行为。
+</p>
+
+<p>
+写一个主模式的最简单的方式是使用宏 "define-derived-mode"，它会将新模式设置为一个
+已经存在的模式的变体，即使新模式并不明显从其他模式派生，这个宏会自动强制你使用许
+多编程约定。请看 Basic Major Modes，了解通常的模式从哪派生。
+</p>
+
+<p>
+标准的 GNU Emacs Lisp 目录树中包含了许多主模式的代码，比如
+'text-mode.el'，'texinfo.el’，'lisp-mode.el’和'rmail.el' 这些文件中。你可以从
+这些文件中学习怎样写一个模式。
+</p>
+
+<p>
+&#x2013; 用户设置： major-mode
+</p>
+
+<p>
+这个变量的缓冲区局部值存有当前主模式的符号。它的默认值是新缓冲的默认主模式，标准
+的默认值是 'fundamental-mode'。
+</p>
+
+<p>
+如果默认值是 'nil'，不论 Emacs 什么时候通过‘C-x b’ ('switch-to-buffer')这样的
+命令创建一个新的缓冲时，新缓冲都会被设置成之前缓冲的主模式。有一个例个是，如果之
+前缓冲的主模式有一个 'mode-class' 符号属性，并且其値是 'special'，那么新缓冲会被
+设置为 Fundamental 模式（请看 Major Mode Conventions）。
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orga8b4931"></a>主模式约定<br />
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+每个主模式的代码应当遵循不同的编码约定，包括局部键盘映射和语法表初始化、函数和变
+量名，以及钩子的约定。
+</p>
+
+<p>
+如果你使用 "define-derived-mode" 宏，它会自动处理大部分约定。请看 Derived Modes。
+注意的是 Fundamental 模式是对其中的许多约定是一个例外，因为它代表了Emacs 的默认
+状态。
+</p>
+
+<p>
+下面这些约定是其中的一部分。每个主模式都要将与其他主模式保持一致作为主要目标，因
+为这样才会使 Emacs 更加紧凑。不可能列出问题可能出出的所有的点，如果 Emacs 的开发
+都指出你的主模式没有遵循通常的约定，那么请你修改它保持兼容。
+</p>
+
+<ul class="org-ul">
+<li>使用‘-mode’ 作为主模式命令的结尾。当不使用参数调用时，这个命令应该通过设置当
+前缓冲的键盘映射、语法表和缓冲局部变量来切换到新的模式。不要个性缓冲中的内容。</li>
+
+<li>为模式命令写一个说明字符串来描述在这个模式下哪些特殊命令可以使用。请看 Mode
+Help。</li>
+</ul>
+
+<p>
+说明字符串可以包含特殊文档子串，`\[COMMAND]'， `\{KEYMAP}'， 和 `\&lt;KEYMAP&gt;'，这
+样的话帮助工具可以自动适应这用户的按键绑定。请看 Keys in Documentation。
+</p>
+
+<ul class="org-ul">
+<li>主模式命令应该以调用 `kill-all-local-variables' 开始，这会调用常规钩子</li>
+</ul>
+<p>
+`change-major-mode-hook'，然后丢弃之前的主模式的缓冲局部变量。请看 Creating
+  Buffer-Local。
+</p>
+
+<ul class="org-ul">
+<li>主模式命令应该设置变量 'major-mode' 的值为新模式命令的符号。这样
+'describe-mode’ 命令才知道显示哪个文档。</li>
+
+<li>主模式命令应当设置变量 'mode-name' 的值为新模式的 "pretty" 名字，通常是一个字
+符串（但请看 Mode Line Data，了解其他可能的格式)。这个名字会显示在模式行上。</li>
+
+<li>当连续调用主模式命令两次时不应该退出，而应该像调用一次一样做相同的事。换句话说，
+主模式命令应该是幂等的。</li>
+
+<li>因为所有的全局名字都在相同的命名空间中，模式中使用的所有的全局变量，常量和函数
+应该使用以模式名打头的名字（或者在模式名较长时使用其缩写）。请看 Coding
+Conventins。</li>
+
+<li>当在主模式中编辑某种结构化的文本时，比如程序语言，按结构缩进文本会比较有用。所
+以模式应该设置 `indent-line-function' 为一个合适的函数，并且恰当地设置其他与缩
+进有关的变量的值。请看 Auto-Indentation。</li>
+
+<li>主模式通常应该有其自己的键盘映射，它会在所有起用了这个模式的缓冲当作局部键盘映
+射来使用。在主模式命令中应该应该调用 'use-local-map' 来安装这个局部的映射。请
+看 Active Keymaps，了解更多信息。</li>
+</ul>
+
+<p>
+这个键盘映射应该被长久地存储在一个名叫‘MODENAME-mode-map’的全局变量中。通常情
+况下，定义这个模式的库设置这个变量。
+</p>
+
+<p>
+请看 Tips for defining，查看设置模式键盘映射变量的编程建议。
+</p>
+
+<ul class="org-ul">
+<li>绑定到主模式上的按键映射上的按鍵映射通常应当以 'C-c' 开始，接着是控制字符，数
+字或者 '{'，'}'， '&lt;'， '&gt;'， ':' 或者 ';'。其他的标点符号被保留用于子模式，普
+通的字符被用户保留。</li>
+</ul>
+
+<p>
+主模式同样可能重新绑定 'M-n'，‘M-p’和‘M-s’。对‘M-n’和‘M-p’的绑定应该是某
+种向前和向后移动，但这不一定是光标移动。
+</p>
+
+<p>
+对于在主模式中因需要重新绑定标准按键序列来提供更好方法做同样的事也是合法的。例如：
+用于编辑程序语言的主模式可能会重新定义 'C-M-a' 来跳转到函数定义的开头。推荐的方
+式来修改 'C-M-a' 以满足主模式需要的方法是设置 'beginning-of-defun-function' (请
+看 List Motion)来调用特定模式的函数。
+</p>
+
+<p>
+同样，重新绑定在模式中很少用到的标准按键序列也是合法的。比如， minibuffer 模式重
+新绑定 'M-r' ，这个按键的标准定义在迷你缓冲中很少用到。像 Dired 或者 Rmail 这些
+主模式不允许插入文本的可以重新绑定字母和其他可打印字符到特殊命令。
+</p>
+
+<ul class="org-ul">
+<li>用来编辑文本的主模式不应该定义 &lt;RET&gt; 来干插入新行以外的其他事情。但是，对于那
+些不直接编辑文本的模式，比如 Dired 和 Info 模式中则可以重新定义 &lt;RET&gt; 来干其他
+完全不同的事。</li>
+
+<li>主模式不应该修改影响用户偏爱的设置，比如 Auto-Fill 模式是事开启。应该让用户来
+决定。但是，当用户决定使用它时，主模式应该设置好其他变量让 Auto-Fill 模式可以有用的工作。</li>
+
+<li>主模式可以有自己的语法表或者与其他关联的模式共享语法表。如果有自己的语法表，则
+应当将其存储在名为 'MODENAME-mode-syntax-table' 中。请看 Syntax Tables。</li>
+
+<li>如果处理程序语言的模式有用于注释的语法表，则应该设置用于定注释语法的变量。请看
+Options Controlling Comments(emacs)。</li>
+
+<li>模式可能有臫的缩写表或者与其他关联模式共享。如果有臫的缩写表，则应当将其存储在
+名为 'MODENAME-mode-abbrev-table' 的变量中。如果主模式命令自行定义其他缩写，则
+应该在 'define-abbrev' 的SYSTEM-FLAG 中传入 't'。 请看 Define Abbrevs。</li>
+
+<li>模式应该说明 Font Lock 模式中怎样处理高亮，这需要设置缓冲局部变量
+'font-lock-defaults' 的值（请看 Font Lock Mode）。</li>
+
+<li>如果可能的话，每一个显示主题都应该从已经存在的Emacs 主题中进行派生。请看 Basic
+Faces 和 Faces for Font Lock。</li>
+
+<li>模式中应该说明 Imenu 怎样找缓冲的节定义，这需要设置缓冲局部变量
+'imenu-generic-expression'，'imenu-pre-index-position-function’和
+'imenu-extract-index-name-function' 或者 'imenu-create-index-function' 的值
+（请看 Imenu）。</li>
+
+<li>模式可以为 `eldoc-documentation-function' 设置一个局部的值，告诉 ElDoc 模式怎
+样处理这个模式。</li>
+
+<li>模式可以通过为 `completion-at-point-functions' 添加一个或者多个缓冲局部条目来
+说明如何补全各种各样的关键字。请看 Completion in Buffers。</li>
+
+<li>要为Emacs 自定义变量绑定一个缓冲局部值，在主模式命令中使用
+`make-local-variable' ，不要用 `make-variable-buffer-local' ，后者会将变量变成
+对在其后设置的所有缓冲局部有效，这会影响那些不再使用这个模式的缓冲。模式的这种
+全局的影响是不受欢迎的。请看 Buffer-Local Variables。</li>
+</ul>
+
+<p>
+有很少的例外，在Lisp 包中唯一使用 `make-variable-buffer-local' 的地方是对于只在
+那个包中使用的变量。在一个可能被其他包使用的变量上应用这种方法，会造成相互冲突。
+</p>
+
+<ul class="org-ul">
+<li>每一个主模式应该有一个常规的 "mode hook"，钩子的名字是 `MODENAME-mode-hook'。
+主模式命令最后应该干的事情就是调用 `run-mode-hooks'。这会调用常规钩子
+`change-major-mode-hook-after-body-hook'，还有模式钩子和函数
+`hack-local-variables' (当缓冲正在浏览一个文件时)，然后是常规钩子
+`after-change-major-mode-hook'。请看 Mode Hooks。</li>
+
+<li>主模式命令可能在其他主模式命令执行时被调用（称为 "父模式"）并会修改他的一些设
+置。像这样的一个模式被称为 "派生模式"。定义这样一个模式的推荐的方法是使用
+`define-derived-mode' 宏，但这也不是必须的。这样的一个模式应该在
+`delay-mode-hooks' 语句中调用父模式命令（当使用 `define-derived-mode' 时则会自
+动完成）。请看 Derived Modes 和 Mode Hooks。</li>
+
+<li>如果用户将缓冲的主模式切换到另一个时想做点特别的设置，这个模式可以为
+`change-major-mode-hook' 设置一个缓冲局部值（请看 Creating Buffer-Local）。</li>
+
+<li>如果这个模式主要是针对由模式提前处理做好特定准备的文本（不是通过用户人工录入或
+通过一个外部文件），那么这个模式命令符号应该有一个叫作 `mode-class' 的属性，其
+值设置为 `special' ，像下面这样：</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>put 'funny-mode 'mode-class 'special<span style="color: #707183;">)</span>
+</pre>
+</div>
+<p>
+这会告诉 Emacs ，当前缓冲是 Funny 模式时创建的新模式不要设置为 Funny 模式，即使
+`major-mode' 的默认值是 `nil' 时也不行。默认情况下，当 `major-mode' 的值为 `nil'
+时意思是当创建新缓冲时使用当前缓冲的主模式（请看 Auto Major Mode），但针对这样一
+个 `special' 模式，则会使用 Fundamental 模式。Dired 模式、Rmail 模式和缓冲列表使
+用这个特性。
+</p>
+
+<p>
+如果一个缓冲的 mode-class 属性是 special 的话，那么 `view-buffer' 函数不会开启
+View 模式，因为这样一个模式通常提供他们自己的可视化绑定。
+</p>
+
+<p>
+如果父模式是 special，那么`define-derived-mode' 宏自动将派生的模式标记为 special。
+Special 模式是为在派生中保持这种特性的一个方便的父模式，请看 Basic Major Modes。
+</p>
+
+<ul class="org-ul">
+<li>如果你想默认为某些带有可识别特殊名字的文件应用某种模式的话，为
+`auto-mode-alist' 添加元素来根据文件名选择模式（请看 Auto Major Mode）。如果你
+将模式命令定义为自动加载，则需要将叫 `autoload' 的元素添加到相同的文件。如果你
+为模式命令使用自动加载的 cookie ，你同样可以使用一个自动加载的 cookie ，来添加
+这样一个元素（请看 autoload cookie）。如果你不要自动加载模式命令，则将元素添加
+到定义模式的文件中就可以了。</li>
+
+<li>在定义模式的文件中应该使用顶层语句，这样的话当他们多次求值时也不会造成不良影响。
+比如，使用 `defvar' 和 `defcustom' 来设置模式相关的变量时，当其已经有一个值时，
+则不会被重新初始化（请看 Define Variables）。</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org7cd11f8"></a>Emacs 是如何选择一个主模式的<br />
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+当Emacs 查看一个文件时，他会根据文件名或者文件中的信息自动地为缓冲选择一个主模式。
+他也会处理包含在文件内容中的局部变量。
+</p>
+
+<p>
+&#x2013; 命令： normal-mode &amp;optional find-file
+</p>
+
+<p>
+这个函数
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</body>
+</html>

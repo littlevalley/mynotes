@@ -1,0 +1,381 @@
+#+title: Emacs Lisp 手册 －－ Advising Emacs Lisp Functions 翻译
+#+options: h:1 num:t toc:t
+#+options: html-postamble:nil
+#+language:zh-CN 
+
+* 前言
+
+在使用 ace-pinyin-jump-char 时发现一个 bug，传入 avy--generic-jump 的参数不对，
+其不支持 avy-style，于是想给补一下。一些大家说最好使用 advice，于是在网上搜索了
+一下，这方面的中文资料比较少，EmacsWiki 上的一篇 Emacs Lisp 手册笔记都把这章跳过
+未译，于是用了点时间把手册看了一遍，并翻译记录如下。
+
+关于述语约定：很多地方说 advice 是建议，但我感觉不太好理解，我这里将 advice 译作
+补丁，有时可能会用装饰。其实类似 Python Djong 的装饰，译为装饰还准确些吧。
+
+由于个人水平有限，有的地方可能有误，欢迎指正。
+ 
+* 补丁函数
+  
+当你需要修改定义在其他库中的函数，或者需要修改一个钩子，比如 `FOO-function'、过
+滤器、变量或者其他存储函数值的对象时，你可以使用恰当的设置函数，比如`fset' 、
+`defun' 设置命名函数，`setq' 设置钩子函数，`set-process-filter' 设置过滤器。但这
+些都太笨了，因为将已有的值完全丢弃不用了。
+
+"建议"功能可以让你使用“advising the function”为已经存在的函数添加一些功能，相
+比重新定义整个函数，这是一个更加清洁的方式。
+
+Emacs 的补丁系统提供了两套功能来做这事：核心的一种，用于变量或者对象域存储的函数
+值（使用`add-function’ 和 `remove-function'），另一种是处于更高层的，用于命名函
+数（使用 `advice-add' 和 `advice-remove'）。
+
+例如：为了跟踪过滤器 PROC 的调用过程，你可以使用：
+
+#+begin_src emacs-lisp :tangle yes
+     (defun my-tracing-function (proc string)
+       (message "Proc %S received %S" proc string))
+
+     (add-function :before (process-filter PROC) #'my-tracing-function)
+#+end_src
+
+这样，进程的输出会首先传给 `my-tracing-function'，然后再传给原来的过滤器。
+`my-tracing-function' 收到的传入参数同原来的函数是一样的。完成后，你可以使用以下
+代码恢复未被跟踪前的行为：
+
+#+begin_src emacs-lisp :tangle yes
+      (remove-function (process-filter PROC) #'my-tracing-function)
+#+end_src
+
+同样的，如果你想跟踪函数 `dispaly-buffer' 的运行，你可以使用：
+
+#+begin_src emacs-lisp :tangle yes
+     (defun his-tracing-function (orig-fun &rest args)
+       (message "display-buffer called with args %S" args)
+       (let ((res (apply orig-fun args)))
+         (message "display-buffer returned %S" res)
+         res))
+
+     (advice-add 'display-buffer :around #'his-tracing-function)
+#+end_src
+
+这里，`his-tracing-function' 会被使用原来的函数及其参数进行调用，所以，他可以在
+需要的时候调用原来函数。当你已经尝试过看他的输出后，你可以使用如下方式恢复到未被
+跟踪之前的状态：
+
+#+begin_src emacs-lisp :tangle yes
+     (advice-remove 'display-buffer #'his-tracing-function)
+#+end_src
+
+前面两个例子中使用的参数 `:before' 和 `:around' 指定了两个函数如何组合，因为有许
+多可选的方式。我们添加的函数也被称为 =补丁=。
+
+
+** 处理补丁的原语
+
+-- 宏： add-function where place function &optional props
+       这个宏是为存储在 PLACE 中的 FUNCTION 添加补丁的便捷方式（请参看
+       Generializied Variables）。
+
+       WHERE 决定了 FUNCTION 是如何与已经存在的函数组合的，比如：FUNCTION 是在原
+       函数之前还是之后调用。请看 Advice combinators，了解可用组合方式。
+
+       当装饰一个变量（它的名字常常以 `-function' 结尾），你可以选择 FUNCTION 用
+       于全局还是仅仅当前缓冲区：如果 PLACE 只是符号， FUNCTION 将被添加到 PLACE
+       的全局值中。不论 PLACE 是像 `(local SYMBOL)'，还是返回变量名的表达式，
+       FUNCTION 都只会作用于当前缓冲区。最后，如果你想修饰字面变量，你必须使用
+       `(var VARIABLE)'。
+
+       每一个通过 `add-function' 添加的函数都可以附带一个属性列表 PROPS。目前只
+       有两个属性有特定意义：
+
+       `name'
+             这个属性给补丁一个名字，`remove-function' 可以用来识别移除的函数，
+             主要用在 FUNCTION 是匿名函数的情况。
+
+       `depth'
+              这个属性定义如何给这个补丁排序，用于多个补丁的民政部。默认民政部下，
+              其值为0。如果为100，则说明这个补丁应当被排在尽可以靠里的位置，
+              而-100则表示应当被排在尽可能靠外的位置。当两个补丁有相同的深度值时，
+              最近添加的处于最外层。
+
+        对于 `:before' 补丁，处于最外层是指这个补丁要在其他补丁运行前首先被运行，
+        而处于最里层，则指其在原函数被调用前运行，他和原函数之间没有其他要被运行
+        的补丁。同样的，对于 `:after' 补丁，最里层指其在原函数后立即执行，最外层
+        指在所有补丁的末尾执行。一个 `:override' 补丁只会覆盖原函数，而其他补丁
+        将会作用于新的函数上。
+
+    如果 FUNCTION 不是一个可交互的函数，重组之后的函数将继承其交互说明，如果有，
+    继承原函数的交互属性。否则，重组之后的函数，将是一个可交互的函数，使用新的交
+    互说明。有一个例外：如果 FUNCTION 的交互说明是一个函数（不是表达式或者字符
+    串），将会使用原函数的交互字符串作为一个参数调用这个函数，其结果作为重组的函
+    数的交互说明。可以使用 `advice-eval-interactive-spec' 来解析作为参数传递过来
+    的交互说明。
+
+    *注意*:FUNCTION 的交互说明将会作用于重组的函数，所以应当遵守重组函数的约定，
+     而不是 FUNCTION。在许多案例中，这没有区别，因为两者是完全等价的，但在使用
+     `:around'、`:filter-args' 和 `:filter-return' 方式时就不一样了，FUNCTION 接
+     收原函数存放在 PLACE 中的参数就不同了。
+
+
+-- 宏： remove-function place function
+        这个宏将FUNCTION从PLACE中移除。这只对用 `add-function' 添加的FUNCTION有
+        用。
+
+        FUNCTION 将会与加入到 PLACE 中的所有函数使用`equal' 进行对比，并且尝试与
+        lambda 表达式进行对比。 另外还会与加入 PLACE 的函数的 `name' 属性进行对比，
+        比使用 `equal' 与 lambda 表达式对比要可靠些。
+
+-- 函数： advice-function-member-p advice function-def
+          如果 ADVICE 已经在 FUNCTION-DEF 则返回 non-`nil'。同上面的
+          `remove-function' 一样， ADVICE 除了可以是一个实际的函数，也可以是一个
+          补丁片断的 `name'。
+
+-- 函数： advice-function-mapc f function-def
+   对添加到 FUNCTION-DEF 的所有的补丁应用函数 F。调用 F 函数时会传两个参数：补丁
+   函数及其属性列表。
+
+-- 函数： advice-eval-interactive-spec spec
+    对一个交互说明求值，就像包含这样一个交互说明的函数执行过程一样，然后返回得到
+    的参数列表。比如： `(advice-eval-interactive-spec "r\nP")' 将返回一个具有3个
+    元素的列表，包括选区的前后边界和输入的前缀参数。
+
+** 修补命名函数
+
+补丁通常用于命名函数和宏。你可能像这样使用 `add-function'：
+
+#+begin_src emacs-lisp :tangle yes
+     (add-function :around (symbol-function 'FUN) #'his-tracing-function)
+#+end_src
+
+但实际上在这种情况你应该用 `advice-add' 和 `advice-remove'。这对函数用于命名函数
+的补丁，与 `add-function' 相比有以下特征：它们知道如何应对宏和自动加载
+（autoloaded）的函数；让 `describe-function' 保持原函数和新加补厅的说明文档；在
+函数重复定义前添加和移除补丁。
+
+`advice-add' 可以在不重写整个函数的情况下修改已经存在函数的表现形式。但是，这也
+可能是 bug 的来源，因为已经存在的调用者还假定基是原来的表现，当补丁修改函数表现
+后，就可能工作不正常了。补丁还可能在调试中造成混乱，特别是调试者没有注意到或者不
+记得这个函数已经被补丁修改过的时候。
+
+因为这些原因，补丁应该被用在不使用其他方式个性函数表现形式的情况下。如果你可以用
+钩子来做相同的事，应该优先选择钩子（请看钩子）。如果你只是简单想改变某个按键的行
+为，你最好重写一个新的命令，将按键绑定的新命令上（请看 Remapping Commands）。
+Emacs 自己的源文件不应该在 Emacs 的其他函数上加补丁。（当前有一些违背这条约定的例外，但我们准
+备下步将其改掉。）
+
+特殊语句（请看 Special Forms）不能加补丁，但宏可以加，像函数一样。当然，这不会影
+响那些已经被宏展开的代码，所以，你要保证补丁在宏展开之前安装。
+
+为原语加补丁也是可以的（请看 What Is a Function），但最好 *不要* 这样干，主要基
+于两点考虑：一是有一些原语被用于补丁机制，为基加补丁可能造成死循环；二是许多原语
+被C直接调用，这类调用不管补丁。因此，你可能因有些情况补丁有用（Lisp 代码），而有
+些调用有没有用（C代码）而疯掉。
+
+-- 宏： define-advice symol (where lambda-list &optional name depth) &rest body
+    这个宏定义了一个补丁并将其添加到了名叫 SYMBOL 的函数。如果 NAME 为 `nil'，这
+    个补丁是个匿名函数，或者名为 `symbol@name'。请看 `advice-add' 了解其他参数的
+    解释。
+
+-- 函数： advice-add symbol where function &optional props
+   将补丁 FUNCTION 添加到命名函数 SYMBOL。WHERE 和 PROPS 与 `add-function' 中的
+   参数意义一样。
+
+-- 函数： advice-remove symbol function
+    从函数 SYMBOL 上移除补丁 FUNCTION。FUNCTION 同样可以是补丁的‘name’。
+
+-- 函数： advice-member-p function symbol
+    如果补丁 FUNCTION 已经被添加到了命名函数 SYMBOL 上了，则返回 non-'nil' 。FUNCTION 同样可以是补丁的‘name’。
+
+-- 函数： advice-mapc function symbol
+    对添加到命名函数 SYMBOL 上的所有补丁调用 FUNCTION，调用时传给两个参数：补丁
+    函数及其所有属性。
+
+** 组装补丁的方式
+
+以下是 `add-function' 和 `advice-add' 的 WHERE 参数的可选形式，指定补丁 FUNCTION
+和原函数该如何组装。
+
+`:before'
+    在原函数之前调用 FUNCTION。两个函数收到的参数一样，新组合的返回值是原函数的
+    返回值。更进一步说，新组合等同于下面这句：
+#+begin_src emacs-lisp :tangle yes
+          (lambda (&rest r) (apply FUNCTION r) (apply OLDFUN r))
+#+end_src
+    `(add-function :before FUNVAR FUNCTION)' 等同于单函数钩子 `(add-hook
+    'HOOKVAR FUNCTION)'。
+
+`:after'
+    在原函数之后调用 FUNCTION。两个函数收到的参数一样，新组合的返回值是原函数的
+    返回值。更进一步说，新组合等同于下面这句：
+#+begin_src emacs-lisp :tangle yes
+          (lambda (&rest r) (prog1 (apply OLDFUN r) (apply FUNCTION r)))
+#+end_src
+    `(add-function :after FUNVAR FUNCTION)' 等同于单函数钩子 `(add-hook
+    'HOOKVAR FUNCTION 'append)'。
+
+`:override'
+    使用 FUNCTION 完全替换原函数。如果你使用 `remove-function' ，原函数还会被恢复。
+
+`:around'
+    调用 FUNCTION 而不是原函数，但将原函数作为 FUNCTION 的附加参数。这是最灵活的
+    组合。比如，它允许你使用不同的参数调用原函数，或多次调用，或使用一个 let 绑
+    定调用，或将完成的工作交给原函数，或完全替换他。更进一步讲，两个函数的组合等
+    同于下面这句：
+#+begin_src emacs-lisp :tangle yes
+          (lambda (&rest r) (apply FUNCTION OLDFUN r))
+#+end_src
+    
+`:before-while' 
+    在原函数之前调用 FUNCTION，但如果 FUNCTION 返回值为 `nil' 则不再调用原函数。
+    两个函数传入参数一样，新组合的返回值是原函数的返回值。更进一步讲，新组合等同
+    于下面这句：
+#+begin_src emacs-lisp :tangle yes
+          (lambda (&rest r) (and (apply FUNCTION r) (apply OLDFUN r)))
+#+end_src
+
+      当 HOOKVAR 通过‘run-hook-with-args-until-failure’运行， ‘(add-function
+      :before-while FUNVAR FUNCTION)’ 等同于单函数钩子‘(add-hook 'HOOKVAR
+      FUNCTION)’。
+
+`:before-until'
+     在原函数之前调用 FUNCTION，但只当 FUNCTION 返回 `nil' 时才调用原函数。更进
+     一步讲，新组合等同于下面这句：
+#+begin_src emacs-lisp :tangle yes
+          (lambda (&rest r) (or (apply FUNCTION r) (apply OLDFUN r)))
+#+end_src
+
+      当 HOOKVAR 通过‘run-hook-with-args-until-success’运行， ‘(add-function
+      :before-untill FUNVAR FUNCTION)’ 等同于单函数钩子‘(add-hook 'HOOKVAR
+      FUNCTION)’。
+
+‘:after-while’
+     在原函数返回 non-`nil' 才调用 FUNCTION。两个函数收到的参数一样，新组合的返
+     回值是 FUNCTION 的返回值。更进一步讲，新组合等同于下面这句：
+#+begin_src emacs-lisp :tangle yes
+(lambda (&rest r) (and (apply OLDFUN r) (apply FUNCTION r)))
+#+end_src
+
+    当 HOOKVAR 通过 ‘run-hook-with-args-until-failure' 运行时，‘(add-function
+     :after-while FUNVAR FUNCTION)’ 等同于单函数钩子 ‘(add-hook 'HOOKVAR FUNCTION 'append)’。
+
+‘:after-until’
+    先调用原函数，当其返回 `nil' 时，再调用 FUNCTION。更进一步讲，新组合等同于下
+    面这句：
+#+begin_src emacs-lisp :tangle yes
+(lambda (&rest r) (or  (apply OLDFUN r) (apply FUNCTION r)))
+#+end_src
+    当 HOOKVAR 通过 ‘run-hook-with-args-until-success' 运行时，‘(add-function
+     :after-until FUNVAR FUNCTION)’ 等同于 ‘(add-hook 'HOOKVAR FUNCTION 'append)’。     
+
+‘:filter-args’
+    先调用 FUNCTION，并将其返回值（列表）作为新的参数传给原函数。更进一步讲，新
+    组合等同于下面这句：
+#+begin_src emacs-lisp :tangle yes
+(lambda (&rest r) (apply OLDFUN (funcall FUNCTION r)))
+#+end_src
+
+‘:filter-return’
+    先调用原函数，然后将其返回值作为参数传给 FUNCTION。更进一步讲，新组合等同于
+    下面这句：
+#+begin_src emacs-lisp :tangle yes
+(lambda (&rest r) (funcall FUNCTION (apply OLDFUN r)))
+#+end_src
+
+** 适配原 defadvice
+
+许多代码用的原来的 `defadvice' 机制，已经被新的 `advice-add' 替代了。原来的实现
+和语法要更简单。
+
+老的补丁片断像这样：
+
+#+begin_src emacs-lisp :tangle yes
+     (defadvice previous-line (before next-line-at-end
+                                      (&optional arg try-vscroll))
+       "Insert an empty line when moving up from the top line."
+       (if (and next-line-add-newlines (= arg 1)
+                (save-excursion (beginning-of-line) (bobp)))
+           (progn
+             (beginning-of-line)
+             (newline))))
+#+end_src
+
+可以按新的补丁机制转换成普通函数：
+
+#+begin_src emacs-lisp :tangle yes
+     (defun previous-line--next-line-at-end (&optional arg try-vscroll)
+       "Insert an empty line when moving up from the top line."
+       (if (and next-line-add-newlines (= arg 1)
+                (save-excursion (beginning-of-line) (bobp)))
+           (progn
+             (beginning-of-line)
+             (newline))))
+#+end_src
+
+很显然，这实际上没有修改 `previous-line' 。原补丁还需要：
+
+#+begin_src emacs-lisp :tangle yes
+     (ad-activate 'previous-line)
+#+end_src
+
+而新的补丁机制需要：
+
+#+begin_src emacs-lisp :tangle yes
+     (advice-add 'previous-line :before #'previous-line--next-line-at-end)
+#+end_src
+
+*注意* `ad-activate' 具有全局效果：它将指定函数的所有的补丁都激活。如果你只想激
+活或者停止某一个补丁，则需要使用 `ad-enable-advice' 和 `ad-disable-advice' 来使
+用或者禁止它。 新机制没有这个限制。
+
+像这样的包围装饰补丁：
+
+#+begin_src emacs-lisp :tangle yes
+     (defadvice foo (around foo-around)
+       "Ignore case in `foo'."
+       (let ((case-fold-search t))
+         ad-do-it))
+     (ad-activate 'foo)
+#+end_src
+
+可以像这样转换：
+
+#+begin_src emacs-lisp :tangle yes
+     (defun foo--foo-around (orig-fun &rest args)
+       "Ignore case in `foo'."
+       (let ((case-fold-search t))
+         (apply orig-fun args)))
+     (advice-add 'foo :around #'foo--foo-around)
+#+end_src
+
+关于补丁的 =class= ，注意 新的 `:before' 与老的 `before' 不完全相同，因为老的补
+丁中你可以修改函数的参数（比如：使用 `ad-set-arg'），这会影响原函数得到的参数。
+而新的 `:before'，在补丁中通过 `setq' 修改参数对原函数看到的参数没有影响。当移植
+带有 `before' 的如前所述的补丁时，你需要将其转换为 `:around' 或者 `:filter-args'
+补丁。
+
+同样的，老的 `after' 补丁可能通过修改 `ad-return-value' 影响最后的返回值，而新的
+`:after' 补丁不会，所以，当你移植这样的老的 `after' 补丁时，则需要将其转换为
+`:around' 或者 `:filter-return' 补丁。
+
+** 修补结果
+
+#+begin_src emacs-lisp :tangle yes
+defun avy--generic-jump-around-advice (orig-fun &rest args)
+  "针对 `ace-pinyin-jump-char' 及 `ace-pinyin-jump-char-2' 的修补
+函数。判断传入的第3个参数是否是数字，如果是则原样调用原函数，否则，
+截取前2个参数调用原函数。"
+  (if  (number-or-marker-p (car (nthcdr 2 args)))
+      (apply orig-fun args)
+      (apply orig-fun (butlast args (- (length args) 2)))
+      ))
+
+(if (not  (advice-member-p 'avy--generic-jump-around-advice 'avy--generic-jump) )
+    ( advice-add 'avy--generic-jump :around #'avy--generic-jump-around-advice ))
+
+(global-set-key (kbd "M-g") 'ace-pinyin-jump-char-2)
+
+#+end_src
+
+至此，可以输入两个字母来定位到汉字或者英文。
+
+本作品采用[[http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh][知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议]] 进行许可。

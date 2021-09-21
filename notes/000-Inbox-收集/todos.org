@@ -1,0 +1,105 @@
+#+title: 
+#+options: h:1 num:t toc:t
+#+options: html-postamble:nil
+#+language:zh-CN 
+
+
+
+本作品采用[[http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh][知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议]] 进行许可。
+
+* Todos
+
+** DONE 写一篇在Emacs 中整合搜索的文章                                          :blog:
+   CLOSED: [2019-10-23 Wed 19:30]
+   - State "DONE"       from "STARTED"    [2019-10-23 Wed 19:30]
+ :PROPERTIES:
+ :Created: [2019-10-21 Mon 19:51]
+ :SCHEDULED:<2019-10-21 Mon>
+ :DEADLINE:<2019-10-22 Tue>
+ :END:
+
+ (defun counsel-recoll-function (string &rest _unused)
+   "Issue recallq for STRING."
+   (if (< (length string) 3)
+       (counsel-more-chars 3)
+     (counsel--async-command
+      (format "recollq -b '%s'" string))
+     nil))
+
+
+ (defun counsel-recoll (&optional initial-input)
+   "Search for a string in the recoll database.
+ You'll be given a list of files that match.
+ Selecting a file will launch `swiper' for that file.
+ INITIAL-INPUT can be given as the initial minibuffer input."
+   (interactive)
+   (ivy-read "recoll: " 'counsel-recoll-function
+             :initial-input initial-input
+             :dynamic-collection t
+             :history 'counsel-git-grep-history
+             :action (lambda (x)
+                       (when (string-match "file://\\(.*\\)\\'" x)
+                         (let ((file-name (match-string 1 x)))
+                           (find-file file-name)
+                           (unless (string-match "pdf$" x)
+                             (swiper ivy-text)))))))
+
+ 
+
+** TODO 整理安全风险评估定量计算相关资料                                        :errands:
+ :PROPERTIES:
+ :Created: [2019-10-19 Sat 20:21]
+ :SCHEDULED:<2019-10-23 Wed>
+ :DEADLINE:<2019-10-28 Mon>
+ :END:
+
+ 已经记录了一些笔记可以使用，定量计算的方法已经有了，主要是针对管理方面再找一些资
+料。 
+
+** TODO 梳理近期学习的关于 Emacs 的内容                                         :blog:
+ :PROPERTIES:
+ :Created: [2019-10-19 Sat 20:11]
+ :SCHEDULED:<2019-10-20 Sun>
+ :DEADLINE:<2019-10-22 Tue>
+ :END:
+
+从 Emacs 的配置开始，从语言、翻译、输入法等逐个理一遍 
+
+** TODO 制定假期月计划                                                          :emacs:
+ :PROPERTIES:
+ :Created: [2019-10-19 Sat 20:08]
+ :SCHEDULED:<2019-10-19 Sat>
+ :DEADLINE:<2019-10-20 Sun>
+ :END:
+
+还有一个月的假期，先制定一个月计划，主要是练习 org-capture 和 org-agenda 的使用 
+
+** TODO 整理论文资料                                                            :errands:
+  SCHEDULED:<2019-10-19 Sat>
+  DEADLINE:<2019-11-17 Sun> 
+ :PROPERTIES:
+ :Created: [2019-10-19 Sat 17:34]
+ :END:
+
+ 
+
+** TODO 收集整理安全风险评估定量分析资料                                        :errands:
+   DEADLINE: <2019-11-16 Sat>
+ SDeadline on <2019-11-16 Sat>
+ :PROPERTIES:
+ :Created: [2019-10-19 Sat 17:20]
+ :END:
+
+ 
+
+** TODO 为 Gcompris-qt 重新录音                                                 :child:
+   DEADLINE: <2019-11-17 Sun> 
+   SCHEDULED: <2019-10-23 Wed>
+
+** TODO 在 github 上新建一个项目                                                :work:
+   :PROPERTIES:
+   :Created:  [2019-10-19 Sat 14:50]
+   :END:
+
+ 
+

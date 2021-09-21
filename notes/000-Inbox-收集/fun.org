@@ -1,0 +1,32 @@
+* Reading
+
+** 国外的博客站点 %![Error: (wrong-type-argument stringp nil)]
+   :PROPERTIES:
+   :Created:  [2019-10-11 Fri 18:07]
+   :END:
+  
+     blog.regehr.org  
+     bartoszmilewski.com  
+     herbsutter.com  
+     joeduffyblog.com  
+     www.codercorner.com/blog  
+     okmij.org/ftp  
+     wingolog.org  
+     blog.codinghorror.com  
+     www.catb.org/esr  
+     devblogs.microsoft.com/oldnewthing  
+     preshing.com  
+     mechanical-sympathy.blogspot.com  
+     digestingduck.blogspot.com  
+     blog.sumtypeofway.com  
+     matt.might.net/articles  
+     yosefk.com/blog  
+     queue.acm.org  
+     code.visualstudio.com/blogs  
+     bitsquid.blogspot.com  
+     webkit.org/blog  
+     semiaccurate.com  
+     LWN.net  
+     lambda-the-ultimate.org
+ 
+

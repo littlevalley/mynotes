@@ -1,0 +1,192 @@
+#+title: Elisp Keymaps 翻译 
+#+options: h:1 num:t toc:t
+#+options: html-postamble:nil
+#+language:zh-CN 
+
+** 搜索按键映射
+
+这是 Emacs 如何搜索按键映射的伪代码：
+
+#+begin_src emacs-lisp :tangle yes
+     (or (if overriding-terminal-local-map
+             (FIND-IN overriding-terminal-local-map))
+         (if overriding-local-map
+             (FIND-IN overriding-local-map)
+           (or (FIND-IN (get-char-property (point) 'keymap))
+               (FIND-IN-ANY emulation-mode-map-alists)
+               (FIND-IN-ANY minor-mode-overriding-map-alist)
+               (FIND-IN-ANY minor-mode-map-alist)
+               (if (get-text-property (point) 'local-map)
+                   (FIND-IN (get-char-property (point) 'local-map))
+                 (FIND-IN (current-local-map)))))
+         (FIND-IN (current-global-map)))
+
+#+end_src
+
+这里 FIND-IN 和 FIND-IN-ANY 是用于搜索一个映射表我多个映射表的伪代码函数。注意的
+是 `set-transient-map' 函数通过设置 `overriding-terminal-local-map' 变量起作用
+（请看 Controlling Active Maps）。
+
+在上面的伪代码中，如果按键序列以鼠标事件开始（请看 Mouse Events），则会使用事件
+的位置而不是字符光标位置，同时使用鼠标事件缓冲而不是当前缓冲。这会影响 `keymap'
+和 `local-map' 属性的查找。如果鼠标事件发生在一个嵌有 `display'，
+`before-string'，或者 `after-string' 属性的字符串上（请看 Special Properties），
+并且字符串的 `keymap' 或者 `local-map' 的值不是 `nil'，那么则会覆盖鼠标下面的缓
+冲文本的相应的属性。
+
+当从按键映射表中找到一个按键绑定时，如果绑定的是一个命令，命令上的搜索会被执行。
+但是，如果绑定的是一个带有值或者字符串的符号，Emacs 会使用这个值或者字符串去替换
+按键序列，再使用新的序列去搜索按键绑定。请看 Key Lookup。
+
+最后被搜索到的命令还可能被重映射。请看 Remapping Commands。
+
+** 控制活动映射表
+
+-- 变量： global-map
+
+这个变量保存了 Emacs 按键到命令的默认全局映射表。全局映射通过是这个映射。默认的
+全局映射是一个全表，将所有的可打印的字符绑定到了 `self-insert-command' 上面。
+
+重新绑定全局按键映射是平常的操作，但是你不应该将这个变量的值设置成其他的按键映射表。
+
+-- 函数： current-global-map
+
+这个函数返回当前的全局映射表。这个结果应该和 `global-map' 的值是一样的，除非你修
+改了其他的一个。返回的值是一个指针而不是副本，如果你在返回值上使用 `define-key'
+或者其他函数，你将会修改全局绑定。
+
+#+begin_src emacs-lisp :tangle yes
+          (current-global-map)
+          ⇒ (keymap [set-mark-command beginning-of-line ...
+                      delete-backward-char])
+
+#+end_src
+
+-- 函数： current-local-map
+
+这个函数返回当前缓冲区的局部映射表，或者在没有局部映射表时返回 `nil'。在下面的例子
+中，`*scratch*' 缓冲区中的按键映射表是一个稀疏表，而表中的针对 <ESC>，ASCII 码是
+27 的条目对映的又是另一个稀疏表。
+
+#+begin_src emacs-lisp :tangle yes
+          (current-local-map)
+          ⇒ (keymap
+              (10 . eval-print-last-sexp)
+              (9 . lisp-indent-line)
+              (127 . backward-delete-char-untabify)
+              (27 keymap
+                  (24 . eval-defun)
+                  (17 . indent-sexp)))
+
+#+end_src
+
+`current-local-map' 返回一个局部表的引用，而不是一个副本，如果你在返回值上使用
+`define-key' 或者其他函数的话，则会修改局部绑定。
+
+-- 函数： current-minor-mode-maps
+
+这个函数返回一个开启状态的子模式的按键映射表的列表。
+
+-- 函数： use-global-map keymap
+
+这个函数将 KEYMAP 设置成新的全局按键映射表，并返回 `nil'。
+
+实际上很少修改全局的映射表。
+
+-- 函数： use-local-map keymap
+
+这个函数将 KEYMAP 设置成当前缓冲区的新的局部映射表。 如果 KEYMAP 是 `nil' ，当前
+缓冲区则没有局部映射表。 `use-local-map' 返回 `nil'。 大多数的主模式命令使用这个
+函数。
+
+-- 变量： minor-mode-map-alist
+
+这个变量是一个列表，关于由变量决定的已经打开或者没有打开的子模式的映射表的集合。列表的元素像
+这样： 
+
+(VARIABLES . KEYMAP)
+
+当 VARIABLES 的值不是 `nil' 时，映射表 KEYMAP 则处于激活状态。 通常情况下，
+VARIABLES 是开启或者关闭子模式的变量。请看 Keymaps and Minor Modes。
+
+要注意的是， `minor-mode-map-alist' 的元素与 `minor-mode-alist' 的元素是不一样的。
+映射表应该是元素的 CDR 的结果，映射表是第二个元素的列表是错误的。CDR 可以是一个
+映射表（列表）或者一个函数定义为映射表的符号。
+
+当不止一个子模式的映射表处于活动状态时，处于 `minor-mode-map-alist' 头部的映射表
+有更高的优先级。但是你在定义子模式的时候应该做到互不干扰。当你恰当处理这些的时候，
+映射表的顺序就没有关系了。
+
+请看 Keymaps and Minor Modes，来了解子模式的更多信息，同时请了解
+`minor-mode-key-binding' (请看 Functions Key Lookup)。
+
+-- 变量： minor-mode-overriding-map-alist
+
+这个变量允许主模式重载某些子模式的按键绑定。这个列表的元素和
+`minor-mode-map-alist' 中的元素看起来一样： `(VARIABLES . KEYMAP)'。
+
+如果 `minor-mode-overriding-map-alist' 中的元素是一个变量的话，通过这个元素设置
+的映射表会替换掉在 `minor-mode-map-alist' 中使用相同变量设置的映射表。
+
+`minor-mode-overriding-map-alist' 针对每个缓冲区是一个缓冲局部变量。
+
+-- 变量： overriding-local-map
+
+如果其值不是 `nil'，他绑定的是一个替换缓冲区局部映射表、文本属性或者重叠遇映射表
+和所有子模式映射表的映射表，当这个映射表被设置后，会覆盖所有其他的按键映射，除了
+当前的全局映射。
+
+-- 变量： overriding-terminal-local-map
+
+如果其值不是 `nil'，那么它绑定的是一个用于替换 `overriding-local-map' 和缓冲区局
+部映射、文本属性或者重叠映射和其他所有子模式映射的按键映射
+表。这个变量对当前终端始终是局部影响的，但不能是缓冲局部的。请看 Multiple
+Terminals。这用于实际增量搜索模式。
+
+-- 变量： overriding-local-map-menu-flag
+
+如果这个变量的值不是 `nil'，那么 `overriding-local-map' 和
+`overriding-terminal-local-map' 的值可以影响菜单条的显示。默认值是 `nil'，所以这
+些映射表变量对菜单条是没有作用的。
+
+注意的是，这两个映射表变量在使用菜单条输入按键序列的运行会有影响，即使他们不会影
+响菜单条的显示。所以，如果收到菜单条按键序列，你应该先清除这些变量，再去搜索和执
+行按键序列。使用这些变量的模式通常都会这样干，通过使用 "unreading" 来响应这些不
+用处理的事件并退出。
+
+-- 变量： special-event-map
+
+这个变量保存了针对特殊事件的键盘映射表。如果事件在表中有一个绑定，那么他则是特殊
+事件，针对这个事件的绑定也会通过 `read-event' 直接运行。请看 Special Events。
+
+-- 变量： emulation-mode-map-alists
+
+这个变量保存了在仿真模式中使用的按键映射表列表。主要针对那些使用多个子模式按键映
+射表的模式或者包。每个元素是一个与 `minor-mode-map-alist' 的元素格式和意义相同的
+映射表列表，或者是一个绑定有这种列表的变量的符号。 每个列表中的活动映射表在
+`minor-mode-map-alist' 和 `minor-mode-overriding-map-alist' 之前使用。
+
+-- 函数： set-transient-map keymap &optional keep-pred on-exit
+
+这个函数将 KEYMAP 作为一个过渡的映射表，其后的一个（或者更多）按键会使用这个映射
+表而不是其他映射表。
+
+通常情况下，KEYMAP 只使用一次，针对紧接其后的按键。
+
+如果可选参数 KEEP-PRED 是 `t'，那么映射表会根据 KEYMAP 中定义的按键生存尽可能长
+的时间，当用户按了一个在 KEYMAP 中不存在的按键时，过渡映射表将转换为不活动的状态，
+常规的按键搜索将进行下去。
+
+KEEP-PRED 参数还可以是一个函数。这种情况下，当 KEYMAP 处于激活状态时，函数将在后
+来每个命令之前不使用参数进行调用，如果 KEYMAP 应该保持激活状态的话，函数应该返回
+一个 non-`nil' 值。
+
+可选参数 ON-EXIT 的值如果不是 `nil'，则应该指定一个用于调用的函数，函数不使用参
+数，当 KEYMAP 被关闭时被调用。
+
+这个函数通过从变量 `overriding-terminal-local-map' 中添加和称除 KEYMAP 来实现，
+KEYMAP 会在其他所有活动映射表前被搜索（请看 Searching Keymaps）。
+
+
+本作品采用[[http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh][知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议]] 进行许可。
+

@@ -1,0 +1,25 @@
+#+title: 记录家庭成员的纪念日 
+#+options: h:1 num:t toc:t
+#+options: html-postamble:nil
+#+language:zh-CN 
+
+
+* Holidays
+  :PROPERTIES:
+  :CATEGORY: 节日
+  :END:
+%%(org-calendar-holiday)   ; special function for holiday names
+
+* Birthdays
+  :PROPERTIES:
+  :CATEGORY: 纪念日
+  :END:
+%%(my-diary-chinese-anniversary 9 25 1986) 老婆的第%d个生日
+%%(my-diary-chinese-anniversary 10 4 1986) 我的第%d个生日
+%%(my-diary-chinese-anniversary 4 17 1963) 爸爸的第%d个生日
+%%(my-diary-chinese-anniversary 10 15 1966) 妈妈的第%d个生日
+%%(my-diary-chinese-anniversary 2 23 1957) 岳父的第%d个生日
+%%(my-diary-chinese-anniversary 5 29 1960) 岳母的第%d个生日
+%%(org-anniversary 2016  3 18) 儿子的第%d个生日
+%%(org-anniversary 2017  8 18) 女儿的第%d个生日
+%%(org-anniversary 2013  6 6 )  我们的第%d个结婚纪念日
