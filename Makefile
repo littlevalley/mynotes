@@ -6,20 +6,19 @@ INDEX_FILE_NAME:=index.org
 INDEX_FILE_PATH:=$(BASE_DIR)/$(INDEX_FILE_NAME)
 ABOUT_FILE_PATH:=$(BASE_DIR)/about.org
 INBOX_FILE_PATH:=$(BASE_DIR)/inbox.org
-INBOX_DIR:=$(BASE_DIR)/../inbox
-COLUMN_NUM:=$(shell expr `( echo $(BASE_DIR) | grep -o '/' | wc -l)` + 2 ) 
-# 导出org文件的配置
-ORG_CONFIG_FILE:=~/mynotes/publish-config.el
+INBOX_DIR:=$(BASE_DIR)/../inbox COLUMN_NUM:=$(shell expr `( echo $(BASE_DIR) | grep -o '/' | wc -l)` + 2 ) # 导出org文件的配置 ORG_CONFIG_FILE:=~/mynotes/publish-config.el
 
 EMACS_OPTS:=--eval "(load-file \"$(ORG_CONFIG_FILE)\")"
 
 # 导出的位置, 这个位置其实是在 public-config.el 中配置的, 
 # 这里的定义这个变量的作用是为了删除(make clean), 以及上传server(make upload)
 OUTPUT_DIR:=~/mynotes/publish
-
-.PHONY:index clean
+LOCAL_URL_PREFIX:=file:///home/paul
+REMOTE_URL_PREFIX:=https://littlevalley.github.io
+.PHONY:index clean upload
 
 all: html
+
 
 html: clean index inbox
 	@echo "Generating HTML..."
@@ -78,8 +77,16 @@ if [ "`echo \"$$line\"| grep '\['`" != ""  -o "`echo \"$$line\" | grep '\]'`" !=
 		echo "- [[$$relative_path][$$org_file]]">> $(INDEX_FILE_PATH); \
 		done
 
+upload:
+	grep -rl "$(LOCAL_URL_PREFIX)" "$(OUTPUT_DIR)" | while read line; \
+	do \
+	sed -i "s#$(LOCAL_URL_PREFIX)#$(REMOTE_URL_PREFIX)#g"  "$$line"; \
+	done ;
+	git add .
+	git commit -m "update"
+	git push origin master
+
 clean:
-	@rm -rf $(INDEX_FILE_PATH)
-	@rm -rf $(INBOX_FILE_PATH)
+	@rm -rf $(INDEX_FILE_PATH) @rm -rf $(INBOX_FILE_PATH)
 	@rm -rf $(OUTPUT_DIR)
 	@rm -rf ~/.org-timestamps

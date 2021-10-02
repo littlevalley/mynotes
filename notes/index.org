@@ -2,43 +2,58 @@
 #+options: h:2 num:t toc:t
 #+options: html-postamble:nil
 #+language:zh-CN
-* Learning-学习 
+*  
 - [[./200-Learning-学习/人生的智慧学习笔记.org][人生的智慧学习笔记]]
+*  
 - [[./200-Learning-学习/构建笔记系统.org][构建笔记系统]]
-* Life-生活 
-** Education-教育 
+*  
 - [[./300-Life-生活/301-Education-教育/深度汉化GCompris-qt，免费的幼儿识字软件.org][深度汉化GCompris-qt，免费的幼儿识字软件]]
-* Work-工作 
+*  
 - [[./100-Work-工作/Data-Process.org][Data-Process]]
-* Meaning-兴趣 
-** FVWM-FVWM窗口管理器 
+*  
 - [[./400-Meaning-兴趣/440-FVWM-FVWM窗口管理器/在Debian上用FVWM做自己的桌面.org][在Debian上用FVWM做自己的桌面]]
+*  
 - [[./400-Meaning-兴趣/440-FVWM-FVWM窗口管理器/Debian11+Fvwm2.6定制桌面.org][Debian11+Fvwm2.6定制桌面]]
-** Programing-编程 
-*** Python-Python 
+*  
+*** home 
 - [[./400-Meaning-兴趣/410-Programing-编程/412-Python-Python/django物业管理系统.org][django物业管理系统]]
+*  
 - [[./400-Meaning-兴趣/410-Programing-编程/412-Python-Python/pdfminer3k pdf2txt 解析中文pdf不完全 bug 修复.org][pdfminer3k pdf2txt 解析中文pdf不完全 bug 修复]]
-*** VBA-VBA 
+*  
 - [[./400-Meaning-兴趣/410-Programing-编程/412-VBA-VBA/VBA.org][VBA]]
-** Hardware-硬件 
+*  
 - [[./400-Meaning-兴趣/460-Hardware-硬件/Arduino指纹锁避坑.org][Arduino指纹锁避坑]]
+*  
 - [[./400-Meaning-兴趣/460-Hardware-硬件/usb_disk_driver_configure_application.org][usb_disk_driver_configure_application]]
+*  
 - [[./400-Meaning-兴趣/460-Hardware-硬件/修复AW920 四核 miniPad卡在启动界面（ATM7029 ADFU强刷）.org][修复AW920 四核 miniPad卡在启动界面（ATM7029 ADFU强刷）]]
-** FreeBSD-BSD操作系统 
+*  
 - [[./400-Meaning-兴趣/430-FreeBSD-BSD操作系统/FreeBSD连接wifi无线网络.org][FreeBSD连接wifi无线网络]]
+*  
 - [[./400-Meaning-兴趣/430-FreeBSD-BSD操作系统/freebsd compat linux app show Fatal: kernel too old.org][freebsd compat linux app show Fatal: kernel too old]]
+*  
 - [[./400-Meaning-兴趣/430-FreeBSD-BSD操作系统/freebsd 使用 MeiZu MX3 手机上网.org][freebsd 使用 MeiZu MX3 手机上网]]
+*  
 - [[./400-Meaning-兴趣/430-FreeBSD-BSD操作系统/解决从Freebsd 下pure-ftp服务器上下载文档内容乱码.org][解决从Freebsd 下pure-ftp服务器上下载文档内容乱码]]
+*  
 - [[./400-Meaning-兴趣/430-FreeBSD-BSD操作系统/解决FreeBsd x3100 集显， ttyv8 向其他虚拟终端切换时花屏、假死的问题.org][解决FreeBsd x3100 集显， ttyv8 向其他虚拟终端切换时花屏、假死的问题]]
-** Linux-Linux操作系统 
+*  
 - [[./400-Meaning-兴趣/420-Linux-Linux操作系统/Linux 中文打字软件 gtypist 光标错位解决.org][Linux 中文打字软件 gtypist 光标错位解决]]
-** Emacs-神之编辑器 
+*  
 - [[./400-Meaning-兴趣/450-Emacs-神之编辑器/EmacsLisp语法表.org][EmacsLisp语法表]]
+*  
 - [[./400-Meaning-兴趣/450-Emacs-神之编辑器/在Emacs中集成Recoll全文搜索.org][在Emacs中集成Recoll全文搜索]]
+*  
 - [[./400-Meaning-兴趣/450-Emacs-神之编辑器/EmacsLisp_Advising_Emacs_lisp_Functions.org][EmacsLisp_Advising_Emacs_lisp_Functions]]
+*  
 - [[./400-Meaning-兴趣/450-Emacs-神之编辑器/EmacsLisp-模式.org][EmacsLisp-模式]]
+*  
 - [[./400-Meaning-兴趣/450-Emacs-神之编辑器/Elisp-manual-Modes 翻译.org][Elisp-manual-Modes 翻译]]
+*  
 - [[./400-Meaning-兴趣/450-Emacs-神之编辑器/Emacs Gnus 多SMTP账户邮件发送配置及问题解决.org][Emacs Gnus 多SMTP账户邮件发送配置及问题解决]]
+*  
 - [[./400-Meaning-兴趣/450-Emacs-神之编辑器/Elisp-Keymaps-翻译.org][Elisp-Keymaps-翻译]]
+*  
 - [[./400-Meaning-兴趣/450-Emacs-神之编辑器/emacs-man-display.org][emacs-man-display]]
+*  
 - [[./400-Meaning-兴趣/450-Emacs-神之编辑器/Emacs Gnus 邮件发送配置.org][Emacs Gnus 邮件发送配置]]
