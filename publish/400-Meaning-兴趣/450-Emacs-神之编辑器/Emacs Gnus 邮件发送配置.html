@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
 <head>
-<!-- 2021-10-02 Sat 12:07 -->
+<!-- 2021-10-02 Sat 12:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Emacs Gnus 多SMTP账户邮件发送配置及问题解决</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Wu Peng" />
-<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/header.css' />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -59,7 +59,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="preamble" class="status">
-<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="https://littlevalley.github.io/mynotes/publish/index.html">笔记</a></li><li><a href="https://littlevalley.github.io/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="https://littlevalley.github.io/mynotes/publish/about.html">关于</a></li></ul></div></div>
 </div>
 <div id="content">
 <h1 class="title">Emacs Gnus 多SMTP账户邮件发送配置及问题解决</h1>
@@ -67,15 +67,15 @@ for the JavaScript code in this tag.
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org7679dd3">1. 需求</a></li>
-<li><a href="#org0965451">2. 环境</a></li>
-<li><a href="#orgddfc757">3. 问题及解决方法</a></li>
+<li><a href="#orgbc54975">1. 需求</a></li>
+<li><a href="#orgaec1135">2. 环境</a></li>
+<li><a href="#orgb8cf0a4">3. 问题及解决方法</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org7679dd3" class="outline-2">
-<h2 id="org7679dd3"><span class="section-number-2">1</span> 需求</h2>
+<div id="outline-container-orgbc54975" class="outline-2">
+<h2 id="orgbc54975"><span class="section-number-2">1</span> 需求</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 在Emacs 上收发邮件，收邮件用IMAP 访问，发邮件用SMTP。
@@ -83,8 +83,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org0965451" class="outline-2">
-<h2 id="org0965451"><span class="section-number-2">2</span> 环境</h2>
+<div id="outline-container-orgaec1135" class="outline-2">
+<h2 id="orgaec1135"><span class="section-number-2">2</span> 环境</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>Linux Debian stretch</li>
@@ -94,8 +94,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orgddfc757" class="outline-2">
-<h2 id="orgddfc757"><span class="section-number-2">3</span> 问题及解决方法</h2>
+<div id="outline-container-orgb8cf0a4" class="outline-2">
+<h2 id="orgb8cf0a4"><span class="section-number-2">3</span> 问题及解决方法</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 网络上有许多文章介绍如何设置，大多数应该可以工作，但我喜欢打破沙锅问到底，找来的

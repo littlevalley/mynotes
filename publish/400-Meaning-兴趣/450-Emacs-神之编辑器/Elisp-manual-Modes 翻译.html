@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
 <head>
-<!-- 2021-10-02 Sat 12:07 -->
+<!-- 2021-10-02 Sat 12:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Emacs lisp 手册 Modes 翻译</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Wu Peng" />
-<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/header.css' />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -59,7 +59,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="preamble" class="status">
-<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="https://littlevalley.github.io/mynotes/publish/index.html">笔记</a></li><li><a href="https://littlevalley.github.io/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="https://littlevalley.github.io/mynotes/publish/about.html">关于</a></li></ul></div></div>
 </div>
 <div id="content">
 <h1 class="title">Emacs lisp 手册 Modes 翻译</h1>
@@ -67,14 +67,14 @@ for the JavaScript code in this tag.
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org2587076">1. 主模式和附模式</a></li>
-<li><a href="#orgf25520c">2. 缓冲局部变量</a></li>
+<li><a href="#org921d96f">1. 主模式和附模式</a></li>
+<li><a href="#org21b668b">2. 缓冲局部变量</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org2587076" class="outline-2">
-<h2 id="org2587076"><span class="section-number-2">1</span> 主模式和附模式</h2>
+<div id="outline-container-org921d96f" class="outline-2">
+<h2 id="org921d96f"><span class="section-number-2">1</span> 主模式和附模式</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 模式是自定义Emacs 行为的一套非常有用的定义。这有两种不同的模式：“附模式”，主要
@@ -89,7 +89,7 @@ for the JavaScript code in this tag.
 </div>
 
 <ol class="org-ol">
-<li><a id="orgc9ac4cc"></a>钩子<br />
+<li><a id="org872a777"></a>钩子<br />
 <div class="outline-text-3" id="text-1-1">
 <p>
 钩子是一个可以存储函数的变量，存储的函数会被已存在的程序在某种特定情况下进行调用。
@@ -132,7 +132,7 @@ Emacs 中的大多数钩子都是 "normal hooks"。这些变量存储的函数�
 </div>
 
 <ol class="org-ol">
-<li><a id="org96973fc"></a>运行钩子<br />
+<li><a id="org9cd0c5d"></a>运行钩子<br />
 <div class="outline-text-4" id="text-1-1-1">
 <p>
 这节我们讨论用于运行常规钩子的 "run-hooks" 函数，以及运行非常规钩子的其他函数。
@@ -192,7 +192,7 @@ Emacs 中的大多数钩子都是 "normal hooks"。这些变量存储的函数�
 </div>
 </li>
 
-<li><a id="orgc796b35"></a>设置钩子<br />
+<li><a id="org65ad4c6"></a>设置钩子<br />
 <div class="outline-text-4" id="text-1-1-2">
 <p>
 这有一个使用模式钩子在 Lisp 交互模式中来打开 Auto Fill 模式的的例子：
@@ -260,7 +260,7 @@ Emacs 中的大多数钩子都是 "normal hooks"。这些变量存储的函数�
 </ol>
 </li>
 
-<li><a id="orgf37fc99"></a>主模式<br />
+<li><a id="orgdc8a3a9"></a>主模式<br />
 <div class="outline-text-3" id="text-1-2">
 <p>
 主模式设置 Emacs 用来编辑或者处理特定种类的文本。每个缓冲同时只有一个主模式。每
@@ -312,7 +312,7 @@ Emacs 中的大多数钩子都是 "normal hooks"。这些变量存储的函数�
 </div>
 
 <ol class="org-ol">
-<li><a id="org8d541fa"></a>主模式约定<br />
+<li><a id="orgb0b04b7"></a>主模式约定<br />
 <div class="outline-text-4" id="text-1-2-1">
 <p>
 每个主模式的代码应当遵循不同的编码约定，包括局部键盘映射和语法表初始化、函数和变
@@ -511,7 +511,7 @@ Special 模式是为在派生中保持这种特性的一个方便的父模式，
 </div>
 </li>
 
-<li><a id="org65f898a"></a>Emacs 是如何选择一个主模式的<br />
+<li><a id="orgb718d46"></a>Emacs 是如何选择一个主模式的<br />
 <div class="outline-text-4" id="text-1-2-2">
 <p>
 当Emacs 查看一个文件时，他会根据文件名或者文件中的信息自动地为缓冲选择一个主模式。
@@ -687,7 +687,7 @@ Emacs 可以为大多数的文件选择恰当的主模式。
 </div>
 </li>
 
-<li><a id="orgdfd9a2e"></a>获取主模式的帮助<br />
+<li><a id="org425ff05"></a>获取主模式的帮助<br />
 <div class="outline-text-4" id="text-1-2-3">
 <p>
 `describe-mode' 函数会提供主模式的一些信息。它一般会绑定到按键 `C-h m' 上面。它
@@ -710,7 +710,7 @@ Emacs 可以为大多数的文件选择恰当的主模式。
 </div>
 </li>
 
-<li><a id="orgc69ba87"></a>定义派生模式<br />
+<li><a id="org613902a"></a>定义派生模式<br />
 <div class="outline-text-4" id="text-1-2-4">
 <p>
 推荐的作法是使用 `define-derived-mode' 来从一个已经存在的主模式派生一个新的主模
@@ -854,7 +854,7 @@ PARENT 相同的语法表，或者在 PARENT 为 `nil' 时使用标准的语法�
 </div>
 </li>
 
-<li><a id="org95a2690"></a>基本主模式<br />
+<li><a id="orga11a3cb"></a>基本主模式<br />
 <div class="outline-text-4" id="text-1-2-5">
 <p>
 不管 Fundamental 模式，这有三种主模式是其他主模式通常继承的： Text 模式、Prog 模
@@ -923,7 +923,7 @@ Special 模式设置缓冲为只读。它的按键映射定义了许多常规绑
 </li>
 
 
-<li><a id="org606ba88"></a>模式钩子<br />
+<li><a id="orga29b266"></a>模式钩子<br />
 <div class="outline-text-4" id="text-1-2-6">
 <p>
 每一个主模式命令都应该以执行一个模式无关的常规钩子
@@ -999,7 +999,7 @@ Hooks ），但这个还会运行 `change-major-mode-after-body-hook'，
 </div>
 </li>
 
-<li><a id="orgf5cf2bf"></a>制表模式<br />
+<li><a id="orgcdd503f"></a>制表模式<br />
 <div class="outline-text-4" id="text-1-2-7">
 <p>
 制表模式是一个为显示表格数据的主模式，比如由条目组成的数据，每个条目包含一行文本，
@@ -1216,7 +1216,7 @@ POS 或者设置其值为 `nil'， 默认值为 `point-min'。
 </li>
 
 
-<li><a id="org51266a2"></a>一般模式<br />
+<li><a id="orge9f93bf"></a>一般模式<br />
 <div class="outline-text-4" id="text-1-2-8">
 <p>
 “一般模式" 是一个带有注释语法和 Font Lock 模式的简单主模式。使用
@@ -1261,7 +1261,7 @@ Search-based Fontification。
 </div>
 </li>
 
-<li><a id="orgb09b059"></a>主模式示例<br />
+<li><a id="org1e9e72a"></a>主模式示例<br />
 <div class="outline-text-4" id="text-1-2-9">
 <p>
 Text 模式可能是除 Fundamental 模式之外最简单的主模式了。这是从 `text-mode.el' 中
@@ -1440,7 +1440,7 @@ Text 模式可能是除 Fundamental 模式之外最简单的主模式了。这�
 </ol>
 </li>
 
-<li><a id="org7fa01d7"></a>子模式<br />
+<li><a id="orgde7ab18"></a>子模式<br />
 <div class="outline-text-3" id="text-1-3">
 <p>
 一个子模式提供一个可选的特性，用户可以根据主模式的选择独立地开启或者关闭。子模式
@@ -1468,7 +1468,7 @@ Auto Fill 模式可以与所有允许文本插入的模式一起工作。有一�
 </div>
 
 <ol class="org-ol">
-<li><a id="org6bd8efd"></a>写一个子模式的约定<br />
+<li><a id="org1f8f034"></a>写一个子模式的约定<br />
 <div class="outline-text-4" id="text-1-3-1">
 <p>
 就像主模式一样，这有一些写子模式的约定。这些约定在下文阐述。遵循这些约定的最简单
@@ -1478,7 +1478,7 @@ Auto Fill 模式可以与所有允许文本插入的模式一起工作。有一�
 </li>
 
 
-<li><a id="org6439350"></a>按键映射和子模式<br />
+<li><a id="orgc5b6bd6"></a>按键映射和子模式<br />
 <div class="outline-text-4" id="text-1-3-2">
 <p>
 每一个子模式可以有自己的按键映射，当这个模式开启时起作用。通过为
@@ -1505,7 +1505,7 @@ minor-mode-map-alist。
 </ol>
 </li>
 
-<li><a id="orga3b3ae7"></a>模式行格式<br />
+<li><a id="org59e95ca"></a>模式行格式<br />
 <div class="outline-text-3" id="text-1-4">
 <p>
 每个Emacs窗口（除了 minibuffer 的窗口）的底部都有一个模式行，用来显示其中
@@ -1517,7 +1517,7 @@ buffer的状态信息，比如名字，与 其关联的文件，递归编辑的�
 </div>
 
 <ol class="org-ol">
-<li><a id="org2345471"></a>模式行概要<br />
+<li><a id="org8c3022a"></a>模式行概要<br />
 <div class="outline-text-4" id="text-1-4-1">
 <p>
 每个模式行显示的内容都是通过局部变量`mode-line-format'来控制的。该变量中包含
@@ -1556,7 +1556,7 @@ buffer的状态信息，比如名字，与 其关联的文件，递归编辑的�
 </div>
 </li>
 
-<li><a id="org5af4042"></a>模式行的数据结构<br />
+<li><a id="org5749b6a"></a>模式行的数据结构<br />
 <div class="outline-text-4" id="text-1-4-2">
 <p>
 模式行显示内容由称作模式行构造(`mode line construct')的数据结构控制，它由列
@@ -1656,7 +1656,7 @@ SYMBOL的值为nil或者为空时，模式行什么都不会显示。
 </div>
 </li>
 
-<li><a id="orge3704c3"></a>模式行的上层控制<br />
+<li><a id="orgbc9b4b2"></a>模式行的上层控制<br />
 <div class="outline-text-4" id="text-1-4-3">
 <p>
 模式行的总控变量是`mode-line-format'。
@@ -1726,7 +1726,7 @@ Shell 模式并没有设置 `mode-line-format'）：
 </div>
 </li>
 
-<li><a id="orgf85456d"></a>模式行中使用的变量<br />
+<li><a id="orga8ffec5"></a>模式行中使用的变量<br />
 <div class="outline-text-4" id="text-1-4-4">
 <p>
 这节描述了 `mode-line-format' 变量标准值中使用的一些变量。  模式行中使用的变量没
@@ -1942,7 +1942,7 @@ Shell 模式并没有设置 `mode-line-format'）：
 </div>
 </li>
 
-<li><a id="org134e946"></a>模式行中的`%'-Constructs<br />
+<li><a id="orge9024f2"></a>模式行中的`%'-Constructs<br />
 <div class="outline-text-4" id="text-1-4-5">
 <p>
 用于模式行构造体的字符串可以使用某种 ‘%’-构造符来替换各种类型的数据。下面是可
@@ -2141,7 +2141,7 @@ obsolete, since you can get the same results with the variables
 </div>
 </li>
 
-<li><a id="orga368fef"></a>模式行中的属性<br />
+<li><a id="orga6b79c4"></a>模式行中的属性<br />
 <div class="outline-text-4" id="text-1-4-6">
 <p>
 一些文本属性对于模式行中很有意义。 `face' 属性影响文本的显示效果； `help-echo'
@@ -2174,7 +2174,7 @@ obsolete, since you can get the same results with the variables
 </div>
 </li>
 
-<li><a id="org5e781b1"></a>窗口的头行<br />
+<li><a id="orgc579883"></a>窗口的头行<br />
 <div class="outline-text-4" id="text-1-4-7">
 <p>
 一个窗口的顶部可以有一个头行，就像其底部的模式行一样。  头行的工作方式和模式行一
@@ -2210,7 +2210,7 @@ WINDOW 必须是一个活动的窗口，默认情况下是当前选中的窗口�
 </div>
 </li>
 
-<li><a id="orgd6fbe6b"></a>仿真模式行格式<br />
+<li><a id="org477445b"></a>仿真模式行格式<br />
 <div class="outline-text-4" id="text-1-4-8">
 <p>
 你可以使用 `format-mode-line' 函数和模式行构造体来计算出要显示在模式行或者窗口头行中的文本。
@@ -2256,7 +2256,7 @@ FACE 的值是 `nil' 或者忽略，则表示使用默认的样式。如果 FACE
 </ol>
 </li>
 
-<li><a id="org202f795"></a>Font Lock 模式<br />
+<li><a id="orgd518183"></a>Font Lock 模式<br />
 <div class="outline-text-3" id="text-1-5">
 <p>
 “Font Lock 模式" 是一个缓冲局部的子模式，它会根据缓冲中某部分内容的语法角色自动为其
@@ -2272,7 +2272,7 @@ FACE 的值是 `nil' 或者忽略，则表示使用默认的样式。如果 FACE
 </div>
 
 <ol class="org-ol">
-<li><a id="org780838e"></a>字体锁定基本概念<br />
+<li><a id="org68a4089"></a>字体锁定基本概念<br />
 <div class="outline-text-4" id="text-1-5-1">
 <p>
 字体锁定功能由许多基本函数的支撑。每一个函数是否被调用与相应的变量有关。这种非直
@@ -2408,7 +2408,7 @@ SYNTAX-ALIST 被忽略或者其值为 `nil'， 基于语法的样式设置使用
 </div>
 </li>
 
-<li><a id="orgbd6af61"></a>基于搜索的文本样式<br />
+<li><a id="org78b6340"></a>基于搜索的文本样式<br />
 <div class="outline-text-4" id="text-1-5-2">
 <p>
 直接控制基于搜索的文本样式设置的变量是 `font-lock-keywords'，一般情况下这个变量
@@ -2426,8 +2426,8 @@ SYNTAX-ALIST 被忽略或者其值为 `nil'， 基于语法的样式设置使用
 </div>
 
 
-<div id="outline-container-orgf25520c" class="outline-2">
-<h2 id="orgf25520c"><span class="section-number-2">2</span> 缓冲局部变量</h2>
+<div id="outline-container-org21b668b" class="outline-2">
+<h2 id="org21b668b"><span class="section-number-2">2</span> 缓冲局部变量</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 在大多数的编程语言中都可以找到全局和局部变量绑定的概念。Emacs 也支持各种另外的各
@@ -2438,7 +2438,7 @@ Multiple Terminals。）
 </div>
 
 <ol class="org-ol">
-<li><a id="orgb003985"></a>缓冲局部变量的介绍<br />
+<li><a id="orgea691f8"></a>缓冲局部变量的介绍<br />
 <div class="outline-text-3" id="text-2-1">
 <p>
 缓冲局部变量针对特定缓冲有一个缓冲局部绑定。当那个缓冲处于激活状态时，此绑定才会
@@ -2521,7 +2521,7 @@ foo &#8658; 'a
 </div>
 </li>
 
-<li><a id="orgab6302c"></a>创建和删除缓冲局部绑定<br />
+<li><a id="orge3b7a2e"></a>创建和删除缓冲局部绑定<br />
 <div class="outline-text-3" id="text-2-2">
 <p>
 &#x2013; 命令： make-local-variable variable
@@ -2775,7 +2775,7 @@ VAL 是变量的缓冲局部值。但当变量在 BUFFER 中的局部值是 void
 </div>
 </li>
 
-<li><a id="orgbae2595"></a>缓冲局部变量的默认值<br />
+<li><a id="orgb74aa7b"></a>缓冲局部变量的默认值<br />
 <div class="outline-text-3" id="text-2-3">
 <p>
 具有缓冲区局部绑定的变量的全局值也叫默认值，因为在缓冲区和选中窗口都没有这个变量

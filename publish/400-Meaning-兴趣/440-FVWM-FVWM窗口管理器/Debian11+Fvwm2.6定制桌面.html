@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
 <head>
-<!-- 2021-10-02 Sat 12:06 -->
+<!-- 2021-10-02 Sat 12:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Debian11+Fvwm2.6定制桌面</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Wu Peng" />
-<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/header.css' />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -59,7 +59,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="preamble" class="status">
-<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="https://littlevalley.github.io/mynotes/publish/index.html">笔记</a></li><li><a href="https://littlevalley.github.io/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="https://littlevalley.github.io/mynotes/publish/about.html">关于</a></li></ul></div></div>
 </div>
 <div id="content">
 <h1 class="title">Debian11+Fvwm2.6定制桌面</h1>
@@ -67,11 +67,11 @@ for the JavaScript code in this tag.
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org66d0db3">1. 桌面的基本需求</a></li>
-<li><a href="#orgb92bbab">2. Fvwm2.6默认配置存在的不足</a></li>
-<li><a href="#org130db91">3. 桌面配置改进</a></li>
-<li><a href="#orgdff9d11">4. 需要安装的基本程序</a></li>
-<li><a href="#org5444cf6">5. 从Fvwm2.5 到 Fvwm2.6</a></li>
+<li><a href="#org88e16a7">1. 桌面的基本需求</a></li>
+<li><a href="#org2452918">2. Fvwm2.6默认配置存在的不足</a></li>
+<li><a href="#org00238b3">3. 桌面配置改进</a></li>
+<li><a href="#org2aa1227">4. 需要安装的基本程序</a></li>
+<li><a href="#org5cc175c">5. 从Fvwm2.5 到 Fvwm2.6</a></li>
 </ul>
 </div>
 </div>
@@ -82,8 +82,8 @@ for the JavaScript code in this tag.
 疑惑Fvwm是不是该被淘汰的时间，对流行的发行版进行充分考察，还是觉得Fvwm才是我的菜。
 </p>
 
-<div id="outline-container-org66d0db3" class="outline-2">
-<h2 id="org66d0db3"><span class="section-number-2">1</span> 桌面的基本需求</h2>
+<div id="outline-container-org88e16a7" class="outline-2">
+<h2 id="org88e16a7"><span class="section-number-2">1</span> 桌面的基本需求</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 每个人需要的桌面功能并不一样，但最基本的需求无非是在桌面上通过鼠标和键盘可以打开
@@ -102,8 +102,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-orgb92bbab" class="outline-2">
-<h2 id="orgb92bbab"><span class="section-number-2">2</span> Fvwm2.6默认配置存在的不足</h2>
+<div id="outline-container-org2452918" class="outline-2">
+<h2 id="org2452918"><span class="section-number-2">2</span> Fvwm2.6默认配置存在的不足</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 从正式使用FVWM2.5开始至今，主要用了两版配置，第一版是自己折腾的，第二版应该主要
@@ -123,8 +123,8 @@ FvwmWinList 来切换窗口。</li>
 </div>
 </div>
 
-<div id="outline-container-org130db91" class="outline-2">
-<h2 id="org130db91"><span class="section-number-2">3</span> 桌面配置改进</h2>
+<div id="outline-container-org00238b3" class="outline-2">
+<h2 id="org00238b3"><span class="section-number-2">3</span> 桌面配置改进</h2>
 <div class="outline-text-2" id="text-3">
 <ol class="org-ol">
 <li>把FvwmButtons面板移到屏幕上方，由主菜单按钮、FvwmIconMan、FvwmPager、
@@ -145,8 +145,8 @@ Conky 展示在桌面右侧。</li>
 </div>
 </div>
 
-<div id="outline-container-orgdff9d11" class="outline-2">
-<h2 id="orgdff9d11"><span class="section-number-2">4</span> 需要安装的基本程序</h2>
+<div id="outline-container-org2aa1227" class="outline-2">
+<h2 id="org2aa1227"><span class="section-number-2">4</span> 需要安装的基本程序</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-bash"><span class="linenr">1: </span>apt-get install xorg fvwm menu pcmanfm conky-all sudo hibernate acpi mpg123 imagemagick xscreensaver emacs vim-gtk fcitx fcitx-table-wubi firefox-esr xchm xpdf gimp gthumb vlc audacious recoll libreoffice build-essential automake autoconf m4  cmake bash xdm p7zip xarchiver p7zip-full arj lhasa rpm unrar-free zip axel manpages-zh  minicom libreoffice-l10n-zh-cn xloadimage inetutils-tools net-tools xosview stalonetray volumeicon-alsa git brasero locales global virtualenv pulseaudio enca sdcv archmage mplayer gnome-icon-theme gnome-icon-theme-extras pandoc gparted wireless-tools wpasupplicant plank
@@ -160,8 +160,8 @@ Conky 展示在桌面右侧。</li>
 </div>
 </div>
 
-<div id="outline-container-org5444cf6" class="outline-2">
-<h2 id="org5444cf6"><span class="section-number-2">5</span> 从Fvwm2.5 到 Fvwm2.6</h2>
+<div id="outline-container-org5cc175c" class="outline-2">
+<h2 id="org5cc175c"><span class="section-number-2">5</span> 从Fvwm2.5 到 Fvwm2.6</h2>
 <div class="outline-text-2" id="text-5">
 <ol class="org-ol">
 <li>Fvwm2.6 没有 FvwmTaskbar 模块，使用 FvwmButtons 实现相同功能。</li>

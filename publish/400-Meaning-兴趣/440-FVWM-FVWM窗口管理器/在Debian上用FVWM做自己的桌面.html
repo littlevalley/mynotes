@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
 <head>
-<!-- 2021-10-02 Sat 12:06 -->
+<!-- 2021-10-02 Sat 12:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>在Debian上用Fvwm2.5做自己的桌面</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Wu Peng" />
-<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/header.css' />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -81,7 +81,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="preamble" class="status">
-<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="https://littlevalley.github.io/mynotes/publish/index.html">笔记</a></li><li><a href="https://littlevalley.github.io/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="https://littlevalley.github.io/mynotes/publish/about.html">关于</a></li></ul></div></div>
 </div>
 <div id="content">
 <h1 class="title">在Debian上用Fvwm2.5做自己的桌面</h1>
@@ -89,21 +89,21 @@ for the JavaScript code in this tag.
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org11b1602">1. 前言</a></li>
-<li><a href="#org073b595">2. 学习步骤</a></li>
-<li><a href="#org72ee846">3. 准备</a>
+<li><a href="#org91d24b0">1. 前言</a></li>
+<li><a href="#orgd524e25">2. 学习步骤</a></li>
+<li><a href="#org73b3b5f">3. 准备</a>
 <ul>
-<li><a href="#orgf8137df">3.1. 软件包</a></li>
-<li><a href="#org2810349">3.2. 字体</a></li>
-<li><a href="#org5f28841">3.3. 图片</a></li>
-<li><a href="#orgfed3a14">3.4. 参考资料</a></li>
+<li><a href="#orge084102">3.1. 软件包</a></li>
+<li><a href="#orgfb4c229">3.2. 字体</a></li>
+<li><a href="#orgaf9b868">3.3. 图片</a></li>
+<li><a href="#org2f691b9">3.4. 参考资料</a></li>
 </ul>
 </li>
-<li><a href="#orgfe801ef">4. 环境</a></li>
-<li><a href="#org1b63bb4">5. 布局</a></li>
-<li><a href="#orgab797c2">6. 配置</a>
+<li><a href="#org5a0285b">4. 环境</a></li>
+<li><a href="#org995d8ce">5. 布局</a></li>
+<li><a href="#org29948d6">6. 配置</a>
 <ul>
-<li><a href="#org6b86b52">6.1. 文件结构</a></li>
+<li><a href="#org8696abb">6.1. 文件结构</a></li>
 <li><a href="#sec-6-2">6.2. 环境变量</a></li>
 <li><a href="#sec-6-3">6.3. 启动和退出</a></li>
 <li><a href="#sec-6-4">6.4. 颜色和主题</a></li>
@@ -116,13 +116,13 @@ for the JavaScript code in this tag.
 <li><a href="#sec-6-11">6.11. FvwmScript脚本</a></li>
 </ul>
 </li>
-<li><a href="#org6c904c9">7. 后记</a></li>
+<li><a href="#org975c910">7. 后记</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org11b1602" class="outline-2">
-<h2 id="org11b1602"><span class="section-number-2">1</span> 前言</h2>
+<div id="outline-container-org91d24b0" class="outline-2">
+<h2 id="org91d24b0"><span class="section-number-2">1</span> 前言</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 我是在大学时学习嵌入式系统的过程中步入Linux世界的，看过许多介绍和比较各种操作系
@@ -135,8 +135,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org073b595" class="outline-2">
-<h2 id="org073b595"><span class="section-number-2">2</span> 学习步骤</h2>
+<div id="outline-container-orgd524e25" class="outline-2">
+<h2 id="orgd524e25"><span class="section-number-2">2</span> 学习步骤</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 <a href="http://www.ctex.org/documents/shredder/fvwm_frame.html">FVWM简明使用指南</a>是不可多得的中文入门指南，对常用命令、窗口上下文、鼠标和键盘、函
@@ -156,16 +156,16 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org72ee846" class="outline-2">
-<h2 id="org72ee846"><span class="section-number-2">3</span> 准备</h2>
+<div id="outline-container-org73b3b5f" class="outline-2">
+<h2 id="org73b3b5f"><span class="section-number-2">3</span> 准备</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 要配置出满意的桌面，一些准备工作是必不可少的。
 </p>
 </div>
 
-<div id="outline-container-orgf8137df" class="outline-3">
-<h3 id="orgf8137df"><span class="section-number-3">3.1</span> 软件包</h3>
+<div id="outline-container-orge084102" class="outline-3">
+<h3 id="orge084102"><span class="section-number-3">3.1</span> 软件包</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 下面这些软件包是必须的，保证Fvwm能呈现出与我的桌面一样的效果：
@@ -207,8 +207,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org2810349" class="outline-3">
-<h3 id="org2810349"><span class="section-number-3">3.2</span> 字体</h3>
+<div id="outline-container-orgfb4c229" class="outline-3">
+<h3 id="orgfb4c229"><span class="section-number-3">3.2</span> 字体</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 任意你喜欢的字体，中文字体要求是 iso106460 编码。
@@ -216,8 +216,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org5f28841" class="outline-3">
-<h3 id="org5f28841"><span class="section-number-3">3.3</span> 图片</h3>
+<div id="outline-container-orgaf9b868" class="outline-3">
+<h3 id="orgaf9b868"><span class="section-number-3">3.3</span> 图片</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 桌面背景、菜单和按钮均可使用图片，适当的图片为桌面增色不少。常用格式有xpm 和
@@ -227,8 +227,8 @@ png，常用大小有 16x16, 22x22, 32x32, 64x64，根据实际情况定制大�
 </div>
 </div>
 
-<div id="outline-container-orgfed3a14" class="outline-3">
-<h3 id="orgfed3a14"><span class="section-number-3">3.4</span> 参考资料</h3>
+<div id="outline-container-org2f691b9" class="outline-3">
+<h3 id="org2f691b9"><span class="section-number-3">3.4</span> 参考资料</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 Fvwm的手册是最好的参考资料。关于Fvwm的总体的配置，比如屏幕、窗口、菜单、键盘、鼠
@@ -239,8 +239,8 @@ fvwm-buttons"。
 </div>
 </div>
 
-<div id="outline-container-orgfe801ef" class="outline-2">
-<h2 id="orgfe801ef"><span class="section-number-2">4</span> 环境</h2>
+<div id="outline-container-org5a0285b" class="outline-2">
+<h2 id="org5a0285b"><span class="section-number-2">4</span> 环境</h2>
 <div class="outline-text-2" id="text-4">
 <pre class="example">
 Linux debian 3.2.0-4-amd64 #1 SMP
@@ -252,8 +252,8 @@ Xinerama, XRender, XCursor, XFT, NLS
 </div>
 </div>
 
-<div id="outline-container-org1b63bb4" class="outline-2">
-<h2 id="org1b63bb4"><span class="section-number-2">5</span> 布局</h2>
+<div id="outline-container-org995d8ce" class="outline-2">
+<h2 id="org995d8ce"><span class="section-number-2">5</span> 布局</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 我不主张一味追求炫酷而忽略易用，配置的桌面要”简洁、高效、优雅“，
@@ -290,8 +290,8 @@ Xinerama, XRender, XCursor, XFT, NLS
 </div>
 </div>
 
-<div id="outline-container-orgab797c2" class="outline-2">
-<h2 id="orgab797c2"><span class="section-number-2">6</span> 配置</h2>
+<div id="outline-container-org29948d6" class="outline-2">
+<h2 id="org29948d6"><span class="section-number-2">6</span> 配置</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Fvwm的配置文件为"~/.fvwm/.fvwm2rc"，如果没找到，可自己创建一个。推
@@ -305,8 +305,8 @@ system.fvwm2rc-sample-95以及 system.fvwm2rc-support也是个选择，但是
 </p>
 </div>
 
-<div id="outline-container-org6b86b52" class="outline-3">
-<h3 id="org6b86b52"><span class="section-number-3">6.1</span> 文件结构</h3>
+<div id="outline-container-org8696abb" class="outline-3">
+<h3 id="org8696abb"><span class="section-number-3">6.1</span> 文件结构</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 配置文件要有好的结构，通常分为配置文件说明、环境变量设置、启动和退
@@ -328,7 +328,7 @@ system.fvwm2rc-sample-95以及 system.fvwm2rc-support也是个选择，但是
 </div>
 </div>
 
-<div id="outline-container-orgde4ee64" class="outline-3">
+<div id="outline-container-orgfc78e66" class="outline-3">
 <h3 id="sec-6-2"><span class="section-number-3">6.2</span> 环境变量</h3>
 <div class="outline-text-3" id="text-sec-6-2">
 <p>
@@ -342,7 +342,7 @@ SetEnv 用于自定义环境变量，目的是便于文件的修改， <b>注意
 </div>
 </div>
 
-<div id="outline-container-org8a43dc4" class="outline-3">
+<div id="outline-container-org77f3f6a" class="outline-3">
 <h3 id="sec-6-3"><span class="section-number-3">6.3</span> 启动和退出</h3>
 <div class="outline-text-3" id="text-sec-6-3">
 <p>
@@ -362,7 +362,7 @@ ExitFunction 中要用 <b>All</b> (command) Close 才能把所有同名进程结
 </div>
 </div>
 
-<div id="outline-container-org4ee11d6" class="outline-3">
+<div id="outline-container-orgc10da35" class="outline-3">
 <h3 id="sec-6-4"><span class="section-number-3">6.4</span> 颜色和主题</h3>
 <div class="outline-text-3" id="text-sec-6-4">
 <p>
@@ -372,7 +372,7 @@ ExitFunction 中要用 <b>All</b> (command) Close 才能把所有同名进程结
 </div>
 </div>
 
-<div id="outline-container-org12ec3e1" class="outline-3">
+<div id="outline-container-org21a56ac" class="outline-3">
 <h3 id="sec-6-5"><span class="section-number-3">6.5</span> 默认设置</h3>
 <div class="outline-text-3" id="text-sec-6-5">
 <p>
@@ -414,7 +414,7 @@ Style * IconBox 1 50 -290 -50,IconGrid $[fvwm_icon_size] $[fvwm_icon_size]*9/16,
 </div>
 </div>
 
-<div id="outline-container-org97d0681" class="outline-3">
+<div id="outline-container-org1efa4ac" class="outline-3">
 <h3 id="sec-6-6"><span class="section-number-3">6.6</span> 鼠标和键盘绑定</h3>
 <div class="outline-text-3" id="text-sec-6-6">
 <p>
@@ -501,7 +501,7 @@ Ctrl+F12           桌面截图
 </div>
 </div>
 
-<div id="outline-container-orge1b6759" class="outline-3">
+<div id="outline-container-org85e3866" class="outline-3">
 <h3 id="sec-6-7"><span class="section-number-3">6.7</span> 模块配置</h3>
 <div class="outline-text-3" id="text-sec-6-7">
 <p>
@@ -568,7 +568,7 @@ FvwmButtons、FvwmPager、 FvwmTaskBar和FvwmWinList的位置、大小、显
 </div>
 </div>
 
-<div id="outline-container-org63aec21" class="outline-3">
+<div id="outline-container-org086e0a8" class="outline-3">
 <h3 id="sec-6-8"><span class="section-number-3">6.8</span> 图标化</h3>
 <div class="outline-text-3" id="text-sec-6-8">
 <p>
@@ -591,7 +591,7 @@ FvwmButtons、FvwmPager、 FvwmTaskBar和FvwmWinList的位置、大小、显
 </div>
 </div>
 
-<div id="outline-container-orgf787c48" class="outline-3">
+<div id="outline-container-orgd1a5fea" class="outline-3">
 <h3 id="sec-6-9"><span class="section-number-3">6.9</span> 函数库</h3>
 <div class="outline-text-3" id="text-sec-6-9">
 <p>
@@ -613,7 +613,7 @@ FuncFvwmRunInXterm title cmd    ----  在终端中运行命令cmd
 </div>
 </div>
 
-<div id="outline-container-orgfb87080" class="outline-3">
+<div id="outline-container-orga8ad24f" class="outline-3">
 <h3 id="sec-6-10"><span class="section-number-3">6.10</span> 菜单</h3>
 <div class="outline-text-3" id="text-sec-6-10">
 <p>
@@ -740,7 +740,7 @@ Mouse 3     T       A   Menu MenuFvwmWindowOps
 </ol>
 </div>
 
-<div id="outline-container-org80d3e65" class="outline-3">
+<div id="outline-container-orge498ad0" class="outline-3">
 <h3 id="sec-6-11"><span class="section-number-3">6.11</span> FvwmScript脚本</h3>
 <div class="outline-text-3" id="text-sec-6-11">
 <p>
@@ -763,7 +763,7 @@ Fvwm具有脚本解释功能，并包括许多有用的工具，比如：FvwmScr
 </ul>
 
 <p>
-看看我定做的关机对话框吧。<img src="file:///home/paulwp86/org/images/4760919-2397747086975299842000.png" alt="4760919-2397747086975299842000.png" />
+看看我定做的关机对话框吧。<img src="https://littlevalley.github.iowp86/org/images/4760919-2397747086975299842000.png" alt="4760919-2397747086975299842000.png" />
 </p>
 
 <p>
@@ -1056,8 +1056,8 @@ End
 </div>
 </div>
 
-<div id="outline-container-org6c904c9" class="outline-2">
-<h2 id="org6c904c9"><span class="section-number-2">7</span> 后记</h2>
+<div id="outline-container-org975c910" class="outline-2">
+<h2 id="org975c910"><span class="section-number-2">7</span> 后记</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 其实在网络上有许多人贴出了自己的配置文件，有优有劣，感谢 Desintegr

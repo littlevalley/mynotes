@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
 <head>
-<!-- 2021-10-02 Sat 12:06 -->
+<!-- 2021-10-02 Sat 12:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Arduino+AS608指纹锁避坑记</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Wu Peng" />
-<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/header.css' />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -59,7 +59,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="preamble" class="status">
-<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="https://littlevalley.github.io/mynotes/publish/index.html">笔记</a></li><li><a href="https://littlevalley.github.io/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="https://littlevalley.github.io/mynotes/publish/about.html">关于</a></li></ul></div></div>
 </div>
 <div id="content">
 <h1 class="title">Arduino+AS608指纹锁避坑记</h1>
@@ -67,14 +67,14 @@ for the JavaScript code in this tag.
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgc08d6db">1. 关于找不到传感器的问题</a></li>
-<li><a href="#orge40dd1e">2. 关于内侧开门的问题</a></li>
+<li><a href="#org3f1feab">1. 关于找不到传感器的问题</a></li>
+<li><a href="#org750c277">2. 关于内侧开门的问题</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgc08d6db" class="outline-2">
-<h2 id="orgc08d6db"><span class="section-number-2">1</span> 关于找不到传感器的问题</h2>
+<div id="outline-container-org3f1feab" class="outline-2">
+<h2 id="org3f1feab"><span class="section-number-2">1</span> 关于找不到传感器的问题</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 使用Arduino 连接AS608指纹模块，使用 Ardafurit fingureprint sensor library 的示例，
@@ -98,8 +98,8 @@ AS608模块具有自己的处理器和存储设备，通过串口和Arduino 连�
 </div>
 </div>
 
-<div id="outline-container-orge40dd1e" class="outline-2">
-<h2 id="orge40dd1e"><span class="section-number-2">2</span> 关于内侧开门的问题</h2>
+<div id="outline-container-org750c277" class="outline-2">
+<h2 id="org750c277"><span class="section-number-2">2</span> 关于内侧开门的问题</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 曾将开关连接到处理器上，检测按键输入再开锁，测试发现并不好用，且容易出现BUG。一

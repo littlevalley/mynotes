@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
 <head>
-<!-- 2021-10-02 Sat 12:06 -->
+<!-- 2021-10-02 Sat 12:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>在 Emacs 中集成 Recoll 全文搜索</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Wu Peng" />
-<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/header.css' />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -59,7 +59,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="preamble" class="status">
-<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="https://littlevalley.github.io/mynotes/publish/index.html">笔记</a></li><li><a href="https://littlevalley.github.io/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="https://littlevalley.github.io/mynotes/publish/about.html">关于</a></li></ul></div></div>
 </div>
 <div id="content">
 <h1 class="title">在 Emacs 中集成 Recoll 全文搜索</h1>
@@ -67,14 +67,14 @@ for the JavaScript code in this tag.
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org086f7c9">1. 需求</a></li>
-<li><a href="#org9e6ba60">2. 解决办法</a></li>
+<li><a href="#org3897844">1. 需求</a></li>
+<li><a href="#org33987ab">2. 解决办法</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org086f7c9" class="outline-2">
-<h2 id="org086f7c9"><span class="section-number-2">1</span> 需求</h2>
+<div id="outline-container-org3897844" class="outline-2">
+<h2 id="org3897844"><span class="section-number-2">1</span> 需求</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 时间一长，平常收集的资料就多了，于是使用了 recoll 全文搜索，但是在Emacs 中工作时
@@ -85,12 +85,12 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org9e6ba60" class="outline-2">
-<h2 id="org9e6ba60"><span class="section-number-2">2</span> 解决办法</h2>
+<div id="outline-container-org33987ab" class="outline-2">
+<h2 id="org33987ab"><span class="section-number-2">2</span> 解决办法</h2>
 <div class="outline-text-2" id="text-2">
 </div>
 <ol class="org-ol">
-<li><a id="org9269b34"></a>原来的办法<br />
+<li><a id="org0eef55d"></a>原来的办法<br />
 <div class="outline-text-3" id="text-2-1">
 <p>
 这是在网上搜索到的办法，最大的问题就是你看不到摘要，只有在 minibuffer 中看文件名
@@ -128,7 +128,7 @@ for the JavaScript code in this tag.
 </div>
 </li>
 
-<li><a id="org25df1c5"></a>我的解决办法<br />
+<li><a id="org21f41ed"></a>我的解决办法<br />
 <div class="outline-text-3" id="text-2-2">
 <p>
 使用 "recoll -t -A query" 输出查询结果到 Emacs 缓冲中，包含摘要等内容，然后构

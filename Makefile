@@ -81,7 +81,7 @@ index:
 		done
 
 upload:
-	grep -rl "$(LOCAL_URL_PREFIX)" "$(OUTPUT_DIR)" | while read line; \
+	grep -rl "$(LOCAL_URL_PREFIX)" $(OUTPUT_DIR) | while read line; \
 	do \
 	sed -i "s#$(LOCAL_URL_PREFIX)#$(REMOTE_URL_PREFIX)#g"  "$$line"; \
 	done ;

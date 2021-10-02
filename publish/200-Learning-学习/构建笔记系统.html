@@ -3,13 +3,13 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
 <head>
-<!-- 2021-10-02 Sat 12:06 -->
+<!-- 2021-10-02 Sat 12:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>构建笔记系统</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Wu Peng" />
-<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='https://littlevalley.github.io/mynotes/publish/css/header.css' />
 <script type="text/javascript">
 /*
 @licstart  The following is the entire license notice for the
@@ -59,7 +59,7 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="preamble" class="status">
-<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="https://littlevalley.github.io/mynotes/publish/index.html">笔记</a></li><li><a href="https://littlevalley.github.io/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="https://littlevalley.github.io/mynotes/publish/about.html">关于</a></li></ul></div></div>
 </div>
 <div id="content">
 <h1 class="title">构建笔记系统</h1>
@@ -67,14 +67,14 @@ for the JavaScript code in this tag.
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org0568b76">1. 构建目录</a></li>
-<li><a href="#org77de81a">2. 发布成HTML</a>
+<li><a href="#org0d1820c">1. 构建目录</a></li>
+<li><a href="#org129ad41">2. 发布成HTML</a>
 <ul>
-<li><a href="#org0251cbb">2.1. 撰写Makefile</a></li>
-<li><a href="#orgd9ca9a5">2.2. org 发布设置</a></li>
+<li><a href="#org977d3ef">2.1. 撰写Makefile</a></li>
+<li><a href="#orgbbf6f54">2.2. org 发布设置</a></li>
 </ul>
 </li>
-<li><a href="#orgecac287">3. 版本控制</a></li>
+<li><a href="#org0114848">3. 版本控制</a></li>
 </ul>
 </div>
 </div>
@@ -95,8 +95,8 @@ categories: [学习,技能]
 有一个工具能把自己保存的网页进行简单的整理，必将大大增加学习和积累的效率。
 </p>
 
-<div id="outline-container-org0568b76" class="outline-2">
-<h2 id="org0568b76"><span class="section-number-2">1</span> 构建目录</h2>
+<div id="outline-container-org0d1820c" class="outline-2">
+<h2 id="org0d1820c"><span class="section-number-2">1</span> 构建目录</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 我还是习惯把笔记按文件目录来进行分类组织，这样显得更加有条理，对于即使没有搜索工
@@ -151,8 +151,8 @@ categories: [学习,技能]
 </div>
 </div>
 
-<div id="outline-container-org77de81a" class="outline-2">
-<h2 id="org77de81a"><span class="section-number-2">2</span> 发布成HTML</h2>
+<div id="outline-container-org129ad41" class="outline-2">
+<h2 id="org129ad41"><span class="section-number-2">2</span> 发布成HTML</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 我在撰写笔记的时候可以通过Emacs org-mode 进行书写，便是在阅读的时候我还是希望他
@@ -164,8 +164,8 @@ make 配合 emacs 的 load-file 可以针对自己每个项目的需要灵活地
 </p>
 </div>
 
-<div id="outline-container-org0251cbb" class="outline-3">
-<h3 id="org0251cbb"><span class="section-number-3">2.1</span> 撰写Makefile</h3>
+<div id="outline-container-org977d3ef" class="outline-3">
+<h3 id="org977d3ef"><span class="section-number-3">2.1</span> 撰写Makefile</h3>
 <div class="outline-text-3" id="text-2-1">
 <p>
 网上的《四步教你从零开始写Makefile》确实不错，但《跟我一起写Makefile》更是值得去
@@ -218,8 +218,8 @@ clean:
 </div>
 </div>
 
-<div id="outline-container-orgd9ca9a5" class="outline-3">
-<h3 id="orgd9ca9a5"><span class="section-number-3">2.2</span> org 发布设置</h3>
+<div id="outline-container-orgbbf6f54" class="outline-3">
+<h3 id="orgbbf6f54"><span class="section-number-3">2.2</span> org 发布设置</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
 由于Emacs 有 &#x2013;eval 参数，再配合 load-file 允许我们指定加载执行的配置文件，这样
@@ -232,7 +232,7 @@ clean:
 </div>
 
 <ol class="org-ol">
-<li><a id="orgb7236e2"></a>网站stylesheet<br />
+<li><a id="orgee1aad7"></a>网站stylesheet<br />
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 org-mode 输出成 html 默认的样式确实不好看，在github 上有很多目维护着兼容某个org
@@ -242,7 +242,7 @@ publish-config.el 文件中设置 org-publish-project-alias 变量的值应用�
 </div>
 </li>
 
-<li><a id="orgcc205b1"></a>网站preamble 和 postamble<br />
+<li><a id="org4774b57"></a>网站preamble 和 postamble<br />
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 org-mode 的有关变量为我们预留了修改生成的网站风格的极大的自由度，就像Emacs 中的
@@ -253,7 +253,7 @@ org-preamble-string 为实现。
 </div>
 </li>
 
-<li><a id="orgfa735e0"></a>网站sitemap<br />
+<li><a id="org292d67f"></a>网站sitemap<br />
 <div class="outline-text-4" id="text-2-2-3">
 <p>
 org-mode 具有生成网站地图的功能，但是他不支持二级目录，并且风格有限，虽然可以通
@@ -265,8 +265,8 @@ org-mode 具有生成网站地图的功能，但是他不支持二级目录，�
 </div>
 </div>
 
-<div id="outline-container-orgecac287" class="outline-2">
-<h2 id="orgecac287"><span class="section-number-2">3</span> 版本控制</h2>
+<div id="outline-container-org0114848" class="outline-2">
+<h2 id="org0114848"><span class="section-number-2">3</span> 版本控制</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 选择github 就好。
