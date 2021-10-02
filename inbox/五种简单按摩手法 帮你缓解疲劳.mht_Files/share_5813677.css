@@ -1,0 +1,58 @@
+.wgt-share { width: 100%; height: 100%; position: fixed; top: 0px; left: 100%; z-index: 1000001; text-align: center; font-size: 14px; transition: all 0.5s; -webkit-transition: all 0.5s; opacity: 0; -webkit-transform: translate3d(0px, 0px, 0px); transform: translate3d(0px, 0px, 0px); }
+
+.wgt-share.show { opacity: 1; -webkit-transform: translate3d(-100%, 0px, 0px); transform: translate3d(-100%, 0px, 0px); }
+
+.wgt-share .mask, .wgt-share .share-content { position: absolute; width: 100%; height: 100%; top: 0px; left: 0px; }
+
+.wgt-share .mask { opacity: 0.8; background: rgb(255, 255, 255); }
+
+.wgt-share .share-content { width: 80%; left: 50%; margin-left: -40%; top: 10%; }
+
+.wgt-share .i-friends { display: inline-block; width: 97px; height: 97px; margin: 17px 0px 26px; background-repeat: no-repeat; }
+
+.wgt-share h1 { font-size: 24px; }
+
+.wgt-share p { line-height: 1.5; }
+
+.wgt-share .link-area { margin-top: 32px; }
+
+.wgt-share .link-area span { color: rgb(60, 124, 224); word-break: break-all; margin-top: 15px; display: inline-block; }
+
+.wgt-share .btn-close { width: 26px; height: 26px; position: absolute; top: 5px; right: 5px; background-repeat: no-repeat; }
+
+.wgt-share .bdsharebuttonbox { margin: 5% auto; }
+
+.wgt-share .bdsharebuttonbox a { display: inline-block; vertical-align: middle; height: 49px; padding: 0px; margin: 0px 30px 0px 0px; position: relative; font-family: 微软雅黑; font-size: 14px; }
+
+.wgt-share .bdsharebuttonbox a span { display: inline-block; text-align: center; position: absolute; bottom: -25px; left: 0px; }
+
+.wgt-share .bdsharebuttonbox .share-sina { width: 48px; background-repeat: no-repeat; }
+
+.wgt-share .bdsharebuttonbox .share-sina span { width: 48px; }
+
+.wgt-share .bdsharebuttonbox .share-qzone { width: 51px; background-repeat: no-repeat; }
+
+.wgt-share .bdsharebuttonbox .share-qzone span { width: 51px; }
+
+.wgt-share .bdsharebuttonbox .share-qq { width: 43px; margin-right: 0px; background-repeat: no-repeat; }
+
+.wgt-share .bdsharebuttonbox .share-qq span { width: 56px; left: -6px; }
+
+@media (max-height: 510px) { 
+  .wgt-share .share-content { top: 5%; }
+  .wgt-share .i-friends { margin: 4px 0px; }
+  .wgt-share .link-area { margin-top: 10px; }
+  .wgt-share .link-area span { margin-top: 10px; }
+}
+
+.wgt-share .i-friends { background-position: 0px 0px; }
+
+.wgt-share .btn-close { background-position: -71.5px -100px; }
+
+.wgt-share .bdsharebuttonbox .share-sina { background-position: -49px -128.5px; }
+
+.wgt-share .bdsharebuttonbox .share-qzone { background-position: -46.5px -180px; }
+
+.wgt-share .bdsharebuttonbox .share-qq { background-position: -54px -232px; }
+
+.wgt-share .i-friends, .wgt-share .btn-close, .wgt-share .bdsharebuttonbox .share-sina, .wgt-share .bdsharebuttonbox .share-qzone, .wgt-share .bdsharebuttonbox .share-qq { background-image: url(share_0.5_z_80e38d2.png); background-size: 97px 280.5px; }

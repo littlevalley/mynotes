@@ -1,0 +1,467 @@
+body { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+a { text-decoration: none; }
+
+body, button, textarea, input, select { font-family: 'Helvetica Neue', Helvetica, STHeiTi, 'Microsoft YaHei'; font-size: 100%; font-style: normal; font-variant: normal; font-weight: normal; line-height: 1; }
+
+.ico { background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; height: 16px; width: 16px; display: inline-block; position: relative; top: 2px; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.date { background-position: -29px -99px; }
+
+.man { background-position: -29px -81px; }
+
+.ico24 { background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; height: 24px; width: 24px; display: inline-block; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.key-ico { background-position: -21px -274px; }
+
+.user-ico { background-position: -23px -246px; }
+
+.email-ico { background-position: 0px -324px; }
+
+.head { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(211, 211, 211); border-top-width: 1px; border-top-style: solid; border-top-color: rgb(211, 211, 211); height: 40px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; background-position: initial initial; background-repeat: initial initial; }
+
+.head .head-left { position: relative; float: left; width: auto; display: inline-block; margin-top: 3px; margin-right: 0px; margin-bottom: 0px; margin-left: 15px; }
+
+#headNav { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 20px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; width: 500px; overflow-x: auto; overflow-y: auto; zoom: 1; display: inline-block; height: 40px; }
+
+#headNav li { list-style-type: none; list-style-position: initial; list-style-image: initial; display: block; line-height: 40px; width: 50px; float: left; height: 36px; text-align: center; }
+
+#headNav li a:visited, #headNav li a:active, #headNav li a { display: inline-block; line-height: 22px; margin-top: 0px; margin-right: 5px; margin-bottom: 0px; margin-left: 5px; color: rgb(0, 0, 0); text-decoration: none; border-left-width: 1px; border-left-style: solid; border-left-color: transparent; border-right-width: 1px; border-right-style: solid; border-right-color: transparent; }
+
+.head-left .nav { display: inline-block; }
+
+#headNav li.current { border-bottom-width: 4px; border-bottom-style: solid; border-bottom-color: rgb(44, 85, 180); }
+
+#headNav li.current a { color: rgb(44, 85, 180); }
+
+.head .logo { width: 128px; height: 32px; display: inline-block; vertical-align: top; }
+
+.head .logo a { text-indent: 2000%; height: 32px; width: 128px; white-space: nowrap; background-image: url(http://outofmemory.cn/static/imgs/logo-words.png?15.21); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; overflow-x: hidden; overflow-y: hidden; display: block; background-position: 0% 0%; background-repeat: no-repeat no-repeat; }
+
+.beta { width: 9px; display: inline-block; vertical-align: top; }
+
+.beta sup { color: red; }
+
+h2, .h2 { font-size: 1.3em; }
+
+h3 { font-size: 1.2em; margin-top: 0.2em; margin-right: 0px; margin-bottom: 0.4em; margin-left: 0px; padding-top: 0.2em; padding-right: 0.2em; padding-bottom: 0.2em; padding-left: 0.2em; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(240, 240, 240); }
+
+.head .head-right { position: relative; float: right; width: auto; display: inline-block; margin-top: 0px; margin-right: 5px; margin-bottom: 0px; margin-left: 0px; }
+
+.head .userStatus a { display: inline-block; margin-top: 7px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; vertical-align: top; }
+
+.head .userStatus a i { display: inline-block; background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; width: 24px; height: 24px; vertical-align: middle; margin-top: 0px; margin-right: 4px; margin-bottom: 0px; margin-left: 0px; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.head .userStatus a.signin i { background-position: -24px -300px; }
+
+.head .userStatus a.signup i { background-position: 5px -275px; }
+
+.head .userStatus a b { font-weight: normal; vertical-align: middle; height: 24px; }
+
+.head .userStatus a.signout i { background-position: -24px -325px; }
+
+.head .userStatus a.avatar { width: 64px; height: 64px; margin-right: 24px; margin-top: 0px; z-index: 2; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: white; background-size: initial; position: relative; background-position: initial initial; background-repeat: initial initial; }
+
+.head .userStatus a.avatar img { width: 64px; height: 64px; border-top-left-radius: 64px; border-top-right-radius: 64px; border-bottom-right-radius: 64px; border-bottom-left-radius: 64px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; }
+
+.content { margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; line-height: 1.6em; font-size: 1.06em; min-height: 380px; }
+
+.content p { line-height: 1.6em; margin-top: 1em; margin-right: 0px; margin-bottom: 1em; margin-left: 0px; }
+
+.content table { border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(221, 221, 221); border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221); border-image: initial; border-collapse: collapse; }
+
+.content table td { border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(221, 221, 221); border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221); border-image: initial; border-collapse: collapse; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; }
+
+.content table th { border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(221, 221, 221); border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221); border-image: initial; border-collapse: collapse; font-size: 1.2em; font-weight: bold; -webkit-border-horizontal-spacing: 0px; -webkit-border-vertical-spacing: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(102, 153, 204); background-size: initial; color: white; background-position: initial initial; background-repeat: initial initial; }
+
+.content blockquote { margin-top: 0.8em; margin-right: 0.5em; margin-bottom: 0.8em; margin-left: 0.5em; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-image: initial; border-left-width: 4px; border-left-style: solid; border-left-color: rgb(102, 153, 204); padding-top: 2px; padding-right: 2px; padding-bottom: 4px; padding-left: 5px; }
+
+h1 { font-size: 1.25em; line-height: 1.36em; padding-top: 0.2em; padding-right: 0px; padding-bottom: 0.2em; padding-left: 0.5em; word-break: break-all; word-wrap: break-word; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(240, 240, 240); margin-top: 0.1em; margin-right: 0px; margin-bottom: 0px; margin-left: 0.1em; }
+
+.like { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(34, 34, 136); background-size: initial; float: right; margin-top: 5px; margin-right: 2em; margin-bottom: 5px; margin-left: 0px; width: 70px; height: 38px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(173, 216, 230); border-right-color: rgb(173, 216, 230); border-bottom-color: rgb(173, 216, 230); border-left-color: rgb(173, 216, 230); border-image: initial; line-height: 38px; padding-top: 0px; padding-right: 20px; padding-bottom: 0px; padding-left: 20px; text-align: center; background-position: initial initial; background-repeat: initial initial; }
+
+.like a { display: block; height: 32px; background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; text-indent: 22px; color: white; background-position: -23px -133px; background-repeat: no-repeat no-repeat; }
+
+div.meta { font-size: 0.8em; text-align: right; padding-right: 0.8em; float: right; line-height: 35px; }
+
+div.meta .pv { color: rgb(139, 0, 0); }
+
+div.meta time { color: black; }
+
+.copyright { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(240, 240, 240); background-size: initial; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; margin-top: 5px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(211, 211, 211); border-right-color: rgb(211, 211, 211); border-bottom-color: rgb(211, 211, 211); border-left-color: rgb(211, 211, 211); border-image: initial; background-position: initial initial; background-repeat: initial initial; }
+
+.copyright p { margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px; font-size: 0.9em; line-height: 1.4em; }
+
+.author { padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; margin-top: 40px; margin-right: 0px; margin-bottom: 30px; margin-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(211, 211, 211); border-right-color: rgb(211, 211, 211); border-bottom-color: rgb(211, 211, 211); border-left-color: rgb(211, 211, 211); border-image: initial; text-align: center; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; }
+
+.author span.name { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px; top: -17px; display: inline-block; position: relative; z-index: 1; background-position: initial initial; background-repeat: initial initial; }
+
+.author div { margin-top: -1em; margin-right: 0px; margin-bottom: 0.6em; margin-left: 0px; }
+
+div.authorAvatar { text-align: center; width: 128px; height: 128px; margin-top: -1em; margin-right: auto; margin-bottom: 0.6em; margin-left: auto; }
+
+div.authorAvatar a { border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(231, 231, 231); border-right-color: rgb(231, 231, 231); border-bottom-color: rgb(231, 231, 231); border-left-color: rgb(231, 231, 231); border-image: initial; display: table-cell; vertical-align: middle; border-top-left-radius: 64px; border-top-right-radius: 64px; border-bottom-right-radius: 64px; border-bottom-left-radius: 64px; width: 128px; height: 128px; overflow-x: hidden; overflow-y: hidden; }
+
+div.authorAvatar img { }
+
+.similar { padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; margin-top: 15px; margin-right: 0px; margin-bottom: 15px; margin-left: 0px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(211, 211, 211); border-right-color: rgb(211, 211, 211); border-bottom-color: rgb(211, 211, 211); border-left-color: rgb(211, 211, 211); border-image: initial; text-align: center; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; line-height: 1.6em; }
+
+.similar span.title { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px; top: -17px; display: inline-block; position: relative; z-index: 1; background-position: initial initial; background-repeat: initial initial; }
+
+.similar div { text-align: left; margin-top: -20px; }
+
+.similar span.meta, .similar span.time { float: right; font-size: 0.8em; }
+
+.similar li { margin-top: 5px; margin-right: 0px; margin-bottom: 5px; margin-left: 0px; height: 28px; overflow-x: hidden; overflow-y: hidden; }
+
+.similar ul { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; list-style-type: none; list-style-position: initial; list-style-image: initial; }
+
+.similar a, .similar span, .similar time { font-size: 0.9em; }
+
+.similar p { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; line-height: 40px; text-align: center; }
+
+ul.similarFeeds li { width: 45%; }
+
+.small { font-size: 0.8em; }
+
+.pn { overflow-x: auto; overflow-y: auto; zoom: 1; width: 100%; }
+
+.pn * { font-size: 0.9em; }
+
+.pn .next { float: right; width: 50%; display: block; text-align: right; }
+
+.pn mark { font-family: serif; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; background-position: initial initial; background-repeat: initial initial; }
+
+.pn .pre { float: left; width: 50%; display: block; }
+
+.tgL { font-size: 0.8em; border-top-left-radius: 0.4em; border-top-right-radius: 0.4em; border-bottom-right-radius: 0.4em; border-bottom-left-radius: 0.4em; padding-top: 2px; padding-right: 4px; padding-bottom: 2px; padding-left: 4px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(238, 238, 238); border-right-color: rgb(238, 238, 238); border-bottom-color: rgb(238, 238, 238); border-left-color: rgb(238, 238, 238); border-image: initial; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; line-height: 26px; height: 30px; overflow-x: hidden; overflow-y: hidden; }
+
+.tgL a, .tgL a:hover, .tgL a:visited { color: rgb(255, 160, 122); }
+
+.tgL a:hover { text-decoration: underline; }
+
+.tgL span { display: inline-block; width: 16px; height: 24px; background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0% -34px; background-repeat: no-repeat no-repeat; }
+
+.foot { border-top-width: 1px; border-top-style: solid; border-top-color: rgb(211, 211, 211); line-height: 1.8em; text-align: center; height: 30px; margin-top: 40px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: auto; overflow-y: auto; clear: both; }
+
+.newComment button { font-size: 1.2em; padding-top: 0.3em; padding-right: 0.3em; padding-bottom: 0.3em; padding-left: 0.3em; display: block; width: 160px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(12, 59, 169); background-size: initial; color: white; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; background-position: initial initial; background-repeat: initial initial; }
+
+.tags { padding-top: 0px !important; padding-right: 0px !important; padding-bottom: 0px !important; padding-left: 0px !important; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; }
+
+a.tag { color: rgb(62, 109, 142); background-color: rgb(224, 234, 241); border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(179, 206, 225); border-right-width: 1px; border-right-style: solid; border-right-color: rgb(179, 206, 225); padding-top: 3px; padding-right: 4px; padding-bottom: 3px; padding-left: 4px; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 0px; text-decoration: none; font-size: 0.9em; line-height: 2.4; white-space: nowrap; }
+
+a.tag:hover { background-color: rgb(196, 218, 233); border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(196, 218, 233); border-right-width: 1px; border-right-style: solid; border-right-color: rgb(196, 218, 233); text-decoration: none; font-size: 0.9em; }
+
+.codeTools { position: absolute; width: 5em; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(211, 211, 211); background-size: initial; padding-top: 6px; padding-right: 6px; padding-bottom: 6px; padding-left: 6px; font-size: 0.8em; background-position: initial initial; background-repeat: initial initial; }
+
+.codeTools div { cursor: pointer; margin-top: 2px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 250, 250); background-size: initial; background-position: initial initial; background-repeat: initial initial; }
+
+.codeTools div#runCode { display: none; }
+
+@media print { 
+  #feed-link-text { display: none; }
+  .str { color: rgb(0, 102, 0); }
+  .kwd { color: rgb(0, 0, 102); font-weight: bold; }
+  .com { color: rgb(102, 0, 0); font-style: italic; }
+  .typ { color: rgb(68, 0, 68); font-weight: bold; }
+  .lit { color: rgb(0, 68, 68); }
+  .pun { color: rgb(68, 68, 0); }
+  .pln { color: rgb(0, 0, 0); }
+  .tag { color: rgb(0, 0, 102); font-weight: bold; }
+  .atn { color: rgb(68, 0, 68); }
+  .atv { color: rgb(0, 102, 0); }
+}
+
+.str { color: rgb(128, 0, 0); }
+
+.kwd { color: rgb(0, 0, 139); }
+
+.com { color: gray; }
+
+.typ { color: rgb(43, 145, 175); }
+
+.lit { color: rgb(128, 0, 0); }
+
+.pun { color: rgb(0, 0, 0); }
+
+.pln { color: rgb(0, 0, 0); }
+
+.tag { color: rgb(128, 0, 0); }
+
+.atn { color: rgb(255, 0, 0); }
+
+.atv { color: rgb(0, 0, 255); }
+
+.dec { color: rgb(128, 0, 128); }
+
+pre { padding-top: 3px; padding-right: 3px; padding-bottom: 3px; padding-left: 3px; font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif; margin-bottom: 10px; background-color: rgb(225, 225, 225); overflow-x: auto; overflow-y: auto; width: auto; white-space: pre; font-size: 0.8em; line-height: 1.5em; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; }
+
+pre > code:first-child { max-height: 600px; display: block; }
+
+code { font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif; background-color: rgb(247, 247, 247); }
+
+.pop_win_bg { opacity: 0.3; position: fixed; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: black; background-size: initial; border-top-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px; background-position: initial initial; background-repeat: initial initial; }
+
+.pop_win { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: white; background-size: initial; padding-top: 17px; padding-right: 14px; padding-bottom: 16px; padding-left: 12px; visibility: hidden; position: fixed; border-top-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px; font-size: 0.8em; background-position: initial initial; background-repeat: initial initial; }
+
+.pop_win h3 { font-size: 14px; padding-top: 8px; padding-right: 10px; padding-bottom: 8px; padding-left: 10px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; color: black; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 250, 250); background-size: initial; background-position: initial initial; background-repeat: initial initial; }
+
+a.pop_win_close:hover { color: rgb(250, 176, 182); background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0px 50%; background-repeat: initial initial; }
+
+a.pop_win_close:hover { color: rgb(250, 176, 182); background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0px 50%; background-repeat: initial initial; }
+
+a.pop_win_close, .pop_win_close:visited, .pop_win_close:link { position: absolute; right: 0px; top: 0px; font-family: 'Comic Sans MS'; font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; margin-top: 9px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0.3em; padding-bottom: 0px; padding-left: 0.3em; color: rgb(180, 180, 180); z-index: 99; }
+
+a.pop_win_close, .pop_win_close:visited, .pop_win_close:link { position: absolute; right: 0px; top: 0px; font-family: 'Comic Sans MS'; font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; margin-top: 23px; margin-right: 20px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0.3em; padding-bottom: 0px; padding-left: 0.3em; color: rgb(180, 180, 180); z-index: 99; }
+
+a.pop_win_close { top: 5px; }
+
+#pop_win_login form { width: 274px; padding-top: 10px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; }
+
+#pop_win_login dl { width: 230px; overflow-x: auto; overflow-y: auto; zoom: 1; float: none; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; display: block; }
+
+#pop_win_login dt { width: 40px; margin-top: 5px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; float: left; line-height: 24px; clear: left; display: block; }
+
+#pop_win_login dd { width: 175px; float: left; margin-top: 5px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; clear: right; }
+
+#pop_win_login input.textbox { width: 150px; margin-right: 5px; }
+
+.bdtj { visibility: hidden; }
+
+.feedAuthor { width: 128px; height: 128px; float: right; margin-top: 15px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; }
+
+.feedAuthor .authorAvatar a { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(238, 238, 238); background-size: initial; background-position: initial initial; background-repeat: initial initial; }
+
+.subTitle { font-size: 0.8em; line-height: 1.4em; }
+
+.social { float: right; margin-top: 15px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; }
+
+.social a { background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; display: inline-block; z-index: 2; text-indent: -9999cm; width: 16px; height: 16px; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.social a.weibo { background-position: 0px -156px; }
+
+.social a.github { background-position: 0px -303px; }
+
+ul.entries { margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+ul.entries li { display: block; list-style-type: none; list-style-position: initial; list-style-image: initial; margin-top: 0.2em; margin-right: 0px; margin-bottom: 1em; margin-left: 0px; clear: both; overflow-x: auto; overflow-y: auto; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(240, 240, 240); padding-top: 0px; padding-right: 0px; padding-bottom: 5px; padding-left: 0px; }
+
+ul.entries li h3 { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; font-size: 1.2em; margin-top: 5px; margin-right: 0px; margin-bottom: 5px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+ul.entries .metas { margin-top: 3px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: auto; overflow-y: auto; zoom: 1; }
+
+ul.entries .meta { float: right; }
+
+ul.entries .desc { line-height: 1.8em; font-size: 0.8em; margin-top: 5px; margin-right: 0px; margin-bottom: 5px; margin-left: 0px; }
+
+ul.entries .desc img { width: 160px; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; margin-top: 0.2em; margin-right: 0px; margin-bottom: 0px; margin-left: 0.5em; }
+
+.entries time { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 4px; }
+
+.entries .desc a.entryImg { text-decoration: none; }
+
+h3 a { color: inherit; padding-bottom: 10px; margin-bottom: 10px; }
+
+h3 a:hover { text-decoration: underline; }
+
+.pages { margin-top: 20px; margin-right: 0px; margin-bottom: 5px; margin-left: 4px; clear: both; line-height: 40px; }
+
+.pages a { border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; padding-top: 4px; padding-right: 15px; padding-bottom: 4px; padding-left: 15px; text-decoration: none; font-size: 1.4em; margin-top: 0px; margin-right: 4px; margin-bottom: 6px; margin-left: 0px; color: rgb(51, 102, 153); background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(173, 216, 230); background-size: initial; display: inline-block; background-position: initial initial; background-repeat: initial initial; }
+
+.pages a:hover { border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; text-decoration: none; font-size: 1.4em; margin-top: 0px; margin-right: 4px; margin-bottom: 0px; margin-left: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(12, 60, 170); background-size: initial; color: white; background-position: initial initial; background-repeat: initial initial; }
+
+.pages a.current { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(51, 102, 153); background-size: initial; color: rgb(255, 255, 255); background-position: initial initial; background-repeat: initial initial; }
+
+.lang-ico { width: 32px; height: 32px; border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; text-decoration: none; text-indent: -99999cm; background-image: url(http://outofmemory.cn/v5/s/imgs/lang-idx.png?15.21); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(247, 247, 247); background-size: initial; display: inline-block; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.java { background-position: 0% 0%; }
+
+.python { background-position: 0% -32px !important; }
+
+.android { background-position: 0% -64px !important; }
+
+.arch { background-position: 0% -96px !important; }
+
+.net { background-position: 0% -128px !important; }
+
+.cpp { background-position: 0% -160px !important; }
+
+.cs { background-position: 0% -192px !important; }
+
+.db { background-position: 0% -224px !important; }
+
+.ios { background-position: 0% -256px !important; }
+
+.js { background-position: 0% -320px !important; }
+
+.linux { background-position: 0% -352px !important; }
+
+.mysql { background-position: 0% -384px !important; }
+
+.php { background-position: 0% -415px !important; }
+
+.ruby { background-position: 0% -447px !important; }
+
+.shell { background-position: 0% -480px !important; }
+
+.go { background-position: 0% -510px !important; }
+
+.r { background-position: 0% -542px !important; }
+
+.er { background-position: -2px -576px !important; }
+
+.nodejs { background-position: 0% -607px !important; }
+
+.raspberry { background-position: 0% -640px !important; }
+
+.nosql { background-position: 0% -672px !important; }
+
+.jobs { background-position: 0% -704px !important; }
+
+.test { background-position: 0% -734px !important; }
+
+.c { background-position: 0% -768px !important; }
+
+.system { background-position: 0% -800px !important; }
+
+.seo { background-position: 0% -832px !important; }
+
+.uecd { background-position: 0% -864px !important; }
+
+h1 .lang-ico, h1 .more { float: right; margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; }
+
+h1 a.more { font-size: 16px; font-weight: normal; }
+
+h1 .members { background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; float: right; margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; text-indent: -9999cm; width: 32px; height: 32px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; border-bottom-left-radius: 16px; background-position: -17px -183px; background-repeat: no-repeat no-repeat; }
+
+h1 a.selected { border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-color: rgb(102, 153, 204); border-right-color: rgb(102, 153, 204); border-bottom-color: rgb(102, 153, 204); border-left-color: rgb(102, 153, 204); border-top-left-radius: 18px; border-top-right-radius: 18px; border-bottom-right-radius: 18px; border-bottom-left-radius: 18px; }
+
+.feeds { margin-top: 10px; margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(240, 240, 240); }
+
+.feedList ul, .feeds ul { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; list-style-type: none; list-style-position: initial; list-style-image: initial; width: 100%; overflow-x: auto; overflow-y: auto; zoom: 1; clear: both; }
+
+.feeds li { width: 120px; float: left; list-style-type: none; list-style-position: initial; list-style-image: initial; display: block; margin-top: 5px; margin-right: 5px; margin-bottom: 5px; margin-left: 5px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; overflow-x: hidden; overflow-y: hidden; height: 135px; }
+
+.feedList .feedLogo, .feeds .feedLogo { width: 100px; height: 100px; margin-top: auto; margin-right: auto; margin-bottom: auto; margin-left: auto; position: relative; }
+
+.feedList .feedLogo a.flogo, .feeds .feedLogo a.flogo { width: 100px; border-top-left-radius: 50px; border-top-right-radius: 50px; border-bottom-right-radius: 50px; border-bottom-left-radius: 50px; height: 100px; overflow-x: hidden; overflow-y: hidden; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(238, 238, 238); background-size: initial; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; display: table-cell; vertical-align: middle; text-align: center; background-position: initial initial; background-repeat: initial initial; }
+
+.feedList .feedLogo img, .feeds .feedLogo img { width: 100px; }
+
+.feedList .feedLogo a.flogo b, .feeds .feedLogo a.flogo b { font-size: 2em; color: rgb(0, 0, 0); letter-spacing: 5px; text-transform: uppercase; position: relative; left: 5px; word-break: break-all; font-family: 'Courier New', Courier, 宋体; }
+
+.feedList .title, .feeds .title { text-align: center; margin-top: 5px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 4px; padding-bottom: 0px; padding-left: 4px; height: 1.8em; overflow-x: hidden; overflow-y: hidden; }
+
+.feedList .title a, .feeds .title a { font-size: 1em; line-height: 1.8em; color: inherit; }
+
+.feedList { margin-top: 10px; margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; }
+
+.feedList li { width: 460px; float: left; list-style-type: none; list-style-position: initial; list-style-image: initial; display: block; margin-top: 10px; margin-right: 5px; margin-bottom: 10px; margin-left: 5px; padding-top: 10px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; height: auto; overflow-x: auto; overflow-y: auto; zoom: 1; }
+
+.feedList .feedLogo { float: none; position: absolute; }
+
+.feedList .info { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 105px; overflow-x: hidden; overflow-y: hidden; zoom: 1; }
+
+.feedList p { margin-top: 5px; margin-right: 0px; margin-bottom: 5px; margin-left: 0px; font-size: 0.8em; line-height: 1.4em; }
+
+.feedList .title { text-align: left; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 0px !important; margin-left: 0px !important; }
+
+.feedList .title { font-size: 1.2em; font-weight: bold; }
+
+.feedList li.odd { clear: right; }
+
+.feedList li.even { clear: left; }
+
+.loadMore { display: inline-block; width: 250px; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 0px; margin-bottom: 15px; margin-left: 0px; font-size: 1.3em; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(173, 216, 230); background-size: initial; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(102, 153, 204); border-right-color: rgb(102, 153, 204); border-bottom-color: rgb(102, 153, 204); border-left-color: rgb(102, 153, 204); border-image: initial; text-align: center; background-position: initial initial; background-repeat: initial initial; }
+
+.feedLogo a.type { display: inline-block; position: absolute; background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: white; background-size: initial; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(102, 153, 204); border-right-color: rgb(102, 153, 204); border-bottom-color: rgb(102, 153, 204); border-left-color: rgb(102, 153, 204); border-image: initial; right: 2px; text-indent: -9999cm; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.feedLogo a.team { width: 24px; height: 24px; border-top-left-radius: 12px; border-top-right-radius: 12px; border-bottom-right-radius: 12px; border-bottom-left-radius: 12px; z-index: 2; background-position: -22px -217px; }
+
+.feedLogo a.personal { width: 16px; height: 16px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; background-position: -28px -20px; }
+
+@media only screen and (max-width: 760px) { 
+  .head .logo a { width: 28px; background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0% 0%; background-repeat: no-repeat no-repeat; }
+  .head .logo { width: 28px; height: 32px; display: inline-block; }
+  .similar span.meta, .similar span.time { display: none; }
+  .readMore { display: block; margin-top: 5px; margin-right: 0px; margin-bottom: 5px; margin-left: 0px; padding-top: 10px; padding-right: 20px; padding-bottom: 10px; padding-left: 20px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(173, 216, 230); border-right-color: rgb(173, 216, 230); border-bottom-color: rgb(173, 216, 230); border-left-color: rgb(173, 216, 230); border-image: initial; color: black; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; text-align: center; width: 30%; }
+  .entries .desc a.entryImg img { width: 100px; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; }
+  .feeds li { width: 42%; }
+  .feedList li { width: 95%; float: none; clear: both !important; height: auto; }
+  .loadMore { width: 95%; display: block; margin-top: 10px; margin-right: auto; margin-bottom: 15px; margin-left: auto; }
+  .sidebar { margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; clear: both; }
+  #headNav { width: 125px; overflow-x: hidden; overflow-y: hidden; }
+  .newComment button { width: 100%; }
+  .head .userStatus a.avatar { width: 32px; height: 32px; margin-right: 10px; margin-top: 0px; }
+  .head .userStatus a.avatar img { width: 32px; height: 32px; border-top-left-radius: 32px; border-top-right-radius: 32px; border-bottom-right-radius: 32px; border-bottom-left-radius: 32px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; }
+}
+
+@media only screen and (min-width: 1024px) { 
+  .wrap { position: relative; }
+  .content { margin-top: 10px; margin-right: 361px; margin-bottom: 10px; margin-left: 10px; }
+  .sidebar { width: 336px; position: absolute; right: 0px; top: 0px; margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; border-left-width: 1px; border-left-style: solid; border-left-color: rgb(240, 240, 240); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; min-height: 600px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 10px; }
+}
+
+.tgSide { border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(240, 240, 240); border-right-color: rgb(240, 240, 240); border-bottom-color: rgb(240, 240, 240); border-left-color: rgb(240, 240, 240); border-image: initial; width: 335px; overflow-x: hidden; overflow-y: hidden; margin-top: 5px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; }
+
+h1 i.tag { display: inline-block; width: 32px; height: 32px; background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; margin-top: -8px; margin-right: 4px; margin-bottom: -12px; margin-left: 5px; background-position: -13px -43px; background-repeat: no-repeat no-repeat; }
+
+ul.codeList { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+ul.codeList li { list-style-type: none; list-style-position: initial; list-style-image: initial; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(240, 240, 240); overflow-x: auto; overflow-y: auto; margin-top: 5px; margin-right: 0px; margin-bottom: 5px; margin-left: 0px; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; }
+
+ul.codeList .user { width: 55px; float: left; text-align: center; }
+
+ul.codeList .user p { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+ul.codeList .user p a { font-size: 0.8em; }
+
+ul.codeList .code { padding-left: 60px; }
+
+ul.codeList h3 { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; line-height: 18px; }
+
+ul.codeList h3 a { font-size: 16px; font-weight: bold; padding-top: 0px !important; padding-right: 0px !important; padding-bottom: 0px !important; padding-left: 0px !important; margin-top: 0px !important; margin-right: 0px !important; margin-bottom: 0px !important; margin-left: 0px !important; }
+
+ul.codeList .value { font-size: 12px; }
+
+.loginForm form, .registerForm form { width: 380px; margin-top: auto; margin-right: auto; margin-bottom: auto; margin-left: auto; zoom: 1; overflow-x: auto; overflow-y: auto; }
+
+.editBox { margin-top: 1em; margin-right: 0px; margin-left: 0px; margin-bottom: 0px; width: 380px; display: inline-block; vertical-align: middle; }
+
+.editBox input[type="text"], .editBox input[type="password"] { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; width: 180px; height: 44px; padding-top: 4px; padding-right: 12px; padding-bottom: 4px; padding-left: 10px; box-sizing: border-box; border-top-left-radius: 0px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 0px; font-size: 14px; background-color: white; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; -webkit-box-shadow: rgba(0, 0, 0, 0.0742188) 0px 1px 1px inset; box-shadow: rgba(0, 0, 0, 0.0742188) 0px 1px 1px inset; -webkit-transition-property: border, box-shadow; -webkit-transition-duration: 0.2s, 0.2s; -webkit-transition-timing-function: linear, linear; -webkit-transition-delay: initial, initial; line-height: 20px; color: rgb(85, 85, 85); vertical-align: top; }
+
+.editBox span.iw { display: inline-block; height: 44px; width: 44px; border-top-left-radius: 4px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 4px; padding-top: 10px; padding-right: 5px; padding-bottom: 0px; padding-left: 4px; font-weight: normal; text-align: center; margin-right: -1px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; background-image: none; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; vertical-align: top; box-sizing: border-box; background-position: initial initial; background-repeat: initial initial; }
+
+.editBox .primaryBtn { height: 50px; margin-top: 2px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; vertical-align: middle; width: 100%; -webkit-appearance: none; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding-top: 14px; padding-right: 18px; padding-bottom: 14px; padding-left: 18px; font-size: 18px; border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; color: white; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(21, 167, 240); border-right-color: rgb(21, 167, 240); border-bottom-color: rgb(21, 167, 240); border-left-color: rgb(21, 167, 240); border-image: initial; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(4, 156, 219); background-size: initial; background-position: initial initial; background-repeat: initial initial; }
+
+.tipLine { margin-top: 1.5em; margin-right: 0px; margin-bottom: 1em; margin-left: 0px; padding-top: 0.5em; padding-right: 0.2em; padding-bottom: 0px; padding-left: 0.2em; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(240, 240, 240); font-size: 0.8em; }
+
+.wrong { color: red; font-size: 0.8em; }
+
+span.captchaStatus { background-image: url(sprite.png_15.21.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; display: inline-block; width: 24px; height: 24px; text-indent: -9999cm; margin-top: 12px; margin-right: 0px; margin-bottom: 0px; margin-left: 2px; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+span.correct { background-position: 0px -75px; }
+
+span.incorrect { background-position: 0px -96px; }
+
+.editBox span.captcha { display: inline-block; width: 180px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; border-top-left-radius: 4px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 4px; vertical-align: top; height: 52px; box-sizing: border-box; }
+
+.editBox input#captcha { width: 192px; height: 52px; }
+
+#msgCaptcha { display: block; }
+
+.errors { margin-top: 10px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 0.8em; color: red; }
+
+.categoryList { margin-top: 1em; margin-right: 1em; margin-bottom: 1em; margin-left: 1em; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; list-style-type: none; list-style-position: initial; list-style-image: initial; clear: both; overflow-x: auto; overflow-y: auto; width: 100%; }
+
+.categoryList li { display: block; float: left; width: 200px; margin-top: 5px; margin-right: 0px; margin-bottom: 5px; margin-left: 0px; }
+
+.categoryList li input { vertical-align: middle; display: inline-block; }
+
+.categoryList li label { text-transform: capitalize; vertical-align: middle; }
+
+.categoryList li label i { width: 32px; vertical-align: middle; height: 32px; background-image: url(http://outofmemory.cn/v5/s/imgs/lang-idx.png?15.21); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; display: inline-block; margin-right: 2px; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.more { clear: both; overflow-x: hidden; overflow-y: hidden; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(232, 232, 233); border-top-width: 1px; border-top-style: solid; border-top-color: rgb(255, 255, 255); }
+
+.more a { border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; display: block; text-align: center; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(222, 222, 222); border-right-color: rgb(222, 222, 222); border-bottom-color: rgb(222, 222, 222); border-left-color: rgb(222, 222, 222); border-image: initial; height: 30px; line-height: 30px; font-size: 14px; background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(239, 239, 239)), to(rgb(228, 228, 228))); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: initial initial; background-repeat: initial initial; }

@@ -1,0 +1,13 @@
+在windows 下有 金山打字和其他的跟打软件，在Linux下找到了 gtypist
+为练习中文打字，该软件分为练习模式的速度测试模式，在gtypist-2.9.5版中会出现以下几个问题：
+
+一是在练习模式中使用中英文混合字符串的话会出现光标错位;
+
+二是练习模式中默认使用“\^"为指示打错的字的位置，练习打全角字符时会出现指示位置错位；
+
+三是在速度模式中使用回退键会出现光标错位。
+
+花了点时间在源码中做了些修改，重新编译安装，测试的效果还不错。在这里下载[[http://files.cnblogs.com/files/bu-wu-zheng-ye/gtypist.tar.gz][补丁]]。
+
+使用方法：在gnu网站上下载[[http://ftp.gnu.org/gnu/gtypist/gtypist-2.9.5.tar.gz][gtypist-2.9.5]]源码，将[[http://files.cnblogs.com/files/bu-wu-zheng-ye/gtypist.tar.gz][补丁]]覆盖
+src 下的 gtypist.c再编译安装。

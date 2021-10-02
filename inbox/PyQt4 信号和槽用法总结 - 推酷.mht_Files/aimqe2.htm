@@ -1,0 +1,447 @@
+<html><head><meta charset="UTF-8">
+
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="authenticity_token" name="csrf-param">
+<meta content="FMXmGLz+FbXz4Kbm7mfQCFpOkOa1lSVC7dKvP1yTx7M=" name="csrf-token">
+    <title>
+            PyQt4 信号和槽用法总结 - 推酷
+   </title>
+    <meta name="description" content="PyQt4 信号和槽用法总结">
+    <meta property="qc:admins" content="2040660764645137746375">
+  <link rel="shortcut icon" href="http://static0.tuicool.com/favicon.ico" type="image/x-icon">
+  <link href="application-15c1a4a8cf352cb96b042a9de3b345e3.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="font-awesome.min.css" rel="stylesheet">
+  
+
+  <!--[if IE 7]>
+  <link rel="stylesheet" href="http://assets.tuicool.com/assets/font-awesome-ie7.min.css">
+  <![endif]--> 
+  
+  
+
+<style type="text/css"></style>
+<link rel="stylesheet" href="github.css">
+
+</head>
+<body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow-x: hidden; overflow-y: hidden; visibility: hidden; display: none; "><iframe id="BAIDU_DUP_fp_iframe" src="o.htm_ltr_.htm" style="width: 0px; height: 0px; visibility: hidden; display: none; "></iframe></div>
+  
+  <div id="header" class="navbar-fixed-top">
+    <div class="container">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+            <span class="icon-bar"></span> 
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </a>
+          <a href="http://www.tuicool.com/" class="brand">推酷</a>        
+        <nav class="nav-collapse collapse">
+            <ul class="nav navbar primary-nav">                            
+              <li class="active">
+                <a href="http://www.tuicool.com/ah">
+                  文章
+                </a>
+              </li>              
+              <li class="">
+                <a href="http://www.tuicool.com/sites/hot">
+                  站点
+                </a>
+              </li>
+              <li class="">
+                <a href="http://www.tuicool.com/topics">
+                  主题
+                </a>
+              </li>
+              <li class="">
+                <a href="http://huodong.tuicool.com/">
+                  活动
+                </a>
+              </li>
+              <li class="">
+                <a href="http://www.tuicool.com/mobile">
+                  客户端
+                    <sup style="font-size:0.8em;color: #16A085;">荐</sup>
+                </a>
+              </li>
+              <li class="dropdown  ">
+                <a href="aimqe2.htm#" class="dropdown-toggle" data-toggle="dropdown">周刊 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="http://www.tuicool.com/mags">编程狂人</a></li>
+                  <li><a href="http://www.tuicool.com/mags/design">设计匠艺</a></li> 
+                  <li><a href="http://www.tuicool.com/articles/weekly">一周拾遗</a></li>                  
+                </ul>
+              </li>
+              
+               <li class="dropdown  ">
+                <a href="aimqe2.htm#" class="dropdown-toggle" data-toggle="dropdown">更多 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="http://www.tuicool.com/bbs">讨论区</a></li>  
+                  <li><a href="http://www.tuicool.com/about">关于我们</a></li>                 
+                </ul>
+              </li>
+              
+              </ul>
+            <form class="navbar-search pull-left" action="http://www.tuicool.com/search">
+              <input type="text" class="search-query span2" name="kw" placeholder="搜索">
+            </form>
+            <ul class="nav pull-right">
+                <li><a href="http://www.tuicool.com/login">登录</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+  </div>   
+</div>
+  <div id="flash_container" class="noPrint">    
+  </div>
+  
+  <div class="container-fluid">  
+    <div class="row-fluid article_row_fluid">
+    <div class="span8 contant article_detail_bg">
+        <h1>PyQt4 信号和槽用法总结</h1>
+        <div class="article_meta">
+            <div style="margin-bottom: 5px;">
+            <span class="timestamp">时间&nbsp;2013-07-08 23:18:17
+            </span>
+            <span class="from">
+                <i class="icon-globe"></i>
+                    <a class="cut cut28 from" href="http://www.tuicool.com/sites/F7j6Jz" target="_blank">Neteue Site
+                    </a>
+            </span>
+            </div>
+            <div class="source">
+                <i style="float:left;">原文</i>&nbsp; 
+                <a class="cut cut70" href="http://neteue.com/article/pyqt4-signal-slot/?utm_source=tuicool" style="display:inline-block;">http://neteue.com/article/pyqt4-signal-slot/</a>
+            </div>
+        </div>
+        <div class="article_body" id="nei">
+            <section>
+  <h2>Hello World</h2>
+  <pre class="prettyprint python"><span class="comment">#! /usr/bin/env python</span>
+<span class="comment"># -*- coding: utf-8 -*-</span>
+
+<span class="keyword">import</span> sys
+<span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtGui
+
+app = QtGui.QApplication(sys.argv)
+win = QtGui.QLabel(<span class="string">"Hello World"</span>)
+win.show()
+app.exec_()</pre>
+  <p>每个Qt必须有一个app, QApplication包含一个主循环, 并处理从窗口系统进来事件</p>
+  <p>QWidget如果没有指定父, 那么它就是顶级窗口</p>
+  <h2>信号与槽的例子</h2>
+  <p>可以使用GObject.connect方法来连接信号与槽</p>
+  <pre class="prettyprint python"><span class="comment">#! /usr/bin/env python</span>
+<span class="comment"># -*- coding: utf-8 -*-</span>
+
+<span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtCore, QtGui
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyWidget</span><span class="params">(QtGui.QWidget)</span>:</span>
+  <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent=None)</span>:</span>
+      super(MyWidget, self).__init__(parent)
+    
+      self.quit_button = QtGui.QPushButton(<span class="string">"Quit"</span>, self)
+
+      layout = QtGui.QHBoxLayout()
+      layout.addWidget(self.quit_button)
+      self.setLayout(layout)
+      self.connect(self.quit_button, QtCore.SIGNAL(<span class="string">"clicked()"</span>),
+                   QtGui.qApp, QtCore.SLOT(<span class="string">"quit()"</span>))
+
+<span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:
+  <span class="keyword">import</span> sys
+  app = QtGui.QApplication(sys.argv)
+  win = MyWidget()
+  win.show()
+  sys.exit( app.exec_() )</pre>
+  <p>在这个例子中, 使用了标准的连接方式connect(发送者, 信号, 接收者, 槽), Qt中的槽可以这样理解: 是接收者中经过包装后某个方法</p>
+  <h2>自定义槽(slot)</h2>
+  <p>当然可以通过QtCore.pyqtSlot自义一个槽, 在旧式风格中使用是的pyqtSignature, 建议使用pyqtSlot</p>
+  <pre class="prettyprint python"><span class="comment">#! /usr/bin/env python</span>
+<span class="comment"># -*- coding: utf-8 -*-</span>
+
+<span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtCore, QtGui
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyWidget</span><span class="params">(QtGui.QWidget)</span>:</span>
+    
+    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent=None)</span>:</span>
+        super(MyWidget, self).__init__(parent)
+        
+        self.ok_button = QtGui.QPushButton(<span class="string">"OK"</span>, self)
+        layout = QtGui.QHBoxLayout()
+        layout.addWidget(self.ok_button)
+        self.setLayout(layout)
+        
+        self.connect(self.ok_button, QtCore.SIGNAL(<span class="string">'clicked()'</span>), 
+                     self, QtCore.SLOT(<span class="string">"on_ok_button_clicked()"</span>))
+        
+    <span class="decorator">@QtCore.pyqtSlot()    </span>
+    <span class="function"><span class="keyword">def</span> <span class="title">on_ok_button_clicked</span><span class="params">(self)</span>:</span>
+        <span class="keyword">print</span> <span class="string">"OK"</span>
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:        
+    <span class="keyword">import</span> sys
+    app = QtGui.QApplication(sys.argv)
+    w = MyWidget()
+    w.show()
+    app.exec_()</pre>
+  <h2>发送信号&nbsp;</h2>
+  <p>单击按钮后触发emit_python_list信号, &nbsp;并且执行相应的槽</p>
+  <pre class="prettyprint python"><span class="comment">#! /usr/bin/env python</span>
+<span class="comment"># -*- coding: utf-8 -*-</span>
+
+<span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtCore, QtGui
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyWidget</span><span class="params">(QtGui.QWidget)</span>:</span>
+    
+    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent=None)</span>:</span>
+        super(MyWidget, self).__init__(parent)
+        
+        self.ok_button = QtGui.QPushButton(<span class="string">"OK"</span>, self)
+        
+        layout = QtGui.QHBoxLayout()
+        layout.addWidget(self.ok_button)
+        self.setLayout(layout)
+        
+        self.connect(self.ok_button, QtCore.SIGNAL(<span class="string">"clicked()"</span>), self, QtCore.SLOT(<span class="string">"slot1()"</span>))
+        self.connect(self, QtCore.SIGNAL(<span class="string">'emit_python_list(PyQt_PyObject)'</span>), 
+                     self, QtCore.SLOT(<span class="string">"slot2(PyQt_PyObject)"</span>))
+        
+    <span class="decorator">@QtCore.pyqtSlot()</span>
+    <span class="function"><span class="keyword">def</span> <span class="title">on_button_clicked</span><span class="params">(self)</span>:</span>    
+        <span class="keyword">print</span> <span class="string">"click me!!!!"</span>
+        
+    <span class="decorator">@QtCore.pyqtSlot()    </span>
+    <span class="function"><span class="keyword">def</span> <span class="title">slot1</span><span class="params">(self)</span>:</span>
+        self.emit(QtCore.SIGNAL(<span class="string">"emit_python_list(PyQt_PyObject)"</span>), [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])
+        
+    <span class="decorator">@QtCore.pyqtSlot("PyQt_PyObject")    </span>
+    <span class="function"><span class="keyword">def</span> <span class="title">slot2</span><span class="params">(self, alist)</span>:</span>
+        <span class="keyword">print</span> alist
+        
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:        
+    <span class="keyword">import</span> sys
+    app = QtGui.QApplication(sys.argv)
+    w = MyWidget()
+    w.show()
+    app.exec_()</pre>
+  <h2>执行Python方法</h2>
+  <p>这里使用更加优雅直接的方式连接信号并执行回调, 这也是项目中用到最多的方式</p>
+  <pre class="prettyprint python"><span class="comment">#! /usr/bin/env python</span>
+<span class="comment"># -*- coding: utf-8 -*-</span>
+
+<span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtCore, QtGui
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyWidget</span><span class="params">(QtGui.QWidget)</span>:</span>
+    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(sel`f, parent=None)</span>:</span>
+        super(MyWidget, self).__init__(parent)
+
+        self.ok_button = QtGui.QPushButton(<span class="string">"ok"</span>, self)
+
+        layout = QtGui.QHBoxLayout()
+        layout.addWidget(self.ok_button)
+        self.setLayout(layout)
+
+        self.ok_button.clicked.connect(self.on_ok_button_clicked)
+
+    <span class="function"><span class="keyword">def</span> <span class="title">on_ok_button_clicked</span><span class="params">(self)</span>:</span>
+        <span class="keyword">print</span> <span class="string">"OK"</span>
+
+<span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:
+  <span class="keyword">import</span> sys
+  app = QtGui.QApplication(sys.argv)
+  win = MyWidget()
+  win.show()
+  sys.exit( app.exec_() )</pre>
+  <p>self.ok_button.clicked.connect 其中clicked是信号</p>
+  <h2>注册信号</h2>
+  <pre class="prettyprint python"><span class="comment">#! /usr/bin/env python</span>
+<span class="comment"># -*- coding: utf-8 -*-</span>
+
+<span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtCore, QtGui
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyWidget</span><span class="params">(QtGui.QWidget)</span>:</span>
+    
+    emit_python_list = QtCore.pyqtSignal(object)
+    
+    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent=None)</span>:</span>
+        super(MyWidget, self).__init__(parent)
+        
+        self.ok_button = QtGui.QPushButton(<span class="string">"OK"</span>, self)
+        layout = QtGui.QHBoxLayout()
+        layout.addWidget(self.ok_button)
+        self.setLayout(layout)
+        
+        self.ok_button.clicked.connect(self.slot1)
+        self.emit_python_list.connect(self.slot2)
+        
+    <span class="function"><span class="keyword">def</span> <span class="title">slot1</span><span class="params">(self)</span>:</span>    
+        self.emit_python_list.emit([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])
+        
+    <span class="function"><span class="keyword">def</span> <span class="title">slot2</span><span class="params">(self, alist)</span>:</span>    
+        <span class="keyword">print</span> alist
+        
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:        
+    <span class="keyword">import</span> sys
+    app = QtGui.QApplication(sys.argv)
+    w = MyWidget()
+    w.show()
+    app.exec_()</pre>
+  <h2>自动连接</h2>
+  <p>
+    QMetaObject.    <span style="background-color:rgb(249, 252, 233);">connectSlotsByName(QObject)</span>
+  </p>
+  <p>其作用是如其名称一样，用来将QObject 里的子孙QObject的某些信号按照其objectName连接到相应的槽上,</p>
+  <p>如是使用pyuic生成的代码, 就是使用这种方式</p>
+  <pre class="prettyprint python"><span class="comment">#! /usr/bin/env python</span>
+<span class="comment"># -*- coding: utf-8 -*-</span>
+
+<span class="keyword">from</span> PyQt4 <span class="keyword">import</span> QtCore, QtGui
+
+<span class="class"><span class="keyword">class</span> <span class="title">MyWidget</span><span class="params">(QtGui.nQWidget)</span>:</span>
+    
+    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, parent=None)</span>:</span>
+        super(MyWidget, self).__init__(parent)
+        
+        self.ok_button = QtGui.QPushButton(<span class="string">"OK"</span>, self)
+        self.ok_button.setObjectName(<span class="string">"ok_button"</span>)
+        
+        layout = QtGui.QHBoxLayout()
+        layout.addWidget(self.ok_button)
+        self.setLayout(layout)
+        
+        QtCore.QMetaObject.connectSlotsByName(self)
+        
+    <span class="decorator">@QtCore.pyqtSlot()    </span>
+    <span class="function"><span class="keyword">def</span> <span class="title">on_ok_button_clicked</span><span class="params">(self)</span>:</span>
+        <span class="keyword">print</span> <span class="string">"OK"</span>
+        
+        
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:        
+    <span class="keyword">import</span> sys
+    app = QtGui.QApplication(sys.argv)
+    w = MyWidget()
+    w.show()
+    app.exec_()</pre>
+  <p>别忘了, 使用setObjectName设置对象名称</p>
+</section>
+
+        </div>
+        <div class="article_social">
+        <div class="article_like">
+                <button class="btn btn-large btn-like" id="my_like2" data_id="aimqe2">
+                    <i class="icon-heart-empty"></i>
+                    赞一个
+                </button>
+                <button class="btn btn-large btn-fav liked" id="my_like" data_id="aimqe2">
+                    <i class="icon-star-empty"></i>
+                    收 藏
+                </button>
+        </div>
+        </div>
+        <div class="app-top">
+           <a href="http://www.tuicool.com/app" target="_blank">下载推酷客户端体验优质IT阅读</a>
+        </div>
+    </div>
+</div>
+
+<div id="myLoginModal" class="modal hide fade">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>用户登录</h3>
+    </div>
+    <div class="modal-body">
+        <form method="post" action="http://www.tuicool.com/login" class="form-horizontal" id="login-form">
+            <div class="control-group">
+                <input id="xlEmail" name="email" type="text" placeholder="邮箱">
+            </div>
+            <div class="control-group">
+                <input id="xlPassword" name="password" type="password" placeholder="密码">
+            </div>
+            <div class="control-group">
+                <button type="submit" class="btn btn-primary">
+                    &nbsp;&nbsp;登&nbsp;&nbsp;&nbsp;录&nbsp;&nbsp;
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="read-later-alert">
+</div>
+<div>
+   <a href="aimqe2.htm#add-article-to-kan" id="add-article-to-kan-btn" class="btn" data-toggle="modal" style="display:none;">添加到推刊</a>
+   <!-- add_article to kan -->
+<div id="add-article-to-kan" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <span class="add-title">收藏到推刊</span>
+    <a href="aimqe2.htm#new-kan" class="btn pull-right" data-toggle="modal">创建推刊</a>
+    <i class="clearfix"></i>
+  </div>
+  <div class="modal-body">
+    <ul id="add-kan-list">
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <input type="hidden" value="aimqe2" class="article-id"> 
+    <button class="btn btn-primary pull-left add-to-btn">  收 藏  </button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+  </div>
+</div>
+<div class="add-article-to-kan-alert">
+  已收藏到推刊！
+</div>
+
+   <div id="new-kan" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-body">
+    <input type="text" name="name" id="new-kan-name" placeholder="推刊名(必填)" required="" data-validation-required-message="请填写推刊名">
+    <span class="new-ness-name">请填写推刊名</span>
+    <br>
+    <textarea name="desc" id="desc" rows="6" placeholder="推刊描述"></textarea>
+    <span class="new-ness-desc">描述不能大于100个字符!</span>
+    <br>
+    权限设置：<input type="radio" name="type" value="1" checked="checked"> 公开
+    <input type="radio" name="type" value="0"> 仅自己可见
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary pull-left create-kan-btn" disabled="">创建</button>
+    <button class="btn dismiss-new-kan" data-dismiss="modal" aria-hidden="true">取消</button>
+  </div>
+</div>
+
+
+</div>
+<style type="text/css">
+    .btn-large {
+        padding: 0;
+    }
+    .load-fail {
+        display: none;
+    }
+</style>
+
+
+
+
+  </div>
+
+    <div class="footer">
+    <p>
+        <a href="http://www.tuicool.com/about" target="_blank">关于</a>
+        <a href="http://www.tuicool.com/mobile" target="_blank">应用</a>
+        <a href="http://www.tuicool.com/bbs/go/issues" target="_blank">反馈</a>
+        <a href="http://www.tuicool.com/bbs" target="_blank">讨论</a>
+    </p>
+</div>
+
+<div style="display:none;">
+   <a href="http://www.cnzz.com/stat/website.php?web_id=5541078" target="_blank" title="站长统计"><img border="0" hspace="0" vspace="0" src="pic.gif"></a>
+</div>
+
+
+
+
+</body></html>

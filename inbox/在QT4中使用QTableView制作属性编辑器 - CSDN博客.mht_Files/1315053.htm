@@ -1,0 +1,94 @@
+<html><head><meta charset="UTF-8">
+
+
+
+<meta content="width=device-width,user-scalable=no" name="viewport">
+<meta name="apple-itunes-app" content="app-id=425349261">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>在QT4中使用QTableView制作属性编辑器 - CSDN博客</title>
+<link rel="Stylesheet" type="text/css" href="wapall.css">
+
+</head>
+<body>
+<div id="wrap">
+<div id="header">
+<a class="home" href="http://www.csdn.net/"><img src="home.png.avi"></a> 
+<a class="logo" href="http://m.blog.csdn.net/">
+<img src="logo.jpg"></a>
+<a id="loginname" href="http://m.blog.csdn.net/blog/bienilz">bienilz</a>
+</div>
+<div id="nav">
+<a href="http://m.blog.csdn.net/" id="shouye1">首页</a>
+<a href="http://m.blog.csdn.net/column/index" id="zhuanlan1">专栏</a>
+<a href="http://m.blog.csdn.net/People/index" id="zhuanjia1">专家</a>
+<a href="http://m.blog.csdn.net/home/hot" id="rewen1">热文</a>
+</div>
+<div id="main">
+        <div id="top">
+        <div class="avatar">
+        <a href="http://m.blog.csdn.net/blog/tonylk" class="name">tony</a>
+        </div>
+        <div class="content">
+        <h1><a href="1315053.htm#">[原]在QT4中使用QTableView制作属性编辑器</a></h1>
+        <p class="time"><span>2006-10-1</span><span>阅读10804</span> <a href="1315053.htm#comment">评论<span id="sp_cmt">2</span></a></p>
+        <div id="articlecontent">
+        最近在用QT写的一个程序中，需要一个对大量参数进行设置的功能。过去用Delphi的经验是，尽量不要使用QListView和TGrid来实现，因为涉及到控件的对齐，界面的重绘等，反而使简单问题变得复杂。因此这次用QT写程序时也想当然，用控件数组的方式来解决。很快程序写好了，界面如下：<br><br><img src="r_060925_catheter.png.avi" alt=""><br><br>显示出的效果还不错，但是遇到了一个严重的问题，那就是速度。由于QT的机制是自动调整控件比例来适应各种系统和窗体大小，而这个调整的功能其实涉及到复杂的运算。另外，QT的控件创建也不如真正控件的创建那么快。因此当控件数量一大，构建整个界面就变得其慢无比了。在我的机器上，像上图这样的界面打开需要1－2秒时间，而且即使到了性能较好的计算机上也没有什么大的改善。这样的效果就连自己都无法忍受，更别说使用者了。<br><br>于是考虑改进，参考QT的example中的spinboxdelegate例子，使用QTableView来解决。具体方法是：<br><br>1）在控件设计器中放置一个QTableView，并调整好其与其它控件的位置关系。生成ui文件，在程序中制作相应的界面窗体类。<br><br>2）从QItemDelegate中继承出一个新的类，它将用来配合上面的QTableView，用来告诉其是否可以针对某个Cell进入编辑模式，以及在编辑该Cell时，使用什么控件，相互的值如何传递等。<br>具体来说，只要继承QItemDelegate中以下的几个虚函数就可以了：<br><br><span style="color: rgb(51, 153, 102);">class enstCatheterNodeInfoDelegate : public QItemDelegate</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">{</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; Q_OBJECT</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">public:</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; enstCatheterNodeInfoDelegate(QObject *parent, enstCatheterInfo *pCatheterInfo);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &amp;option,</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; const QModelIndex &amp;index) const;</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; void setEditorData(QWidget *editor, const QModelIndex &amp;index) const;</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; void setModelData(QWidget *editor, QAbstractItemModel *model,</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; const QModelIndex &amp;index) const;</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &amp;option, </span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; const QModelIndex &amp;index) const;</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">};</span><br style="color: rgb(51, 153, 102);"><br>createEditor()函数，在QTableView中某个Cell被DoubleClick时触发，这时可以用其index参数，获得该Cell的行与列，如果确定该Cell是可以被编辑的，那么就生成一个对应的编辑控件，如：<br><br><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; QComboBox *cbo = new QComboBox(parent);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; cbo-&gt;addItem(" 1 ");</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; cbo-&gt;addItem(" 2 ");</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);"> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; cbo-&gt;addItem(" 3 ");</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; cbo-&gt;installEventFilter(const_cast&lt;enstCatheterNodeInfoDelegate*&gt;(this));</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return cbo;</span><br style="color: rgb(51, 153, 102);"><br>这时，一个ComboBox就会被自动替换到该Cell的位置上了。以上cbo-&gt;installEventFilter()，是为了让QItemDelegate能够获得用户在该控件上的Enter，Escape等事件，以便做出相应处理。<br>如果该Cell不能被编辑，此时返回NULL就可以了。<br><br>setEditorData()函数，用来对生成的控件中的值进行初始化，一般来说，这个函数在以上的createEditor()函数结束后会被自动调用，如下：<br><br><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; QComboBox *cbo = static_cast&lt;QComboBox*&gt;(editor);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; cbo-&gt;setCurrentIndex(0);</span><br style="color: rgb(51, 153, 102);"><br>editor是QWidget类型的参数，它代表createEditor()函数中生成的那个控件，这里必须将其进行类型转换，才可以变成自己实际生成的那个控件类型。如果在createEditor()中根据index.column()不同，生成了不同的编辑控件，那么这里也需要判断index.column(),来将editor参数转换成相应的控件。<br><br>接着setModelData()，它会在用户的离开当前编辑中的Cell时被调用，可以在此将编辑控件中被修改了的数据写回到QTableView中，如下：<br><br><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; QString tmpstr;</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; QComboBox *cbo = static_cast&lt;QComboBox*&gt;(editor);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; tmpstr.setNum(cbo-&gt;currentIndex());</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; model-&gt;setData(index, tmpstr);</span><br style="color: rgb(51, 153, 102);"><br>最后，updateEditorGeometry()，这个函数是用来控制编辑控件的位置的，一般只需要写成：<br><br><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; editor-&gt;setGeometry(option.rect);</span><br style="color: rgb(51, 153, 102);"><br>编辑控件就会自动被调整到Cell的大小了。<br><br>3）在实际的窗体类中，使用如下的代码将以上这个类与QTableView关联起来：<br><br><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; enstCatheterNodeInfoDelegate *delegate = new enstCatheterNodeInfoDelegate(this);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; tbl1-&gt;setItemDelegate(delegate);</span><br style="color: rgb(51, 153, 102);"><br>4）光这样还不行，由于QTableView实在太底层了，它还需要知道以怎样的方式显示，即指定一个ItemModel，可以选用的类包括：<br>QDirModel：可以以树状方式显示某个目录下的所有子目录，以及其相关信息。<br>QProxyModel：用来将旧的Model类型过渡到新类型上的。<br>QStandardItemModel：最简单的Grid方式的显示Model。<br>另外，还可以自己从QAbstractListModel, QAbstractProxyModel, QAbstractTableModel来继承出符合自己要求的model。<br>偷个懒，我就直接使用QStandardItemModel了：<br><br><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; mItemModel = new QStandradItemMode(this, 3, 10);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; tbl1-&gt;setModel(mItemModel);</span><br style="color: rgb(51, 153, 102);"><br>5）基本完成，最后再加上初始化QTableView中所有文字，以及最终将设置好了的内容保存出来的代码，就可以了，完成的界面显示如下：<br><br><img src="r_060925_catheter_new.png.avi" alt=""><br><br>但是，仔细看看，还有不少不满意的地方，TableView的ColumnHeader居然自动填上了数字，而左边则多出了一条垂直Header，另外，所有Cell的宽度变成一样的了，多少有点不爽。。经过努力，总算摸索出了解决方法，不过不清楚真正的解决方法是什么，我这个解决方法应该并不好：<br><br>首先从QStandardItemModel中继承出自己的类，暂且名叫enstCatheterNodeItemModel了：<br><br><span style="color: rgb(51, 153, 102);">class enstCatheterNodeItemModel : public QStandardItemModel</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">{</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; Q_OBJECT</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">public:</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; enstCatheterNodeItemModel(QObject *parent = 0);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">};</span><br style="color: rgb(51, 153, 102);"><br>在其构造函数中，使用：<br><br><span style="color: rgb(51, 153, 102);">enstCatheterNodeItemModel::enstCatheterNodeItemModel(QObject *parent)</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; : QStandardItemModel(MAX_CATHETERNODE_COUNT, 3, parent)</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">{</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; setHeaderData(0, Qt::Horizontal, tr("Input"));</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; setHeaderData(1, Qt::Horizontal, tr("Signal"));</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; setHeaderData(2, Qt::Horizontal, tr("Locate"));</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">}</span><br style="color: rgb(51, 153, 102);"><br>强制其只能有三列，并指定每个列的标题。<br><br>在窗体的构造函数中，进一步调整QTableView：<br><br><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; QHeaderView *header;</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; header = tbl1-&gt;horizontalHeader();</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; header-&gt;resizeSection(0, 260);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; header-&gt;resizeSection(1, 260);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; header-&gt;resizeSection(2, 50);</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; header = tbl1-&gt;verticalHeader();</span><br style="color: rgb(51, 153, 102);"><span style="color: rgb(51, 153, 102);">&nbsp;&nbsp;&nbsp; header-&gt;hide();</span><br style="color: rgb(51, 153, 102);"><br>设置其各个列的宽度，同时将左边的垂直Header隐藏。<br><br>总算大功告成，加载延时已经基本感觉不到了。看看最后的效果：<br><br><img src="r_060925_catheter_new2.png.avi" alt=""><br><br>以及另一组编辑器，其中的颜色选择ComboBox并不是QT自带的控件，而是自己实现的，照样可以被做成编辑控件：<br><br><img src="r_060925_tracelist_new.png.avi" alt=""><br><br>完。
+        </div>
+        </div>
+        <div class="next_page">
+            <a href="http://m.blog.csdn.net/blog/tonylk/1296668" class="next_btn">上一篇</a>
+            <a href="http://m.blog.csdn.net/blog/tonylk/1315525" class="next_btn">下一篇</a>
+        </div>
+        <div class="comment">
+        <p><a name="comment"></a>发表评论</p>
+        <p><textarea id="con" rows="4" style="width:99%;"></textarea></p>
+        <p><input type="button" class="login_sub1" value="提 交" style="margin-top:0;" onclick="subform()"></p>
+        </div>
+        <div class="comment_sub">
+        <span class="lf10">查看评论</span>
+        <ul id="cmt_ul">        <li> 
+        <p class="time"><span>2楼</span><a href="http://m.blog.csdn.net/blog/chenmo074639" class="name">chenmo074639</a><span>2013-09-03 15:41</span></p>
+        <p>非常感谢，已经尝试了，效果很好！！！！！</p>
+        </li>
+        <li> 
+        <p class="time"><span>1楼</span><a href="http://m.blog.csdn.net/blog/flc45" class="name">flc45</a><span>2012-06-18 17:53</span></p>
+        <p>[code=cpp]
+class enstCatheterNodeInfoDelegate : public QItemDelegate
+{
+    Q_OBJECT
+public:
+    enstCatheterNodeInfoDelegate(QObject *parent, enstCatheterInfo *pCatheterInfo);
+    QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &amp;option,
+                const QModelIndex &amp;index) const;
+    void setEditorData(QWidget *editor, const QModelIndex &amp;index) const;
+    void setModelData(QWidget *editor, QAbstractItemModel *model,
+                const QModelIndex &amp;index) const;
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &amp;option, 
+                const QModelIndex &amp;index) const;
+};
+[/code]</p>
+        </li>
+        </ul>
+        <a href="http://m.blog.csdn.net/comment/1315053" class="lf10">更多评论（2）</a>
+        </div>
+        </div>
+        
+        
+
+</div>
+
+<div class="back-top" id="ding1">
+<a href="1315053.htm#" onclick="document.body.scrollTop=0;return false;">
+<img src="back-top.jpg">回顶部</a>
+</div>
+<div id="footer">
+<p><a class="now" href="http://m.blog.csdn.net/">移动版</a>|<a href="http://blog.csdn.net/" onclick="document.cookie='wap-pc=1; domain=blog.csdn.net; path=/;';">桌面版</a></p>
+<p>©1999-2012, CSDN.NET, All Rights Reserved</p>
+</div>
+
+</div>
+
+
+
+
+</body></html>

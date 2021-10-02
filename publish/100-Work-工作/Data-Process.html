@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 10:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org60b333f">1. 数据处理</a>
+<ul>
+<li><a href="#orge316df2">1.1. 前言</a></li>
+<li><a href="#org75da56f">1.2. 概念</a></li>
+<li><a href="#orgbe3bad8">1.3. 工具</a></li>
+<li><a href="#org6e94c4e">1.4. 数据获取</a></li>
+<li><a href="#orgd1bbcef">1.5. 数据整理</a></li>
+<li><a href="#org1ffdb3c">1.6. 数据存储</a></li>
+<li><a href="#org86ea390">1.7. 数据应用</a></li>
+<li><a href="#org5f07f60">1.8. 案例</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org60b333f" class="outline-2">
+<h2 id="org60b333f"><span class="section-number-2">1</span> 数据处理</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-orge316df2" class="outline-3">
+<h3 id="orge316df2"><span class="section-number-3">1.1</span> 前言</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+很早以前就想系统性地记录这些年在数据处理方面积累的心得，但是毕竟学得比较杂，数据处理涵盖的范围又太广，有些无从下手的感觉。但是，特别是到现在定在信息保障室后，主要从事的工作中有很大一块是数据处理，有些新同志在这方面还比较缺少经验，想想整理整理知识分享大家已经到了必须要完成的地步了。希望能坚持下去，也算完成自己的心愿吧。
+</p>
+</div>
+</div>
+<div id="outline-container-org75da56f" class="outline-3">
+<h3 id="org75da56f"><span class="section-number-3">1.2</span> 概念</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+什么是数据呢，其实数据本身只是代表一种事物，当其承载着信息时才有价值，而我们单位名叫信息保障室，名字是非常恰当的。前段时间，信息保障处的同志在和我交流时还说，信息保障室容易引起误会，应该改个名字。我不敢苟同，他们信息处指的是信息系统，而我们是信息数据，对于大部分人来说，可能分不清楚，但实际差别确实很大，没毛病。
+</p>
+
+<p>
+我们面对的数据就是文字、表格、图像、音频、视频等,有个共同特点，都是有一定规律的信息。大家大部分不是助理工程师就是计算机技师，要做的就是从看似没有规律的数据中去找出规律，然后形标准的特定格式的数据，再进行深加工，形成图表、报告，以供首长掌握使用，辅助决策。
+</p>
+
+<p>
+说到规律，可能有人不太赞同，说有的数据就没有规律。道家还讲天道归一呢，看的角度不同，得出的结论不同，也决定着找到的方法适用适用。比如说，一篇公文，有哪些规律呢？从存储上讲，如果是DOCX格式的，那他就是压缩包，是结构化数据，我可以解压他，然后提取里面的文字；从内容上讲，它有标题、发文字号、主送、正文、落款、版记等，从样式上看，黑体是一级标题、楷体是二级标题；从单字上看，我还可以统计每个字出现的频率，找出主题词；还可以看颜色、排版等等。表格就不讲了，图像视频也一样，有他的一些规律。
+</p>
+
+<p>
+而数据处理要干啥呢？就是要利用这些规律找出我们关注的信息，进行格式化，深加工，形成领导们想要的产品。下面我将通过数据获取、数据整理、数据应用总体思路向大家介绍方法和经验。
+</p>
+</div>
+</div>
+<div id="outline-container-orgbe3bad8" class="outline-3">
+<h3 id="orgbe3bad8"><span class="section-number-3">1.3</span> 工具</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+俗话说，公欲善其事，必先利其器。找到称手的工具相当重要，不能光靠一双手一支笔，这太原始了，而且处理不了复杂的数据，比如图像、处理不了大数据，比如全区人员信息。我到目前用过的工具有，处理文本的VIM\EMACS,处理表格的EXCEL，处理图像的PS、GIMP，处理视频的PRIMIER、会声会影。有个网站叫善用佳软，介绍一些好的软件，有些参考价值。当然，还有些涉及到的程序的方法，OFFICE套件中使用VBA，即通常讲的宏，在EXCEL、WORD、PPT中都可以使用，只有想不到，没有做不到。更加通用的PYTHON，在LINUX、WINDOWS系统上都可以使用，结合许多工具包在处理数据、图像、视频上可以说非常强大。
+</p>
+</div>
+</div>
+<div id="outline-container-org6e94c4e" class="outline-3">
+<h3 id="org6e94c4e"><span class="section-number-3">1.4</span> 数据获取</h3>
+<div class="outline-text-3" id="text-1-4">
+</div>
+<ol class="org-ol">
+<li><a id="orgbaee6cd"></a>数据采集<br />
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+有人工录入的和传感录入，当前部队主要方式是人工录入，比如人员、装备、地理环境等数据均是通过手工录入，而传感录入的例子之一比如营门出入管理系统采集到的一系列数据，比如防空雷达系统采集、定时照像机等、气象台等。应该说目录主要方式是人工，辅助方式是自动。人工的方式有随意性大、效率低，自动产生的数据都是海量的需要有工具进行处理。
+</p>
+</div>
+</li>
+<li><a id="orgc179134"></a>数据抓取<br />
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+为什么要使用数据抓取？要知道现在社会上数据的来源很多，特别是互联网上的数据，可以说是海量，有的也很有用，我们要做的就是从中抓出有用的数据来。当然，由于数据量太大了，光靠手工查询和复制粘贴的话是肯定不够的，要运用一些工具和手段来进行自动化处理。比如说，我们假想设定一个关键字，让工具自动到网络上进行寻找并进行格式化处理。现在有许多人做的就是数据抓取的工作，比如说搞网络爬虫的，百度就是一个非常典型的例子。盛聪也做了一个网盘的搜索工具，可以通过关键字在网盘上找有用的数据。前段时间，我帮助刘参在网上下载一篇长文章，被卖广告的网站把内容分成的许多小段，我使用的PYTHON写了一小段代码，访问网址，只提取有用的信息，很快就做好了。
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-orgd1bbcef" class="outline-3">
+<h3 id="orgd1bbcef"><span class="section-number-3">1.5</span> 数据整理</h3>
+<div class="outline-text-3" id="text-1-5">
+</div>
+<ol class="org-ol">
+<li><a id="org0f01a24"></a>通过样式<br />
+<div class="outline-text-4" id="text-1-5-1">
+<p>
+主要针对的是WORD文档，WORD文档可以一次选中同一样式的文本，并进行复制、剪切、修改等操作。
+</p>
+</div>
+</li>
+<li><a id="org60d25f5"></a>通过标签<br />
+<div class="outline-text-4" id="text-1-5-2">
+<p>
+主要是针对标记语言，比如HTML/XML等，实质上向PDF文件等也是标记语言，可以采取同样的方向进行处理。
+</p>
+</div>
+</li>
+<li><a id="org6a32111"></a>协议存储<br />
+<div class="outline-text-4" id="text-1-5-3">
+<p>
+主要指的是如二进制存储的文件，比如EXE文件就分头部和数据部，头部的长度是固定的，比如第1个字节存的是文件标记，第二个字节存的是头部的长度，第三个字节是数据的起始位置。这当然不准确，我只是举个例子。
+</p>
+
+<p>
+其实每一种文件不是只有一种特点，采取一种方式，比如可以将WORD文档另存为HTML文件，再采取标签来进行处理。处理好后还可以另存回去。
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org1ffdb3c" class="outline-3">
+<h3 id="org1ffdb3c"><span class="section-number-3">1.6</span> 数据存储</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+对于我们来讲，主要以数据库的方式进行存储。就是生成关系表。可以放在EXCEL中，因为EXCEL其实就是数据库。但跟真正的数据库差距还是有点大，比如速度比较慢，采取通常方式打开一个数据库，特别是数据量比较多的情况下，就会非常慢。所以，一般采用MYSQL、SQLITE、ORACLE、SQLSERVER等数据库进行存储。
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="orgba8ae2a"></a>常用数据库特点<br /></li>
+<li><a id="org0a69d71"></a>音视频及图形图像的存储<br /></li>
+</ol>
+</div>
+<div id="outline-container-org86ea390" class="outline-3">
+<h3 id="org86ea390"><span class="section-number-3">1.7</span> 数据应用</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+数据整理的最终目的是要应用，应用时有很多方式，比如形成报告，或者形成图形。比如，之前邝副要各个单位的点位，形成部署图。大家想想，采取怎样的方法最方便？我是这样处理的，统计了各个单位点位的经纬度坐标，然后，将其用SVG格式画成了图，而后覆盖到底图上去。有个什么好处呢，就是各单位的点位变化后，我可以很快地进行更新，还有就是10个点，或100个点，或都1000个点，都可以在5分钟内标成部署示意图。
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="org216be5b"></a>图形化<br />
+<div class="outline-text-4" id="text-1-7-1">
+<p>
+简单的图形化有，在EXCEL中将图生成折线图、饼图等
+</p>
+</div>
+</li>
+<li><a id="orgbb2ecbf"></a>查询<br />
+<div class="outline-text-4" id="text-1-7-2">
+<p>
+另外就是整理后可以随时通过查询生成报表，查询有哪些方法呢？
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-org5f07f60" class="outline-3">
+<h3 id="org5f07f60"><span class="section-number-3">1.8</span> 案例</h3>
+<div class="outline-text-3" id="text-1-8">
+</div>
+<ol class="org-ol">
+<li><a id="orge71dc79"></a>花名册<br /></li>
+<li><a id="org479032d"></a>题库<br /></li>
+<li><a id="org1f6db42"></a>网页文件抓取<br /></li>
+<li><a id="org09072c8"></a>编制查询<br /></li>
+<li><a id="org780fc4c"></a>表格化<br /></li>
+</ol>
+</div>
+</div>
+</div>
+</body>
+</html>

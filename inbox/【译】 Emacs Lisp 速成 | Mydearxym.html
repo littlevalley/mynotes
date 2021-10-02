@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html class="theme-next pisces use-motion"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/jquery.css" rel="stylesheet" type="text/css">
+
+
+
+
+  <!-- link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css" -->
+
+
+
+<link href="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/font-awesome.css" rel="stylesheet" type="text/css">
+
+<link href="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/main.css" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="elisp,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="http://mydearxym.github.io/favicon.ico?v=0.5.0">
+
+
+
+
+
+
+<meta name="description" content="&amp;#x4F60;&amp;#x7528;&amp;#x7740; Emacs &amp;#x5374;&amp;#x4E0D;&amp;#x61C2; Lisp &amp;#x5427;&amp;#xFF1F;&amp;#x6B22;&amp;#x8FCE;&amp;#x9605;&amp;#x8BFB;&amp;#x8FD9;&amp;#x7BC7; Emacs Lisp &amp;#x5165;&amp;#x95E8;&amp;#x6559;&amp;#x7A0B;&amp;#xFF01;&amp;#x5B83;&amp;#x5E94;&amp;#x8BE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[译] Emacs Lisp 速成">
+<meta property="og:url" content="http://yoursite.com/2016/05/12/elisp_intro/index.html">
+<meta property="og:site_name" content="Mydearxym">
+<meta property="og:description" content="&amp;#x4F60;&amp;#x7528;&amp;#x7740; Emacs &amp;#x5374;&amp;#x4E0D;&amp;#x61C2; Lisp &amp;#x5427;&amp;#xFF1F;&amp;#x6B22;&amp;#x8FCE;&amp;#x9605;&amp;#x8BFB;&amp;#x8FD9;&amp;#x7BC7; Emacs Lisp &amp;#x5165;&amp;#x95E8;&amp;#x6559;&amp;#x7A0B;&amp;#xFF01;&amp;#x5B83;&amp;#x5E94;&amp;#x8BE">
+<meta property="og:image" content="http://yoursite.com/images/2016.05.13.19.57.cJavaElispCompare.png">
+<meta property="og:image" content="http://yoursite.com/images/2016.05.13.20.38.elispIntro2.png">
+<meta property="og:image" content="http://yoursite.com/images/2016.05.13.20.39.elispIntro3.png">
+<meta property="og:image" content="http://yoursite.com/images/2016.05.13.20.40.elispIntro4.png">
+<meta property="og:image" content="http://yoursite.com/images/2016.05.13.20.42.elispIntro5.png">
+<meta property="og:image" content="http://yoursite.com/images/2016.05.13.20.47.elispIntro6.png">
+<meta property="og:image" content="http://yoursite.com/images/2016.05.13.20.49.elispIntro7.png">
+<meta property="og:image" content="http://yoursite.com/images/2016.05.13.20.50.elispIntro8.png">
+<meta property="og:image" content="http://yoursite.com/images/2016.05.15.10.30.elispIntroClass.png">
+<meta property="og:updated_time" content="2016-07-19T08:45:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[译] Emacs Lisp 速成">
+<meta name="twitter:description" content="&amp;#x4F60;&amp;#x7528;&amp;#x7740; Emacs &amp;#x5374;&amp;#x4E0D;&amp;#x61C2; Lisp &amp;#x5427;&amp;#xFF1F;&amp;#x6B22;&amp;#x8FCE;&amp;#x9605;&amp;#x8BFB;&amp;#x8FD9;&amp;#x7BC7; Emacs Lisp &amp;#x5165;&amp;#x95E8;&amp;#x6559;&amp;#x7A0B;&amp;#xFF01;&amp;#x5B83;&amp;#x5E94;&amp;#x8BE">
+<meta name="twitter:image" content="http://yoursite.com/images/2016.05.13.19.57.cJavaElispCompare.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> [译] Emacs Lisp 速成 | Mydearxym </title>
+<style>
+.vimvixen-console-frame {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2147483647;
+  border: none;
+  background-color: unset;
+  pointer-events:none;
+}
+
+.vimvixen-hint {
+  background-color: yellow;
+  border: 1px solid gold;
+  font-weight: bold;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  font-size: 12px;
+  color: black;
+}
+</style><style type="text/css">.fancybox-margin{margin-right:12px;}</style></head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="http://mydearxym.github.io/" class="brand" rel="start" style="opacity: 1;">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title" style="opacity: 1; top: 0px;">Mydearxym</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle" style="opacity: 1; top: 0px;">谢一面的 Blog</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://mydearxym.github.io/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://mydearxym.github.io/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://mydearxym.github.io/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://mydearxym.github.io/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags" style="opacity: 1; transform: translateY(0px);">
+          <a href="http://mydearxym.github.io/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article" style="opacity: 1; display: block; transform: translateY(0px);">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                [译] Emacs Lisp 速成
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-05-12T19:55:56+08:00" content="2016-05-12">
+              2016-05-12
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
+                  <a href="http://mydearxym.github.io/categories/%E5%B7%A5%E5%85%B7%E9%93%BE/" itemprop="url" rel="index">
+                    <span itemprop="name">工具链</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+
+              
+                <span itemprop="about" itemscope="" itemtype="https://schema.org/Thing">
+                  <a href="http://mydearxym.github.io/categories/%E5%B7%A5%E5%85%B7%E9%93%BE/Emacs/" itemprop="url" rel="index">
+                    <span itemprop="name">Emacs</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+
+<p>
+你用着 Emacs 却不懂 Lisp 吧？欢迎阅读这篇 Emacs Lisp 入门教程！它应该能够助你搞定 Emacs Lisp，从而更加自如的驾驭 Emacs。
+</p>
+
+<a id="more"></a>
+
+<p>
+有很多种学习 Lisp 的方式，其中有一些方式要比其他方式更为 Lisp。我喜欢的方式是，基于 C++ 或 Java 的编程经验来学习 Lisp。
+</p>
+
+<p>
+本文重点放在 Emacs Lisp 语言本身，因为它才是最难的部分，至于成吨的 Emacs 的 API 的用法，你可以通过阅读 Emacs Lisp 文档来学习。
+</p>
+
+<p>
+有些事（ <b>例如编写生成代码的代码</b> ）是 Lisp 擅长的，而有些事（例如算数表达式）是它不擅长的。我不打算谈论 Lisp 是好还是坏，只关心如何用它编程。Emacs Lisp 跟其他语言差不多，最终你会习惯它的。
+</p>
+
+<p>
+许多介绍 Lisp 的文章或书籍尝试给你展现 Lisp 之『道』，饱含着奉承、赞颂以及瑜伽之类的东西。事实上，一开始我真正想要的是一本简单的 
+cookbook，它讲述的是如何用 Lisp 来做一些我日常生活中的事。本文便立意于此，它讲述的是大致是如何用 Emacs Lisp 来写 
+C，Java 或 JavaScript 就能写的那些代码。
+</p>
+
+<p>
+我们开始吧，看看我能够将这篇文章写的多么短小。我要从挺无聊的词法标记、运算符开始，然后讲述如何实现一些众所周知的语句、声明以及一些程序结构。
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">快速开始</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Lisp 代码是像 (+ 2 3) 的嵌套的括号表达式。这些表达式有时被称为 form（块）。
+</p>
+
+<p>
+也有些不带括号的代码，譬如字符串、数字、符号（必须以单引号为前缀，例如 'foo）、向量等，它们被称为原子（基本上可理解为叶结点）。
+</p>
+
+<p>
+注释只能是单行的，分号是注释符。
+</p>
+
+<p>
+要将一个名为 foo 的变量的值设置为 "bar"，只需：
+</p>
+
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">setq</span> foo <span class="string">"bar"</span>)</span> <span class="comment">; setq means "set quoted"</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+要以 "flim" 与 "flam" 作为参数值调用一个名为 foo-bar 的函数，只需：
+</p>
+
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">foo-bar</span> <span class="string">"flim"</span> <span class="string">"flam"</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+要进行算 (0x15 * (8.2 + (7 &lt;&lt; 3))) % 2，只需：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(% <span class="list">(<span class="keyword">*</span> <span class="number">#x15</span> <span class="list">(<span class="keyword">+</span> <span class="number">8.2</span> <span class="list">(<span class="keyword">lsh</span> <span class="number">7</span> <span class="number">3</span>)</span>)</span>)</span> <span class="number">2</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+也就是说，Lisp 的算数运算用的是前缀表达式，与 Lisp 函数调用方式一致 (运算符即是函数)。
+</p>
+
+<p>
+也就是说，Lisp 的算数运算用的是前缀表达式，与 Lisp 函数调用方式一致。
+</p>
+
+<p>
+Lisp 没有静态类型系统；你可以在程序运行时判断数据的类型。在 Emacs Lisp 中，谓词函数通常以 p 作为后缀，其含义下文有讲。
+</p>
+
+<p>
+<b>重点</b> ：可以在 Emacs 的 scratch 缓冲区中对 Emacs Lisp 表达式进行求值试验，有以下几种基本的求值方式：
+</p>
+
+<ol class="org-ol">
+<li>将光标移到表达式最后一个封闭的括号的后面，然后执行 C-j（即 Ctrl + j 键）；
+</li>
+<li>将光标移到表达式内部，然后执行 M-C-x（即 Alt + Ctrl + x 键）；
+</li>
+<li>将光标放到表达式最后一个封闭的括号的后面，然后执行 C-x C-e。
+</li>
+</ol>
+
+<p>
+第一种求值方式会将求值结果显示于 scratch 缓冲区，其他两种方式会将求值结果显示于 Emacs 的小缓冲区（Minibuffer）。这些求值方式也适用于 Lisp 的原子——数字、字符串、字符以及符号。
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">词法要素</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Lisp 的词法标记（原子级别的程序元素）屈指可数。
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">注释</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+注释是单行的，由分号领起：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">blah</span> blah blah)</span> <span class="comment">; I am a comment</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">字符串</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+带双引号的就是字符串：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="string">"He's said: \"Emacs Rules\" one time too many."</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+<p>
+要让字符串含有换行符，只需 (这里是 org-html 显示的问题，org 中显示正常)：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="string">"Oh Argentina!</span><br><span class="line">Your little tin of pink meat</span><br><span class="line">Soars o'er the Pampas"</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">字符</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+?x 可以获得字符 x 的 ASCII 码，这里的 x 可以是任意 ASCII 编码的字符。例如 ?a 的求值结果是 ASCII 码 97，而 ?（问号后面是一个空格）的求知结果是 32。
+</p>
+
+<p>
+? 后面尾随的字符，有些需要转义，例如 ?\\(，?\\) 以及 ?\\\。
+</p>
+
+<p>
+Emacs 22+ 支持 Unicode，这超出了本文范围。
+</p>
+
+<p>
+字符本质上只是整型数值，因此你可以对它们做算术运算（例如，从 ?a 迭代到 ?z）。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">数字</h3>
+<div class="outline-text-3" id="text-2-4">
+<ul class="org-ul">
+<li>整型数的位数是 29 位（并非大家习惯的 32 位）；
+</li>
+<li>二进制数，前缀是 #b，例如 #b10010110；
+</li>
+<li>八进制数：#o[0-7]+，例如 #o377；
+</li>
+<li>十六进制数，前缀是 #x，例如 #xabcd，xDEADBEE；
+</li>
+<li>浮点数：位数是 64；
+</li>
+<li>科学计数，例如 5e-10，6.02e23。
+</li>
+</ul>
+
+<p>
+在不支持大整数的 Emacs Lisp 中，变量 most-positive-fixnum 与 most-negative-fixnum 分别是最大的与最小的整型数。
+Emacs 22+ 提供了一个叫做 calc 的大整数/数学库，以备不时之需。也就是说，Emas Lisp 的算数运算会发生上溢和下溢，如同你在 C 或 Java 中遇到的情况相似。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5">数组</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Emacs Lisp 有定长数组，名曰『向量』(Vector)。可使用方括号来构建预先初始化的字面向量，例如：
+</p>
+
+<div class="org-src-container">
+
+<figure class="highlight"><table><tbody><tr><td class="code"><pre><span class="line">[-2 0 2 4 6 8 10]</span><br><span class="line">["No" "Sir" "I" "am" "a" "real" "horse"]</span><br><span class="line">["hi" 22 120 89.6 2748 [3 "a"]]</span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+
+<p>
+<b>注意</b> ，要使用空白字符来隔离数组中的元素，不要使用逗号。
+</p>
+
+<p>
+向量中存储的数据可以是混合类型，也能够对向量进行嵌套。通常是使用 make-vector 来构建向量，因为字面向量是单例，对此不要惊讶。
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6">列表</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Lisp 重度依赖链表，因此专门为它提供了词法标记。圆括号里的任何东西都是列表，除非你引用了它，否则 Lisp 解释器就会像函数调用那样对其进行求值。在 Lisp 中有以下几种列表引用形式：
+</p>
+
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="quoted">(<span class="keyword">quote</span> (<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>))</span>       <span class="comment">;  产生列表 (1 2 3)，并且不会对列表元素进行求值</span></span><br><span class="line"><span class="quoted">'(<span class="number">1</span> <span class="number">2</span> <span class="number">3</span>)</span>              <span class="comment">; 单引号是 (quote (...)) 形式的简写，注意它在左括号之外</span></span><br><span class="line"><span class="list">(<span class="keyword">list</span> <span class="number">1</span> <span class="list">(<span class="keyword">+</span> <span class="number">1</span> <span class="number">1</span>)</span> <span class="number">3</span>)</span>    <span class="comment">; 也可以产生列表 (1 2 3)，因为 Lisp 解释器会首先对列表元素进行求值</span></span><br><span class="line"><span class="quoted">`(<span class="number">1</span> ,(+ <span class="number">1</span> <span class="number">1</span>) <span class="number">3</span>)</span>       <span class="comment">; 也可以产生列表 (1 2 3)，这是经过『反引号』模板系统产生的</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+关于列表还有很多东西可说，但是其他人已经都说过了。
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7">序对</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+你可以直接设定 Lisp 列表的首部与尾部，将其作为 2 个元素的无类型结构来使用。语法是 (head-val . tail-value)，不过必须是引用的形式（见上文）。
+</p>
+
+<p>
+对于较小的数据集，检索表的数据结构通常设计为关联列表（即所谓的 alist），这只不过是带点的序对所构成的列表而已，例如：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="quoted">'( (apple . <span class="string">"red"</span>)</span><br><span class="line">(banana . <span class="string">"yellow"</span>)</span><br><span class="line">(orange . <span class="string">"orange"</span>) )</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+<p>
+Emacs Lisp 有内建的哈希表，位向量等数据结构，但是它们并没有语法，你只能通过函数来创建它们。
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">运算符</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+有些运算，在其他语言中体现为运算符的形式，而在 Emacs Lisp 中体现为函数的调用。
+</p>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">等号</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+数值相等判断：(= 2 (+ 1 1))，单个等号，求值结果为 t 或 nil，也能用于浮点数比较。
+</p>
+
+<p>
+数值不相等判断：(/= 2 3)，看上去像相除后赋值，但并不是。
+</p>
+
+<p>
+值相等判断：(eq 'foo 2)，类似于 Java 的 ==，适用于整型、符号、限定字串（Interned String）以及对象引用的相等比较。对于浮点数，可使用 eql（或者 =）。
+</p>
+
+<p>
+结构的深度相等比较：使用 equal，例如：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">equal</span> <span class="quoted">'(<span class="number">1</span> <span class="number">2</span> (<span class="number">3</span> <span class="number">4</span>))</span> <span class="list">(<span class="keyword">list</span> <span class="number">1</span> <span class="number">2</span> <span class="list">(<span class="keyword">list</span> <span class="number">3</span> <span class="list">(<span class="keyword">*</span> <span class="number">2</span> <span class="number">2</span>)</span>)</span>)</span>)</span> <span class="comment">; 求值结果为 t</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+equal 函数类似于 Java 的 Object.equals()，适用于列表、向量、字符串等类型。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">字符串</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+字符串没有任何运算符，只是有很多字符串操作函数，下面是几个常用的函数：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">concat</span> <span class="string">"foo"</span> <span class="string">"bar"</span> <span class="string">"baz"</span>)</span>  <span class="comment">; 求值结果为 "foobarbaz"</span></span><br><span class="line"></span><br><span class="line"><span class="list">(<span class="keyword">string=</span> <span class="string">"foo"</span> <span class="string">"baz"</span>)</span>       <span class="comment">; 求值结果为 nil (false)，也可以用 equal</span></span><br><span class="line"></span><br><span class="line"><span class="list">(<span class="keyword">substring</span> <span class="string">"foobar"</span> <span class="number">0</span> <span class="number">3</span>)</span>    <span class="comment">; 求值结果为 "foo"</span></span><br><span class="line"></span><br><span class="line"><span class="list">(<span class="keyword">upcase</span> <span class="string">"foobar"</span>)</span>           <span class="comment">; 求值结果为 "FOOBAR"</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+使用 M-x apropos RET \bstring\b RET 可查看所有与字符串操作相关的函数说明。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">算术</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+还是画个表容易看……
+</p>
+
+<p>
+<a href="http://mydearxym.github.io/images/2016.05.13.19.57.cJavaElispCompare.png" class="fancybox" rel="group"><img src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/2016_006.png" class="full-image"></a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">语句</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+这一节会给出一些类似 Java 语句的代码片段。它不复杂，仅仅是让你能够上手的方子。
+</p>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">if/else</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+情况 1：无 else 从句（(if test-expr expr)）
+</p>
+
+<p>
+示例：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">if</span> <span class="list">(<span class="keyword">&gt;=</span> <span class="number">3</span> <span class="number">2</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">message</span> <span class="string">"hello there"</span>)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+
+<p>
+情况 2：else 从句（(if test-expr then-expr else-expr)）
+</p>
+
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">if</span> <span class="list">(<span class="keyword">today-is-friday</span>)</span>         <span class="comment">; test-expr</span></span><br><span class="line">    <span class="list">(<span class="keyword">message</span> <span class="string">"yay, friday"</span>)</span>   <span class="comment">; then-expr</span></span><br><span class="line">  <span class="list">(<span class="keyword">message</span> <span class="string">"boo, other day"</span>)</span>)</span> <span class="comment">; else-expr</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+如果你需要在 then-expr 中存在多条表达式，可使用 progn——类似于 C 或 Java 的花括号，对这些表达式进行封装：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">if</span> <span class="list">(<span class="keyword">zerop</span> <span class="number">0</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">progn</span></span><br><span class="line">    <span class="list">(<span class="keyword">do-something</span>)</span></span><br><span class="line">    <span class="list">(<span class="keyword">do-something-else</span>)</span></span><br><span class="line">    <span class="list">(<span class="keyword">etc-etc-etc</span>)</span>)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+在 else-expr 中没必要使用 progn，因为 then-expr 之后的所有东西都被视为 else-expr 的一部分，例如：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">if</span> <span class="list">(<span class="keyword">today-is-friday</span>)</span></span><br><span class="line">    <span class="list">(<span class="keyword">message</span> <span class="string">"yay, friday"</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">message</span> <span class="string">"not friday!"</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">non-friday-stuff</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">more-non-friday-stuff</span>)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+情况 3： 通过 if 语句的嵌套可实现 else-if 从句，也可以用 cond（下文有讲）：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">if</span> <span class="quoted">'sunday</span></span><br><span class="line">    <span class="list">(<span class="keyword">message</span> <span class="string">"sunday!"</span>)</span>      <span class="comment">; then-expr</span></span><br><span class="line">  <span class="list">(<span class="keyword">if</span> <span class="quoted">'saturday</span>              <span class="comment">; else-if</span></span><br><span class="line">      <span class="list">(<span class="keyword">message</span> <span class="string">"saturday!"</span>)</span>  <span class="comment">; next then-expr</span></span><br><span class="line">    <span class="list">(<span class="keyword">message</span> <span class="list">(<span class="string">"weekday!"</span>)</span>)</span>)</span>)</span> <span class="comment">; final else</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+
+<p>
+情况 4：无 else-if 的多分支表达式——使用 when：
+如果没有 else 从句，可以使用 when，这是一个宏，它提供了隐式的 progn：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">when</span> <span class="list">(<span class="keyword">&gt;</span> <span class="number">5</span> <span class="number">1</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">blah</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">blah-blah</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">blah</span> blah blah)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+<p>
+也可以用 unless，它的测试表达式与 when 反义：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">unless</span> <span class="list">(<span class="keyword">weekend-p</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">message</span> <span class="string">"another day at work"</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">get-back-to-work</span>)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">switch</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+经典的 switch 语句，Emacs Lisp 有两个版本：cond 与 case。
+</p>
+
+<p>
+Emacs Lisp 的 cond 与 case 不具备 switch 的查表优化功能，它们本质上是嵌套的 if-then-else 从句。
+不过，如果你有多重嵌套，用 cond 或 case 要比 if 表达式更美观一些。cond 的语法如下：
+</p>
+
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">cond</span></span><br><span class="line">  <span class="list">(<span class="keyword">test-1</span></span><br><span class="line">    do-stuff-1)</span></span><br><span class="line">  <span class="list">(<span class="keyword">test-2</span></span><br><span class="line">    do-stuff-2)</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="list">(<span class="keyword">t</span></span><br><span class="line">    do-default-stuff)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+<p>
+do-stuff 部分可以是任意数量的语句，无需用 progn 封装。
+</p>
+
+<p>
+与经典的 switch 不同，cond 可以处理任何测试表达式（它只是依序检验这些表达式），并非仅限于数字。
+这样所带来的负面影响是，cond 对数字不进行任何特定的转换，因此你不得不将它们与某种东西进行比较。
+下面是字符串比较的示例：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">cond</span></span><br><span class="line"> <span class="list">(<span class="list">(<span class="keyword">equal</span> value <span class="string">"foo"</span>)</span>  <span class="comment">; case #1 – notice it's a function call to `equal' so it's in parens</span></span><br><span class="line">  <span class="list">(<span class="keyword">message</span> <span class="string">"got foo"</span>)</span>  <span class="comment">; action 1</span></span><br><span class="line">  <span class="list">(<span class="keyword">+</span> <span class="number">2</span> <span class="number">2</span>)</span>)</span>             <span class="comment">; return value for case 1</span></span><br><span class="line"> <span class="list">(<span class="list">(<span class="keyword">equal</span> value <span class="string">"bar"</span>)</span>  <span class="comment">; case #2 – also a function call (to `+')</span></span><br><span class="line">  <span class="literal">nil</span>)</span>                 <span class="comment">; return value for case 2</span></span><br><span class="line"> <span class="list">(<span class="keyword">t</span>                    <span class="comment">; default case – not a function call, just literal true</span></span><br><span class="line">  <span class="quoted">'hello</span>)</span>)</span>             <span class="comment">; return symbol 'hello</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+<p>
+末尾的 t 从句是可选的。若某个从句匹配成功，那么这个从句的求值结果便是整个 cond 表达式的求值结果。
+Emacs 'cl（Common Lisp）包（译注：Emacs Lisp 手册推荐使用 'cl-lib ，因为 'cl 过时了），
+提供了 case，它能够进行数值或符号比较，因此它看上去比较像标准的 switch：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">case</span> <span class="number">12</span></span><br><span class="line">  <span class="list">(<span class="number">5</span> <span class="string">"five"</span>)</span></span><br><span class="line">  <span class="list">(<span class="number">1</span> <span class="string">"one"</span>)</span></span><br><span class="line">  <span class="list">(<span class="number">12</span> <span class="string">"twelve"</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">otherwise</span></span><br><span class="line">   <span class="string">"I only know five, one and twelve."</span>)</span>)</span>  <span class="comment">; result:  "twelve"</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+使用 case，默认从句可以用 t，也可以用 otherwise，但它必须最后出现。
+</p>
+
+<p>
+使用 case 更干净一些，但是 cond 更通用。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">while</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Emacs Lisp 的 while 函数相对正常一些，其语法为 (while test body-forms)。
+</p>
+
+<p>
+例如，可在 <b>scratch</b> 缓冲区中执行以下代码：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">setq</span> x <span class="number">10</span></span><br><span class="line">      total <span class="number">0</span>)</span></span><br><span class="line"><span class="list">(<span class="keyword">while</span> <span class="list">(<span class="keyword">plusp</span> x)</span>  <span class="comment">; 只要 x 是正数</span></span><br><span class="line">  <span class="list">(<span class="keyword">incf</span> total x)</span>  <span class="comment">; total += x</span></span><br><span class="line">  <span class="list">(<span class="keyword">decf</span> x)</span>)</span>       <span class="comment">; x -= 1</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+在上述代码中，我们首先设置了两个全局变量 x=10 与 total=0，然后执行循环。循环结束后，可对 total 进行求值，结果为 55（从 1 到 10 求和结果）。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">break/continue</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Lisp 的 cache/throw 能够实现控制流的向上级转移，它与 Java 或 C++ 的异常处理相似，尽管功能上要弱一些。
+</p>
+
+<p>
+在 Emacs Lisp 中要 break 一个循环，可以将 (cache 'break …) 置于循环外部，然后在循环内部需要中断的地方放置 (throw 'break value)，例如：
+</p>
+
+<p>
+<a href="http://mydearxym.github.io/images/2016.05.13.20.38.elispIntro2.png" class="fancybox" rel="group"><img src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/2016_005.png" class="full-image"></a>
+</p>
+
+<p>
+符号 'break 不是 Lisp 语法，而是自己取的名字——要取容易理解的名字，譬如对于多重循环，可在 cache 表达式中用 'break-outer 与 'break-inner 之类的名字。
+</p>
+
+<p>
+如果你不关心 while 循环的『返回值』，可以 (throw 'break nil)。
+</p>
+
+<p>
+要实现循环中的 continue，可将 cache 置入循环内部之首。例如，对从 1 到 99 的整数求和，
+并且在该过程中避开能被 5 整除的数（这是个蹩脚的例子，只是为了演示 continue 的用法）:
+</p>
+
+<p>
+<a href="http://mydearxym.github.io/images/2016.05.13.20.39.elispIntro3.png" class="fancybox" rel="group"><img src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/2016_008.png" class="full-image"></a>
+</p>
+
+<p>
+可将这些示例组合起来，在同一个循环内实现 break 与 continue：
+</p>
+
+<p>
+<a href="http://mydearxym.github.io/images/2016.05.13.20.40.elispIntro4.png" class="fancybox" rel="group"><img src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/2016_004.png" class="full-image"></a>
+</p>
+
+<p>
+上面的循环的计算结果为 4000，即 total 的值。要得到这个结果，还有更好的计算方式，不过我需要足够简单的东西来讲述如何在 Lisp 中实现 break 与 continue。
+</p>
+
+<p>
+catch/throw 机制能够像异常那样跨函数使用。不过，它的设计并非真的是面向异常或错误处理——Emacs Lisp 
+另外有一套机制来做这些事，也就是后文的 try/catch 这一节所讨论东西。你应该习惯在 Emacs Lisp 代码中使用 
+catch/throw 进行控制流转移。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">do/while</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+Emacs Lisp 中最容易使用的循环机制是 Common Lisp 包提供的 loop 宏。要使用这个宏，需要加载 cl-lib 包：
+</p>
+
+<p>
+(require 'cl-lib) ; 获取大量的 Common Lisp 里的好东西
+loop 宏是带有大量特征的微语言，值得好好观摩一番。我主要用它来演示如何构造一些基本的循环。
+</p>
+
+<p>
+基于 loop 所实现的 do/while 机制如下：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">loop</span> do</span><br><span class="line">  <span class="list">(<span class="keyword">setq</span> x <span class="list">(<span class="number">1</span>+ x)</span>)</span></span><br><span class="line">  while</span><br><span class="line">  <span class="list">(<span class="keyword">&lt;</span> x <span class="number">10</span>)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+<p>
+在 do 与 while 之间可以有任意数量的 Lisp 表达式。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6">for</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+C 风格的 for 循环由四种成分构成：变量初始化，循环体，条件测试以及自增。
+用 loop 宏也能模拟出这种循环结构。例如，像下面的 JavaScript 的循环结构：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight js"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> result = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">10</span>, j = <span class="number">0</span>; j &lt;= <span class="number">10</span>; i--, j += <span class="number">2</span>) {</span><br><span class="line">  result.push(i+j);</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+对于这样的循环结构，基于 Emacs Lisp 的 loop 可将其模拟为：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">loop</span> with result = <span class="quoted">'()</span>         <span class="comment">; 初始化：只被执行一次</span></span><br><span class="line">      for i downfrom <span class="number">10</span>         <span class="comment">; i 从 10 递减</span></span><br><span class="line">      for j from <span class="number">0</span> by <span class="number">2</span>         <span class="comment">; j 从 0 开始自增 2</span></span><br><span class="line">      while <span class="list">(<span class="keyword">&lt;</span> j <span class="number">10</span>)</span>            <span class="comment">; j &gt;= 10 时循环终止</span></span><br><span class="line">      do</span><br><span class="line">      <span class="list">(<span class="keyword">push</span> <span class="list">(<span class="keyword">+</span> i j)</span> result)</span>     <span class="comment">; 将 i + j 的求值结果入栈</span></span><br><span class="line">      finally</span><br><span class="line">      return <span class="list">(<span class="keyword">nreverse</span> result)</span>)</span> <span class="comment">; 将 result 中存储的数据次序逆转，然后作为求值结果</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+
+<p>
+由于 loop 表达式有很多选项，这样写虽然繁琐，但是容易理解。
+</p>
+
+<p>
+注意，上述代码中，loop 声明了一个数组 result，然后将它作为『返回』值。事实上，
+loop　也能处理循环之外的变量，这种情况下就不需要　finally return　从句了。
+loop　宏出人意料的灵活。有关它的全面介绍超出了本文范畴，但是如果你想驾驭　Emacs Lisp，那么你有必要花一些时间揣摩一下它。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7">for .. in</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+如果你迭代访问一个集合，Java　提供了『智能』的　for　循环，JavaScript　提供了　for .. in 与　for each .. in。
+这些，在 Lisp 里也能做到，但是你可能需要对 loop 宏有很好的理解，它可以为迭代过程提供一站式服务。
+</p>
+
+<p>
+最基本的方式是 loop for var in sequence，然后针对特定结果做一些处理。例如，你可以将 sequence 中的东西收集起来（或者将一个函数作用与它们）：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">loop</span> for i in <span class="quoted">'(<span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span>)</span></span><br><span class="line">  collect <span class="list">(<span class="keyword">*</span> i i)</span>)</span>            <span class="comment">;  结果为 (1 4 9 16 25 36)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+<p>
+loop 宏能够迭代列表元素、列表单元、向量、哈希键序列、哈希值序列、缓冲区、窗口、窗框、符号以及你想遍历的任何东西。请参阅 Emacs 手册获得更多信息。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-8" class="outline-3">
+<h3 id="sec-4-8">函数</h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+用 defun（define function）定义函数。
+</p>
+
+<p>
+语法：(defun 函数名 参数列表 [可选的文档化注释] 函数体)
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">defun</span> square <span class="list">(<span class="keyword">x</span>)</span></span><br><span class="line">  <span class="string">"Return X squared."</span></span><br><span class="line">  <span class="list">(<span class="keyword">*</span> x x)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+<p>
+对于无参函数，只需让参数列表为空即可：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">defun</span> hello <span class="list">()</span></span><br><span class="line">  <span class="string">"Print the string `hello' to the minibuffer."</span></span><br><span class="line">  <span class="list">(<span class="keyword">message</span> <span class="string">"hello!"</span>)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+函数体可由任意数量的表达式构成，函数的返回值是最后那个表达式的求值结果。由于函数的返回类型没有声明，
+因此有必要在文档化注释中注明函数的返回类型。对函数进行求值之后，其文档化注释可通过 M-x describe-function 查看。
+</p>
+
+<p>
+Emacs Lisp 不支持函数/方法的重载，但是它支持 Python 和 Ruby 所提供的那种可选参数与 rest 参数。
+你可以使用 Common Lisp 化的参数列表，在使用 defun* 宏代替 defun 时，可支持关键字参数（keyword arguments，见
+后文的 defstruct 一节）。defun*宏也允许使用 (return "foo") 这种控制流转移方式来代替 catch/throw 机制。
+</p>
+
+<p>
+如果你像让自己定义的函数能够作为 M-x 命令来执行，只需将 (interactive) 作为函数体内的第一个表达式，亦即位于文档化注释字串之后。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-9" class="outline-3">
+<h3 id="sec-4-9">局部变量</h3>
+<div class="outline-text-3" id="text-4-9">
+<p>
+在函数中要声明局部变量，可使用 let 表达式。基本语法是 (let var-decl var-decl)：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">let</span> <span class="list">(<span class="list">(<span class="keyword">name1</span> value1)</span></span><br><span class="line">      <span class="list">(<span class="keyword">name2</span> value2)</span></span><br><span class="line">      name3</span><br><span class="line">      name4</span><br><span class="line">      <span class="list">(<span class="keyword">name5</span> value5)</span></span><br><span class="line">      name6</span><br><span class="line">      ...)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+每个 var-decl 要么仅仅是变量名，要么就是 (变量名 初始值) 形式。初始化的变量与未初始化的变量出现的次序是任意的。未初始化的变量，其值为 nil。
+在一个函数中可以有多条 let 表达式，但是为了性能起见，通常是将变量声明都放到开始的 let 表达式中，这样会快一点。不过，你应该写清晰的代码。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-10" class="outline-3">
+<h3 id="sec-4-10">引用参数</h3>
+<div class="outline-text-3" id="text-4-10">
+<p>
+C++ 有引用参数，函数可以修改调用者堆栈中的变量。Java 没有这个功能，因此有时你不得不迂回的向函数传递单元素数组，或一个对象，或别的什么东西来模拟这个功能。
+Emacs Lisp 也没有真正的向函数传递引用的机制，但是它有动态域（Dynamic Scope），这意味着你可以用任何方式修改位于调用者堆栈中的变量。看下面这两个函数：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">defun</span> foo <span class="list">()</span></span><br><span class="line">  <span class="list">(<span class="keyword">let</span> <span class="list">(<span class="list">(<span class="keyword">x</span> <span class="number">6</span>)</span>)</span>  <span class="comment">; 定义了一个（栈中的）局部变量 x，将其初始化为 6</span></span><br><span class="line">    <span class="list">(<span class="keyword">bar</span>)</span>       <span class="comment">; 调用 bar 函数</span></span><br><span class="line">    x)</span>)</span>         <span class="comment">; 返回 x</span></span><br><span class="line"></span><br><span class="line"><span class="list">(<span class="keyword">defun</span> bar <span class="list">()</span></span><br><span class="line">  <span class="list">(<span class="keyword">setq</span> x <span class="number">7</span>)</span>)</span>   <span class="comment">; 在调用者的栈中搜索 x 并修改它的值</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+如果你调用了 (foo)，返回值为 7。
+</p>
+
+<p>
+动态域通常被认为是近乎邪恶的坏设计，但是它有时也能派上用场。即使它真的很糟糕，通过它也能了解一些 Emacs 的内幕。
+</p>
+
+<p>
+译注：Emacs 24 对词法域（Lexical Scope）提供了支持，但是 Emacs Lisp 默认依然是动态域。要开启词法域功能，可在 .el 文件的第一行添加以下信息：
+;; -*- lexical-binding: t -*-
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-11" class="outline-3">
+<h3 id="sec-4-11">return</h3>
+<div class="outline-text-3" id="text-4-11">
+<p>
+Lisp 函数默认是返回最后一个被求值的表达式的结果。通过一些构造技巧，也可以让每个可能的返回结果安排在函数的尾部位置。例如：
+</p>
+
+<p>
+<a href="http://mydearxym.github.io/images/2016.05.13.20.42.elispIntro5.png" class="fancybox" rel="group"><img src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/2016.png" class="full-image"></a>
+</p>
+
+<p>
+上述 Lisp 函数 day-name 的返回值是最后一个表达式的求值结果，因此无论我们怎么嵌套 if，都能自动产生一个结果返回，因此这里不需要显式的 return 语句。
+</p>
+
+<p>
+不过，有时用 if 嵌套的方式来重构函数的返回形式会不太方便，它较适合一些小的函数。
+对于一些规模较大并且嵌套较深的函数，你可能希望函数能够在较早的时机返回。
+在 Emacs Lisp 中，这一需求可基于 break 与 continue 来实现。上文中的 day-name 可重构为：
+</p>
+
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">defun</span> day-name <span class="list">()</span></span><br><span class="line">  <span class="list">(<span class="keyword">let</span> <span class="list">(<span class="list">(<span class="keyword">date</span> <span class="list">(<span class="keyword">calendar-day-of-week</span></span><br><span class="line">	       <span class="list">(<span class="keyword">calendar-current-date</span>)</span>)</span>)</span>)</span>  <span class="comment">; 0-6</span></span><br><span class="line">    <span class="list">(<span class="keyword">catch</span> <span class="quoted">'return</span></span><br><span class="line">      <span class="list">(<span class="keyword">case</span> date</span><br><span class="line">	<span class="list">(<span class="number">0</span></span><br><span class="line">	 <span class="list">(<span class="keyword">throw</span> <span class="quoted">'return</span> <span class="string">"Sunday"</span>)</span>)</span></span><br><span class="line">	<span class="list">(<span class="number">6</span></span><br><span class="line">	 <span class="list">(<span class="keyword">throw</span> <span class="quoted">'return</span> <span class="string">"Saturday"</span>)</span>)</span></span><br><span class="line">	<span class="list">(<span class="keyword">t</span></span><br><span class="line">	 <span class="list">(<span class="keyword">throw</span> <span class="quoted">'return</span> <span class="string">"weekday"</span>)</span>)</span>)</span>)</span>)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+显然，使用 catch/throw 会降低程序性能，但是有时你会需要用它来消除太深的嵌套结构。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-12" class="outline-3">
+<h3 id="sec-4-12">try/catch</h3>
+<div class="outline-text-3" id="text-4-12">
+<p>
+前文已经讲了 catch/throw，它类似于异常，可用于控制流转移。
+</p>
+
+<p>
+Emacs 真正的错误处理机制叫做『条件』系统，本文不打算对此予以全面介绍，仅涉及如何捕捉异常以及如何忽略它们。
+</p>
+
+<p>
+下面是一个一般化的 condition-case 结构，而且我也给出了 Java 的等价描述。
+</p>
+
+<p>
+<a href="http://mydearxym.github.io/images/2016.05.13.20.47.elispIntro6.png" class="fancybox" rel="group"><img src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/2016_007.png" class="full-image"></a>
+</p>
+
+<p>
+如果你想让 cache 块为空，可使用 ignore-errorse：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">ignore-errors</span></span><br><span class="line">  <span class="list">(<span class="keyword">do-something</span>)</span></span><br><span class="line">  <span class="list">(<span class="keyword">do-something-else</span>)</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+有时你的启动文件（译注：可能是 .emacs 或init.el文件）可能不是总是正确工作。可以使用 ignore-errors 来封装 Emacs Lisp 代码，这样即使被封装的代码出错，也不会导致 Emacs 启动失败。
+</p>
+
+<p>
+condition-case nil 的意思是『错误信息不赋给已命名的变量』。Emacs Lisp 允许你捕获不同的错误类别并对错误信息进行排查。这方面的知识请从 Emacs Lisp 手册获取。
+</p>
+
+<p>
+在 condition-case 块内如果存在多条表达式需要求值，必须用 progn 将它们封装起来。
+</p>
+
+<p>
+condition-case 不会捕捉 throw 扔出来的值——这两个系统是彼此独立的。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-13" class="outline-3">
+<h3 id="sec-4-13">try/finally</h3>
+<div class="outline-text-3" id="text-4-13">
+<p>
+Emacs Lisp 提供了类似 finally 的功能 unwind-protect：
+</p>
+
+<p>
+<a href="http://mydearxym.github.io/images/2016.05.13.20.49.elispIntro7.png" class="fancybox" rel="group"><img src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/2016_002.png" class="full-image"></a>
+</p>
+
+<p>
+与 condition-case 相似，unwind-protect 接受单个体块（body-form，译注：try 部分），后面跟随着一条或多条善后的表达式，因此你需要用 progn 将体块内的表达式封装起来。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-14" class="outline-3">
+<h3 id="sec-4-14">try/catch/finally</h3>
+<div class="outline-text-3" id="text-4-14">
+<p>
+如果让 condition-case（等价于 try/catch）成为 unwind-protect（等价于 try/finally）的体块，那么就可以得到try/catch/finally 的效果：
+</p>
+
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">unwind-protect</span>                 <span class="comment">; finally</span></span><br><span class="line">    <span class="list">(<span class="keyword">condition-case</span> <span class="literal">nil</span>         <span class="comment">; try</span></span><br><span class="line">	<span class="list">(<span class="keyword">progn</span>                  <span class="comment">; {</span></span><br><span class="line">	  <span class="list">(<span class="keyword">do-something</span>)</span>        <span class="comment">;   body-1</span></span><br><span class="line">	  <span class="list">(<span class="keyword">do-something-else</span>)</span>)</span>  <span class="comment">;   body-2 }</span></span><br><span class="line">      <span class="list">(<span class="keyword">error</span>                    <span class="comment">; catch</span></span><br><span class="line">       <span class="list">(<span class="keyword">message</span> <span class="string">"oh no!"</span>)</span>       <span class="comment">; { catch 1</span></span><br><span class="line">       <span class="list">(<span class="keyword">poop-pants</span>)</span>)</span>)</span>           <span class="comment">;   catch 2 }</span></span><br><span class="line">  <span class="list">(<span class="keyword">first-finally-expr</span>)</span>          <span class="comment">; { finally 1</span></span><br><span class="line">  <span class="list">(<span class="keyword">second-finally-expr</span>)</span>)</span>        <span class="comment">;   finally 2 }</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4-15" class="outline-3">
+<h3 id="sec-4-15">类</h3>
+<div class="outline-text-3" id="text-4-15">
+<p>
+Emacs Lisp 不是标准意义上的面向对象编程语言，它没有类、继承以及多态等语法。Emacs 的 Common Lisp 包（现在的 
+cl-lib）提供了一个有用的特性 defstruct，通过它可以实现简单的 OOP 支持。下面我会给出一个简单的示例。
+</p>
+
+<p>
+下面的 Emacs Lisp 代码与 Java 代码本质上是等价的：
+</p>
+
+<p>
+<a href="http://mydearxym.github.io/images/2016.05.13.20.50.elispIntro8.png" class="fancybox" rel="group"><img src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/2016_003.png" class="full-image"></a>
+</p>
+
+<p>
+<b>defstruct</b> 宏提供了一个灵活的默认构造器，但是你也可以根据自己的需要来定义相适的构造器。
+</p>
+
+<p>
+<b>defstruct</b> 宏在创建对象实例时，也创建了一组判定函数，它们的用法如下：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">person-p</span> <span class="list">(<span class="keyword">make-person</span>)</span>)</span></span><br><span class="line"><span class="literal">t</span></span><br><span class="line"><span class="list">(<span class="keyword">employee-p</span> <span class="list">(<span class="keyword">make-person</span>)</span>)</span></span><br><span class="line"><span class="literal">nil</span></span><br><span class="line"><span class="list">(<span class="keyword">employee-p</span> <span class="list">(<span class="keyword">make-employee</span>)</span>)</span></span><br><span class="line"><span class="literal">t</span></span><br><span class="line"><span class="list">(<span class="keyword">person-p</span> <span class="list">(<span class="keyword">make-employee</span>)</span>)</span>  <span class="comment">; yes, it inherits from person</span></span><br><span class="line"><span class="literal">t</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+Java 在对象构造器方面可能挺糟糕，不过 Emacs 在域（类成员）的设置方面挺糟糕。要设置类（结构体）的域，必须使用 setf 函数，然后将类名作为域名的前缀：
+</p>
+
+<p>
+<a href="http://mydearxym.github.io/images/2016.05.15.10.30.elispIntroClass.png" class="fancybox" rel="group"><img src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/2016_009.png" class="full-image"></a>
+</p>
+
+<p>
+这样看上去，Lisp 并不是太糟糕，但是在实践中（因为 Emacs Lisp 不支持命名空间，并且也没有 with-slots 宏），你会被卷入很长的类名与域名中的，例如：
+</p>
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">setf</span> <span class="list">(<span class="keyword">js2-compiler-data-current-script-or-function</span> compiler-data)</span> current-script</span><br><span class="line">      <span class="list">(<span class="keyword">js2-compiler-data-line-number</span> compiler-data)</span> current-line</span><br><span class="line">      <span class="list">(<span class="keyword">js2-compiler-data-allow-member-expr-as-function-name</span> compiler-data)</span> allow</span><br><span class="line">      <span class="list">(<span class="keyword">js2-compiler-data-language-version</span> compiler-data)</span> language-version)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+
+<p>
+要获取域的值，需要将类名与域名连接起来，然后作为函数来用：
+</p>
+
+<p>
+(person-name steve) ; yields "Steve"
+defstruct 还能做很多事——它的功能非常得体，该考虑的事都考虑了，尽管它没能形成一个完善的面向对象系统。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-4-16" class="outline-3">
+<h3 id="sec-4-16">缓冲区即类</h3>
+<div class="outline-text-3" id="text-4-16">
+<p>
+在 Emacs Lisp 编程中，将缓冲区视为类的实例往往很有用。因为 Emacs 
+支持缓冲区级别的局部变量的概念——无论变量以那种方式设置（译注，例如通过 setq 
+设置的变量），它们都会自动变成缓冲区内部的局部变量。因此，这些变量的行为就像是被封装在实例中的变量。
+</p>
+
+<p>
+可以用 make-variable-buffer-local 函数将一个变量声明为缓冲区级别的局部变量，通常这个函数会在 devar 或 defconst 之后出现（见下文）。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">变量</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+在 Emacs Lisp 中，可以用 defvar 或 defconst 声明变量，也可以为变量提供文档化注释：
+</p>
+
+<div class="org-src-container">
+
+<figure class="highlight lisp"><table><tbody><tr><td class="code"><pre><span class="line"><span class="list">(<span class="keyword">defconst</span> pi <span class="number">3.14159</span> <span class="string">"A gross approximation of pi."</span>)</span></span><br></pre></td></tr></tbody></table></figure>
+</div>
+
+<p>
+语法为 (defvar 变量名 值 [文档化注释])。
+</p>
+
+<p>
+不过，会让你大跌眼镜的是，defconst 定义的是变量，而 defvar 定义的是常量，
+至少在重新求值时是这样。要改变 defvar 变量的值，需要使用 makeunbound 来解除变量的绑定。
+不过，总是可以使用 setq 来修改 defvar 或 defconst 变量的值。这两种变量形式，仅有的区别是，defconst 可以表达一种意图：你定义的是一个常量。
+</p>
+
+<p>
+可以使用 setq 来创建全新的变量，但是如果用 defvar，Emacs Lisp 的字节码编译器能捕捉到一些错误信息。
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">总结</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Emacs Lisp 是一种真正的编程语言。它有编译器、调试器、性能分析器、效果显示器、运行时文档、库、输入/输出、网络、
+进程控制等。它有很多东西值得学习，但是我希望这篇小文章能够让你向它迈出第一步。
+</p>
+
+<p>
+无论 Emacs Lisp 有多么古怪和烦人，只要你上手了，它就能让你体验到编程的快乐。作为一种编程语言，它并不伟大，
+而且每个人都期望它是 Common Lisp 或 Scheme 或其他某种更好的 Lisp 方言。有些人甚至认为它根本不是 Lisp。
+但是，要定制你的 Emacs，或者修复你从他人那里得到的 Emacs Lisp 代码，那么 Emacs Lisp 就会非常非常有用。四两 Emacs Lisp 可拨千钧之物。
+正在学习 Emacs Lisp 的你，如果觉得这份文档是有用的，请告诉我。如果你打算写一些 Emacs 扩展，
+可以告诉我你希望我的下一篇文档要写什么。有兴趣的化，我会再继续这个 Emergency Elisp 系列。
+</p>
+
+<p>
+Good Luck！
+</p>
+
+
+
+
+
+<p>
+<a href="http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html" target="_blank" rel="external">原文参见这里</a> , 我加入了一些注解方便自己的理解 (包括一些错别字的修改, 失效图片的补充等)。
+</p>
+</div>
+</div>
+
+<div></div>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="http://mydearxym.github.io/tags/elisp/" rel="tag">#elisp</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="http://mydearxym.github.io/2016/05/09/use_githook_to_deploy/" rel="next" title="使用 git hooks 自动化部署">
+                <i class="fa fa-chevron-left"></i> 使用 git hooks 自动化部署
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="http://mydearxym.github.io/2016/05/14/front_end_questions/" rel="prev" title="前端基础知识集锦">
+                前端基础知识集锦 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar" style="margin-top: 331px; display: block;">
+    <div class="sidebar-inner affix-top">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/avatar.jpg" alt="老谢的博客">
+          <p class="site-author-name" itemprop="name">老谢的博客</p>
+          <p class="site-description motion-element" itemprop="description">人一旦被信任，就会愿意用更多的尊严来加倍回报信任。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="http://mydearxym.github.io/archives">
+              <span class="site-state-item-count">22</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="http://mydearxym.github.io/categories">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="http://mydearxym.github.io/tags">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/mydearxym" target="_blank">
+                  
+                    <i class="fa fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/mydearxym" target="_blank">
+                  
+                    <i class="fa fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        <div class="links-of-blogroll motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc" style="max-height: 569px; width: calc(100% + 12px);">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#sec-1"><span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sec-2"><span class="nav-text">词法要素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-2-1"><span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-2-2"><span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-2-3"><span class="nav-text">字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-2-4"><span class="nav-text">数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-2-5"><span class="nav-text">数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-2-6"><span class="nav-text">列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-2-7"><span class="nav-text">序对</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sec-3"><span class="nav-text">运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-3-1"><span class="nav-text">等号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-3-2"><span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-3-3"><span class="nav-text">算术</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sec-4"><span class="nav-text">语句</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-1"><span class="nav-text">if/else</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-2"><span class="nav-text">switch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-3"><span class="nav-text">while</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-4"><span class="nav-text">break/continue</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-5"><span class="nav-text">do/while</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-6"><span class="nav-text">for</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-7"><span class="nav-text">for .. in</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-8"><span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-9"><span class="nav-text">局部变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-10"><span class="nav-text">引用参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-11"><span class="nav-text">return</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-12"><span class="nav-text">try/catch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-13"><span class="nav-text">try/finally</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-14"><span class="nav-text">try/catch/finally</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-15"><span class="nav-text">类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sec-4-16"><span class="nav-text">缓冲区即类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sec-5"><span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sec-6"><span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  © 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">老谢的博客</span>
+</div>
+
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/index.js"></script>
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/fastclick.js"></script>
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/jquery.js"></script>
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/velocity.js"></script>
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/velocity_002.js"></script>
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/jquery_002.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/utils.js"></script>
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/motion.js"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/affix.js"></script>
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/pisces.js"></script>
+
+
+
+  
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/scrollspy.js"></script>
+<script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/jquery.html"></script>
+<script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/post-details.js"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/bootstrap.js"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+  
+
+
+
+<iframe src="[%E8%AF%91]%20Emacs%20Lisp%20%E9%80%9F%E6%88%90%20|%20Mydearxym_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe></body></html>

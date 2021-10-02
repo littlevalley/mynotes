@@ -1,0 +1,231 @@
+@charset "UTF-8";
+
+#bdshare ul, #bdshare_s ul, #bdshare ul li, #bdshare_s ul li, #bdshare_l_c ul li, #bdshare_m_c ul li, #bdshare_pop ul, #bdshare_pop ul li { list-style-type: none; list-style-position: initial; list-style-image: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+#bdshare { z-index: 999999; padding-bottom: 2px; font-size: 12px; float: left; text-align: left !important; zoom: 1; }
+
+#bdshare a, #bdshare_s a, #bdshare_pop a { text-decoration: none; cursor: pointer; }
+
+#bdshare a:hover, #bdshare_s a:hover, #bdshare_pop a:hover { color: rgb(51, 51, 51); opacity: 0.8; }
+
+#bdshare img { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; border-image: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; cursor: pointer; }
+
+#bdshare h6, #bdshare_s h6 { width: 100%; font-family: 宋体; font-size: 14px; font-style: normal; font-variant: normal; line-height: 22px; text-indent: 0.5em; font-weight: 700; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(251, 251, 251); border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(242, 241, 241); background-color: rgb(246, 246, 246); float: left; padding-top: 5px; padding-right: 0px; padding-bottom: 5px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; }
+
+#bdshare ul, #bdshare_s ul { width: 98%; float: left; padding-top: 8px; padding-right: 0px; padding-bottom: 8px; padding-left: 0px; margin-left: 2px; overflow-x: hidden; overflow-y: hidden; }
+
+#bdshare ul li, #bdshare_s ul li { width: 47%; float: left; margin-top: 4px; margin-right: 2px; margin-bottom: 4px; margin-left: 2px; }
+
+#bdshare ul li a, #bdshare_s ul li a { color: rgb(86, 86, 86); font-family: 宋体; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; display: block; width: 98%; padding-top: 6px; padding-right: 0px; padding-bottom: 6px; padding-left: 0px; text-indent: 2.4em; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-color: rgb(255, 255, 255); border-image: initial; }
+
+#bdshare ul li a:hover, #bdshare_s ul li a:hover { background-color: rgb(243, 243, 243); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(238, 238, 238); border-right-color: rgb(238, 238, 238); border-bottom-color: rgb(238, 238, 238); border-left-color: rgb(238, 238, 238); border-image: initial; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; }
+
+#bdshare p, #bdshare_s p { width: 100%; height: 21px; font-family: 宋体; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(242, 241, 241); background-color: rgb(248, 248, 248); float: left; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; }
+
+#bdshare p a, #bdshare_s p a { width: auto; text-align: right; float: right; padding-top: 0px; padding-right: 5px; padding-bottom: 0px; padding-left: 5px; }
+
+#bdshare_l { width: 212px; position: absolute; top: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; text-align: left; background-position: initial initial; background-repeat: initial initial; }
+
+#bdshare_l_c { width: 210px; float: left; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(233, 233, 233); border-right-color: rgb(233, 233, 233); border-bottom-color: rgb(233, 233, 233); border-left-color: rgb(233, 233, 233); border-image: initial; text-align: left; }
+
+#bdshare_l_c ul li { width: 47%; height: 26px; float: left; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px; }
+
+#bdshare_l_c ul li a { background-image: url(http://bdimg.share.baidu.com/static/images/is.png?cdnversion=20131219); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; height: auto !important; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+#bdshare_m { width: 132px; float: right; position: absolute; zoom: 1; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; background-position: initial initial; background-repeat: initial initial; }
+
+#bdshare_m_c { width: 130px; float: left; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(233, 233, 233); border-right-color: rgb(233, 233, 233); border-bottom-color: rgb(233, 233, 233); border-left-color: rgb(233, 233, 233); border-image: initial; overflow-x: hidden; overflow-y: hidden; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; background-position: initial initial; background-repeat: initial initial; }
+
+#bdshare_m_c ul li { width: 97%; float: left; margin-top: 2px; margin-right: 2px; margin-bottom: 2px; margin-left: 2px; }
+
+#bdshare_m_c ul li a { background-image: url(http://bdimg.share.baidu.com/static/images/is.png?cdnversion=20131219); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; height: auto !important; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+#bdshare_l, #bdshare_m { -webkit-box-shadow: rgb(238, 238, 238) 0px 0px 7px; z-index: 99999; }
+
+#bdshare_pop { width: 300px; border-top-width: 6px; border-right-width: 6px; border-bottom-width: 6px; border-left-width: 6px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(143, 143, 143); border-right-color: rgb(143, 143, 143); border-bottom-color: rgb(143, 143, 143); border-left-color: rgb(143, 143, 143); border-image: initial; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(246, 246, 246); background-size: initial; position: absolute; z-index: 1000000; text-align: left; background-position: initial initial; background-repeat: initial initial; }
+
+#bdshare_pop { border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; }
+
+#bdshare_pop { -webkit-box-shadow: rgb(170, 170, 170) 0px 0px 7px; }
+
+#bdshare_pop div { border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(233, 233, 233); border-right-color: rgb(233, 233, 233); border-bottom-color: rgb(233, 233, 233); border-left-color: rgb(233, 233, 233); border-image: initial; float: left; overflow-x: hidden; overflow-y: hidden; text-align: left; }
+
+#bdshare_pop h5 { width: 100%; height: 28px; color: rgb(98, 98, 98); font-family: 宋体; font-size: 14px; font-style: normal; font-variant: normal; line-height: 28px; font-weight: 700; text-indent: 0.5em; float: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; }
+
+#bdshare_pop h5 b { width: 22px; height: 23px; background-image: url(http://bdimg.share.baidu.com/static/images/pop_c.gif?cdnversion=20120720); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; cursor: pointer; position: absolute; right: 8px; top: 4px; background-position: 0px 0px; background-repeat: no-repeat no-repeat; }
+
+#bdshare_pop ul { width: 100%; height: 256px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; float: left; padding-top: 8px; padding-right: 0px; padding-bottom: 8px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; border-top-width: 1px; border-top-style: solid; border-top-color: rgb(242, 241, 241); border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(242, 241, 241); overflow-y: auto; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+
+#bdshare_pop ul li { width: 130px; float: left; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; margin-left: 6px; height: 29px; overflow-x: hidden; overflow-y: hidden; }
+
+#bdshare_pop ul li a { background-image: url(http://bdimg.share.baidu.com/static/images/is.png?cdnversion=20131219); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; color: rgb(86, 86, 86); font-family: 宋体; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; display: block; width: 75%; padding-top: 6px; padding-right: 0px; padding-bottom: 6px; padding-left: 28px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(255, 255, 255); border-right-color: rgb(255, 255, 255); border-bottom-color: rgb(255, 255, 255); border-left-color: rgb(255, 255, 255); border-image: initial; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+#bdshare_pop ul li a:hover { background-color: rgb(243, 243, 243); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(238, 238, 238); border-right-color: rgb(238, 238, 238); border-bottom-color: rgb(238, 238, 238); border-left-color: rgb(238, 238, 238); border-image: initial; border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; }
+
+#bdshare_pop p { width: 100%; font-family: 宋体; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; line-height: normal; float: left; padding-top: 5px; padding-right: 0px; padding-bottom: 8px; padding-left: 0px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; }
+
+#bdshare_pop p a { width: auto; text-align: right; float: right; padding-top: 0px; padding-right: 5px; padding-bottom: 0px; padding-left: 5px; }
+
+#bdshare_l_c p a.goWebsite, #bdshare_m_c p a.goWebsite, #bdshare_pop p a.goWebsite { text-align: right; background-image: url(http://bdimg.share.baidu.com/static/images/pi.gif?cdnversion=20120720); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; line-height: 16px; padding-left: 12px; color: rgb(140, 140, 140); background-position: 0px 50%; background-repeat: no-repeat no-repeat; }
+
+#bdshare_l_c p a.goWebsite:hover, #bdshare_m_c p a.goWebsite:hover, #bdshare_pop p a.goWebsite:hover { color: rgb(0, 169, 224); }
+
+span.bds_more { background-image: url(http://bdimg.share.baidu.com/static/images/is.png?cdnversion=20131219) !important; background-attachment: initial !important; background-origin: initial !important; background-clip: initial !important; background-color: initial !important; background-size: initial !important; background-position: 0px 5px !important; background-repeat: no-repeat no-repeat !important; }
+
+span.bds_more, .bds_tools a { display: block; font-family: 宋体, Arial; height: 16px; float: left; cursor: pointer; padding-top: 6px; padding-bottom: 3px; padding-left: 22px; }
+
+.bds_tools a { background-image: url(http://bdimg.share.baidu.com/static/images/is.png?cdnversion=20131219); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.bds_tools_32 a { background-image: url(http://bdimg.share.baidu.com/static/images/is_32.png?cdnversion=20131219); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; width: 37px; height: 37px; display: block; float: left; margin-right: 3px; text-indent: -100em; cursor: pointer; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.bds_tools_32 span.bds_more { background-image: url(http://bdimg.share.baidu.com/static/images/is_32.png?cdnversion=20131219) !important; background-attachment: initial !important; background-origin: initial !important; background-clip: initial !important; background-color: initial !important; background-size: initial !important; width: 37px; height: 32px; text-indent: -100em; padding-left: 0px; background-position: 0px 5px !important; background-repeat: no-repeat no-repeat !important; }
+
+.bds_tools_24 a { background-image: url(http://bdimg.share.baidu.com/static/images/is_24.png?cdnversion=20131219); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; width: 29px; height: 29px; display: block; float: left; padding-left: 0px; cursor: pointer; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.bds_tools_24 span.bds_more { background-image: url(http://bdimg.share.baidu.com/static/images/is_24.png?cdnversion=20131219) !important; background-attachment: initial !important; background-origin: initial !important; background-clip: initial !important; background-color: initial !important; background-size: initial !important; width: 29px; height: 24px; text-indent: -100em; padding-left: 0px; background-position: 0px 5px !important; background-repeat: no-repeat no-repeat !important; }
+
+.bds_more { background-image: url(http://bdimg.share.baidu.com/static/images/is.png?cdnversion=20131219) !important; background-position: 0px 4px !important; }
+
+span.bds_nopic, .bds_tools_32 span.bds_nopic, .bds_tools_24 span.bds_nopic { background-image: none !important; padding-left: 3px !important; }
+
+.bdshare_b img { float: left; }
+
+.bdshare_b a.shareCount, .bds_tools a.shareCount, .bds_tools_32 a.shareCount, .bds_tools_24 a.shareCount { float: left; background-image: url(http://bdimg.share.baidu.com/static/images/sc.png?cdnversion=20120720) !important; background-attachment: initial !important; background-origin: initial !important; background-clip: initial !important; background-color: initial !important; background-size: initial !important; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; text-align: center; padding-left: 5px; color: rgb(69, 69, 69); font-family: 宋体 !important; background-position: initial initial !important; background-repeat: no-repeat no-repeat !important; }
+
+.bdshare_b a.shareCount, .bds_tools_24 a.shareCount { width: 39px; height: 24px; font-size: 12px; line-height: 24px; margin-left: 3px; background-position: 0px 0px; }
+
+.bdshare_b a.shareCount:hover, .bds_tools_24 a.shareCount:hover { color: rgb(69, 69, 69) !important; opacity: 1 !important; background-position: -44px 0px !important; }
+
+.bds_tools a.shareCount { width: 37px; height: 16px; margin-top: 5px; overflow-x: hidden; overflow-y: hidden; font-size: 12px; line-height: 16px; background-position: 0px -30px !important; }
+
+.bds_tools a.shareCount:hover { color: rgb(69, 69, 69) !important; opacity: 1 !important; background-position: -42px -30px !important; }
+
+.bds_tools_32 a.shareCount { width: 43px; height: 32px; margin-top: 5px; overflow-x: hidden; overflow-y: hidden; font-size: 14px; line-height: 32px; text-indent: 0px !important; background-position: 0px -60px !important; }
+
+.bds_tools_32 a.shareCount:hover { color: rgb(69, 69, 69) !important; opacity: 1 !important; background-position: -48px -60px !important; }
+
+.bds_tools_24 a.shareCount { margin-top: 5px; }
+
+.bds_qzone { background-position: 0px -75px !important; }
+
+.bds_tsina { background-position: 0px -115px !important; }
+
+.bds_bdhome { background-position: 0px -155px !important; }
+
+.bds_renren { background-position: 0px -195px !important; }
+
+.bds_tqq { background-position: 0px -235px !important; }
+
+.bds_kaixin001 { background-position: 0px -275px !important; }
+
+.bds_tqf { background-position: 0px -315px !important; }
+
+.bds_hi { background-position: 0px -355px !important; }
+
+.bds_douban { background-position: 0px -395px !important; }
+
+.bds_tsohu { background-position: 0px -435px !important; }
+
+.bds_msn { background-position: 0px -475px !important; }
+
+.bds_qq { background-position: 0px -515px !important; }
+
+.bds_taobao { background-position: 0px -555px !important; }
+
+.bds_tieba { background-position: 0px -595px !important; }
+
+.bds_sohu { background-position: 0px -675px !important; }
+
+.bds_t163 { background-position: 0px -715px !important; }
+
+.bds_qy { background-position: 0px -755px !important; }
+
+.bds_tfh { background-position: 0px -795px !important; }
+
+.bds_hx { background-position: 0px -835px !important; }
+
+.bds_fx { background-position: 0px -875px !important; }
+
+.bds_ff { background-position: 0px -915px !important; }
+
+.bds_xg { background-position: 0px -955px !important; }
+
+.bds_ty { background-position: 0px -995px !important; }
+
+.bds_s51 { background-position: 0px -1035px !important; }
+
+.bds_fbook { background-position: 0px -1115px !important; }
+
+.bds_twi { background-position: 0px -1155px !important; }
+
+.bds_ms { background-position: 0px -1195px !important; }
+
+.bds_deli { background-position: 0px -1235px !important; }
+
+.bds_s139 { background-position: 0px -1275px !important; }
+
+.bds_iguba { background-position: 0px -1315px !important; }
+
+.bds_linkedin { background-position: 0px -1354px !important; }
+
+.bds_copy { background-position: 0px -1393px !important; }
+
+.bds_ifeng { background-position: 0px -1431px !important; }
+
+.bds_tuita { background-position: 0px -1470px !important; }
+
+.bds_meilishuo { background-position: 0px -1549px !important; }
+
+.bds_mogujie { background-position: 0px -1589px !important; }
+
+.bds_diandian { background-position: 0px -1629px !important; }
+
+.bds_huaban { background-position: 0px -1669px !important; }
+
+.bds_leho { background-position: 0px -1709px !important; }
+
+.bds_wealink { background-position: 0px -1749px !important; }
+
+.bds_duitang { background-position: 0px -1789px !important; }
+
+.bds_thx { background-position: 0px -1829px !important; }
+
+.bds_mail { background-position: 0px -1870px !important; }
+
+.bds_print { background-position: 0px -1910px !important; }
+
+.bds_baidu { background-position: 0px -1950px !important; }
+
+.bds_share189 { background-position: 0px -1990px !important; }
+
+.bds_youdao { background-position: 0px -2030px !important; }
+
+.bds_mshare { background-position: 0px -2070px !important; }
+
+.bds_mop { background-position: 0px -2110px !important; }
+
+.bds_yaoshi { background-position: 0px -2150px !important; }
+
+.bds_bdxc { background-position: 0px -2190px !important; }
+
+.bds_sqq { background-position: 0px -2230px !important; }
+
+.bds_sdo { background-position: 0px -2270px !important; }
+
+.bds_qingbiji { background-position: 0px -2310px !important; }
+
+.bds_people { background-position: 0px -2350px !important; }
+
+.bds_kanshou { background-position: 0px -2390px !important; }
+
+.bds_xinhua { background-position: 0px -2430px !important; }
+
+.bds_yaolan { background-position: 0px -2470px !important; }
+
+.bds_isohu { background-position: 0px -2510px !important; }
+
+.bds_bdysc { background-position: 0px -2550px !important; }
+
+.bds_ibaidu { background-position: 0px -2590px !important; }
+
+#bdshare .bds_fl5, #bdshare .bds_buzz, #bdshare .bds_zx { display: none; }

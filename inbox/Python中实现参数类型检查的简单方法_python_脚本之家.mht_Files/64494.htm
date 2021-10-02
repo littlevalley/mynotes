@@ -1,0 +1,266 @@
+<html><head><meta charset="GBK">
+
+
+
+<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+<title>Python中实现参数类型检查的简单方法_python_脚本之家</title>
+<meta name="keywords" content="Python,参数类型检查">
+<meta name="description" content="这篇文章主要介绍了Python中实现参数类型检查的简单方法,本文讲解使用装饰器实现参数类型检查并给出代码实例,需要的朋友可以参考下">
+<link rel="stylesheet" href="style.css">
+
+<link id="frame_css" rel="stylesheet" type="text/css" media="screen" href="wap-changyan2.css_versi.css"><link id="skin_css" rel="stylesheet" type="text/css" media="screen" href="wap-default.css_versi.css"></head>
+<body id="alist"><div style="z-index: 2147483647; " id="_fgm64d1b57b9"><div id="u1571591_0_wrap" style="text-align:center;display:block;font-size:0;width:100%;height:65px;opacity:0.9;position:fixed;z-index:2147483647;bottom:0;background-color:#000;"><div style="width:432px;height:65px;position:relative;margin:0 auto;"><div id="closeBtn_u1571591_0" style="position:absolute;right:0;top:-18.055555555555557px;width:45.13888888888889px;height:18.055555555555557px;overflow:hidden;display:block;background:url('http://cpro.baidustatic.com/cpro/ui/noexpire/img/2.0.0/xuantingClose3.png') no-repeat 0 0;_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=none, src='http://cpro.baidustatic.com/cpro/ui/noexpire/img/2.0.0/xuantingClose3.png');_background:none;cursor:pointer;background-position:center;background-size:100% 100%;z-index:2147483647;">&nbsp;</div><iframe id="cproIframe_u1571591_0" src="ucqm_dtm_BAIDU_DUP2_SETJSONADSLOT_dc_2_di_u1571591.397_feid_.htm" width="432" height="65" align="center,center" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" allowtransparency="true"></iframe></div></div></div>
+
+<header class="top"><a href="http://m.jb51.net/" id="logo">脚本之家</a></header>
+
+
+<nav id="nav">
+<a href="http://m.jb51.net/">首页</a>
+<a href="http://m.jb51.net/softs/list583_1.html">应用</a>
+<a href="http://m.jb51.net/game/list832_1.html">手游</a>
+<a href="http://m.jb51.net/gonglue/list793_1.html">攻略</a>
+<a href="http://m.jb51.net/softjc/" class="cur">教程</a>
+</nav>
+
+
+<p class="toolbar white"><a href="javascript:history.go(-1)" class="back">﹤</a><a href="http://m.jb51.net/">首页</a> → <a href="http://m.jb51.net/list/index_96.htm" title="脚本专栏">脚本专栏</a> → <a href="http://m.jb51.net/list/list_97_1.htm" title="python">python</a> → 正文内容 Python参数类型检查</p>
+
+<div class="asd asd-article1"><div style="" id="_2g7c8zknkrpgy14i"><div id="u1347053_0_wrap" style="text-align:center;display:block;font-size:0;width:100%;height:108px;opacity:0.9;"><div style="width:432px;height:108px;position:relative;margin:0 auto;"><iframe id="cproIframe_u1347053_0" src="ucqm_dtm_BAIDU_DUP2_SETJSONADSLOT_dc_2_di_u1347053.734_feid_.htm" width="432" height="108" align="center,center" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" allowtransparency="true"></iframe></div></div></div></div>
+
+<section class="wzlist">
+<div class="wtitle" id="wen" cataid="120278">
+<h1>Python中实现参数类型检查的简单方法</h1><p><span>投稿：junjie</span></p>
+</div>
+<div class="con">
+<div id="art_demo">这篇文章主要介绍了Python中实现参数类型检查的简单方法,本文讲解使用装饰器实现参数类型检查并给出代码实例,需要的朋友可以参考下</div>
+</div>
+
+<div class="con" id="content">
+<p>Python是一门弱类型语言，很多从C/C++转过来的朋友起初不是很适应。比如，在声明一个函数时，不能指定参数的类型。用C做类比，那就是所有参数都是void*类型！void类型强制转换在C++中被广泛地认为是个坏习惯，不到万不得已是不会使用的。</p>
+<p>Python自然没有类型强制转换一说了，因为它是动态语言。首先，所有对象都从Object继承而来，其次，它有强大的内省，如果调用某个不存在的方法会有异常抛出。大多数情况，我们都不需要做参数类型栓查，除了一些特殊情况。例如，某个函数接受一个str类型，结果在实际调用时传入的是unicode，测试过程中又没有代码覆盖到，这样问题就比较严重了。解决方法也很简单，借助Python的内省，很容易就能判断出参数的类型。但是每个地方都写检查代码会很累赘，何况它带来的实际价值并不高。一个好的解决方法是使用装饰器。</p>
+<div class="jb51code">
+<pre class="brush:py;">'''
+ &gt;&gt;&gt; NONE, MEDIUM, STRONG = 0, 1, 2
+ &gt;&gt;&gt;
+ &gt;&gt;&gt; @accepts(int, int, int)
+ ... def average(x, y, z):
+ ...   return (x + y + z) / 2
+ ...
+ &gt;&gt;&gt; average(5.5, 10, 15.0)
+ TypeWarning: 'average' method accepts (int, int, int), but was given
+ (float, int, float)
+ 15.25
+'''
+def accepts(*types, **kw):
+  """ Function decorator. Checks that inputs given to decorated function
+  are of the expected type.
+
+  Parameters:
+  types -- The expected types of the inputs to the decorated function.
+       Must specify type for each parameter.
+  kw  -- Optional specification of 'debug' level (this is the only valid
+       keyword argument, no other should be given).
+       debug = ( 0 | 1 | 2 )
+
+  """
+  if not kw:
+    # default level: MEDIUM
+    debug = 1
+  else:
+    debug = kw['debug']
+  try:
+    def decorator(f):
+      def newf(*args):
+        if debug == 0:
+          return f(*args)
+        assert len(args) == len(types)
+        argtypes = tuple(map(type, args))
+        if argtypes != types:
+          msg = info(f.__name__, types, argtypes, 0)
+          if debug == 1:
+            print &gt;&gt; sys.stderr, 'TypeWarning: ', msg
+          elif debug == 2:
+            raise TypeError, msg
+        return f(*args)
+      newf.__name__ = f.__name__
+      return newf
+    return decorator
+  except KeyError, key:
+    raise KeyError, key + "is not a valid keyword argument"
+  except TypeError, msg:
+    raise TypeError, msg
+
+def info(fname, expected, actual, flag):
+  """ Convenience function returns nicely formatted error/warning msg. """
+  format = lambda types: ', '.join([str(t).split("'")[1] for t in types])
+  expected, actual = format(expected), format(actual)
+  msg = "'%s' method " % fname \
+     + ("accepts", "returns")[flag] + " (%s), but " % expected\
+     + ("was given", "result is")[flag] + " (%s)" % actual
+  return msg
+</pre>
+</div>
+<p></p>
+<p>本质上讲，这也是一种运行时检查，但效果已经不错了。<br>
+更多有趣的装饰器的使用，可以参考这篇文章<a href="http://wiki.python.org/moin/PythonDecoratorLibrary">http://wiki.python.org/moin/PythonDecoratorLibrary</a></p>
+</div>
+
+<div class="con" id="content">
+
+</div>
+
+</section>
+
+<div class="asd asd-article2"><div style="" id="_gxc72kjgo3dz33di"><div id="u1347055_0_wrap" style="text-align:center;display:block;font-size:0;width:100%;height:108px;opacity:0.9;"><div style="width:432px;height:108px;position:relative;margin:0 auto;"><iframe id="cproIframe_u1347055_0" src="ucqm_dtm_BAIDU_DUP2_SETJSONADSLOT_dc_2_di_u1347055.689_feid_.htm" width="432" height="108" align="center,center" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" allowtransparency="true"></iframe></div></div></div></div>
+
+<section class="xgwz">
+<b>相关文章</b>
+<ul><li><span>2014-01-01</span><a href="http://m.jb51.net/article/45783.htm" title="python练习程序批量修改文件名" target="_blank">python练习程序批量修改文件名</a></li><li><span>2014-02-02</span><a href="http://m.jb51.net/article/47007.htm" title="python实现dict版图遍历示例" target="_blank">python实现dict版图遍历示例</a></li><li><span>2013-11-11</span><a href="http://m.jb51.net/article/43340.htm" title="python实现系统状态监测和故障转移实例方法" target="_blank">python实现系统状态监测和故障转移实例方法</a></li><li><span>2014-01-01</span><a href="http://m.jb51.net/article/45865.htm" title="python的urllib模块显示下载进度示例" target="_blank">python的urllib模块显示下载进度示例</a></li><li><span>2013-08-08</span><a href="http://m.jb51.net/article/40531.htm" title="python不带重复的全排列代码" target="_blank">python不带重复的全排列代码</a></li><li><span>2014-09-09</span><a href="http://m.jb51.net/article/55095.htm" title="跟老齐学Python之用Python计算" target="_blank">跟老齐学Python之用Python计算</a></li><li><span>2014-11-11</span><a href="http://m.jb51.net/article/56979.htm" title="python多线程threading.Lock锁用法实例" target="_blank">python多线程threading.Lock锁用法实例</a></li><li><span>2007-02-02</span><a href="http://m.jb51.net/article/6819.htm" title="Python入门" target="_blank">Python入门</a></li><li><span>2014-07-07</span><a href="http://m.jb51.net/article/53044.htm" title="Python中apply函数的用法实例教程" target="_blank">Python中apply函数的用法实例教程</a></li><li><span>2014-04-04</span><a href="http://m.jb51.net/article/48757.htm" title="python操作xml文件示例" target="_blank">python操作xml文件示例</a></li></ul>
+</section>
+
+<section class="cont pl" id="comment" style="display: block; "><b>网友评论</b>
+
+<div id="SOHUCS" sid="art_64494" style="width: 100%; "><section class="reset-g section-title-wap section-title-b">
+<div class="title-comment-wap title-comment-b">
+<div class="comment-wrap-wap comment-wrap-b">
+<span class="wrap-number-wap wrap-number-b">
+<em id="cy-cmt-count" class="number-arrows-wap number-arrows-b">0</em>
+</span>条评论
+</div>
+</div>
+<div class="title-user-wap title-user-b"><span class="user-name-wap user-name-b">
+<span id="cy-user-name">登 录</span>
+</span></div>
+</section>
+<section id="cy-cbox-wrapper" class="reset-g section-cbox-wap section-cbox-b">
+<div class="cbox-post-wap cbox-post-b">
+<div class="post-area-wap post-area-b">
+<textarea name="cy-cbox" rows="3" class="area-text-wap area-text-b" placeholder="我来说两句..."></textarea>
+<input type="hidden" name="cyan-reply-id">
+</div>
+<div class="post-action-wap post-action-b">
+<div class="action-function-wap action-function-b">
+<ul class="function-list-wap function-list-b">
+
+<li class="list-face-wap list-face-b">
+<a class="face-mutual-wap face-mutual-b" href="javascript:void(0)">
+<i class="mutual-pic-wap mutual-pic-b"></i>
+</a>
+</li>
+
+
+<li class="list-upload-wap list-upload-b">
+<a class="upload-mutual-wap upload-mutual-b" href="64494.htm#"><i class="mutual-pic-wap mutual-pic-b"></i></a><div class="upload-file-wap"><input type="file" name="" class="file-wap" onsubmit="return false;" accept="image/jpeg, image/gif, image/bmp, image/jp2, image/x-ms-bmp, image/x-png"></div>
+<input name="cy-img-url" type="hidden">
+</li>
+<li class="list-upload-img-wap list-upload-img-b list-uploading-wap" style="display:none">
+<div class="uploading-wrap-wap"><span class="wrap-icon-wap wrap-icon-b"></span></div>
+<div class="uploaddel-wrap-wap"><span class="wrap-img-wap wrap-img-b"><img alt=""></span>
+<span class="wrap-close-wap"></span></div>
+</li>
+
+
+</ul>
+</div>
+<div class="action-issue-wap action-issue-b">
+<div class="issue-site-wap issue-site-b issue-site-e"></div>
+<div class="issue-btn-wap issue-btn-b">
+<a class="btn-mutual-wap btn-mutual-b" href="javascript:void(0)"><button type="button" class="mutual-btn-wap mutual-btn-b"></button></a>
+</div>
+</div>
+<div class="face-box-wap" style="display:none">
+<div class="box-cont-wap">
+<div class="cont-roll-wap">
+<ul class="cont-list-wap">
+<li code="/奋斗"><img src="face01.png"></li>
+<li code="/鼓掌"><img src="face02.png"></li>
+<li code="/发怒"><img src="face03.png.avi"></li>
+<li code="/色"><img src="face04.png.avi"></li>
+<li code="/给力"><img src="face05.png.avi"></li>
+<li code="/憨笑"><img src="face06.png.avi"></li>
+<li code="/大哭"><img src="face13.png.avi"></li>
+<li code="/疑问"><img src="face14.png.avi"></li>
+<li code="/鄙视"><img src="face15.png.avi"></li>
+<li code="/钱"><img src="face16.png.avi"></li>
+<li code="/闭嘴"><img src="face17.png.avi"></li>
+<li code="/可怜"><img src="face18.png.avi"></li>
+<li code="/可爱"><img src="face07.png"></li>
+<li code="/抓狂"><img src="face08.png.avi"></li>
+<li code="/流汗"><img src="face09.png.avi"></li>
+<li code="/强"><img src="face10.png"></li>
+<li code="/弱"><img src="face11.png.avi"></li>
+<li code="/玫瑰"><img src="face12.png"></li>
+<li code="/惊讶"><img src="face19.png"></li>
+<li code="/浮云"><img src="face20.png"></li>
+<li code="/打酱油"><img src="face21.png.avi"></li>
+<li code="/握手"><img src="face22.png"></li>
+<li code="/拳头"><img src="face23.png"></li>
+<li code="/酒"><img src="face24.png.avi"></li>
+</ul>
+</div>
+<div class="cont-page-wap"><span class="page-now-wap"></span><span></span></div>
+</div>
+</div>
+</div>
+</div>
+</section><section id="cy-comment-list-wrapper" class="reset-g section-list-wap">
+<section id="cy-hots-list-wrapper" class="list-kinds-wap list-hot-wap">
+
+</section>
+<section id="cy-latest-list-wrapper" class="list-kinds-wap list-hot-wap">
+
+</section>
+</section>
+
+
+
+</div>
+
+</section>
+
+<footer class="bottom"><a id="goTop" href="javascript:void(0);">返回顶部</a><p><a href="http://www.jb51.net/">访问电脑版</a>|<a href="http://m.jb51.net/">返回首页</a></p></footer>
+
+
+
+
+<div class="clearfix"></div>
+<div class="asd asd-footer"></div>
+<div class="count"></div>
+
+
+
+<!-- published at 2015-4-21 21:29:04By dxycms qq:461478385  -->
+<div style="position: static; float: none; display: block; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; overflow-x: visible; overflow-y: visible; text-align: left; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; border-image: initial; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; box-sizing: content-box; background-position: initial initial; background-repeat: initial initial; "></div><div id="cy-shadow" class="reset-g shade-floor-wap" style="display:none;"></div><section id="cy-login-section" class="reset-g section-issuelogin-wap section-issuelogin-b" style="position:fixed;bottom:0;left:0;z-index:2147483647;display:none">
+<section class="login-wrap-wap login-wrap-b">
+<h3 class="wrap-title-wap wrap-title-b">第三方登录</h3>
+<ul id="cy-platforms-list" class="wrap-site-wap">
+
+
+
+
+
+
+
+<li class="site-sina-wap" onclick="window.location.href='http://changyan.sohu.com/api/2/login/passport?client_id=cyrHH3dwi&amp;platform_id=2&amp;url=http%253A%252F%252Fm.jb51.net%252Farticle%252F64494.htm&amp;isMobile=true&amp;connName=changyan_wap'">
+<span class="icon-b"></span>
+</li>
+
+
+
+
+
+
+
+<li class="site-qq-wap" onclick="window.location.href='http://changyan.sohu.com/api/2/login/passport?client_id=cyrHH3dwi&amp;platform_id=3&amp;url=http%253A%252F%252Fm.jb51.net%252Farticle%252F64494.htm&amp;isMobile=true&amp;connName=changyan_wap'">
+<span class="icon-b"></span>
+</li>
+
+
+
+
+
+</ul>
+</section>
+</section><div id="u1571591_0_placeholder" style="width: 100%; height: 65px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; background-image: none; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; border-image: initial; background-position: initial initial; background-repeat: initial initial; "></div></body></html>

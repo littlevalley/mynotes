@@ -1,0 +1,89 @@
+<html><head><meta charset="UTF-8">
+
+
+
+<meta content="width=device-width,user-scalable=no" name="viewport">
+<meta name="apple-itunes-app" content="app-id=425349261">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Qt QTextcursor 的使用 - CSDN博客</title>
+<link rel="Stylesheet" type="text/css" href="wapall.css">
+
+</head>
+<body>
+<div id="wrap">
+<div id="header">
+<a class="home" href="http://www.csdn.net/"><img src="home.png.avi"></a> 
+<a class="logo" href="http://m.blog.csdn.net/">
+<img src="logo.jpg"></a>
+<a id="loginname" href="http://m.blog.csdn.net/blog/bienilz">bienilz</a>
+</div>
+<div id="nav">
+<a href="http://m.blog.csdn.net/" id="shouye1">首页</a>
+<a href="http://m.blog.csdn.net/column/index" id="zhuanlan1">专栏</a>
+<a href="http://m.blog.csdn.net/People/index" id="zhuanjia1">专家</a>
+<a href="http://m.blog.csdn.net/home/hot" id="rewen1">热文</a>
+</div>
+<div id="main">
+        <div id="top">
+        <div class="avatar">
+        <a href="http://m.blog.csdn.net/blog/zengcccc" class="name">zengcccc的专栏</a>
+        </div>
+        <div class="content">
+        <h1><a href="7160429.htm#">[原]Qt QTextcursor 的使用</a></h1>
+        <p class="time"><span>2011-12-29</span><span>阅读2221</span> <a href="7160429.htm#comment">评论<span id="sp_cmt">1</span></a></p>
+        <div id="articlecontent">
+        
+<p>我想在一个程序中操作一个QTextEdit的对象的光标,但是失败了 当时调用的方法是</p>
+<p><span style="color:#800000">ui</span><span style="color:#000000">-&gt;</span><span style="color:#800000">textEdit</span><span style="color:#000000">-&gt;</span>textCursor<span style="color:#000000">()<span style="color:#000000">.</span>movePosition<span style="color:#000000">(</span><span style="color:#800080">QTextCursor</span><span style="color:#000000">::</span><span style="color:#800080">NextWord</span><span style="color:#000000">,</span><span style="color:#c0c0c0">
+</span><span style="color:#800080">QTextCursor</span><span style="color:#000000">::</span><span style="color:#800080">KeepAnchor</span><span style="color:#000000">)</span></span></p>
+<p>但是程序执行总是失败.</p>
+<p>&nbsp;</p>
+<p>最后发现了原因</p>
+<p>要想使操作生效需要调用一下setTextCursor()函数</p>
+<p><span style="color:#800080">QTextCursor</span><span style="color:#c0c0c0"> </span>
+<span style="color:#000000">textCursor</span><span style="color:#000000">=</span><span style="color:#800000">ui</span><span style="color:#000000">-&gt;</span><span style="color:#800000">textEdit</span><span style="color:#000000">-&gt;</span>textCursor<span style="color:#000000">();</span></p>
+<p><span style="color:#000000">textCursor</span><span style="color:#000000">.</span>movePosition<span style="color:#000000">(</span><span style="color:#800080">QTextCursor</span><span style="color:#000000">::</span><span style="color:#800080">NextWord</span><span style="color:#000000">,</span><span style="color:#c0c0c0">
+</span><span style="color:#800080">QTextCursor</span><span style="color:#000000">::</span><span style="color:#800080">KeepAnchor</span><span style="color:#000000">);</span></p>
+<p><span style="color:#800000">ui</span><span style="color:#000000">-&gt;</span><span style="color:#800000">textEdit</span><span style="color:#000000">-&gt;</span>setTextCursor<span style="color:#000000">(</span><span style="color:#000000">textCursor</span><span style="color:#000000">);</span></p>
+
+        </div>
+        </div>
+        <div class="next_page">
+            <a href="http://m.blog.csdn.net/blog/zengcccc/7086269" class="next_btn">上一篇</a>
+            <a href="http://m.blog.csdn.net/blog/zengcccc/7167645" class="next_btn">下一篇</a>
+        </div>
+        <div class="comment">
+        <p><a name="comment"></a>发表评论</p>
+        <p><textarea id="con" rows="4" style="width:99%;"></textarea></p>
+        <p><input type="button" class="login_sub1" value="提 交" style="margin-top:0;" onclick="subform()"></p>
+        </div>
+        <div class="comment_sub">
+        <span class="lf10">查看评论</span>
+        <ul id="cmt_ul">        <li> 
+        <p class="time"><span>1楼</span><a href="http://m.blog.csdn.net/blog/u010269726" class="name">u010269726</a><span>2014-12-27 22:03</span></p>
+        <p>亲，感激你的提醒，谢谢～</p>
+        </li>
+        </ul>
+        <a href="http://m.blog.csdn.net/comment/7160429" class="lf10">更多评论（1）</a>
+        </div>
+        </div>
+        
+        
+
+</div>
+
+<div class="back-top" id="ding1">
+<a href="7160429.htm#" onclick="document.body.scrollTop=0;return false;">
+<img src="back-top.jpg">回顶部</a>
+</div>
+<div id="footer">
+<p><a class="now" href="http://m.blog.csdn.net/">移动版</a>|<a href="http://blog.csdn.net/" onclick="document.cookie='wap-pc=1; domain=blog.csdn.net; path=/;';">桌面版</a></p>
+<p>©1999-2012, CSDN.NET, All Rights Reserved</p>
+</div>
+
+</div>
+
+
+
+
+</body></html>

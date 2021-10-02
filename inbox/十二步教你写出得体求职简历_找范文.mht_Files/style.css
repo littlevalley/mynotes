@@ -1,0 +1,78 @@
+BODY {
+	FONT-SIZE: 12px; BACKGROUND-IMAGE: url(images/index/bg.gif); COLOR: #151515
+}
+LINK {
+	TEXT-DECORATION: underline
+}
+A:link {
+	COLOR: #151515; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #151515; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #151515; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #336699; TEXT-DECORATION: underline
+}
+TD {
+	FONT-SIZE: 12px; COLOR: #151515; LINE-HEIGHT: 17px
+}
+TD.content {
+	FONT-SIZE: 13px; COLOR: #151515; LINE-HEIGHT: 130%
+}
+.inputbox {
+	BORDER-RIGHT: #dadada 1px solid; BORDER-TOP: #dadada 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #dadada 1px solid; COLOR: #151515; BORDER-BOTTOM: #dadada 1px solid; BACKGROUND-COLOR: #e0f0aa
+}
+.ClassSearch {
+	BORDER-RIGHT: #dadada 1px solid; BORDER-TOP: #dadada 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #dadada 1px solid; COLOR: #151515; BORDER-BOTTOM: #dadada 1px solid; BACKGROUND-COLOR: #ffffff
+}
+.textarea {
+	BORDER-RIGHT: #000a60 1px solid; BORDER-TOP: #000a60 1px solid; FONT-SIZE: 12px; BORDER-LEFT: #000a60 1px solid; COLOR: #151515; BORDER-BOTTOM: #fe8900 1px solid
+}
+.Copyright {
+	FONT-SIZE: 12px; COLOR: #664d1e; LINE-HEIGHT: 19px; TEXT-DECORATION: none
+}
+.px_14 {
+	FONT-SIZE: 14px; FILTER: dropshadow(color=#DDDDDD,offx=1,offy=1,positive=1)
+}
+.px_13adage {
+	FONT-SIZE: 13px; COLOR: #80442b
+}
+.px_13nav {
+	FONT-SIZE: 13px
+}
+.px_20sort {
+	FONT-WEIGHT: bold; FONT-SIZE: 20px; COLOR: #03409f; LINE-HEIGHT: normal
+}
+.px_14sortsmall {
+	FONT-WEIGHT: bold; FONT-SIZE: 14px; COLOR: #976101; LINE-HEIGHT: normal
+}
+.px_12blue {
+	FONT-SIZE: 12px; COLOR: #336699
+}
+.px_20showtitle {
+	FONT-WEIGHT: bold; FONT-SIZE: 16px; LINE-HEIGHT: normal
+}
+.grey {
+	FONT-SIZE: 12px; COLOR: #8e8e8e
+}
+.greymore {
+	FONT-SIZE: 12px; COLOR: #666666
+}
+.border {
+	BORDER-RIGHT: #e7e3e7 1px solid; BORDER-TOP: #e7e3e7 1px solid; BORDER-LEFT: #e7e3e7 1px solid; BORDER-BOTTOM: #e7e3e7 1px solid
+}
+.title {
+	BACKGROUND: url(Images/manage/err_top_bg.gif) #f6f6f6
+}
+.tdbg {
+	BACKGROUND: #fafafa; LINE-HEIGHT: 120%
+}
+.ListNavBg {
+	BACKGROUND-POSITION: left top; BACKGROUND-ATTACHMENT: fixed; BACKGROUND-IMAGE: url(Images/sort/left_navi.gif); BACKGROUND-REPEAT: no-repeat
+}
+.IndexHotHotBg {
+	BACKGROUND-POSITION: right top; BACKGROUND-ATTACHMENT: fixed; BACKGROUND-IMAGE: url(Images/INDEX/title_hot_hot_bg.gif); BACKGROUND-REPEAT: no-repeat
+}

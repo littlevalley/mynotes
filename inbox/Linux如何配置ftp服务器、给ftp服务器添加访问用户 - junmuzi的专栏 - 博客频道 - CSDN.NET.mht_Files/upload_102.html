@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>上传图片</title>
+    <meta content="CSDN" name="author">
+    <meta content="CSDN" name="Copyright">
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+    <link href="favicon_108.ico" rel="SHORTCUT ICON">
+    <script src="jquery-1.js"></script>
+    <script src="jquery_110.js"></script>
+<style>
+    body {margin: 0;}
+    * {box-sizing: border-box; font: 12px/20px 'microsoft yahei';}
+    .up_img_loading {display: none;}
+    .up_img_loading.active {display: block; position: fixed; z-index: 3; background: rgba(255,255,255,.9); background: #fff \9; width: 100%; height: 100%; line-height: 90px; top: 0; right: 0; text-align: center;}
+    .markdown_file_name {width: 100%; height: 30px; border: 1px solid #ddd; margin: 25px 0; padding: 5px 5px; white-space: nowrap; overflow: hidden; color: #999;}
+    .markdown_file_msg {color: #666; position: absolute; margin-top: -25px;}
+    .btn {text-align: right;}
+    .btn span {background: #999; color: #fff; padding: 3px 10px; cursor: pointer;}
+    label {position: absolute; right: 1px; top: 26px; background: #eee; color: #666; padding: 4px 8px; border-left: 1px solid #ddd;}
+    form {width: 1px; height: 1px ; position: absolute; overflow: hidden;}
+</style>
+<base href="file:///home/bienilz/Downloads/Linux%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AEftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E3%80%81%E7%BB%99ftp%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%B7%BB%E5%8A%A0%E8%AE%BF%E9%97%AE%E7%94%A8%E6%88%B7%20-%20junmuzi%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/"></head>
+<body>
+<div class="markdown_file_name"></div>
+<div class="markdown_file_msg"></div>
+<label for="markdown_file">浏览..</label>
+<div class="up_img_loading">上传中...</div>
+<div class="btn" onclick="submit()"><span>上传图片</span></div>
+
+<form action="/upload_picture.json" id="picture_dialog_form" method="post">
+    <input accept="image/gif, image/jpeg, image/png" id="markdown_file" name="markdown_file" type="file">
+</form>
+<script>
+    $('.up_img_loading').removeClass('active');
+    document.domain = "csdn.net";
+    $('#markdown_file').change(function() {
+        var file_name = $(this).val();
+        $('.markdown_file_name').text(file_name);
+        $(".markdown_file_msg").html("");
+    });
+    function submit(){
+        $('.up_img_loading').addClass('active');
+
+        var form = $("#picture_dialog_form");
+        $(form).ajaxSubmit({
+            success: function (result) {
+                result = $.parseJSON(result);
+                if( result.status==500){
+                    $(".markdown_file_msg").html(result.msg);
+                    $('.up_img_loading').removeClass('active');
+                }else{
+                    $('.markdown_file_name').text(result.url);
+                    $('.up_img_loading').removeClass('active');
+                    window.parent.editor_change_ask_o(result.url);
+                }
+            },
+            error: function(err) {
+                $(".markdown_file_msg").html("系统繁忙，请稍后再试");
+                $('.up_img_loading').removeClass('active');
+            }
+        });
+    }
+</script>
+
+
+</body></html>

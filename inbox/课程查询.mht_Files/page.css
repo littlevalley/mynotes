@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+#pageFooter { width: 780px; float: left; margin-top: 20px; }
+
+#pageFooter li { height: 40px; float: left; line-height: 40px; text-align: center; }
+
+.pageUtil_page { width: 40px; cursor: pointer; }
+
+.pageUtil_paging { width: 40px; cursor: pointer; }
+
+.pageUtil_more { width: 40px; }
+
+.pageUtil_num { width: 40px; height: 40px; margin-left: 5px; }
+
+.pageUtil_nownum { width: 40px; height: 40px; line-height: 40px; margin-left: 5px; }
+
+.pageUtil_nownum span { width: 40px; height: 40px; line-height: 40px; color: rgb(0, 0, 0); }
+
+#pageFooter li a { width: 40px; height: 40px; font-size: 14px; line-height: 40px; text-align: center; display: block; border: 1px solid rgb(204, 204, 204); }
+
+#pageFooter li a:hover { background-color: rgb(241, 241, 241); color: rgb(255, 0, 0); }

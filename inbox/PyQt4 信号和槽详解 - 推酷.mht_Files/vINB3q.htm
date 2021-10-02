@@ -1,0 +1,602 @@
+<html><head><meta charset="UTF-8">
+
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="authenticity_token" name="csrf-param">
+<meta content="FMXmGLz+FbXz4Kbm7mfQCFpOkOa1lSVC7dKvP1yTx7M=" name="csrf-token">
+    <title>
+            PyQt4 信号和槽详解 - 推酷
+   </title>
+    <meta name="description" content="PyQt4 信号和槽详解">
+    <meta property="qc:admins" content="2040660764645137746375">
+  <link rel="shortcut icon" href="http://static0.tuicool.com/favicon.ico" type="image/x-icon">
+  <link href="application-15c1a4a8cf352cb96b042a9de3b345e3.css" media="screen" rel="stylesheet" type="text/css">
+  <link href="font-awesome.min.css" rel="stylesheet">
+  
+
+  <!--[if IE 7]>
+  <link rel="stylesheet" href="http://assets.tuicool.com/assets/font-awesome-ie7.min.css">
+  <![endif]--> 
+  
+  
+
+<style type="text/css"></style>
+<link rel="stylesheet" href="github.css">
+
+</head>
+<body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow-x: hidden; overflow-y: hidden; visibility: hidden; display: none; "><iframe id="BAIDU_DUP_fp_iframe" src="o.htm_ltr_.htm" style="width: 0px; height: 0px; visibility: hidden; display: none; "></iframe></div>
+  
+  <div id="header" class="navbar-fixed-top">
+    <div class="container">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+            <span class="icon-bar"></span> 
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+          </a>
+          <a href="http://www.tuicool.com/" class="brand">推酷</a>        
+        <nav class="nav-collapse collapse">
+            <ul class="nav navbar primary-nav">                            
+              <li class="active">
+                <a href="http://www.tuicool.com/ah">
+                  文章
+                </a>
+              </li>              
+              <li class="">
+                <a href="http://www.tuicool.com/sites/hot">
+                  站点
+                </a>
+              </li>
+              <li class="">
+                <a href="http://www.tuicool.com/topics">
+                  主题
+                </a>
+              </li>
+              <li class="">
+                <a href="http://huodong.tuicool.com/">
+                  活动
+                </a>
+              </li>
+              <li class="">
+                <a href="http://www.tuicool.com/mobile">
+                  客户端
+                    <sup style="font-size:0.8em;color: #16A085;">荐</sup>
+                </a>
+              </li>
+              <li class="dropdown">
+                <a href="vINB3q.htm#" class="dropdown-toggle" data-toggle="dropdown">周刊 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="http://www.tuicool.com/mags">编程狂人</a></li>
+                  <li><a href="http://www.tuicool.com/mags/design">设计匠艺</a></li> 
+                  <li><a href="http://www.tuicool.com/articles/weekly">一周拾遗</a></li>                  
+                </ul>
+              </li>
+              
+               <li class="dropdown">
+                <a href="vINB3q.htm#" class="dropdown-toggle" data-toggle="dropdown">更多 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="http://www.tuicool.com/bbs">讨论区</a></li>  
+                  <li><a href="http://www.tuicool.com/about">关于我们</a></li>                 
+                </ul>
+              </li>
+              
+              </ul>
+            <form class="navbar-search pull-left" action="http://www.tuicool.com/search">
+              <input type="text" class="search-query span2" name="kw" placeholder="搜索">
+            </form>
+            <ul class="nav pull-right">
+                <li><a href="http://www.tuicool.com/login">登录</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+  </div>   
+</div>
+  <div id="flash_container" class="noPrint">    
+  </div>
+  
+  <div class="container-fluid">  
+    <div class="row-fluid article_row_fluid">
+    <div class="span8 contant article_detail_bg">
+        <h1>PyQt4 信号和槽详解</h1>
+        <div class="article_meta">
+            <div style="margin-bottom: 5px;">
+            <span class="timestamp">时间&nbsp;2013-09-22 10:10:00
+            </span>
+            <span class="from">
+                <i class="icon-globe"></i>
+                    <a class="cut cut28 from" href="http://www.tuicool.com/sites/VvEzEn" target="_blank">cold night's Linux Blog
+                    </a>
+            </span>
+            </div>
+            <div class="source">
+                <i style="float:left;">原文</i>&nbsp; 
+                <a class="cut cut70" href="http://www.linuxzen.com/pyqt4-xin-hao-he-cao-xiang-jie.html?utm_source=tuicool" style="display:inline-block;">http://www.linuxzen.com/pyqt4-xin-hao-he-cao-xiang-jie.html</a>
+            </div>
+        </div>
+        <div class="article_body" id="nei">
+            <div>
+  <p>
+    Python 可以开发GUI有很多库可以选择, 之前使用过
+    <tt>wxPython</tt>
+    , 已经很长时间没用过, 基本都忘光了, 由于单位也使用
+    <tt>PyQt</tt>
+    , 之前熟悉项目时看过一段时间, 但是由于没有实际项目经验, 所以
+    <tt>PyQt</tt>
+    很生疏, 最近正好给家里写个小的财务软件练练手. 在用的过程中对
+    <tt>PyQt</tt>
+    熟悉不少, 之前觉得
+    <tt>PyQt</tt>
+    最难掌握的就是
+    <tt>信号</tt>
+    和
+    <tt>槽</tt>
+    , 所以现在先来讨论这个
+  </p>
+  <div>
+    <h2>概览</h2>
+    <p>
+      信号和槽可以说是
+      <tt>Qt</tt>
+      的精髓所在, 有些类似 Javascript 的事件响应机制, 所以咱先以
+      <tt>JQuery</tt>
+      来做个示例, 在
+      <tt>JQuery</tt>
+      中我们获取一个元素, 并且绑定一个事件, 传递一个匿名函数来响应该事件
+    </p>
+    <div>
+      <pre class="prettyprint xml"><span class="c"><span class="comment">&lt;!-- 需导入 jquery 库 --&gt;</span></span>
+<span class="nt"><span class="tag">&lt;<span class="title">button</span></span></span><span class="tag"> <span class="na"><span class="attribute">id</span>=</span><span class="s"><span class="value">"test"</span></span><span class="nt">&gt;</span></span><span class="nt"></span>点我<span class="nt"><span class="tag">&lt;/<span class="title">button</span>&gt;</span></span>
+<span class="nt"><span class="tag">&lt;<span class="title">script</span> </span></span><span class="tag"><span class="na"><span class="attribute">type</span>=</span><span class="s"><span class="value">"text/javascript"</span></span><span class="nt">&gt;</span></span><span class="nt"></span><span class="javascript">
+    <span class="nx">$</span><span class="p">(</span><span class="s2"><span class="string">"#test"</span></span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd"><span class="keyword">function</span></span><span class="p">(){</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s2"><span class="string">"点疼我了!!!"</span></span><span class="p">);</span>
+    <span class="p">)};</span>
+</span><span class="nt"><span class="tag">&lt;/<span class="title">script</span>&gt;</span></span></pre>
+    </div>
+    <p>
+      以上代码, 当点击按钮
+      <tt>点我</tt>
+      时会弹出一个对话框, 这就是响应了点击事件.
+    </p>
+    <p>
+      信号和槽有着类似的机制,
+      <tt>QObject.connect</tt>
+      可以连接一个
+      <tt>QObject</tt>
+      的信号到另一个
+      <tt>QObject</tt>
+      的槽,
+      <tt>PyQt</tt>
+      同时可以将信号连接到一个
+      <tt>callback</tt>
+    </p>
+    <div>
+      <pre class="prettyprint python"><span class="kn"><span class="keyword">from</span></span> <span class="nn">PyQt4</span> <span class="kn"><span class="keyword">import</span></span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+
+<span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">showMsg</span></span><span class="p"><span class="params">()</span>:</span></span><span class="p"></span>
+    <span class="n">QtGui</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s"><span class="string">u"信息"</span></span><span class="p">,</span> <span class="s"><span class="string">u"ok"</span></span><span class="p">)</span>
+
+<span class="n">btn</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s"><span class="string">u"点我"</span></span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">btn</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"clicked()"</span></span><span class="p">),</span> <span class="n">showMsg</span><span class="p">)</span>
+
+<span class="n">w</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span></pre>
+    </div>
+    <p>
+      上面例子将一个 button 对象的
+      <tt>clicked()</tt>
+      信号连接到
+      <tt>showMsg</tt>
+      函数. 也就是说
+      <tt>ShowMsg</tt>
+      响应了一个按钮的点击事件.
+    </p>
+    <p>
+      PyQt 有一种类似
+      <tt>JQuery</tt>
+      响应事件的方式, 来连接信号和槽
+    </p>
+    <div>
+      <pre class="prettyprint python"><span class="kn"><span class="keyword">from</span></span> <span class="nn">PyQt4</span> <span class="kn"><span class="keyword">import</span></span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+
+<span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">showMsg</span></span><span class="p"><span class="params">()</span>:</span></span><span class="p"></span>
+    <span class="n">QtGui</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s"><span class="string">u"信息"</span></span><span class="p">,</span> <span class="s"><span class="string">u"ok"</span></span><span class="p">)</span>
+
+<span class="n">btn</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s"><span class="string">u"点我"</span></span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+
+<span class="n">btn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">showMsg</span><span class="p">)</span>   <span class="c"><span class="comment"># XXX 此处与上面例子不同</span></span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span></pre>
+    </div>
+  </div>
+  <div>
+    <h2>信号</h2>
+    <p>
+      要想了解信号的本质, 我们需要了解信号的创建和
+      <tt>QObject.emit</tt>
+      方法,
+      <tt>emit</tt>
+      方法用来发射信号
+    </p>
+    <div>
+      <h3>定义信号</h3>
+      <p>
+        <tt>PyQt4.QtCore.pyqtSignal</tt>
+        函数可以为
+        <tt>QObject</tt>
+        创建一个信号
+      </p>
+      <div>
+        <pre class="prettyprint java"><span class="kn">from</span> <span class="nn">PyQt4</span> <span class="kn"><span class="keyword">import</span></span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+
+<span class="k"><span class="class"><span class="keyword">class</span></span></span><span class="class"> <span class="nc"><span class="title">MyButton</span></span><span class="p">(</span><span class="n"><span class="title">QtGui</span></span><span class="o">.</span><span class="n"><span class="title">QPushButton</span></span><span class="p">)</span>
+    <span class="n"><span class="title">myclicked</span></span> <span class="o">=</span> <span class="n"><span class="title">QtCore</span></span><span class="o">.</span><span class="n"><span class="title">pyqtSignal</span></span><span class="p">()</span></span><span class="p"></span></pre>
+      </div>
+      <p>
+        上面例子为
+        <tt>MyButton</tt>
+        创建了一个
+        <tt>myclicked()</tt>
+        的信号
+      </p>
+    </div>
+    <div>
+      <h3>带参数的信号</h3>
+      <p>信号可以携带参数, 并在发射信号时携带传递给槽</p>
+      <div>
+        <pre class="prettyprint java"><span class="kn">from</span> <span class="nn">PyQt4</span> <span class="kn"><span class="keyword">import</span></span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+
+<span class="k"><span class="class"><span class="keyword">class</span></span></span><span class="class"> <span class="nc"><span class="title">MyButton</span></span><span class="p">(</span><span class="n"><span class="title">QtGui</span></span><span class="o">.</span><span class="n"><span class="title">QPushButton</span></span><span class="p">)</span>
+    <span class="n"><span class="title">myclicked</span></span> <span class="o">=</span> <span class="n"><span class="title">QtCore</span></span><span class="o">.</span><span class="n"><span class="title">pyqtSignal</span></span><span class="p">(</span><span class="nb"><span class="title">int</span></span><span class="p">)</span></span><span class="p"></span></pre>
+      </div>
+      <p>
+        上面例子定义了
+        <tt>myclicked(int)</tt>
+        信号, 可以携带一个, 发射时信号时可以携带一个整数
+      </p>
+    </div>
+    <div>
+      <h3>发射信号</h3>
+      <p>
+        为了发射我们自定义的信号, 我们对
+        <tt>QPushButton</tt>
+        进行一下封装, 自动绑定
+        <tt>clicked()</tt>
+        信号, 并发射自定义的信号
+      </p>
+      <div>
+        <pre class="prettyprint python"><span class="kn"><span class="keyword">from</span></span> <span class="nn">PyQt4</span> <span class="kn"><span class="keyword">import</span></span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+
+<span class="k"><span class="class"><span class="keyword">class</span></span></span><span class="class"> <span class="nc"><span class="title">MyButton</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+    <span class="n">myclicked</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">pyqtSignal</span><span class="p">()</span>
+
+    <span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">__init__</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+        <span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"clicked()"</span></span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">myclicked</span><span class="o">.</span><span class="n">emit</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+
+<span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">showMsg</span></span><span class="p"><span class="params">()</span>:</span></span><span class="p"></span>
+    <span class="n">QtGui</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s"><span class="string">u"信息"</span></span><span class="p">,</span> <span class="s"><span class="string">u"ok"</span></span><span class="p">)</span>
+
+<span class="n">btn</span> <span class="o">=</span> <span class="n">MyButton</span><span class="p">(</span><span class="s"><span class="string">u"点我"</span></span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">btn</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"myclicked()"</span></span><span class="p">),</span> <span class="n">showMsg</span><span class="p">)</span>
+
+<span class="n">w</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span></pre>
+      </div>
+      <p>
+        上面我们封装了
+        <tt>QPushButton</tt>
+        让他在收到点击信号时同时发送
+        <tt>myclicked()</tt>
+        信号.
+      </p>
+      <p>我们也可以不定义信号, 直接发送信号, 上面的例子也可以这么写</p>
+      <div>
+        <pre class="prettyprint python"><span class="kn"><span class="keyword">from</span></span> <span class="nn">PyQt4</span> <span class="kn"><span class="keyword">import</span></span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+
+<span class="k"><span class="class"><span class="keyword">class</span></span></span><span class="class"> <span class="nc"><span class="title">MyButton</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+    <span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">__init__</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+        <span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"clicked()"</span></span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">emitClicked</span><span class="p">)</span>
+
+    <span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">emitClicked</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="bp">self</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"myclicked()"</span></span><span class="p">))</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+
+<span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">showMsg</span></span><span class="p"><span class="params">()</span>:</span></span><span class="p"></span>
+    <span class="n">QtGui</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s"><span class="string">u"信息"</span></span><span class="p">,</span> <span class="s"><span class="string">u"ok"</span></span><span class="p">)</span>
+
+
+<span class="n">btn</span> <span class="o">=</span> <span class="n">MyButton</span><span class="p">(</span><span class="s"><span class="string">u"点我"</span></span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">btn</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"myclicked()"</span></span><span class="p">),</span> <span class="n">showMsg</span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span></pre>
+      </div>
+      <p>
+        上面例子我们没有定义信号, 仅仅是在响应
+        <tt>clicked()</tt>
+        信号的函数内直接发送
+        <tt>myclicked()</tt>
+        信号
+      </p>
+    </div>
+    <div>
+      <h3>发射带参数的信号</h3>
+      <p>有时我们展示了一个列表, 并想提供查看某项列表的详细内容, 我们会在列表项的末端加一个查看按钮, 这时我们如何在按按钮的时候得知这是那一项呢? 这时就需要带参数的信号, 信号是可以带参数的, 参数会在信号发送时携带, 并传递给接收此信号的槽</p>
+      <div>
+        <pre class="prettyprint python"><span class="kn"><span class="keyword">from</span></span> <span class="nn">PyQt4</span> <span class="kn"><span class="keyword">import</span></span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+
+<span class="k"><span class="class"><span class="keyword">class</span></span></span><span class="class"> <span class="nc"><span class="title">MyButton</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+    <span class="n">myclicked</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">pyqtSignal</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">__init__</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+        <span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">_id</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"clicked()"</span></span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">emitMyclicked</span><span class="p">)</span>
+
+    <span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">emitMyclicked</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="bp">self</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">myclicked</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">)</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+<span class="n">w</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi"><span class="number">100</span></span><span class="p">,</span> <span class="mi"><span class="number">100</span></span><span class="p">)</span>
+
+<span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">showMsg</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="n">_id</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+    <span class="n">QtGui</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s"><span class="string">u"信息"</span></span><span class="p">,</span> <span class="s"><span class="string">u"查看 </span></span><span class="string"><span class="si">%d</span><span class="s">"</span></span><span class="s"></span> <span class="o">%</span> <span class="n">_id</span><span class="p">)</span>
+
+
+<span class="n">btn</span> <span class="o">=</span> <span class="n">MyButton</span><span class="p">(</span><span class="mi"><span class="number">1</span></span><span class="p">,</span> <span class="s"><span class="string">u"查看1"</span></span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">btn</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"myclicked(int)"</span></span><span class="p">),</span> <span class="n">showMsg</span><span class="p">)</span>
+
+<span class="n">btn2</span> <span class="o">=</span> <span class="n">MyButton</span><span class="p">(</span><span class="mi"><span class="number">2</span></span><span class="p">,</span> <span class="s"><span class="string">u"查看2"</span></span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">btn2</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi"><span class="number">0</span></span><span class="p">,</span> <span class="mi"><span class="number">30</span></span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">btn2</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"myclicked(int)"</span></span><span class="p">),</span> <span class="n">showMsg</span><span class="p">)</span>
+
+<span class="n">w</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span></pre>
+      </div>
+      <p>
+        上面例子可以看出,
+        <tt>QObject.emit</tt>
+        发送带参数的信号时要携带参数. 当然上面例子也可以用下面方式来写
+      </p>
+      <div>
+        <pre class="prettyprint python"><span class="kn"><span class="keyword">from</span></span> <span class="nn">PyQt4</span> <span class="kn"><span class="keyword">import</span></span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+
+<span class="k"><span class="class"><span class="keyword">class</span></span></span><span class="class"> <span class="nc"><span class="title">MyButton</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+    <span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">__init__</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_id</span> <span class="o">=</span> <span class="n">_id</span>
+        <span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"clicked()"</span></span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">emitClicked</span><span class="p">)</span>
+
+    <span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">emitClicked</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="bp">self</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"myclicked(int)"</span></span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_id</span><span class="p">)</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+
+<span class="n">w</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">()</span>
+<span class="n">w</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi"><span class="number">100</span></span><span class="p">,</span> <span class="mi"><span class="number">100</span></span><span class="p">)</span>
+
+<span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">showMsg</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="n">_id</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+    <span class="n">QtGui</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="s"><span class="string">u"信息"</span></span><span class="p">,</span> <span class="s"><span class="string">u"查看 </span></span><span class="string"><span class="si">%d</span><span class="s">"</span></span><span class="s"></span> <span class="o">%</span> <span class="n">_id</span><span class="p">)</span>
+
+
+<span class="n">btn</span> <span class="o">=</span> <span class="n">MyButton</span><span class="p">(</span><span class="mi"><span class="number">1</span></span><span class="p">,</span> <span class="s"><span class="string">u"查看1"</span></span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">btn</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"myclicked(int)"</span></span><span class="p">),</span> <span class="n">showMsg</span><span class="p">)</span>
+
+<span class="n">btn2</span> <span class="o">=</span> <span class="n">MyButton</span><span class="p">(</span><span class="mi"><span class="number">2</span></span><span class="p">,</span> <span class="s"><span class="string">u"查看2"</span></span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+<span class="n">btn2</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="mi"><span class="number">0</span></span><span class="p">,</span> <span class="mi"><span class="number">30</span></span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">btn2</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"myclicked(int)"</span></span><span class="p">),</span> <span class="n">showMsg</span><span class="p">)</span>
+<span class="n">w</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span></pre>
+      </div>
+    </div>
+  </div>
+  <div>
+    <h2>槽</h2>
+    <p>
+      我一开始学习 PyQt 的信号和槽的时候看到那个
+      <a href="http://jimmykuu.sinaapp.com/static/PyQt4_Tutorial/html/events_and_signals.html#id1" rel="nofollow">滑块的例子</a>
+      一直搞的我很迷糊, 不知所以, 也没学会怎么用. 这里咱就自己创建一个槽, 就能了解什么是槽和槽该怎么用.
+    </p>
+    <p>
+      上面我们一直使用
+      <tt>函数</tt>
+      (callback)作为槽, 下面我们来介绍使用
+      <cite>真正</cite>
+      的槽
+    </p>
+    <div>
+      <h3>创建槽</h3>
+      <p>
+        <tt>QtCore.pyqtSlot</tt>
+        函数返回一个
+        <tt>装饰器</tt>
+        用于装饰
+        <tt>QObject</tt>
+        的方法, 使之成为一个槽(我开始一直以为
+        <tt>QObject</tt>
+        的一个方法就是一个槽 囧rz), 下面例子我们创建一个槽
+      </p>
+      <div>
+        <pre class="prettyprint python"><span class="kn"><span class="keyword">from</span></span> <span class="nn">PyQt4</span> <span class="kn"><span class="keyword">import</span></span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+
+<span class="k"><span class="class"><span class="keyword">class</span></span></span><span class="class"> <span class="nc"><span class="title">MainWidget</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+    <span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">__init__</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="bp">self</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+        <span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+
+        <span class="n">btn</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s"><span class="string">u"点我"</span></span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">btn</span><span class="p">,</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s"><span class="string">"clicked()"</span></span><span class="p">),</span> <span class="bp">self</span><span class="p">,</span>
+                     <span class="n">QtCore</span><span class="o">.</span><span class="n">SLOT</span><span class="p">(</span><span class="s"><span class="string">"onClicked()"</span></span><span class="p">))</span>
+
+    <span class="nd"><span class="decorator">@QtCore.pyqtSlot</span></span><span class="decorator"><span class="p">()</span></span><span class="p"></span>
+    <span class="k"><span class="function"><span class="keyword">def</span></span></span><span class="function"> <span class="nf"><span class="title">onClicked</span></span><span class="p"><span class="params">(</span></span><span class="params"><span class="bp">self</span><span class="p">)</span></span><span class="p">:</span></span><span class="p"></span>
+        <span class="n">QtGui</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s"><span class="string">u"信息"</span></span><span class="p">,</span> <span class="s"><span class="string">u"由槽弹出"</span></span><span class="p">)</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QApplication</span><span class="p">([])</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">MainWidget</span><span class="p">()</span>
+<span class="n">m</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span></pre>
+      </div>
+      <p>
+        上面例子我们为
+        <tt>MainWidget</tt>
+        创建了一个槽, 并将
+        <tt>btn</tt>
+        的
+        <tt>clicked()</tt>
+        信号连接到这个槽
+      </p>
+      <p>本文所有例子都是经过测试可以运行的, 所以大家如果对信号和槽还是有点迷糊不妨将例子中的代码敲一下并运行, 建议改改例子, 解答自己的疑惑</p>
+    </div>
+  </div>
+</div>
+
+        </div>
+        <div class="article_social">
+        <div class="article_like">
+                <button class="btn btn-large btn-like" id="my_like2" data_id="vINB3q">
+                    <i class="icon-heart-empty"></i>
+                    赞一个
+                </button>
+                <button class="btn btn-large btn-fav liked" id="my_like" data_id="vINB3q">
+                    <i class="icon-star-empty"></i>
+                    收 藏
+                </button>
+        </div>
+        </div>
+        <div class="app-top">
+           <a href="http://www.tuicool.com/app" target="_blank">下载推酷客户端体验优质IT阅读</a>
+        </div>
+    </div>
+</div>
+
+<div id="myLoginModal" class="modal hide fade">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>用户登录</h3>
+    </div>
+    <div class="modal-body">
+        <form method="post" action="http://www.tuicool.com/login" class="form-horizontal" id="login-form">
+            <div class="control-group">
+                <input id="xlEmail" name="email" type="text" placeholder="邮箱">
+            </div>
+            <div class="control-group">
+                <input id="xlPassword" name="password" type="password" placeholder="密码">
+            </div>
+            <div class="control-group">
+                <button type="submit" class="btn btn-primary">
+                    &nbsp;&nbsp;登&nbsp;&nbsp;&nbsp;录&nbsp;&nbsp;
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="read-later-alert">
+</div>
+<div>
+   <a href="vINB3q.htm#add-article-to-kan" id="add-article-to-kan-btn" class="btn" data-toggle="modal" style="display:none;">添加到推刊</a>
+   <!-- add_article to kan -->
+<div id="add-article-to-kan" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <span class="add-title">收藏到推刊</span>
+    <a href="vINB3q.htm#new-kan" class="btn pull-right" data-toggle="modal">创建推刊</a>
+    <i class="clearfix"></i>
+  </div>
+  <div class="modal-body">
+    <ul id="add-kan-list">
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <input type="hidden" value="vINB3q" class="article-id"> 
+    <button class="btn btn-primary pull-left add-to-btn">  收 藏  </button>
+    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+  </div>
+</div>
+<div class="add-article-to-kan-alert">
+  已收藏到推刊！
+</div>
+
+   <div id="new-kan" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-body">
+    <input type="text" name="name" id="new-kan-name" placeholder="推刊名(必填)" required="" data-validation-required-message="请填写推刊名">
+    <span class="new-ness-name">请填写推刊名</span>
+    <br>
+    <textarea name="desc" id="desc" rows="6" placeholder="推刊描述"></textarea>
+    <span class="new-ness-desc">描述不能大于100个字符!</span>
+    <br>
+    权限设置：<input type="radio" name="type" value="1" checked="checked"> 公开
+    <input type="radio" name="type" value="0"> 仅自己可见
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary pull-left create-kan-btn" disabled="">创建</button>
+    <button class="btn dismiss-new-kan" data-dismiss="modal" aria-hidden="true">取消</button>
+  </div>
+</div>
+
+
+</div>
+<style type="text/css">
+    .btn-large {
+        padding: 0;
+    }
+    .load-fail {
+        display: none;
+    }
+</style>
+
+
+
+
+  </div>
+
+    <div class="footer">
+    <p>
+        <a href="http://www.tuicool.com/about" target="_blank">关于</a>
+        <a href="http://www.tuicool.com/mobile" target="_blank">应用</a>
+        <a href="http://www.tuicool.com/bbs/go/issues" target="_blank">反馈</a>
+        <a href="http://www.tuicool.com/bbs" target="_blank">讨论</a>
+    </p>
+</div>
+
+<div style="display:none;">
+   <a href="http://www.cnzz.com/stat/website.php?web_id=5541078" target="_blank" title="站长统计"><img border="0" hspace="0" vspace="0" src="pic.gif"></a>
+</div>
+
+
+
+
+</body></html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- saved from url=(0078)http://blog.csdn.net/common/ad.html?t=12&containerId=ad_commend&frmId=ad_frm_2 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>CSDN Ad</title>
+    <style type="text/css">
+    body { margin:0px; padding:0px;}
+    </style>
+</head>
+<body>
+<div id="div1"><style type="text/css">
+ul { margin:0px; padding:0 4px 0 0; }
+ul, x:-moz-any-link, x:default { width:90%; }
+ul li { padding:3px 0px;}
+a { font-size:12px; text-decoration:none; color:#006699; }
+a:hover { color:#000; }
+</style>
+<ul>
+<li><a href="http://blog.csdn.net/hongtao_liu/article/details/7579663" target="_blank">* FS_S5PC100平台上Linux Camera驱动开发详解（一）</a></li>
+<li><a href="http://blog.csdn.net/mydeman/article/details/7579411" target="_blank">* 简单方便Git的艰难第一步 </a></li>
+<li><a href="http://blog.csdn.net/v_july_v/article/details/7577684" target="_blank">* 从决策树学习 谈到贝叶斯分类算法</a></li>
+<li><a href="http://blog.csdn.net/tianxiaode/article/details/7576638" target="_blank">* Deft JS：通过依赖注入实现低耦合MVC</a></li>
+<li><a href="http://blog.csdn.net/zhoufoxcn/article/details/7574658" target="_blank">* SQL Server编程系列(1):SMO介绍</a></li>
+<li><a href="http://blog.csdn.net/downmoon/article/details/7572345" target="_blank">* SSAS 2012实战示例一：创建多维数据集</a></li>
+
+</ul></div>
+<script type="text/javascript">
+    window.onload = function () {
+
+        var old_domain = document.domain;
+        //document.domain = "csdn.net";
+
+        //这种给广告区域赋值的方式，对于有些JS广告不能完美的显示
+        //top.document.getElementById('ad_commend').innerHTML = document.getElementById('div1').innerHTML;
+
+        var h = document.body.offsetHeight + 2;
+        setTimeout(function () {
+            if (h > 800) h = document.getElementById('div1').offsetHeight + 4;
+            top.document.getElementById('ad_frm_2').style.height = h + 'px';
+        }, 100);        
+    };
+</script>
+
+
+</body></html>

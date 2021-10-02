@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta property="qc:admins" content="2653430022567056570566375">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>Emacs快捷键的总结 - 日志 - 灬猜想灬 - OPEN开源家园</title>
+<script language="javascript" type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/script_common.js"></script>
+<script language="javascript" type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/script_menu.js"></script>
+<script language="javascript" type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/script_ajax.js"></script>
+<script language="javascript" type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/script_face.js"></script>
+<script language="javascript" type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/script_manage.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shCore_002.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrush.js"></script>
+<link type="text/css" rel="stylesheet" href="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shCore.css">
+<link type="text/css" rel="stylesheet" href="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shThemeDefault.css">
+<script type="text/javascript">
+SyntaxHighlighter.config.clipboardSwf = 'http://static.open-open.com/comres/syntaxhighlighter_2.1.382/scripts/clipboard.swf';
+SyntaxHighlighter.all();
+</script>
+<style type="text/css">
+@import url(template/default/style.css);
+@import url(template/default/blog.css);
+@import url(template/blue/style.css);
+</style>
+<link rel="shortcut icon" href="http://www.open-open.com/home/image/favicon.ico">
+<link rel="edituri" type="application/rsd+xml" title="rsd" href="http://www.open-open.com/home/xmlrpc.php?rsd=4097">
+<style type="text/css">#calendar{padding:5px;text-align:left;border:1px solid #7FCAE2;background:#FFF;margin-bottom:0.8em;}#calendar td{padding:2px;font-weight:bold;}#calendar_week td{height:2em;line-height:2em;border-bottom:1px solid #E3EDF5;}#hourminute td{padding:4px 2px;border-top:1px solid #E3EDF5;}.calendar_expire,.calendar_expire a:link,.calendar_expire a:visited{color:#666;font-weight:normal;}.calendar_default,.calendar_default a:link,.calendar_default a:visited{color:#09C;}.calendar_checked,.calendar_checked a:link,.calendar_checked a:visited{color:#F60;font-weight:bold;}td.calendar_checked,span.calendar_checked{background:#E3EDF5;}.calendar_today,.calendar_today a:link,.calendar_today a:visited{color:#444;font-weight:bold;}#calendar_header td{width:30px;height:20px;border-bottom:1px solid #E3EDF5;font-weight:normal;}#calendar_year{display:none;line-height:130%;background:#FFF;position:absolute;z-index:10;}#calendar_year .col{float:left;background:#FFF;margin-left:1px;border:1px solid #E3EDF5;padding:4px;}#calendar_month{display:none;background:#FFF;line-height:130%;border:1px solid #DDD;padding:4px;position:absolute;z-index:11;}</style></head>
+<body>
+
+<div id="append_parent"><div><div id="calendar" style="display:none; position:absolute; z-index:100000;" onclick="doane(event)"><div style="width: 210px;"><table style="text-align: center;" cellpadding="0" cellspacing="0" width="100%"><tbody><tr id="calendar_week" align="center"><td><a href="###" onclick="refreshcalendar(yy, mm-1)" title="上一月">《</a></td><td colspan="5" style="text-align: center"><a href="###" onclick="showdiv('year');doane(event)" class="dropmenu" title="点击选择年份" id="year"></a>&nbsp; - &nbsp;<a id="month" class="dropmenu" title="点击选择月份" href="###" onclick="showdiv('month');doane(event)"></a></td><td><a href="###" onclick="refreshcalendar(yy, mm+1)" title="下一月">》</a></td></tr><tr id="calendar_header"><td>日</td><td>一</td><td>二</td><td>三</td><td>四</td><td>五</td><td>六</td></tr><tr><td id="d1" height="19">0</td><td id="d2" height="19">0</td><td id="d3" height="19">0</td><td id="d4" height="19">0</td><td id="d5" height="19">0</td><td id="d6" height="19">0</td><td id="d7" height="19">0</td></tr><tr><td id="d8" height="19">0</td><td id="d9" height="19">0</td><td id="d10" height="19">0</td><td id="d11" height="19">0</td><td id="d12" height="19">0</td><td id="d13" height="19">0</td><td id="d14" height="19">0</td></tr><tr><td id="d15" height="19">0</td><td id="d16" height="19">0</td><td id="d17" height="19">0</td><td id="d18" height="19">0</td><td id="d19" height="19">0</td><td id="d20" height="19">0</td><td id="d21" height="19">0</td></tr><tr><td id="d22" height="19">0</td><td id="d23" height="19">0</td><td id="d24" height="19">0</td><td id="d25" height="19">0</td><td id="d26" height="19">0</td><td id="d27" height="19">0</td><td id="d28" height="19">0</td></tr><tr><td id="d29" height="19">0</td><td id="d30" height="19">0</td><td id="d31" height="19">0</td><td id="d32" height="19">0</td><td id="d33" height="19">0</td><td id="d34" height="19">0</td><td id="d35" height="19">0</td></tr><tr><td id="d36" height="19">0</td><td id="d37" height="19">0</td><td id="d38" height="19">0</td><td id="d39" height="19">0</td><td id="d40" height="19">0</td><td id="d41" height="19">0</td><td id="d42" height="19">0</td></tr><tr id="hourminute"><td colspan="7" align="center"><input size="2" id="hour" class="txt" onkeyup='this.value=this.value > 23 ? 23 : zerofill(this.value);controlid.value=controlid.value.replace(/\d+(:\d+)/ig, this.value+"$1")' type="text"> 点 <input size="2" id="minute" class="txt" onkeyup='this.value=this.value > 59 ? 59 : zerofill(this.value);controlid.value=controlid.value.replace(/(\d+:)\d+/ig, "$1"+this.value)' type="text"> 分</td></tr></tbody></table></div></div><div id="calendar_year" onclick="doane(event)" style="display: none;z-index:100001;"><div class="col"><a href="###" onclick="refreshcalendar(2020, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2020">2020</span></a><br><a href="###" onclick="refreshcalendar(2019, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2019">2019</span></a><br><a href="###" onclick="refreshcalendar(2018, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2018">2018</span></a><br><a href="###" onclick="refreshcalendar(2017, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2017">2017</span></a><br><a href="###" onclick="refreshcalendar(2016, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2016">2016</span></a><br><a href="###" onclick="refreshcalendar(2015, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2015">2015</span></a><br><a href="###" onclick="refreshcalendar(2014, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2014">2014</span></a><br><a href="###" onclick="refreshcalendar(2013, mm);$('calendar_year').style.display='none'"><span class="calendar_today" id="calendar_year_2013">2013</span></a><br><a href="###" onclick="refreshcalendar(2012, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2012">2012</span></a><br><a href="###" onclick="refreshcalendar(2011, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2011">2011</span></a><br></div><div class="col"><a href="###" onclick="refreshcalendar(2010, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2010">2010</span></a><br><a href="###" onclick="refreshcalendar(2009, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2009">2009</span></a><br><a href="###" onclick="refreshcalendar(2008, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2008">2008</span></a><br><a href="###" onclick="refreshcalendar(2007, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2007">2007</span></a><br><a href="###" onclick="refreshcalendar(2006, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2006">2006</span></a><br><a href="###" onclick="refreshcalendar(2005, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2005">2005</span></a><br><a href="###" onclick="refreshcalendar(2004, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2004">2004</span></a><br><a href="###" onclick="refreshcalendar(2003, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2003">2003</span></a><br><a href="###" onclick="refreshcalendar(2002, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2002">2002</span></a><br><a href="###" onclick="refreshcalendar(2001, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2001">2001</span></a><br></div><div class="col"><a href="###" onclick="refreshcalendar(2000, mm);$('calendar_year').style.display='none'"><span id="calendar_year_2000">2000</span></a><br><a href="###" onclick="refreshcalendar(1999, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1999">1999</span></a><br><a href="###" onclick="refreshcalendar(1998, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1998">1998</span></a><br><a href="###" onclick="refreshcalendar(1997, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1997">1997</span></a><br><a href="###" onclick="refreshcalendar(1996, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1996">1996</span></a><br><a href="###" onclick="refreshcalendar(1995, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1995">1995</span></a><br><a href="###" onclick="refreshcalendar(1994, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1994">1994</span></a><br><a href="###" onclick="refreshcalendar(1993, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1993">1993</span></a><br><a href="###" onclick="refreshcalendar(1992, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1992">1992</span></a><br><a href="###" onclick="refreshcalendar(1991, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1991">1991</span></a><br></div><div class="col"><a href="###" onclick="refreshcalendar(1990, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1990">1990</span></a><br><a href="###" onclick="refreshcalendar(1989, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1989">1989</span></a><br><a href="###" onclick="refreshcalendar(1988, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1988">1988</span></a><br><a href="###" onclick="refreshcalendar(1987, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1987">1987</span></a><br><a href="###" onclick="refreshcalendar(1986, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1986">1986</span></a><br><a href="###" onclick="refreshcalendar(1985, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1985">1985</span></a><br><a href="###" onclick="refreshcalendar(1984, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1984">1984</span></a><br><a href="###" onclick="refreshcalendar(1983, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1983">1983</span></a><br><a href="###" onclick="refreshcalendar(1982, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1982">1982</span></a><br><a href="###" onclick="refreshcalendar(1981, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1981">1981</span></a><br></div><div class="col"><a href="###" onclick="refreshcalendar(1980, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1980">1980</span></a><br><a href="###" onclick="refreshcalendar(1979, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1979">1979</span></a><br><a href="###" onclick="refreshcalendar(1978, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1978">1978</span></a><br><a href="###" onclick="refreshcalendar(1977, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1977">1977</span></a><br><a href="###" onclick="refreshcalendar(1976, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1976">1976</span></a><br><a href="###" onclick="refreshcalendar(1975, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1975">1975</span></a><br><a href="###" onclick="refreshcalendar(1974, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1974">1974</span></a><br><a href="###" onclick="refreshcalendar(1973, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1973">1973</span></a><br><a href="###" onclick="refreshcalendar(1972, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1972">1972</span></a><br><a href="###" onclick="refreshcalendar(1971, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1971">1971</span></a><br></div><div class="col"><a href="###" onclick="refreshcalendar(1970, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1970">1970</span></a><br><a href="###" onclick="refreshcalendar(1969, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1969">1969</span></a><br><a href="###" onclick="refreshcalendar(1968, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1968">1968</span></a><br><a href="###" onclick="refreshcalendar(1967, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1967">1967</span></a><br><a href="###" onclick="refreshcalendar(1966, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1966">1966</span></a><br><a href="###" onclick="refreshcalendar(1965, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1965">1965</span></a><br><a href="###" onclick="refreshcalendar(1964, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1964">1964</span></a><br><a href="###" onclick="refreshcalendar(1963, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1963">1963</span></a><br><a href="###" onclick="refreshcalendar(1962, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1962">1962</span></a><br><a href="###" onclick="refreshcalendar(1961, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1961">1961</span></a><br></div><div class="col"><a href="###" onclick="refreshcalendar(1960, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1960">1960</span></a><br><a href="###" onclick="refreshcalendar(1959, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1959">1959</span></a><br><a href="###" onclick="refreshcalendar(1958, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1958">1958</span></a><br><a href="###" onclick="refreshcalendar(1957, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1957">1957</span></a><br><a href="###" onclick="refreshcalendar(1956, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1956">1956</span></a><br><a href="###" onclick="refreshcalendar(1955, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1955">1955</span></a><br><a href="###" onclick="refreshcalendar(1954, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1954">1954</span></a><br><a href="###" onclick="refreshcalendar(1953, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1953">1953</span></a><br><a href="###" onclick="refreshcalendar(1952, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1952">1952</span></a><br><a href="###" onclick="refreshcalendar(1951, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1951">1951</span></a><br></div><div class="col"><a href="###" onclick="refreshcalendar(1950, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1950">1950</span></a><br><a href="###" onclick="refreshcalendar(1949, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1949">1949</span></a><br><a href="###" onclick="refreshcalendar(1948, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1948">1948</span></a><br><a href="###" onclick="refreshcalendar(1947, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1947">1947</span></a><br><a href="###" onclick="refreshcalendar(1946, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1946">1946</span></a><br><a href="###" onclick="refreshcalendar(1945, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1945">1945</span></a><br><a href="###" onclick="refreshcalendar(1944, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1944">1944</span></a><br><a href="###" onclick="refreshcalendar(1943, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1943">1943</span></a><br><a href="###" onclick="refreshcalendar(1942, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1942">1942</span></a><br><a href="###" onclick="refreshcalendar(1941, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1941">1941</span></a><br></div><div class="col"><a href="###" onclick="refreshcalendar(1940, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1940">1940</span></a><br><a href="###" onclick="refreshcalendar(1939, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1939">1939</span></a><br><a href="###" onclick="refreshcalendar(1938, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1938">1938</span></a><br><a href="###" onclick="refreshcalendar(1937, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1937">1937</span></a><br><a href="###" onclick="refreshcalendar(1936, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1936">1936</span></a><br><a href="###" onclick="refreshcalendar(1935, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1935">1935</span></a><br><a href="###" onclick="refreshcalendar(1934, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1934">1934</span></a><br><a href="###" onclick="refreshcalendar(1933, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1933">1933</span></a><br><a href="###" onclick="refreshcalendar(1932, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1932">1932</span></a><br><a href="###" onclick="refreshcalendar(1931, mm);$('calendar_year').style.display='none'"><span id="calendar_year_1931">1931</span></a><br></div></div><div id="calendar_month" onclick="doane(event)" style="display: none;z-index:100001;"><a href="###" onclick="refreshcalendar(yy, 0);$('calendar_month').style.display='none'"><span id="calendar_month_1">1&nbsp; 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 1);$('calendar_month').style.display='none'"><span id="calendar_month_2">2&nbsp; 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 2);$('calendar_month').style.display='none'"><span id="calendar_month_3">3&nbsp; 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 3);$('calendar_month').style.display='none'"><span id="calendar_month_4">4&nbsp; 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 4);$('calendar_month').style.display='none'"><span id="calendar_month_5">5&nbsp; 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 5);$('calendar_month').style.display='none'"><span id="calendar_month_6">6&nbsp; 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 6);$('calendar_month').style.display='none'"><span id="calendar_month_7">7&nbsp; 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 7);$('calendar_month').style.display='none'"><span id="calendar_month_8">8&nbsp; 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 8);$('calendar_month').style.display='none'"><span id="calendar_month_9">9&nbsp; 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 9);$('calendar_month').style.display='none'"><span class="calendar_today" id="calendar_month_10">10 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 10);$('calendar_month').style.display='none'"><span id="calendar_month_11">11 月</span></a><br><a href="###" onclick="refreshcalendar(yy, 11);$('calendar_month').style.display='none'"><span id="calendar_month_12">12 月</span></a><br></div></div></div>
+<div id="ajaxwaitid"></div>
+<div id="header">
+<div class="headerwarp">
+<h1 class="logo"><a href="http://www.open-open.com/home/index.php"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/logo.gif" alt="OPEN开源家园"></a></h1>
+<ul class="menu">
+<li><a href="http://www.open-open.com/home/index.php">首页</a></li>
+<li><a href="http://www.open-open.com/home/network.html">随便看看</a></li>
+
+<li class="dropmenu" id="ucappmenu" onclick="showMenu(this.id)">
+<a href="javascript:;">站内导航</a>
+</li>
+
+<li><a href="http://www.open-open.com/home/help.php">帮助</a></li>
+</ul>
+
+<div class="nav_account">
+<a href="http://www.open-open.com/home/do.php?ac=dfdffffdfww" class="login_thumb"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/noavatar_small.gif" onerror="this.onerror=null;this.src='http://www.open-open.com/ucenter/images/noavatar_small.gif'"></a>
+欢迎您<br>
+<a href="http://www.open-open.com/home/do.php?ac=dfdfqqddvgfr">登录</a> |
+<a href="http://www.open-open.com/home/do.php?ac=dfdffffdfww">注册</a>
+</div>
+</div>
+</div>
+
+<div id="wrap">
+
+<div id="main">
+<div id="app_sidebar">
+<div class="bar_text">
+<form id="loginform" name="loginform" action="do.php?ac=dfdfqqddvgfr&amp;ref" method="post">
+<input name="formhash" value="04a591f2" type="hidden">
+<p class="title">登录站点</p>
+<p>用户名</p>
+<p><input name="username" id="username" class="t_input" size="15" type="text"></p>
+<p>密码</p>
+<p><input name="password" id="password" class="t_input" size="15" value="" type="password"></p>
+<p><input id="cookietime" name="cookietime" value="315360000" checked="checked" type="checkbox"><label for="cookietime">记住我</label></p>
+<p>
+<input id="loginsubmit" name="loginsubmit" value="登录" class="submit" type="submit">
+<input name="regbutton" value="注册" class="button" onclick="urlto('do.php?ac=dfdffffdfww');" type="button">
+</p>
+</form>
+</div>
+</div>
+
+<div id="mainarea">
+
+
+
+
+<div class="c_header a_header">
+<div class="avatar48"><a href="http://www.open-open.com/home/space-4097.html"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/97_avatar_small.jpg" onerror="this.onerror=null;this.src='http://www.open-open.com/ucenter/images/noavatar_small.gif'"></a></div>
+<a class="r_option" href="http://www.baidu.com/s?tn=monline_4_dg&amp;ie=utf-8&amp;bs=emacs+c+%E6%B3%A8%E9%87%8A&amp;f=8&amp;rsv_bp=1&amp;wd=emacs++%E6%B3%A8%E9%87%8A%E5%BF%AB%E6%8D%B7%E9%94%AE&amp;rsv_sug3=3&amp;rsv_sug4=5106&amp;inputT=9745">« 返回上一页</a>
+<p style="font-size:14px">灬猜想灬的日志</p>
+<a href="http://www.open-open.com/home/space-4097.html" class="spacelink">灬猜想灬的主页</a>
+ <span class="pipe">»</span> <a href="http://www.open-open.com/home/space-4097-do-blog-view-me.html">TA的所有日志</a> <span class="pipe">»</span> <a href="http://www.open-open.com/home/space-4097-do-blog-id-1235.html">查看日志</a></div>
+
+
+<script type="text/javascript" charset="utf-8" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/script_calendar.js"></script>
+
+
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shCore.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrushJScript.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrushCSharp.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrushCss.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrushJava.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrushPhp.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrushPython.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrushRuby.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrushSql.js"></script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/shBrushXml.js"></script>
+<link type="text/css" rel="stylesheet" href="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/SyntaxHighlighter.css">
+<script language="javascript">
+window.onload = function () {
+    dp.SyntaxHighlighter.ClipboardSwf = '/flash/clipboard.swf';
+    dp.SyntaxHighlighter.HighlightAll('code');
+}
+</script>
+
+<div class="entry" style="padding:0 0 10px;">
+
+<div class="title">
+<h1 class="magiccolor5">Emacs快捷键的总结</h1>
+<span class="hot"><em>热</em>4</span><span class="gray">已有 3899 次阅读</span>&nbsp; <span class="gray">2010-11-24 23:15</span>
+&nbsp; <a href="http://www.open-open.com/home/space-4097-do-tag.html">标签</a>:&nbsp;
+<a href="http://www.open-open.com/home/space-4097-do-tag-id-1043.html">Emacs</a>&nbsp;
+</div>
+
+
+<div id="blog_article" class="article ">
+<div class="resizeimg">
+<div class="resizeimg2">
+<div class="resizeimg3">
+<div class="resizeimg4">
+
+<div>
+<p><strong>文件操作</strong></p>
+<p>C-x C-f 打开文件,出现提示时输入/username@host:filepath可编辑FTP文件<br><strong><span style="COLOR: #ff0000">C-x C-v 打开一个文件，取代当前缓冲区</span></strong><br>C-x C-s 保存文件<br>C-x C-w 存为新文件<br><strong><span style="COLOR: #ff0000">C-x i 插入文件</span></strong><br><span style="FONT-SIZE: medium"><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>C-x C-q 切换为只读或者读写模式</strong></span></span></span><br>C-x C-c 退出Emacs</p>
+<p><strong>编辑操作</strong></p>
+<p>C-f 前进一个字符<br>C-b 后退一个字符<br>M-f 前进一个字<br>M-b 后退一个字<br>C-a 移到行首<br>C-e 移到行尾<br>M-a 移到句首<br>M-e 移到句尾<br>C-p 后退一行<br>C-n 前进一行<br><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>M-x goto-line 跳到指定行</strong></span></span><br>C-v 向下翻页<br>M-v 向上翻页<br><strong>M-&lt; 缓冲区头部<br>M-&gt; 缓冲区尾部</strong></p>
+<p><span style="BACKGROUND-COLOR: #ffff00"><strong><span style="COLOR: #ff0000">C-M-f 向前匹配括号<br>C-M-b 向后匹配括号</span></strong></span></p>
+<p>C-l 当前行居中</p>
+<p><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>M-n </strong></span></span>or C-u n 重复操作随后的命令n次<br>C-u 重复操作随后的命令4次<br><strong>C-u C-u 重复操作随后的命令8次</strong><br><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>C-x ESC ESC 执行历史命令记录，M-p选择上一条命令，M-n选择下一条命令</strong></span></span></p>
+<p><strong>C-d 删除一个字符</strong><br>M-d 删除一个字<br><strong>C-k 删除一行</strong><br>M-k 删除一句<br><span style="BACKGROUND-COLOR: #999999"><span style="COLOR: #ff0000"><strong>C-w 删除标记区域</strong></span></span></p>
+<p><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>C-y 粘贴删除的内容</strong></span></span></p>
+<p>注意：C-y可以粘贴连续C-k删除的内容；<span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>先按C-y，然后按M-y可以选择粘贴被删除的内容</strong></span></span></p>
+<p>C-@ 标记开始区域<br><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>C-x h 标记所有文字</strong></span></span><br>C-x C-x 交换光标位置和区域标记区开头<br><span style="BACKGROUND-COLOR: #999999"><strong><span style="COLOR: #ff0000">M-w 复制标记区域</span></strong></span></p>
+<p><span style="BACKGROUND-COLOR: #ffff00"><strong><span style="COLOR: #ff0000">C-_ or C-x u 撤消操作</span></strong></span></p>
+<p><strong>执行SHELL命令</strong></p>
+<p><strong>M-x shell 打开SHELL</strong><br><span style="COLOR: #ff0000"><strong>M-! 执行SHELL命令 (shell-command)</strong></span><br>M-1 M-! 执行SHELL命令,命令输出插入光标位置,不打开新输出窗口<br>M-| 针对某一特定区域执行命令(shell-command-on-region), 比如 C-x h M-|uuencode</p>
+<p><strong>窗口操作</strong></p>
+<p>C-x 0 关闭本窗口<br>C-x 1 只留下一个窗口<br>C-x 2 <strong>垂直</strong>均分窗口<br>C-x 3 <strong>水平</strong>均分窗口<br>C-x o 切换到别的窗口<br>C-x s 保存所有窗口的缓冲<br><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>C-x b 选择当前窗口的缓冲区</strong></span></span><br><span style="BACKGROUND-COLOR: #ffff00"><span style="FONT-SIZE: medium"><span style="COLOR: #ff0000"><strong>C-x ^ 纵向扩大窗口<br>C-x } 横向扩大窗口</strong></span></span></span></p>
+<p><strong>缓冲区列表操作</strong></p>
+<p>C-x C-b 打开缓冲区列表<br><strong>d or k 标记为删除<br>~ 标记为未修改状态<br>% 标记为只读<br>s 保存缓冲<br>u 取消标记<br>x 执行标记的操作</strong></p>
+<p><strong>f 在当前窗口打开该缓冲区<br>o 在其他窗口打开该缓冲区</strong></p>
+<p><strong>目录操作</strong></p>
+<p><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><span style="FONT-SIZE: medium">C-x d 打开目录模式</span></span></span><br>s 按日期/文件名排序显示<br>v 阅读光标所在的文件<br>q 退出阅读的文件<br>d 标记为删除<br>x 执行标记<br>D 马上删除当前文件<br>C 拷贝当前文件<br>R 重名名当前文件<br>+ 新建文件夹<br>Z 压缩文件<br>! 对光标所在的文件执行SHELL命令<br>g 刷新显示<br>i 在当前缓冲区的末尾插入子目录的内容</p>
+<p>[n]m 标记光标所在的文件，如果指定n，则从光标所在的文件起后n个文件被标记<br>[n]u 取消当前光标标记的文件，n的含义同上<br>t 反向标记文件<br>%-m 正则标记</p>
+<p>q 退出目录模式</p>
+<p>说明：在目录模式中，如果输入!，在命令行中包含*或者?，有特殊的含义。*匹配当前光标所在的文件和所有标记的文件，?分别在每一个标记的文件上 执行该命令。</p>
+<p><strong>程序编译</strong></p>
+<p><strong><span style="COLOR: #ff0000">M-x compile </span></strong>执行编译操作<br><strong><span style="COLOR: #ff0000">M-x gdb</span></strong> GDB排错<br>M-x dbx DBX排错<br>M-x xdb XDB排错<br>M-x sdb SDB排错</p>
+<p><strong>搜索模式</strong></p>
+<p>C-s key 向前搜索<br>C-s 查找下一个<br>ENTER 停止搜索<br><strong>C-r </strong>key <strong>反向</strong>搜索<br><span style="BACKGROUND-COLOR: #ffff00"><strong><span style="COLOR: #ff0000">C-s C-w 以光标所在位置的字为关键字搜索</span></strong></span><br>C-s C-s 重复上次搜索<br>C-r C-r 重复上次反向搜索<br><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>C-s ENTER C-w 进入单词搜索模式</strong></span></span><br>C-r ENTER C-w 进入反向单词搜索模式<br>M-x replace-string ENTER search-string ENTER 替换<br><span style="BACKGROUND-COLOR: #ffff00"><span style="COLOR: #ff0000"><strong>M-% search-string ENTER replace-string ENTER 交互替换</strong></span></span><br>C-r 在进入<span style="BACKGROUND-COLOR: #ffff00"><strong><span style="COLOR: #ff0000">单词搜索(查找/替换)模式</span></strong></span>后，该命令进入迭代编辑模式<br><span style="COLOR: #ff0000"><strong>C-M-x 退出迭代编辑模式，返回到查找/替换模式</strong></span><br>C-M- s 向前正则搜索<br>C-M-r 向后正则搜索<br>C-M-% 正则交互替换</p>
+<p><span style="BACKGROUND-COLOR: #c0c0c0"><span style="COLOR: #ff0000"><span style="FONT-SIZE: medium"><strong>SHELL模式</strong></span></span></span></p>
+<p><span style="FONT-SIZE: medium"><span style="COLOR: #ffff00"><span style="BACKGROUND-COLOR: #ffffff">C-c C-c 相当于Bash下的C-c<br>C-c C-z 相当于Bash下的C-z<br>C-c C-d 相当于Bash下的C-d<br>M-p 执行前一条命令<br>C-n 执行下一条命令<br>C-c C-o 删除最后一条命令产生的输出<br>C-c C-r 屏幕滚动到最后一条命令输出的开头<br>C-c C-e 屏幕滚动到最后一套命令输出的结尾<br>C-c C-p 查看前一条命令的输出<br>C-c C-n 查看后一条命令的输出</span></span></span></p>
+<p><strong>打印资料</strong></p>
+<p>M-x print-buffer 先使用pr,然后使用lpr<br>M-x lpr-buffer 直接使用lpr<br>M-x print-region<br>M-x lpr-region</p>
+<p><strong>收发邮件</strong></p>
+<p>M-x mail 发送邮件, C-c C-s 发送,C-c C-c 发送并退出<br>M-x rmail 接受邮件</p>
+<p><strong>参考资料：</strong></p>
+<p>O'Reilly, Emacs 3rd Edition</p>
+<div class="clear-block clear">
+<div class="meta">
+<div class="terms">
+<ul>
+<li class="first last taxonomy_term_13"><a href="http://www.devfront.com:8080/?q=taxonomy/term/13" target="_blank"><span style="COLOR: #0000ff">Linux/BSD</span></a> </li></ul></div></div>
+<div class="links">
+<ul>
+<li class="first blog_usernames_blog"><a title="Read Marchday's latest blog entries." href="http://www.devfront.com:8080/?q=marchday"><span style="COLOR: #0000ff">Marchday's blog</span></a> 
+</li><li class="last comment_add"><a title="Share  your thoughts and opinions related to this posting." href="http://www.devfront.com:8080/?q=comment/reply/115#comment-form"><span style="COLOR: #0000ff">Add new comment</span></a> </li></ul></div></div>
+<h2 class="comments">Comments</h2>
+<p><span class="submitted">Tue, 2007-01-23 02:41 — Marchday</span></p>
+<h3><a href="http://www.devfront.com:8080/?q=node/115#comment-73" target="_blank"><span style="COLOR: #800080">一些FAQ</span></a></h3>
+<p>Q:如何使用gdb设置断点的时侯让emacs高亮源代码那一行？</p>
+<p>A:设断点是 C-x space<br>-------------------------------<br>ecb可以到这里下 载：http://ecb.sourceforge.net/<br>-------------------------------<br>Q:编辑 c++文件时，现在M-;用的是//形式的注释<br>我想用/**/的<br>怎么办 ?</p>
+<p>A:[1]M-x c-mode<br>[2](defun my-c-comment ()<br>(interactive)<br>(insert "/* */"<br>(backward-char 3))<br>(global-unset-key "\M-;"<br>(global-set-key "\M-;" 'my-c-comment)<br>-------------------------------<br>Q:Emacs 和 XEmacs 的区别?</p>
+<p>A:http://www.xemacs.org/About/XEmacsVsGNUemacs.html<br>-------------------------------<br>最 新emacs for windows的下载地址<br>http://ftp.gnu.org/gnu/windows/emacs/<br>-------------------------------<br>Q: 想在打开文件的时候就 auto indent ，不要老按 TAB 键，.emacs 怎样写?</p>
+<p>A:<br>(global-set-key "\C-m" 'reindent-then-newline-and-indent)<br>或者 这样：<br>(add-hook 'c-mode-common-hook<br>(lambda ()<br>(define-key c-mode-map<br>"\C-m" 'reindent-then-newline-and-indent)))<br>-------------------------------<br>Q: 我的是21.3.1，ecb2.27。我的ecb不支持鼠标双击阿，不知道大家的ecb是什么版本的，能不能支持鼠标双击，或者用快捷键切换到ecb窗 口?</p>
+<p>A:快捷键有啊。好些是C-c , g m 就调到methods窗口。g d 就goto directorey 窗口，<br>说实话，我觉得
+ ecb窗口跳转很不方便。不如speedbar，只要设置一下speedbar-get-focus的快捷键，这个是可以 
+toggle的。而且speedbar上该有的都有，成员函数列表都在上面。按 f 就跳到 file mode，基本ecb有的它都有了。<br>-------------------------------<br>Q:ecb 有没有windows版本的?</p>
+<p>这些东西没有什么平台一说，都是elisp语言，用emacs byte-compile一下就可以了。但是我认为ecb的跳转很麻烦。<br>-------------------------------<br>Q: 我在emscs中打开了几个文件进行编辑，我要关闭缓存中某一个文件应当怎样操作？</p>
+<p>A:1C-x k<br>A2:c-x c-b 在要关闭的buffer的那行 d, 在x就ok了<br>-------------------------------<br>Q: 我想在打开文件的时候就 auto indent</p>
+<p>A:你可以C-x h 选中所有内容，然后C-M \ 就可以了。<br>-------------------------------<br>Q: 不想要emacs de工具栏,怎样让它不显示?</p>
+<p>A1:options 里面 show/hide ，关掉 toolbar，然后 options 再选择 一下 save options ，下次就再也不出来了。<br>A2:也可把(tool-bar-mode nil)加到.emacs中<br>-------------------------------<br>Q:emacs 的正确发音?</p>
+<p>A:一马克思?一卖壳丝？<br>-------------------------------<br>Q:在打开文件时如果文件名中有空格, 请问我怎么输入这个空格<br>发表：</p>
+<p>A:在空格前加"\"<br>-------------------------------<br>Q:果我不小心按错了键，跑到文件头或者文 件尾了，怎么能快速回到刚才光标所在的位置？</p>
+<p>A:C-u C-@<br>-------------------------------<br>Q:编译某行出错时，我想快速把光标定位到此 行，我应该如何做？</p>
+<p>A:可以使用C-x ' 。注意是 `，也就是F1 下面的那个，不是单引号。<br>实在不行，M-x next-error 也可以。<br>-------------------------------<br>Q: 怎样让emacs中复制的 东西可以在系统中使用?好象emacs不和系统使用相同的粘贴板</p>
+<p>A1:C-y 不行吗？要不就直接在emacs中干吧。M-x shell<br>A2：<br>M-x gdb<br>file xxx.c<br>run<br>-------------------------------<br>Q：emacs 中怎样才能运行.c的程序？我只会编译.c的程序，不会运行。每次只能退出emacs，在shell下运行</p>
+<p>A：不用退出啊、直接按C-x C-z 就会进入shell，你然后shell下运行，然后<span style="COLOR: #ff0000"><strong>fg回来</strong></span>就可以了。或者你M-x shell，直接在emacs中运行也可以的。<br>-------------------------------<br>Q：我的emacs缩进 是2两个空格。怎样设置为8个呢？</p>
+<p>A：(setq c-basic-offset 8）<br>-------------------------------<br>Q：终端下 使用Ctrl+x 2/3可以上下左右分屏，默认的是一半对一半。请问可以调整两个窗口的大小吗？</p>
+<p>A：M-x enlarge-window （c-x ^)<br>M-x shrink-window<br>你可以把他们绑定到你喜欢得键上。<br>-------------------------------<br>Q： 请问在emacs里怎么显示日期？</p>
+<p>A：(setq display-time-day-and-date t)<br>(display-time)<br>-------------------------------<br>Q： 请问C-s时候如何粘贴要搜的内容?</p>
+<p>A1：移动光标到你要查找的东西上（不用粘贴）， C-s C-w<br>A2：M-y<br>-------------------------------<br>Q： 不产生备份文件</p>
+<p>A：<strong>(setq make-backup-files nil)</strong><br>-------------------------------<br>Q： 请问在emacs中怎么删除从光标位置到行首？</p>
+<p>A1：Meta - C-k<br>A2：Ctrl-u 0 Ctrl-k<br>-------------------------------<br>Q： 我在xp中用GNU Emacs 21.3.1...<br>当按pagedown多次后...emacs就会失去响应...请问怎么回事?</p>
+<p>A：因为你设置了scroll-margin<br>-------------------------------<br>Q：写程序时经常会 遇到一个很长的代码块（用'{}'包起来的）<br>有什么办法能把一个代码块缩起来，需要的时候再展开</p>
+<p>A：<br>M-x hs-minor-mode<br>* C-c @ ESC C-s show all<br>* C-c @ ESC C-h hide all<br>* C-c @ C-s show block<br>* C-c @ C-h hide block<br>* C-c @ C-c toggle hide/show</p>
+<p>我重新定义了show block和hide block的键<br>(add-hook 'c-mode-hook 'hs-minor-mode)<br>C-c bh show block<br>C-c bs hide block<br>-------------------------------<br>Q： 每次都语法高亮显示：(global-font-lock-mode t) 加入你的.emacs文件。</p>
+<p>-------------------------------<br>Q：装上ecb，有个color-themes可以调整配色方 案，ecb-change-layout可以改变ecb窗口布局<br>-------------------------------<br>Q：emacs 中，想复制一段文字，或复制一行，应该怎样做<br>我现在是先cut，（C-SPACE ..... C-w），然后在paste（C-y）一下,有没有更好的操作</p>
+<p>A:M-w<br>-------------------------------<br>Q:请问谁知道在编译程序的时候,怎样让光标从当前 
+buffer自动跳到正在编译程序的buffer,然后光标一直保持在这个buffer的底部?我现在每一次编译程序后,都是C-x 
+o,然后再C-Shift &gt;;到最底看结果,挺麻烦的,不知道这样一个..........</p>
+<p>A:<br>;; S-F9 调用 compile 并设置编译命令<br>;; F9 则保存所有文件并编译(无提示)<br>(defun du/onekey-compile ()<br>"Save buffers and start compile"<br>(interactive)<br>(save-some-buffers t)<br>(switch-to-buffer-other-window "*compilation*"<br>(compile compile-command)<br>; (other-window 1)<br>)<br>(global-set-key [S-f9] '(lambda ()<br>(interactive)<br>(switch-to-buffer-other-window "*compilation*"<br>(compile)<br>; (other-window 1)<br>))<br>(global-set-key [f9] 'du/onekey-compile)<br>-------------------------------<br>Q:如何显示 ASCII表?</p>
+<p>A:http://www.cpqd.com.br/~vinicius/emacs/ascii.el<br>-------------------------------<br>Q: 怎样使得 emacs 里面， 选取的区域为矩形，而不是一行行全选上了？</p>
+<p>A:<span style="COLOR: #ff0000"><strong>Ctrl+空格建，然后把光标移到下几行<br>ctrl+x r k<br>ctrl+x r y</strong></span><br>-------------------------------<br>Q： 我的tab键被用来做格式化功能了，那我怎样才能键入一个真正的tab呢？</p>
+<p>A：<strong><span style="COLOR: #ff0000">C-q TAB</span></strong><br>-------------------------------<br>Q：如何重新从磁盘里load当前编辑的文 件？因为有时候文件可能被别人改了，所以才有这个需求</p>
+<p>A：M-x revert-buffer<br>-------------------------------<br>Q：一般我的emacs 启动后都是去/usr/share/emacs/site-lisp下面找扩展程序<br>请问这个目录是否可以指定？<br>因为我现在要把我的 emacs搬家到另一个没有root权限的机器<br>所以我不能去改他们的/usr/share/emacs/site-lisp，只能在自己的目录干 活</p>
+<p>A：<br>在.emacs最前头加一条(setq load-path (cons "/home/bleem1998/.emacs-site-lisp/" load-path))<br>然后把所有的扩展包都丢在"/home /bleem1998/.emacs-site-lisp/"就可以了<br>-------------------------------<br>Q： 请问在emacs中如何设置字体和背景的颜色？</p>
+<p>A：设置背景颜色 M-x set-background-color<br>可以写到 .emacs里打开emacs就设置：<br>(set-face-background 'default "azure") ; azure或者别的颜色<br>如果只想在window模式下设置背景，终端下不需要，就加上判断：<br>(if window-system<br>(set-face-background 'default "azure"))<br>-------------------------------<br>Q：
+ 
+文本方式下，emacs的有些热键被终端的热键代替了。比如：ctrl-h在终端中是退格键，而emacs中是在线帮助，结果在emacs中按ctrl-
+ h就变成了删除光标前面的字符。这种情况还很多。要怎样设置才能用emacs的热键替代终端的..........</p>
+<p>A：<br>(global-set-key "\C-h" 'backward-delete-char-untabify)<br>(global-set-key [DEL] 'delete-char)<br>-------------------------------<br>Q：我用emacs，屏幕显 示大约是80行，25列，开多个窗格时，每个窗格显示不了多少字符。<br>能不能让屏幕显示更多的行和列？</p>
+<p>A：不是很清楚你的意思。是emacs窗口不够大？还是emacs编辑时自动换行的列太小？<br>如果是后者 (setq default-fill-column 85)<br>如果是前者，可以在开emacs时选择大点的尺寸，或者动动鼠标拉大点 -_-<br>(if window-system<br>(setq default-frame-alist<br>(append<br>'((top . 0) (left . 0) (width . 120) (height . 60))<br>default-frame-alist)))<br>-------------------------------<br>Q：fcitx 的热建 Ctrol－Space 和 emacs 的 mark-set 重了， 我每次在 emacs里面输入中文，就不能mark-set了，怎么办啊？</p>
+<p>A：Mark可以用 C-@<br>-------------------------------<br>Q：怎样把所有的/r/n都替换成 /n，或者怎样删除所有的/r</p>
+<p>A：除了使用一些工具软件（如 dos2unix、tr 等）对文件直接进行转换外，在 Emacs 中有如下两种方法：</p>
+<p>[1]、替换法<br>使用 Emacs 的替换命令 replace-string 将 \r 替换为空以达到删除的目的：<br>M-x replace-string RETURN # 执行 replace-string 命令<br>Replace string: C-q C-m RETURN # 替换字符串。C-q C-m 为 \r 字符的输入形式<br>with: RETURN # 替换为空字符串</p>
+<p>[2]、解码法<br>如果 Emacs 对文件的自动解码失败，可指定文件的解码方式打开文件。对于本问题来说，指定一种可行的 dos 
+解码方式即可（如 chinese-euc-dos），Emacs将会自动进行转换，从而能正确显示Window格式的文本文件的内容。在启动 
+Emacs 之后：<br>C-x C-m c chinese-euc-dos RETURN # 指定编码方式为chinese-euc-dos<br>C-x C-f your_file_name RETURN # 打开文件<br>-------------------------------<br>Q：&gt;;&gt;; 1.有什么可设置emacs在选定文本后输入时把选定的文本换掉?</p>
+<p>A：M-x pending_delete_mode # 切换到 Delete_Selection 模式<br>-------------------------------<br>Q：&gt;;&gt;; 2.如何将一段选定的文字在大小写之间切换??</p>
+<p>A：<strong><span style="COLOR: #0000ff">C-x C-l # 转换为小写文字</span></strong><br><strong><span style="COLOR: #0000ff">C-x C-u # 转换为大写文字</span></strong><br>-------------------------------<br>Q：emacs 中如何设置显示文件字体的大小？</p>
+<p>A：可通过修改 Default face 的 Height 属性来实现（customize-face命令或者在菜单中找修改 face 的一项）。如果是 XEmacs，有菜单选项可直接更改字体大小。<br>-------------------------------<br>Q： 请问从其他地方copy到emacs的快接键</p>
+<p>A：</p>
+<p>拷贝一个文件到一个ｂｕｆｆｅｒ里面用c-x i<br>拷贝一个buffer到另外一个buffer用c-x c-i<br>拷贝剪 贴板里的用c-y<br>在ｌｉｎｕｘ力，可以直接用鼠标选定要拷贝的东西，再用鼠标中间的键拷贝到buffer里<br>-------------------------------<br>Q： 如何让emacs启动后就最大化？</p>
+<p>A：&nbsp; (setq initial-frame-alist '((top . 0) (left . 0) (width . 97) (height . 49)))<br>数值自己修改吧。</p></div><br>
+<script type="text/javascript"><!--
+google_ad_client = "pub-7963911354665843";
+/* 728x90, 创建于 08-7-23 */
+google_ad_slot = "4923244917";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;" frameborder="0" height="90" scrolling="no" width="728"></iframe></ins></ins>			
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="padding:0 0 10px;">
+
+<div style="text-align: right; padding-top:10px; ">
+<a href="http://www.open-open.com/home/cp.php?ac=share&amp;type=blog&amp;id=1235" id="a_share" onclick="ajaxmenu(event, this.id, 1)" class="a_share">分享</a>
+
+
+<a href="http://www.open-open.com/home/cp.php?ac=common&amp;op=report&amp;idtype=blogid&amp;id=1235" id="a_report" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+</div>
+
+
+<div id="content">
+
+<div id="click_div">
+
+<div class="digc">
+<table>
+<tbody><tr>
+<td valign="bottom"><a href="http://www.open-open.com/home/cp.php?ac=click&amp;op=add&amp;clickid=1&amp;idtype=blogid&amp;id=1235&amp;hash=8be0fb5cb26957f947651ff12d32d9dd" id="click_blogid_1235_1" onclick="ajaxmenu(event, this.id, 0, 2000, 'show_click')"><div class="digcolumn"><div class="digchart dc3" style="height:50px;"><em>2</em></div></div><div class="digface"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/luguo.gif" alt=""><br>路过</div></a></td>
+<td valign="bottom"><a href="http://www.open-open.com/home/cp.php?ac=click&amp;op=add&amp;clickid=5&amp;idtype=blogid&amp;id=1235&amp;hash=8be0fb5cb26957f947651ff12d32d9dd" id="click_blogid_1235_5" onclick="ajaxmenu(event, this.id, 0, 2000, 'show_click')"><div class="digface"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/jidan.gif" alt=""><br>鸡蛋</div></a></td>
+<td valign="bottom"><a href="http://www.open-open.com/home/cp.php?ac=click&amp;op=add&amp;clickid=4&amp;idtype=blogid&amp;id=1235&amp;hash=8be0fb5cb26957f947651ff12d32d9dd" id="click_blogid_1235_4" onclick="ajaxmenu(event, this.id, 0, 2000, 'show_click')"><div class="digface"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/xianhua.gif" alt=""><br>鲜花</div></a></td>
+<td valign="bottom"><a href="http://www.open-open.com/home/cp.php?ac=click&amp;op=add&amp;clickid=3&amp;idtype=blogid&amp;id=1235&amp;hash=8be0fb5cb26957f947651ff12d32d9dd" id="click_blogid_1235_3" onclick="ajaxmenu(event, this.id, 0, 2000, 'show_click')"><div class="digface"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/woshou.gif" alt=""><br>握手</div></a></td>
+<td valign="bottom"><a href="http://www.open-open.com/home/cp.php?ac=click&amp;op=add&amp;clickid=2&amp;idtype=blogid&amp;id=1235&amp;hash=8be0fb5cb26957f947651ff12d32d9dd" id="click_blogid_1235_2" onclick="ajaxmenu(event, this.id, 0, 2000, 'show_click')"><div class="digface"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/leiren.gif" alt=""><br>雷人</div></a></td>
+<td valign="bottom"><a href="http://www.open-open.com/home/cp.php?ac=click&amp;op=add&amp;clickid=16&amp;idtype=blogid&amp;id=1235&amp;hash=8be0fb5cb26957f947651ff12d32d9dd" id="click_blogid_1235_16" onclick="ajaxmenu(event, this.id, 0, 2000, 'show_click')"><div class="digface"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/nb.jpg" alt=""><br>非常棒</div></a></td>
+</tr>
+</tbody></table>
+</div>
+
+
+
+</div>
+
+<div class="comments" id="div_main_content">
+<h2>
+<a href="#quickcommentform_1235" class="r_option">发表评论</a>
+评论 (<span id="comment_replynum">1</span> 个评论)</h2>
+<div class="page"></div>
+<div class="comments_list" id="comment">
+<ul id="comment_ul">
+<li id="comment_2361_li"><div class="avatar48"><a href="http://www.open-open.com/home/space-5679.html"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/79_avatar_small.jpg" onerror="this.onerror=null;this.src='http://www.open-open.com/ucenter/images/noavatar_small.gif'"></a></div>
+<div class="title">
+<div class="r_option">
+
+
+<a href="http://www.open-open.com/home/cp.php?ac=comment&amp;op=reply&amp;cid=2361&amp;feedid=" id="c_2361_reply" onclick="ajaxmenu(event, this.id, 1)">回复</a>
+<a href="http://www.open-open.com/home/cp.php?ac=common&amp;op=report&amp;idtype=comment&amp;id=2361" id="a_report_2361" onclick="ajaxmenu(event, this.id, 1)">举报</a>
+</div>
+
+<a href="http://www.open-open.com/home/space-5679.html" id="author_2361">quguiliang</a> 
+<span class="gray">2010-12-02 14:24</span>
+
+</div>
+
+<div class="detail" id="comment_2361"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/3.gif" class="face"></div>
+
+</li></ul>
+</div>
+<div class="page"></div>
+
+<form id="quickcommentform_1235" name="quickcommentform_1235" action="cp.php?ac=comment" method="post" class="quickpost">
+
+<table cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td>
+<a href="###" id="comment_face" title="插入表情" onclick="showFace(this.id, 'comment_message');return false;"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/facelist.gif" align="absmiddle"></a>
+<a id="a_magic_doodle" href="http://www.open-open.com/home/magic.php?mid=doodle&amp;showid=comment_doodle&amp;target=comment_message" onclick="ajaxmenu(event, this.id, 1)"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/doodle.gif" class="magicicon">涂鸦板</a>
+<br>
+<textarea id="comment_message" onkeydown="ctrlEnter(event, 'commentsubmit_btn');" name="message" rows="5" style="width:500px;"></textarea>
+</td>
+</tr>
+<tr>
+<td>
+<input name="refer" value="space.php?uid=4097&amp;do=blog&amp;id=1235" type="hidden">
+<input name="id" value="1235" type="hidden">
+<input name="idtype" value="blogid" type="hidden">
+<input name="commentsubmit" value="true" type="hidden">
+<input id="commentsubmit_btn" name="commentsubmit_btn" class="submit" value="评论" onclick="ajaxpost('quickcommentform_1235', 'comment_add')" type="button">
+<div id="__quickcommentform_1235"></div>
+</td>
+</tr>
+</tbody></table>
+<input name="formhash" value="04a591f2" type="hidden"></form>
+<br>
+</div>
+
+</div>
+
+
+<div id="sidebar" style="padding-top:20px;">
+
+
+<div class="sidebox">
+<h2 class="title">
+<a href="http://www.open-open.com/home/space-4097-do-blog-view-me.html" class="r_option">全部</a>
+作者的其他最新日志
+</h2>
+<ul class="news_list">
+<li style="height:auto;"><a href="http://www.open-open.com/home/space-4097-do-blog-id-11720.html">自定义JavaScript的 Sleep 函数</a></li>
+<li style="height:auto;"><a href="http://www.open-open.com/home/space-4097-do-blog-id-11710.html">Windows中查找命令的路径 (类似Linux中的which命令)</a></li>
+<li style="height:auto;"><a href="http://www.open-open.com/home/space-4097-do-blog-id-11657.html">电子计算器 MC MR MS M+ M- CE 的全称与作用</a></li>
+</ul>
+</div>
+
+<div class="sidebox">
+<h2 class="title">热门日志导读</h2>
+<ul class="news_list">
+<li style="height:auto;"><a href="http://www.open-open.com/home/space-4097.html" style="font-weight:bold;">灬猜想灬</a>: <a href="http://www.open-open.com/home/space-4097-do-blog-id-11720.html">自定义JavaScript的 Sleep 函数</a></li>
+<li style="height:auto;"><a href="http://www.open-open.com/home/space-34094.html" style="font-weight:bold;">x_hwang</a>: <a href="http://www.open-open.com/home/space-34094-do-blog-id-11713.html">java 注解理解</a></li>
+<li style="height:auto;"><a href="http://www.open-open.com/home/space-34094.html" style="font-weight:bold;">x_hwang</a>: <a href="http://www.open-open.com/home/space-34094-do-blog-id-11712.html">海量数据处理</a></li>
+<li style="height:auto;"><a href="http://www.open-open.com/home/space-4097.html" style="font-weight:bold;">灬猜想灬</a>: <a href="http://www.open-open.com/home/space-4097-do-blog-id-11710.html">Windows中查找命令的路径 (类似Linux中的which命令)</a></li>
+<li style="height:auto;"><a href="http://www.open-open.com/home/space-135360.html" style="font-weight:bold;">Yangcl</a>: <a href="http://www.open-open.com/home/space-135360-do-blog-id-11688.html">富客户端程序设计实例 - Action层 - 逻辑分支低耦合： Action耦合Entity</a></li>
+<li style="height:auto;"><a href="http://www.open-open.com/home/space-4910.html" style="font-weight:bold;">suninformation</a>: <a href="http://www.open-open.com/home/space-4910-do-blog-id-11667.html">轻量级的JAVA应用开发框架——YMP</a></li>
+</ul>
+</div>
+
+
+</div>
+
+
+<script type="text/javascript">
+<!--
+function closeSide2(oo) {
+if($('sidebar').style.display == 'none'){
+$('content').style.cssText = '';
+$('sidebar').style.display = 'block';
+oo.innerHTML = '&raquo; 关闭侧边栏';
+}
+else{
+$('content').style.cssText = 'margin: 0pt; width: 810px;';
+$('sidebar').style.display = 'none';
+oo.innerHTML = '&laquo; 打开侧边栏';
+}
+}
+function addFriendCall(){
+var el = $('friendinput');
+if(!el || el.value == "")	return;
+var s = '<input type="checkbox" name="fusername[]" value="'+el.value+'" id="'+el.value+'" checked>';
+s += '<label for="'+el.value+'">'+el.value+'</label>';
+s += '<br />';
+$('friends').innerHTML += s;
+el.value = '';
+}
+resizeImg('blog_article','700');
+resizeImg('div_main_content','450');
+
+//彩虹炫
+var elems = selector('div[class~=magicflicker]');
+for(var i=0; i<elems.length; i++){
+magicColor(elems[i]);
+}
+
+-->
+</script>
+
+</div>
+
+<!--/mainarea-->
+<div id="bottom"></div>
+</div>
+<!--/main-->
+
+<div id="footer">
+
+<p class="r_option">
+<a href="javascript:;" onclick="window.scrollTo(0,0);" id="a_top" title="TOP"><img src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/top.gif" alt="" style="padding: 5px 6px 6px;"></a>
+</p>
+
+
+<p>
+OPEN开源家园 - 
+<a href="mailto:webadmin@open-open.com">联系我们</a>
+ - <a href="http://www.miibeian.gov.cn/" target="_blank">闽ICP备10022058号</a></p>
+<p>
+Powered by <a href="http://u.discuz.net/" target="_blank"><strong>UCenter Home</strong></a> <span title="20100416">2.0</span>
+© 2001-2010 <a href="http://www.comsenz.com/" target="_blank">Comsenz Inc.</a>
+</p>
+</div>
+</div>
+<!--/wrap-->
+
+<ul id="ucappmenu_menu" class="dropmenu_drop" style="display:none;">
+<li><a href="http://www.open-open.com/doc" title="OPEN文档" target="_blank">OPEN文档</a></li>
+<li><a href="http://www.open-open.com/news" title="OPEN资讯" target="_blank">OPEN资讯</a></li>
+<li><a href="http://www.open-open.com/bbs" title="OPEN论坛" target="_blank">OPEN论坛</a></li>
+<li><a href="http://www.open-open.com/lib" title="OPEN经验库" target="_blank">OPEN经验库</a></li>
+</ul>
+
+
+<script language="javascript" type="text/javascript" src="Emacs%E5%BF%AB%E6%8D%B7%E9%94%AE%E7%9A%84%E6%80%BB%E7%BB%93%20-%20%E6%97%A5%E5%BF%97%20-%20%E7%81%AC%E7%8C%9C%E6%83%B3%E7%81%AC%20-%20OPEN%E5%BC%80%E6%BA%90%E5%AE%B6%E5%9B%AD_files/do.htm"></script>
+
+
+
+</div></body></html>

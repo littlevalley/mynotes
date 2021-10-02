@@ -1,0 +1,44 @@
+根据手册 man urndis 的内容，在freebsd 4.7中就可以使用urndis
+了，从但是在release版本中包含驱动的是freebsd 9.3，要使用手机的rndis
+功能上网，可以将驱动编译在内核中，也可以在loader.conf中进行配置，手册原文如下：
+
+点击(此处)折叠或打开
+
+1.  To compile this driver into the kernel, place the following lines in
+    your
+2.  kernel configuration file:
+3.  device ehci
+4.  device uhci
+5.  device ohci
+6.  device xhci
+7.  device usb
+8.  device urndis
+9.  Alternatively, to load the driver as a module at boot time, place
+    the
+10. following line in loader.conf(5):
+
+11. if\_urndis\_load="YES"
+12. 
+
+具体如何编译内核请参考[[http://www.freebsd.org/doc/zh_CN/books/handbook/][FreeBSD
+Hanbook]]！
+
+在完成驱动加载后，以root身份运行bsdconfig配置网络接口（Network
+Managment）。
+
+点击(此处)折叠或打开
+
+1. bsdconfig
+
+依次进入Network Managment ->Network Interfaces ->Networking Devices
+(ue0) -> DHCP 完成配置后保存退出。
+
+这是Freebsd 10.1 下面的操作，其他版本的参照执行。
+
+测试一下吧： ping www.baidu.com
+
+不出意外的话，你可以愉快地上网了。
+
+（当然，你现在看到的这篇文章就是通过我的手机上网贴上来的。）
+
+

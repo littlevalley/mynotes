@@ -1,0 +1,457 @@
+@charset "utf-8";
+
+.webgridhead { border-width: 1px; border-style: ridge; border-color: white rgb(29, 93, 122) rgb(29, 93, 122) white; height: 16px; background-color: rgb(198, 212, 241); font-size: 12px; }
+
+.webgridfooter { background-color: rgb(238, 242, 251); }
+
+.webgriditem { background-color: rgb(238, 242, 251); }
+
+.celldisabled { background-color: rgb(244, 244, 244); }
+
+.aboutTD { border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153); background-color: rgb(255, 255, 239); }
+
+.mainli { font-size: 10pt; font-family: ����; text-decoration: none; }
+
+.reportCell { border-width: 1px; border-style: solid; border-color: rgb(233, 234, 236); }
+
+.hpimage { background-color: rgb(208, 219, 233); position: relative; top: 3px; width: 15px; }
+
+.hptablewidth { height: 137px; width: 254px; }
+
+.trodd { background-color: rgb(235, 240, 250); border-color: rgb(153, 153, 153); }
+
+.trdual { background-color: rgb(255, 255, 255); border-color: rgb(153, 153, 153); }
+
+.trmouseover { background-color: rgb(177, 196, 236); border-color: rgb(233, 234, 236); }
+
+.listtrmouseover { background-color: rgb(255, 255, 232); border-color: rgb(233, 234, 236); }
+
+.tabForeStyle { background-image: url("../Images/tab-dw1.gif"); }
+
+.tabBackStyle { background-image: url("../Images/tab-dw.gif"); }
+
+.LeftAlign { text-align: left; }
+
+.nbsp { font-size: 8pt; font-family: Verdana; }
+
+a { color: black; font-size: 12px; font-family: ����; }
+
+.RightAlign { text-align: right; }
+
+.StormyWeatherFooterTD { background-color: rgb(217, 226, 245); }
+
+.label { font-size: 12px; font-family: ����; }
+
+.card { border-width: 1px; border-style: solid ridge ridge solid; border-color: silver rgb(231, 232, 234) rgb(231, 232, 234) silver; background-color: rgb(222, 227, 239); }
+
+.cardPop { color: black; }
+
+.cardGuide { border-width: 1px; border-style: solid ridge ridge solid; border-color: silver rgb(231, 232, 234) rgb(231, 232, 234) silver; background-color: rgb(247, 242, 222); }
+
+.TreeCss { border-width: 2px 3px 3px 2px; border-style: inset double double solid; border-color: rgb(105, 105, 105) rgb(220, 220, 220) rgb(220, 220, 220) rgb(105, 105, 105); font-size: 12px; color: white; font-family: ����; }
+
+.MenuCss { background-color: rgb(132, 145, 164); }
+
+.aspnmTopG { }
+
+.aspnmG { border-width: 1px; border-style: solid; border-color: whitesmoke dimgray dimgray rgb(255, 255, 255); background-color: rgb(132, 145, 164); }
+
+.aspnmTopIO { border-width: 1px 1px 0px; border-style: solid; border-color: rgb(193, 200, 208) rgb(255, 255, 255) rgb(132, 145, 164) rgb(193, 200, 208); padding-right: 12px; padding-left: 5px; padding-bottom: 0px; cursor: pointer; color: black; font-family: ����; font-size: 12px; background-color: rgb(183, 209, 245); }
+
+.aspnmTopI { border-width: 1px 1px 0px; border-style: solid; border-color: rgb(255, 255, 255) rgb(35, 77, 169) rgb(132, 145, 164) honeydew; padding-right: 12px; padding-left: 5px; padding-bottom: 0px; cursor: pointer; color: rgb(255, 255, 255); font-family: ����; font-size: 12px; background-color: rgb(117, 166, 231); }
+
+.aspnmI { border-width: 1px 1px 0px; border-style: solid; border-color: rgb(163, 214, 255) rgb(193, 200, 208); padding-right: 12px; padding-left: 5px; padding-bottom: 1px; cursor: pointer; background-color: rgb(183, 209, 245); font-family: ����; font-size: 12px; color: black; }
+
+.aspnmIO { border-width: 1px 1px 0px; border-style: solid; border-color: rgb(193, 200, 208); padding-right: 12px; padding-left: 5px; padding-bottom: 1px; cursor: pointer; color: black; font-family: ����; font-size: 12px; background-color: rgb(240, 243, 246); }
+
+.aspnmID { border-width: 1px 0px; border-style: solid; border-color: black rgb(138, 153, 186) rgb(138, 153, 186) black; padding-right: 12px; padding-left: 5px; font-size: 12px; padding-bottom: 1px; cursor: pointer; color: white; font-family: ����; background-color: rgb(59, 83, 134); }
+
+.portletlabel { font-weight: bold; font-size: 12px; }
+
+.crumb { font-size: 12px; }
+
+.headbarsub { font-weight: normal; font-size: 12px; vertical-align: super; }
+
+.listhead { background-image: url("../images/listHead.gif"); height: 25px; font-size: 12px; color: black; }
+
+.listheadtable { border-width: 0px 1px 1px; border-color: rgb(158, 181, 231); border-style: ridge solid solid; }
+
+.ontab { font-weight: bold; font-size: 12px; text-decoration: none; }
+
+.offtab { font-weight: bold; font-size: 12px; text-decoration: none; }
+
+.ontabbottom { font-size: 12px; text-decoration: none; }
+
+.offtabbottom { font-size: 12px; text-decoration: none; }
+
+.bgontabbottom { font-size: 12px; }
+
+.bgofftabbottom { font-size: 12px; }
+
+.ontabhover { font-weight: bold; font-size: 12px; text-decoration: underline; }
+
+.offtabhover { font-weight: bold; font-size: 12px; text-decoration: underline; }
+
+.btntext { font-size: 12px; text-decoration: none; }
+
+.btntexthover { font-size: 12px; text-decoration: underline; }
+
+.medtext { font-size: 9pt; }
+
+.medtextbold { font-weight: bold; font-size: 9pt; }
+
+.medtextboldnolink { font-weight: bold; font-size: 9pt; color: rgb(0, 0, 0); text-decoration: none; }
+
+.text { font-size: 12px; }
+
+.textctr { font-size: 12px; text-align: center; }
+
+.textrt { font-size: 12px; text-align: right; }
+
+.inputrt { font-size: 12px; color: rgb(0, 0, 0); text-align: right; }
+
+.inputText { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); vertical-align: middle; border-width: 1px; border-style: solid; border-color: rgb(158, 181, 231); }
+
+.dateInputText { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); vertical-align: middle; border-width: 1px; border-style: solid; border-color: rgb(158, 181, 231); }
+
+.inputTextNOBorder { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); vertical-align: middle; border-width: 1px; border-style: solid; border-color: rgb(255, 255, 255); }
+
+.searchButton { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); vertical-align: middle; }
+
+.dropDownList { font-size: 12px; color: rgb(0, 0, 0); }
+
+.dropDownListreq { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 229); }
+
+.jsDropDownList { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); vertical-align: middle; border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153); }
+
+.dropDownListSpan { vertical-align: middle; overflow: hidden; position: absolute; border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153); }
+
+.listBox { font-size: 12px; color: rgb(0, 0, 0); }
+
+.inputrtreq { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 229); text-align: right; vertical-align: middle; }
+
+.textnolink { font-size: 12px; text-decoration: none; }
+
+.textul { font-size: 12px; text-decoration: underline; }
+
+.textbold { font-weight: bold; font-size: 12px; }
+
+.textboldctr { font-weight: bold; font-size: 12px; text-align: center; }
+
+.textboldrt { font-weight: bold; font-size: 12px; text-align: right; }
+
+.textboldul { font-weight: bold; font-size: 12px; text-decoration: underline; }
+
+.textboldnolink { font-weight: bold; font-size: 12px; color: rgb(0, 0, 0); text-decoration: none; }
+
+.textdark { font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(102, 102, 102); }
+
+.textdarkbold { font-weight: bold; font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(102, 102, 102); }
+
+.textdarkboldnolink { font-weight: bold; font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(102, 102, 102); text-decoration: none; }
+
+.textdarkboldul { font-weight: bold; font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(102, 102, 102); text-decoration: underline; }
+
+.textdarkctr { font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(102, 102, 102); text-align: center; }
+
+.textdarkrt { font-size: 12px; color: rgb(255, 255, 255); background-color: rgb(102, 102, 102); text-align: right; }
+
+.textboldul { font-weight: bold; font-size: 12px; color: rgb(0, 0, 0); text-decoration: underline; }
+
+.input { font-size: 12px; color: rgb(0, 0, 0); }
+
+.inputreq { vertical-align: middle; font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 229); }
+
+.nlbutton { font-size: 12px; color: rgb(0, 0, 0); width: 65px; padding-top: 2px; height: 20px; }
+
+.bgbutton { font-size: 12px; background-image: url("bgbutton.gif"); width: 57px; color: rgb(0, 0, 0); padding-top: 2px; height: 20px; border: 0px; }
+
+.bigbgbutton { font-size: 12px; background-image: url("../Images/bigbgbutton.gif"); width: 100px; color: rgb(0, 0, 0); padding-top: 2px; height: 20px; border: 0px; }
+
+.textwhite { font-size: 12px; color: rgb(255, 255, 255); }
+
+.textwhitenolink { font-size: 12px; color: rgb(255, 255, 255); text-decoration: none; }
+
+.textwhitert { font-size: 12px; color: rgb(255, 255, 255); text-align: right; }
+
+.textmedium { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(170, 170, 170); }
+
+.textmediumctr { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(170, 170, 170); text-align: center; }
+
+.textmediumrt { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(170, 170, 170); text-align: right; }
+
+.smalltext { font-size: 12px; }
+
+.tinytext { font-size: 7pt; }
+
+.smalltextul { font-size: 12px; text-decoration: underline; }
+
+.smalltextrt { font-size: 12px; text-align: right; }
+
+.smalltextctr { font-size: 12px; text-align: center; }
+
+.smalltextb { font-weight: bold; font-size: 12px; }
+
+.smalltextbrt { font-weight: bold; font-size: 12px; text-align: right; }
+
+.smalltextbnolink { font-weight: bold; font-size: 12px; text-decoration: none; }
+
+.smalltextnolink { font-size: 12px; text-decoration: none; }
+
+.smallgraytext { font-size: 12px; color: rgb(102, 102, 102); }
+
+.tinygraytext { font-size: 7pt; color: rgb(102, 102, 102); }
+
+.smallgraytextul { font-size: 12px; color: rgb(102, 102, 102); text-decoration: underline; }
+
+.smallgraytextrt { font-size: 12px; color: rgb(102, 102, 102); text-align: right; }
+
+.smallgraytextnolink { font-size: 12px; color: rgb(102, 102, 102); text-decoration: none; }
+
+.smalltextsub1 { font-size: 12px; text-indent: 20pt; }
+
+.pic { font-weight: normal; font-size: 12px; vertical-align: top; text-align: center; }
+
+.ctr { text-align: center; }
+
+.rt { text-align: right; }
+
+.graylt { background-color: rgb(204, 204, 204); }
+
+.graymd { background-color: rgb(170, 170, 170); }
+
+.graydk { background-color: rgb(102, 102, 102); }
+
+.errortext { font-size: 12px; color: rgb(238, 0, 0); background-color: rgb(255, 244, 244); }
+
+.taskstatus { font-size: 14pt; }
+
+.bigboldtext { font-weight: bold; font-size: 16pt; }
+
+.buttontext { font-size: 12px; color: rgb(0, 0, 0); text-decoration: none; }
+
+.bigbuttontextb { font-weight: bold; font-size: 10pt; color: rgb(255, 255, 255); text-decoration: none; }
+
+.adtext { font-size: 12px; color: rgb(0, 0, 0); text-decoration: none; }
+
+.segmentnavlarge { font-weight: bold; font-size: 12pt; text-align: center; }
+
+.segmentnavtext { font-size: 10pt; }
+
+.segmentnavtexton { font-weight: bold; font-size: 11pt; color: rgb(204, 0, 0); }
+
+.listtable { border-width: 0px 1px 1px 0px; border-style: solid; border-color: white rgb(84, 100, 122) rgb(84, 100, 122) white; padding: 2px; margin-left: 1px; vertical-align: top; height: 100%; background-color: rgb(204, 204, 204); }
+
+.listheader { background-image: url("/res/Images/platform/listHead.gif"); height: 25px; font-size: 12px; }
+
+.selectedheader { border-width: 1px; border-style: ridge; border-color: white rgb(29, 93, 122) rgb(29, 93, 122) white; height: 19px; background-color: rgb(219, 219, 220); font-size: 12px; font-family: ����; padding-right: 1px; padding-bottom: 1px; padding-top: 1px; text-align: left; }
+
+.listheaderDec { border-width: 1px; border-style: ridge; border-color: white rgb(29, 93, 122) rgb(29, 93, 122) white; height: 16px; background-color: rgb(219, 219, 220); font-size: 12px; font-family: ����; padding-right: 1px; padding-bottom: 1px; text-align: right; padding-top: 1px; }
+
+.mouseoverheaderDec { border-width: 1px; border-style: ridge; border-color: white rgb(29, 93, 122) rgb(29, 93, 122) white; height: 16px; background-color: rgb(220, 220, 220); font-size: 12px; font-family: ����; padding-right: 1px; padding-bottom: 1px; text-align: right; padding-top: 1px; cursor: pointer; }
+
+.mouseoverheader { border-width: 1px; border-style: ridge; border-color: white rgb(29, 93, 122) rgb(29, 93, 122) white; height: 16px; background-color: rgb(220, 220, 220); font-size: 12px; font-family: ����; padding-right: 1px; padding-bottom: 1px; text-align: left; padding-top: 1px; cursor: pointer; }
+
+.portlet { background-color: rgb(223, 226, 231); }
+
+.portletlabel { color: rgb(0, 0, 0); background-color: rgb(223, 226, 231); }
+
+.bgbar { background-image: url("../Images/bgbar.jpg"); }
+
+.bgdetail { background-color: rgb(255, 251, 238); }
+
+.bglt { background-color: rgb(243, 244, 247); }
+
+.bglttext { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(243, 244, 247); }
+
+.bglttextctr { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(243, 244, 247); text-align: center; }
+
+.bglttextrt { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(243, 244, 247); text-align: right; }
+
+.bgmd { background-color: rgb(223, 226, 231); }
+
+.bgontab { vertical-align: middle; background-color: rgb(193, 200, 210); text-align: center; }
+
+.bgofftab { vertical-align: middle; background-color: rgb(132, 145, 164); text-align: center; }
+
+.bgontabbottom { color: rgb(0, 0, 0); background-color: rgb(243, 244, 247); }
+
+.bgofftabbottom { color: rgb(102, 102, 102); background-color: rgb(223, 226, 231); }
+
+.bgontabbottommid { border-width: 1px 0px; border-style: solid; border-color: rgb(204, 204, 204) white rgb(243, 244, 247); color: rgb(0, 0, 0); background-color: rgb(243, 244, 247); }
+
+.bgofftabbottommid { border-width: 1px 0px; border-style: solid; border-color: rgb(223, 226, 231) white rgb(204, 204, 204); color: rgb(102, 102, 102); background-color: rgb(223, 226, 231); }
+
+.ontabbottom { color: rgb(0, 0, 0); }
+
+.offtabbottom { color: rgb(102, 102, 102); }
+
+.bgon { background-color: rgb(193, 200, 210); }
+
+.bgoff { background-color: rgb(132, 145, 164); }
+
+.headbar { font-size: 12px; color: rgb(66, 69, 72); background-color: rgb(193, 200, 210); text-decoration: none; }
+
+.headbarsub { color: rgb(66, 69, 72); }
+
+.crumb { color: rgb(114, 129, 151); }
+
+.ontab { color: rgb(0, 0, 0); }
+
+.offtab { color: rgb(255, 255, 255); }
+
+.ontabhover { color: rgb(0, 0, 0); }
+
+.offtabhover { color: rgb(255, 255, 255); }
+
+.btntext { color: rgb(255, 255, 255); }
+
+.btntexthover { color: rgb(255, 255, 255); }
+
+.smalltextlt { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(243, 244, 247); }
+
+.tasktitle { color: rgb(126, 125, 125); }
+
+.taskstatus { color: rgb(132, 145, 164); }
+
+.texttable { border-width: 1px 1px 0px; border-style: solid; padding-left: 1px; font-size: 12px; padding-bottom: 2px; vertical-align: top; color: rgb(0, 0, 0); padding-top: 2px; text-align: left; border-color: rgb(233, 234, 236); }
+
+.texttablebold { border-width: 1px 0px 0px; border-style: solid; border-color: white; padding: 2px 1px; font-weight: bold; font-size: 12px; vertical-align: top; color: rgb(0, 0, 0); background-color: rgb(243, 244, 247); }
+
+.texttablectr { border-width: 1px; border-style: solid; padding-left: 1px; font-size: 12px; padding-bottom: 1px; vertical-align: baseline; color: rgb(0, 0, 0); padding-top: 1px; text-align: left; border-color: rgb(233, 234, 236); }
+
+.texttablert { border-width: 1px 1px 0px; border-style: solid; padding-left: 1px; font-size: 12px; padding-bottom: 2px; vertical-align: top; color: rgb(0, 0, 0); padding-top: 2px; text-align: right; border-color: rgb(233, 234, 236); }
+
+.printtexttable { border-width: 1px 0px 0px; border-style: solid; border-color: white; padding: 2px 5px; font-size: 12px; vertical-align: top; color: rgb(0, 0, 0); }
+
+.printtexttablebold { border-width: 1px 0px 0px; border-style: solid; border-color: white; padding: 2px 5px; font-weight: bold; font-size: 12px; vertical-align: top; color: rgb(0, 0, 0); }
+
+.printtexttablectr { border-width: 1px 0px 0px; border-style: solid; border-color: white; padding: 2px 5px; font-size: 12px; vertical-align: top; color: rgb(0, 0, 0); text-align: center; }
+
+.printtexttablert { border-width: 1px 0px 0px; border-style: solid; border-color: white; padding: 2px 5px; font-size: 12px; vertical-align: top; color: rgb(0, 0, 0); text-align: right; }
+
+.seltexttable { border-width: 1px 0px 0px; border-style: solid; border-color: white; padding: 2px 5px; font-size: 12px; vertical-align: top; color: rgb(255, 255, 255); background-color: rgb(115, 121, 130); }
+
+.seltexttablectr { border-width: 1px 0px 0px; border-style: solid; border-color: white; padding: 2px 5px; font-size: 12px; vertical-align: top; color: rgb(255, 255, 255); background-color: rgb(115, 121, 130); text-align: center; }
+
+.seltexttablert { border-width: 1px 0px 0px; border-style: solid; border-color: white; padding: 2px 5px; font-size: 12px; vertical-align: top; color: rgb(255, 255, 255); background-color: rgb(115, 121, 130); text-align: right; }
+
+.smalltextrt { color: rgb(0, 0, 0); }
+
+.smalltext { color: rgb(0, 0, 0); }
+
+.tinytext { color: rgb(0, 0, 0); }
+
+.text { color: rgb(0, 0, 0); }
+
+.textbold { color: rgb(0, 0, 0); }
+
+.textboldul { color: rgb(0, 0, 0); }
+
+.textboldnolink { color: rgb(0, 0, 0); }
+
+.listheadernosort { padding: 2px 5px; vertical-align: top; color: rgb(102, 102, 102); height: 100%; background-color: rgb(243, 244, 247); }
+
+.listCheckBox { padding: 0px; margin: 0px; width: 14px; height: 14px; background-color: rgb(219, 219, 220); }
+
+.medtext { color: rgb(0, 0, 0); }
+
+.medtextbold { color: rgb(0, 0, 0); }
+
+.medtextboldnolink { color: rgb(0, 0, 0); }
+
+.bgltmedtext { font-size: 9pt; color: rgb(0, 0, 0); background-color: rgb(243, 244, 247); }
+
+.ddmAnchor { cursor: default; text-decoration: none; }
+
+.ddmInnerTable { border-width: 1px; border-style: solid; border-color: rgb(255, 255, 255) rgb(132, 146, 165) rgb(132, 146, 165) rgb(255, 255, 255); }
+
+.ddmText { font-size: 12px; text-decoration: none; }
+
+.ddmTextHasChild { font-size: 12px; text-decoration: none; }
+
+.ddmTextSeperator { font-size: 12px; text-decoration: none; }
+
+.ddmSeperator { background-color: rgb(132, 146, 165); }
+
+.ddmSeperatorEmpty { background-color: rgb(255, 255, 255); }
+
+.ddmTextOver { font-size: 12px; background-color: rgb(255, 255, 255); text-decoration: none; }
+
+.ddmDiv { border-width: 1px; border-style: solid; border-color: rgb(68, 84, 107); padding: 0px; background: rgb(223, 226, 231); cursor: default; position: absolute; }
+
+.ddmSpan { }
+
+.ddmArrow { font-size: 12px; color: rgb(132, 146, 165); font-family: ����; position: absolute; }
+
+.ddmArrowOver { font-size: 12px; font-family: ����; }
+
+.dropdownInput { border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153); background-position: right center; padding-left: 1px; font-size: 12px; background-image: url("/images/forms/ddarrow.gif"); cursor: default; color: black; background-repeat: no-repeat; background-color: white; }
+
+.dropdownDiv { border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153); padding: 2px; font-size: 12px; background: white; cursor: default; white-space: nowrap; position: absolute; }
+
+.dropdownNotSelected { font-size: 12px; color: black; }
+
+.dropdownSelected { font-size: 12px; color: white; background-color: rgb(34, 34, 136); }
+
+.bg { background-color: rgb(255, 255, 255); }
+
+.num { font-size: 12px; background-color: rgb(255, 255, 255); text-align: right; }
+
+.numb { font-weight: bold; font-size: 12px; background-color: rgb(255, 255, 255); text-align: right; }
+
+.stringb { font-weight: bold; font-size: 12px; background-color: rgb(255, 255, 255); }
+
+.stringbctr { font-weight: bold; font-size: 12px; background-color: rgb(255, 255, 255); text-align: center; }
+
+.company { font-weight: bold; font-size: 14pt; text-align: center; }
+
+.rpttitle { font-weight: bold; font-size: 16pt; text-align: center; }
+
+.rptsubtitle { font-weight: bold; font-size: 14pt; text-align: center; }
+
+.bgmdtext { font-size: 12px; background-color: rgb(223, 226, 231); }
+
+.bgmdtextctr { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(223, 226, 231); text-align: center; }
+
+.bgmdtextrt { font-size: 12px; color: rgb(0, 0, 0); background-color: rgb(223, 226, 231); text-align: right; }
+
+.labelRow { visibility: hidden; }
+
+textarea { border-width: 1px; border-style: solid; border-color: rgb(158, 181, 231); overflow: auto; }
+
+.inputrt { border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153); }
+
+.inputreq { border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153); }
+
+.inputrtreq { border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153); }
+
+.nlbutton { border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153); }
+
+.checkbox { border-style: none; }
+
+.radio { border-style: none; }
+
+.mindRow { color: red; background-color: rgb(255, 222, 173); }
+
+@media screen {
+  body { margin: 0px 0px 0px 3px; font-family: ����; font-size: 12px; }
+  td { line-height: 18px; font-family: ����; font-size: 12px; }
+  select { font-family: ����; }
+  textarea { font-family: ����; }
+  input { font-family: ����; }
+  .noprint { }
+  .printonly { display: none; }
+  .scrollarea { overflow: auto; }
+}
+
+@media print {
+  body { margin: 0px 0px 0px 3px; font-family: ����; font-size: 12px; }
+  td { line-height: 18px; font-family: ����; font-size: 12px; }
+  textarea { font-family: ����; }
+  select { font-family: ����; }
+  input { font-family: ����; }
+  .noprint { display: none; }
+  .printonly { }
+  .scrollarea { }
+}

@@ -1,0 +1,943 @@
+<!DOCTYPE html><html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en"><head><meta charset="UTF-8">
+
+<meta name="description" content="Linux, Programming, Emacs">
+<meta name="viewport" content="width=device-width">
+<title>Chen's blog (old posts, page 23) | Chen's blog</title>
+<link href="all-nocdn.css" rel="stylesheet" type="text/css">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="http://blog.binchen.org/rss.xml">
+<link rel="canonical" href="index-23.html">
+<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+    <section class="social"><ul>
+<li><a href="http://blog.binchen.org/index.html" title="Home"><i class="icon-home"></i></a></li>
+            <li><a href="http://blog.binchen.org/archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
+            <li><a href="http://blog.binchen.org/categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
+            <li><a href="http://blog.binchen.org/rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
+            <li><a href="http://blog.binchen.org/stories/about.html" title="About me"><i class="icon-user"></i></a></li>
+            <li><a href="https://twitter.com/chen_bin" title="My Twitter"><i class="icon-twitter"></i></a></li>
+            <li><a href="https://github.com/redguardtoo" title="My Github"><i class="icon-github"></i></a></li>
+
+        </ul></section><section class="page-content"><div class="content" rel="main">
+            
+        <div class="post">
+            <h1 class="title"><a href="http://blog.binchen.org/posts/purify-quora-com-with-vanilla-javascript.html">purify quora.com with vanilla javascript</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-10-09T12:15:14+00:00" title="Sunday, October 9 2016 8:15 PM">a year ago</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="http://blog.binchen.org/posts/purify-quora-com-with-vanilla-javascript.html#disqus_thread" data-disqus-identifier="cache/posts/purify-quora-com-with-vanilla-javascript.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags&nbsp;:&nbsp;
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/javascript.html" rel="tag">javascript</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/quora.html" rel="tag">quora</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+quora.com with vanilla javascript                                      :en:javascript:quora:
+</p>
+
+<p>
+"Smart" <a href="http://quora.com/">http://quora.com</a> always recommends the stories I hate to see.
+</p>
+
+<p>
+So here is my way to toggle the stories display on Chrome and Firefox.
+</p>
+
+<p>
+Step 1, create a new bookmark with below link,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-javascript hljs">javascript:a=<span class="hljs-built_in">Array</span>.from(<span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">"AnswerStoryToggleModal"</span>));a.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>)</span>{e.style.display=a[a.length<span class="hljs-number">-1</span>].style.display===<span class="hljs-string">'none'</span>?<span class="hljs-string">'block'</span>:<span class="hljs-string">'none'</span>;});
+</code></pre>
+
+</div>
+
+<p>
+Step 2, DONE! You only need click the bookmark to hide or show the stories when visiting <a href="http://quora.com/">http://quora.com</a>.
+</p>
+
+<p>
+Here is the original vanilla javascript,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-javascript hljs"><span class="hljs-keyword">var</span> a = <span class="hljs-built_in">Array</span>.from(<span class="hljs-built_in">document</span>.getElementsByClassName(<span class="hljs-string">"AnswerStoryToggleModal"</span>));
+a.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{
+    <span class="hljs-comment">// check 'display' of the last item in story feed before toggling</span>
+    e.style.display = a[a.length - <span class="hljs-number">1</span>].style.display === <span class="hljs-string">'none'</span> ? <span class="hljs-string">'block'</span> : <span class="hljs-string">'none'</span>;
+});
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+</p>
+
+<div class="figure">
+<p><img src="purify-quora-nq8.png" alt="purify-quora-nq8.png"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="http://blog.binchen.org/posts/shan-dong-jiu-cai-zhu-rou-xia-ren-shui.html">山东韭菜猪肉虾仁水餃</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-09-20T05:46:30+00:00" title="Tuesday, September 20 2016 1:46 PM">a year ago</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="http://blog.binchen.org/posts/shan-dong-jiu-cai-zhu-rou-xia-ren-shui.html#disqus_thread" data-disqus-identifier="cache/posts/shan-dong-jiu-cai-zhu-rou-xia-ren-shui.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags&nbsp;:&nbsp;
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/dumpling.html" rel="tag">dumpling</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+:zh:cuisine:dumpling:
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>韭菜一斤(8把)
+</li>
+<li>虾仁适量
+</li>
+<li>八角一个
+</li>
+<li>猪肉适量
+</li>
+<li>饺子皮90片
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h3 id="sec-2">流程</h3>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>韭菜切碎
+</li>
+<li>虾仁切成小块
+</li>
+<li>猪肉冷冻后切丁
+</li>
+<li>葱姜切末
+</li>
+<li>八角磨成粉(或十三香或五香粉),可以用捣蒜的工具捣尽量碎
+</li>
+<li>以上材料混合,加鲜味酱油,加菜油(馅不干且有香味),加盐适量,可再加适量麻油
+</li>
+<li>包饺子时面皮涂点水,对折用两个大拇指用力压扁饺子边
+</li>
+<li>饺子底部粘生粉防止粘一起
+</li>
+<li>熟后可用蒜末和醋调味
+</li>
+</ul>
+<p>
+馅:
+</p>
+
+
+<div class="figure">
+<p><img src="dumpling-inside.jpg" alt="dumpling-inside.jpg"></p>
+</div>
+
+<p>
+开吃:
+</p>
+
+
+<div class="figure">
+<p><img src="dumpling.jpg" alt="dumpling.jpg"></p>
+</div>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="http://blog.binchen.org/posts/hu-nan-cai-you-xian-xiang-gan.html">湖南菜攸县香干</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-08-31T10:02:27+00:00" title="Wednesday, August 31 2016 6:02 PM">a year ago</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="http://blog.binchen.org/posts/hu-nan-cai-you-xian-xiang-gan.html#disqus_thread" data-disqus-identifier="cache/posts/hu-nan-cai-you-xian-xiang-gan.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags&nbsp;:&nbsp;
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+:zh:cuisine:
+</p>
+
+<p>
+用料:
+</p>
+
+<ul class="org-ul">
+<li>豆豉8粒
+</li>
+<li>蒜瓣4片
+</li>
+<li>生姜一片
+</li>
+<li>辣椒4根
+</li>
+<li>豆腐干6块
+</li>
+</ul>
+<p>
+步骤:
+</p>
+
+<ul class="org-ul">
+<li>姜蒜切好,姜切沫,蒜切片
+</li>
+<li>蒜苗切斜段,青红椒各切圈
+</li>
+<li>香干切片,斜着下刀更好看
+</li>
+<li>锅中烧开水,水开后将香干片倒进去煮一分钟捞起控干水分备用
+</li>
+<li>锅里放油,立刻放适量豆豉(dou chi)姜蒜辣椒炒香,蒜蓉微红色即可进入下一步
+</li>
+<li>倒入香干,加生抽适量,老抽几滴上色,白糖少许提鲜,盐适量,耗油适量,最后放入蒜苗就起锅了
+</li>
+</ul>
+<p>
+小结:
+</p>
+
+<ul class="org-ul">
+<li>3分钟可以炒完
+</li>
+</ul>
+<div class="figure">
+<p><img src="you-xian-xiang-gan.jpg" alt="you-xian-xiang-gan.jpg"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="http://blog.binchen.org/posts/emacs-as-c-ide-easy-way.html">Emacs as C++ IDE, easy way</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-08-25T14:20:28+00:00" title="Thursday, August 25 2016 10:20 PM">a year ago</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="http://blog.binchen.org/posts/emacs-as-c-ide-easy-way.html#disqus_thread" data-disqus-identifier="cache/posts/emacs-as-c-ide-easy-way.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags&nbsp;:&nbsp;
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/c.html" rel="tag">c</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/global.html" rel="tag">global</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/gtags.html" rel="tag">gtags</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/ide.html" rel="tag">ide</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+as C++ IDE, easy way                                                    :en:emacs:c:global:gtags:c:ide:
+</p>
+
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-08-25&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2017-05-17 Wed&gt;</span></span>
+</p>
+
+<p>
+This is a <b>newbie friendly</b> solution which works at Linux/OSX/Cygwin (should work at Windows too, but I don't develop at Windows).
+</p>
+
+<p>
+Setup is minimum. Only GNU Global and two Emacs plugins are required:
+</p>
+
+<ul class="org-ul">
+<li>
+<a href="https://github.com/company-mode/company-mode">company</a> for code completion
+</li>
+<li>
+<a href="https://github.com/syohex/emacs-helm-gtags">emacs-helm-gtags</a> <b>or</b> <a href="https://github.com/syohex/emacs-counsel-gtags">emacs-counsel-gtags</a> for code navigation. I use emacs-counsel-gtags.
+</li>
+</ul>
+<p>
+Here is the step to step guide.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+
+<div class="outline-text-2" id="text-1">
+<p>
+I have two projects <code>~/proj1</code> and <code>~/proj2</code>.
+</p>
+
+<p>
+Both projects use files from <b>read only</b> directories <code>/usr/include</code> and <code>/usr/src/linux/include</code>.
+</p>
+
+<p>
+We create a new directory <code>~/obj</code> to store index files created by GNU Global because directories of third party libraries are <b>read only</b>.
+</p>
+
+<p>
+Let's create directories,
+</p>
+<div class="org-src-container">
+
+
+<pre><code class="lang-bash hljs">mkdir -p ~/{proj1,proj2,obj}
+</code></pre>
+
+</div>
+
+<p>
+The content of <code>~/proj2/lib.cpp</code>,
+</p>
+<div class="org-src-container">
+
+
+<pre><code class="lang-c hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">proj2_hello</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a2, <span class="hljs-keyword">char</span>* b2)</span> </span>{
+}
+</code></pre>
+
+</div>
+
+<p>
+The content of <code>~/proj1/main.cpp</code>,
+</p>
+<div class="org-src-container">
+
+
+<pre><code class="lang-c hljs cpp"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">proj1_hello</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a1, <span class="hljs-keyword">char</span>* b1)</span> </span>{
+}
+
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h3 id="sec-2">Step 2, scan C++ code and setup Emacs</h3>
+<div class="outline-text-2" id="text-2">
+<p>
+Run below command in shell to scan code,
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-bash hljs"><span class="hljs-comment"># dump index files to ~/obj if the project/library directories are read only</span>
+<span class="hljs-built_in">cd</span> /usr/include &amp;&amp; MAKEOBJDIRPREFIX=~/obj gtags 
+<span class="hljs-built_in">cd</span> /usr/linux/include &amp;&amp; MAKEOBJDIRPREFIX=~/obj gtags 
+... 
+<span class="hljs-comment"># index files are placed inside the projects</span>
+<span class="hljs-built_in">cd</span> ~/proj1 &amp;&amp; gtags 
+<span class="hljs-built_in">cd</span> ~/proj2 &amp;&amp; gtags
+...
+</code></pre>
+
+</div>
+
+<p>
+If you are <b>using old Global</b> (v5.7.1, for example), the command to create tags file in read only directory may fail. This is Global's bug. But there is workaround:
+</p>
+<div class="org-src-container">
+
+
+<pre><code class="lang-bash hljs"><span class="hljs-comment"># dump index files to ~/obj if the project/library directories are read only</span>
+mkdir -p ~/obj/usr/include &amp;&amp; <span class="hljs-built_in">cd</span> /usr/include &amp;&amp; gtags ~/obj/usr/include
+mkdir -p ~/obj/usr/linux/include &amp;&amp; <span class="hljs-built_in">cd</span> /usr/linux/include &amp;&amp; gtags ~/obj/usr/linux/include
+</code></pre>
+
+</div>
+
+<p>
+Global introduced <code>MAKEOBJDIRPREFIX</code> on 2008-03-23.
+</p>
+
+<p>
+After installing Emacs plugins and setup (minimum setup from their website is enough), insert below code into ~/.emacs,
+</p>
+<div class="org-src-container">
+
+
+<pre><code class="lang-lisp hljs"><span class="hljs-comment">;; Please note `file-truename' must be used!</span>
+(<span class="hljs-name">setenv</span> <span class="hljs-string">"GTAGSLIBPATH"</span> (<span class="hljs-name">concat</span> <span class="hljs-string">"/usr/include"</span>
+                               <span class="hljs-string">":"</span>
+                               <span class="hljs-string">"/usr/src/linux/include"</span>
+                               <span class="hljs-string">":"</span>
+                               (<span class="hljs-name">file-truename</span> <span class="hljs-string">"~/proj2"</span>)
+                               <span class="hljs-string">":"</span>
+                               (<span class="hljs-name">file-truename</span> <span class="hljs-string">"~/proj1"</span>)))
+(<span class="hljs-name">setenv</span> <span class="hljs-string">"MAKEOBJDIRPREFIX"</span> (<span class="hljs-name">file-truename</span> <span class="hljs-string">"~/obj/"</span>))
+(<span class="hljs-name">setq</span> company-backends '((company-dabbrev-code company-gtags)))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h3 id="sec-3">Usage</h3>
+<div class="outline-text-2" id="text-3">
+<p>
+Use the Emacs plugins as usual.
+</p>
+
+<p>
+But you need install latest company built on 25th August because I <a href="https://github.com/company-mode/company-mode/issues/570">fixed a company issue</a> yesterday.
+</p>
+
+<p>
+Screenshot,
+</p>
+
+
+<div class="figure">
+<p><img src="cpp-gtags-demo-nq8.png" alt="cpp-gtags-demo-nq8.png"></p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h3 id="sec-4">Technical Details (Optional)</h3>
+<div class="outline-text-2" id="text-4">
+<p>
+Check <a href="https://www.gnu.org/software/global/manual/global.html">GNU Global manual</a> to understand environment variables <code>GTAGSLIBPATH</code> and <code>MAKEOBJDIRPREFIX</code>.
+</p>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="http://blog.binchen.org/posts/no-worries-when-elpa-is-down.html">No worries when elpa is down</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-08-14T12:52:27+00:00" title="Sunday, August 14 2016 8:52 PM">a year ago</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="http://blog.binchen.org/posts/no-worries-when-elpa-is-down.html#disqus_thread" data-disqus-identifier="cache/posts/no-worries-when-elpa-is-down.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags&nbsp;:&nbsp;
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/elpa.html" rel="tag">elpa</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/package.html" rel="tag">package</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+worries when elpa is down                                                  :en:emacs:package:elpa:
+</p>
+
+<p>
+I use one liner shell command to clone Emacs Lisp Package Archive (ELPA):
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-bash hljs">mkdir -p ~/elpaclone &amp;&amp; <span class="hljs-built_in">cd</span> ~/elpaclone &amp;&amp; curl -L https://elpa.gnu.org/packages/archive-contents | perl -pe <span class="hljs-string">'s/(^\(1|\n)//g'</span> | perl -pe <span class="hljs-string">'s/\]\)/])\n/g'</span> | perl -pe <span class="hljs-string">'s/^ *\(([a-z0-9A-Z-]*).*\[\(([0-9 ]*).*(single|tar).*/\1-\2.\3/g'</span> | perl -pe <span class="hljs-string">'s/ /./g'</span> | perl -pe <span class="hljs-string">'s/single/el/g'</span> | perl -pe <span class="hljs-string">'s/\)//g'</span> | xargs -I {} curl -L  -O https://elpa.gnu.org/packages/{} &amp;&amp; curl -L -O https://elpa.gnu.org/packages/archive-contents
+</code></pre>
+
+</div>
+
+<p>
+The <a href="https://elpa.gnu.org/packages/archive-contents">https://elpa.gnu.org/packages/archive-contents</a> contains all the information of packages. I re-organize it to make sure each line corresponds to one package. Then I use <a href="https://en.wikipedia.org/wiki/CURL">cURL</a> to download everything.
+</p>
+
+<p>
+Usage is simple.
+</p>
+
+<p>
+Insert below line at the beginning of ~/.emacs when <b>elpa.gnu.org is down</b>:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp hljs">(<span class="hljs-name">setq</span> package-archives '((<span class="hljs-string">"elpaclone"</span> . <span class="hljs-string">"~/elpaclone"</span>)))
+</code></pre>
+
+</div>
+
+<p>
+This solution also works for <a href="https://melpa.org/">MELPA</a>.
+</p>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="http://blog.binchen.org/posts/use-js2-mode-as-minor-mode-to-process-json.html">Use js2-mode as minor mode to process JSON</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-31T05:24:04+00:00" title="Sunday, July 31 2016 1:24 PM">a year ago</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="http://blog.binchen.org/posts/use-js2-mode-as-minor-mode-to-process-json.html#disqus_thread" data-disqus-identifier="cache/posts/use-js2-mode-as-minor-mode-to-process-json.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags&nbsp;:&nbsp;
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/js2.html" rel="tag">js2</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/json.html" rel="tag">json</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+js2-mode as minor mode to process JSON                                    :en:emacs:json:js2:
+</p>
+
+<p>
+Most people use <a href="https://github.com/mooz/js2-mode">js2-mode</a> as a major mode for javascript. For JSON file, they prefer <a href="https://github.com/joshwnj/json-mode">json-mode</a>.
+</p>
+
+<p>
+But if you <b>truly</b> understand the meaning of <a href="https://www.gnu.org/philosophy/free-sw.en.html">Software Freedom</a>, you will realize "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Major-Modes.html">major-mode</a>" and "<a href="https://www.gnu.org/s/emacs/manual/html_node/emacs/Minor-Modes.html">minor-mode</a>" are man-made concepts which actually have no difference.
+</p>
+
+<p>
+In essence, a major mode is just a collection of APIs. We could use its APIs without enabling it, perfectly complying with "The freedom to run the program as you wish, for any purpose (freedom 0).".
+</p>
+
+<p>
+Here are two examples.
+</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+
+<div class="outline-text-2" id="text-1">
+<p>
+<code>M-x my-validate-json-or-js-expression</code> to validate the buffer.
+</p>
+
+<p>
+<code>C-u my-validate-json-or-js-expression</code> to validate selected region.
+</p>
+<div class="org-src-container">
+
+
+<pre><code class="lang-lisp hljs">(<span class="hljs-name">defun</span> my-validate-json-or-js-expression (<span class="hljs-name">&amp;optional</span> not-json-p)
+  <span class="hljs-string">"Validate buffer or select region as JSON.
+If NOT-JSON-P is not nil, validate as Javascript expression instead of JSON."</span>
+  (<span class="hljs-name">interactive</span> <span class="hljs-string">"P"</span>)
+  (<span class="hljs-name">let*</span> ((<span class="hljs-name">json-exp</span> (<span class="hljs-name">if</span> (<span class="hljs-name">region-active-p</span>) (<span class="hljs-name">buffer-substring-no-properties</span> (<span class="hljs-name">region-beginning</span>) (<span class="hljs-name">region-end</span>))
+                     (<span class="hljs-name">buffer-substring-no-properties</span> (<span class="hljs-name">point-min</span>) (<span class="hljs-name">point-max</span>))))
+         (<span class="hljs-name">jsbuf-offet</span> (<span class="hljs-name">if</span> not-json-p <span class="hljs-number">0</span> (<span class="hljs-name">length</span> <span class="hljs-string">"var a="</span>)))
+         errs
+         first-err
+         (<span class="hljs-name">first-err-pos</span> (<span class="hljs-name">if</span> (<span class="hljs-name">region-active-p</span>) (<span class="hljs-name">region-beginning</span>) <span class="hljs-number">0</span>)))
+    (<span class="hljs-name">unless</span> not-json-p
+      (<span class="hljs-name">setq</span> json-exp (<span class="hljs-name">format</span> <span class="hljs-string">"var a=%s;"</span>  json-exp)))
+    (<span class="hljs-name">with-temp-buffer</span>
+      (<span class="hljs-name">insert</span> json-exp)
+      (<span class="hljs-name">unless</span> (<span class="hljs-name">featurep</span> 'js2-mode)
+        (<span class="hljs-name">require</span> 'js2-mode))
+      (<span class="hljs-name">js2-parse</span>)
+      (<span class="hljs-name">setq</span> errs (<span class="hljs-name">js2-errors</span>))
+      (<span class="hljs-name">cond</span>
+       ((<span class="hljs-name">not</span> errs)
+        (<span class="hljs-name">message</span> <span class="hljs-string">"NO error found. Good job!"</span>))
+       (<span class="hljs-name">t</span>
+        <span class="hljs-comment">;; yes, first error in buffer is the last element in errs</span>
+        (<span class="hljs-name">setq</span> first-err (<span class="hljs-name">car</span> (<span class="hljs-name">last</span> errs)))
+        (<span class="hljs-name">setq</span> first-err-pos (<span class="hljs-name">+</span> first-err-pos (<span class="hljs-name">-</span> (<span class="hljs-name">cadr</span> first-err) jsbuf-offet)))
+        (<span class="hljs-name">message</span> <span class="hljs-string">"%d error(s), first at buffer position %d: %s"</span>
+                 (<span class="hljs-name">length</span> errs)
+                 first-err-pos
+                 (<span class="hljs-name">js2-get-msg</span> (<span class="hljs-name">caar</span> first-err))))))
+    (<span class="hljs-name">if</span> first-err (<span class="hljs-name">goto-char</span> first-err-pos))))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h3 id="sec-2">Print JSON path</h3>
+<div class="outline-text-2" id="text-2">
+<p>
+For example, you got JSON string  <code>{"a": {"b": 3}}</code>. If you place cursor over <code>3</code> and <code>M-x my-print-json-path</code>, you got output <code>a.b</code>.
+</p>
+<div class="org-src-container">
+
+<pre><code class="lang-lisp hljs">(<span class="hljs-name">defun</span> my-print-json-path (<span class="hljs-name">&amp;optional</span> hardcoded-array-index)
+  <span class="hljs-string">"Print the path to the JSON value under point, and save it in the kill ring.
+If HARDCODED-ARRAY-INDEX provided, array index in JSON path is replaced with it."</span>
+  (<span class="hljs-name">interactive</span> <span class="hljs-string">"P"</span>)
+  (<span class="hljs-name">cond</span>
+   ((<span class="hljs-name">memq</span> major-mode '(js2-mode))
+    (<span class="hljs-name">js2-print-json-path</span> hardcoded-array-index))
+   (<span class="hljs-name">t</span>
+    (<span class="hljs-name">let*</span> ((<span class="hljs-name">cur-pos</span> (<span class="hljs-name">point</span>))
+           (<span class="hljs-name">str</span> (<span class="hljs-name">buffer-substring-no-properties</span> (<span class="hljs-name">point-min</span>) (<span class="hljs-name">point-max</span>))))
+      (<span class="hljs-name">when</span> (<span class="hljs-name">string=</span> <span class="hljs-string">"json"</span> (<span class="hljs-name">file-name-extension</span> buffer-file-name))
+        (<span class="hljs-name">setq</span> str (<span class="hljs-name">format</span> <span class="hljs-string">"var a=%s;"</span> str))
+        (<span class="hljs-name">setq</span> cur-pos (<span class="hljs-name">+</span> cur-pos (<span class="hljs-name">length</span> <span class="hljs-string">"var a="</span>))))
+      (<span class="hljs-name">unless</span> (<span class="hljs-name">featurep</span> 'js2-mode)
+        (<span class="hljs-name">require</span> 'js2-mode))
+      (<span class="hljs-name">with-temp-buffer</span>
+        (<span class="hljs-name">insert</span> str)
+        (<span class="hljs-name">js2-init-scanner</span>)
+        (<span class="hljs-name">js2-do-parse</span>)
+        (<span class="hljs-name">goto-char</span> cur-pos)
+        (<span class="hljs-name">js2-print-json-path</span>))))))
+</code></pre>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h3 id="sec-3">Summary</h3>
+<div class="outline-text-2" id="text-3">
+<p>
+As you can see, I use a few APIs from js2-mode while js2-mode is still disabled:
+</p>
+<ul class="org-ul">
+<li>js2-errors
+</li>
+<li>js2-get-msg
+</li>
+<li>js2-print-json-path
+</li>
+<li>js2-init-scanner
+</li>
+<li>js2-do-parse
+</li>
+</ul>
+</div>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="http://blog.binchen.org/posts/yan-tai-dun-tu-dou-si.html">烟台炖土豆丝</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-31T03:16:35+00:00" title="Sunday, July 31 2016 11:16 AM">a year ago</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="http://blog.binchen.org/posts/yan-tai-dun-tu-dou-si.html#disqus_thread" data-disqus-identifier="cache/posts/yan-tai-dun-tu-dou-si.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags&nbsp;:&nbsp;
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/cuisine.html" rel="tag">cuisine</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/potato.html" rel="tag">potato</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/zh.html" rel="tag">zh</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+:zh:potato:cuisine:
+</p>
+
+<ul class="org-ul">
+<li>切丝浸入冷水中
+</li>
+<li>干辣椒蒜头切碎小火至略焦黄 (两三个蒜瓣对应四个土豆)
+</li>
+<li>放入土豆丝八角(一到两个,不要更多)炒到变软
+</li>
+<li>放入水,几滴醋,盖上小火焖一下,留点水
+</li>
+</ul>
+<div class="figure">
+<p><img src="potato.jpg" alt="potato.jpg"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="http://blog.binchen.org/posts/enhance-emacs-git-gutter-with-ivy-mode.html">Enhance emacs-git-gutter with ivy-mode</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-14T13:35:32+00:00" title="Thursday, July 14 2016 9:35 PM">a year ago</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="http://blog.binchen.org/posts/enhance-emacs-git-gutter-with-ivy-mode.html#disqus_thread" data-disqus-identifier="cache/posts/enhance-emacs-git-gutter-with-ivy-mode.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags&nbsp;:&nbsp;
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/git.html" rel="tag">git</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/gutter.html" rel="tag">gutter</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/ivy.html" rel="tag">ivy</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/mode.html" rel="tag">mode</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+emacs-git-gutter with ivy-mode                                        :en:emacs:ivy:mode:git:gutter:git:
+</p>
+
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-07-14 Thu&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-09-23 Fri&gt;</span></span>
+</p>
+
+<p>
+<a href="https://github.com/syohex/emacs-git-gutter">emacs-git-gutter</a> shows an icon in the gutter area. The icon indicating whether a line has been inserted, modified or deleted in Emacs.
+</p>
+
+<p>
+I usually use <code>M-x git-gutter:previous-hunk</code> or <code>M-x git-gutter:next-hunk</code> to navigate between the hunks.
+</p>
+
+<p>
+But if there are too many hunks in one file, <a href="https://github.com/abo-abo/swiper">ivy-mode</a> is more efficient:
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp hljs">(<span class="hljs-name">require</span> 'ivy)
+(<span class="hljs-name">require</span> 'git-gutter)
+
+(<span class="hljs-name">defun</span> my-reshape-git-gutter (<span class="hljs-name">gutter</span>)
+  <span class="hljs-string">"Re-shape gutter for `ivy-read'."</span>
+  (<span class="hljs-name">let*</span> ((<span class="hljs-name">linenum-start</span> (<span class="hljs-name">aref</span> gutter <span class="hljs-number">3</span>))
+         (<span class="hljs-name">linenum-end</span> (<span class="hljs-name">aref</span> gutter <span class="hljs-number">4</span>))
+         (<span class="hljs-name">target-line</span> <span class="hljs-string">""</span>)
+         (<span class="hljs-name">target-linenum</span> <span class="hljs-number">1</span>)
+         (<span class="hljs-name">tmp-line</span> <span class="hljs-string">""</span>)
+         (<span class="hljs-name">max-line-length</span> <span class="hljs-number">0</span>))
+    (<span class="hljs-name">save-excursion</span>
+      (<span class="hljs-name">while</span> (<span class="hljs-name">&lt;=</span> linenum-start linenum-end)
+        (<span class="hljs-name">goto-line</span> linenum-start)
+        (<span class="hljs-name">setq</span> tmp-line (<span class="hljs-name">replace-regexp-in-string</span> <span class="hljs-string">"^[ \t]*"</span> <span class="hljs-string">""</span>
+                                                 (<span class="hljs-name">buffer-substring</span> (<span class="hljs-name">line-beginning-position</span>)
+                                                                   (<span class="hljs-name">line-end-position</span>))))
+        (<span class="hljs-name">when</span> (<span class="hljs-name">&gt;</span> (<span class="hljs-name">length</span> tmp-line) max-line-length)
+          (<span class="hljs-name">setq</span> target-linenum linenum-start)
+          (<span class="hljs-name">setq</span> target-line tmp-line)
+          (<span class="hljs-name">setq</span> max-line-length (<span class="hljs-name">length</span> tmp-line)))
+
+        (<span class="hljs-name">setq</span> linenum-start (<span class="hljs-number">1</span>+ linenum-start))))
+    <span class="hljs-comment">;; build (key . linenum-start)</span>
+    (<span class="hljs-name">cons</span> (<span class="hljs-name">format</span> <span class="hljs-string">"%s %d: %s"</span>
+                  (<span class="hljs-name">if</span> (<span class="hljs-name">eq</span> 'deleted (<span class="hljs-name">aref</span> gutter <span class="hljs-number">1</span>)) <span class="hljs-string">"-"</span> <span class="hljs-string">"+"</span>)
+                  target-linenum target-line)
+          target-linenum)))
+
+(<span class="hljs-name">defun</span> my-goto-git-gutter ()
+  (<span class="hljs-name">interactive</span>)
+  (<span class="hljs-name">if</span> git-gutter<span class="hljs-symbol">:diffinfos</span>
+      (<span class="hljs-name">ivy-read</span> <span class="hljs-string">"git-gutters:"</span>
+                (<span class="hljs-name">mapcar</span> 'my-reshape-git-gutter git-gutter<span class="hljs-symbol">:diffinfos</span>)
+                <span class="hljs-symbol">:action</span> (<span class="hljs-name">lambda</span> (<span class="hljs-name">e</span>)
+                          <span class="hljs-comment">;; ivy9+ keep `(car e)'</span>
+                          <span class="hljs-comment">;; ivy8- strip the `(car e)'</span>
+                          <span class="hljs-comment">;; we handle both data structure</span>
+                          (<span class="hljs-name">unless</span> (<span class="hljs-name">numberp</span> e) (<span class="hljs-name">setq</span> e (<span class="hljs-name">cdr</span> e)))
+                          (<span class="hljs-name">goto-line</span> e)))
+    (<span class="hljs-name">message</span> <span class="hljs-string">"NO git-gutters!"</span>)))
+</code></pre>
+
+</div>
+
+<p>
+Screenshot:
+</p>
+
+<div class="figure">
+<p><img src="git-gutter-and-ivy-nq8.png" alt="git-gutter-and-ivy-nq8.png"></p>
+</div>
+</div>
+            </div>
+        </div>
+        <div class="post">
+            <h1 class="title"><a href="http://blog.binchen.org/posts/turn-off-linum-mode-when-file-is-too-big.html">Turn off linum-mode when file is too big</a></h1>
+            <div class="meta">
+                <div class="authordate">
+                    <time class="timeago" datetime="2016-07-14T13:21:02+00:00" title="Thursday, July 14 2016 9:21 PM">a year ago</time>
+</div>
+                <div class="stats">
+                    
+        
+    <a href="http://blog.binchen.org/posts/turn-off-linum-mode-when-file-is-too-big.html#disqus_thread" data-disqus-identifier="cache/posts/turn-off-linum-mode-when-file-is-too-big.html">Comments</a>
+
+
+                </div>
+            
+        <div itemprop="keywords" class="tags">
+        <ul>
+        Tags&nbsp;:&nbsp;
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/emacs.html" rel="tag">emacs</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/en.html" rel="tag">en</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/linum.html" rel="tag">linum</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/mode.html" rel="tag">mode</a></li>
+           <li><a class="tag p-category" href="http://blog.binchen.org/categories/wc.html" rel="tag">wc</a></li>
+        </ul>
+</div>
+
+            </div>
+            <div class="body">
+                <div>
+<p>
+off linum-mode when file is too big                                      :en:emacs:wc:linum:mode:
+</p>
+
+<p>
+CREATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-07-14&gt;</span></span>
+</p>
+
+<p>
+UPDATED: <span class="timestamp-wrapper"><span class="timestamp">&lt;2016-08-07 Sun&gt;</span></span>
+</p>
+
+<p>
+It's well known that linum-mode slows Emacs when the file contains thousands of lines.
+</p>
+
+<p>
+Here is the fix,
+</p>
+
+<div class="org-src-container">
+
+<pre><code class="lang-lisp hljs">(<span class="hljs-name">defun</span> buffer-too-big-p ()
+  (<span class="hljs-name">or</span> (<span class="hljs-name">&gt;</span> (<span class="hljs-name">buffer-size</span>) (<span class="hljs-name">*</span> <span class="hljs-number">5000</span> <span class="hljs-number">80</span>))
+      (<span class="hljs-name">&gt;</span> (<span class="hljs-name">line-number-at-pos</span> (<span class="hljs-name">point-max</span>)) <span class="hljs-number">5000</span>)))
+(<span class="hljs-name">add-hook</span> 'prog-mode-hook
+          (<span class="hljs-name">lambda</span> ()
+            <span class="hljs-comment">;; turn off `linum-mode' when there are more than 5000 lines</span>
+            (<span class="hljs-name">if</span> (<span class="hljs-name">buffer-too-big-p</span>) (<span class="hljs-name">linum-mode</span> <span class="hljs-number">-1</span>))))
+</code></pre>
+
+</div>
+
+<p>
+Though <a href="https://elpa.gnu.org/packages/nlinum.html">nlinum-mode</a> has performance, I still stick to linum-mode because <a href="https://github.com/syohex/emacs-git-gutter">git-gutter</a> only supports linum-mode.
+</p>
+
+<p>
+You can check <a href="https://github.com/syohex/emacs-git-gutter/issues/124">the interesting discussion</a> about git-gutter/linum-mode/nlinum-mode. Syohei Yoshida made git-gutter 95% functional when linum-mode off.
+</p>
+</div>
+            </div>
+        </div>
+    
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="http://blog.binchen.org/index.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="http://blog.binchen.org/index-22.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav><footer id="footer"><p>Contents © 2017         <a href="mailto:chenbin.sh@gmail.com">Chen Bin</a> - Powered by         <a href="http://getnikola.com/" rel="nofollow">Nikola</a>         </p>
+            
+        </footer>
+</div>
+    </section>
+
+
+</body></html>

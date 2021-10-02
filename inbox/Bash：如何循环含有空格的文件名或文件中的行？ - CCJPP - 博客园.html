@@ -1,0 +1,3156 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="origin">
+    <meta property="og:description" content="一个目录下如果有含有空格的文件，如何在bash中循环他们呢？我们知道在bash的循环中，是使用空格作为元素的分界符的，即便文件加上引号，依旧不能正确指定完整的文件为元素。本文对这个问题做一个解析。">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>Bash：如何循环含有空格的文件名或文件中的行？ - CCJPP - 博客园</title>
+    
+    <link rel="stylesheet" href="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+    <link id="MainCss" rel="stylesheet" href="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-thinkinside.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-thinkinside-mobile.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/nathaninchina/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/nathaninchina/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/nathaninchina/wlwmanifest.xml">
+    <script src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019101701.js"></script><script async="" src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js"></script>
+    <script>
+        var currentBlogId = 110039;
+        var currentBlogApp = 'nathaninchina';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+    </script>
+    
+    
+    
+<style>
+.vimvixen-console-frame {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2147483647;
+  border: none;
+  background-color: unset;
+  pointer-events:none;
+}
+
+.vimvixen-hint {
+  background-color: yellow;
+  border: 1px solid gold;
+  font-weight: bold;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  font-size: 12px;
+  color: black;
+}
+</style><link rel="preload" href="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019101701.js" async=""></script></head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/nathaninchina/"><img id="blogLogo" src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/nathaninchina/">CCJPP</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/nathaninchina/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/CCJPP">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/nathaninchina/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+33&nbsp; </span>
+<span id="stats_article_count">文章 - 
+85&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+8</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/nathaninchina/archive/2012/09/03/shell_loop_spaces_within_fname.html">Bash：如何循环含有空格的文件名或文件中的行？</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <p>2012-10-12日更新此博客，增加对含有空格的行的遍历。</p>
+<p>1. 可以使用while readi&nbsp;</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">cat</span> d.txt | <span style="color: #0000ff;">while</span> read i;<span style="color: #0000ff;">do</span> <span style="color: #0000ff;">echo</span> $i; <span style="color: #0000ff;">done</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">while</span> read i; <span style="color: #0000ff;">do</span> <span style="color: #0000ff;">echo</span> $i; <span style="color: #0000ff;">done</span> &lt; d.txt</pre>
+</div>
+<p>&nbsp;</p>
+<p>2. 文件遍历:</p>
+<p>一个目录下如果有含有空格或者其他特殊字符的文件，如何在bash中循环他们呢？我们知道在bash的循环中，是使用空格作为元素的分界符的，即便 文件加上引号，依旧不能正确指定完整的文件为元素（如果文件名含有空格的话）．</p>
+<p>例如：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">#如果文件含有空格，则会根据空格把文件名拆分！
+</span><span style="color: #0000ff;">for</span> <span style="color: #0000ff;">file</span> <span style="color: #0000ff;">in</span> $(<span style="color: #0000ff;">ls</span> -Q ./src/); <span style="color: #0000ff;">do</span> <span style="color: #0000ff;">echo</span> $<span style="color: #0000ff;">file</span>; <span style="color: #0000ff;">done</span></pre>
+</div>
+<p>即便把文件名作为脚本的参数，然后在参数名上加上引号，也不能成功，例如：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #000000;">#Script Name: mysccript
+#在脚本后加上文件名，并以引号括起来
+</span><span style="color: #0000ff;">for</span> <span style="color: #0000ff;">file</span> <span style="color: #0000ff;">in</span> $@; <span style="color: #0000ff;">do</span> <span style="color: #0000ff;">echo</span> $<span style="color: #0000ff;">file</span>; <span style="color: #0000ff;">done</span><span style="color: #000000;">
+
+执行：
+.</span>/myscript <span style="color: #800000;">"</span><span style="color: #800000;">fname 1</span><span style="color: #800000;">"</span> <span style="color: #800000;">"</span><span style="color: #800000;">fname 2</span><span style="color: #800000;">"</span><span style="color: #000000;">
+结果：
+fname
+</span><span style="color: #800080;">1</span><span style="color: #000000;">
+fname
+</span><span style="color: #800080;">2</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p><span style="color: #0000ff;">这里我们使用一种方法</span>：　for file in ../*; do echo $file; done，</p>
+<p>3. 即在in中直接指定路目地址并加上星号指定所有的文件．或者利用通配符指定一系列文件例如：fname*．例如：</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">for</span> <span style="color: #0000ff;">file</span> <span style="color: #0000ff;">in</span> ./fname*; <span style="color: #0000ff;">do</span> <span style="color: #0000ff;">echo</span> $<span style="color: #0000ff;">file</span>; <span style="color: #0000ff;">done</span></pre>
+</div>
+<p>4. ./*<span style="color: #ff0000;">不能够遍历到隐性文件</span>，如果只要遍历隐性文件则使用 ./.* 。如果要遍历到所有的文件（包括隐性文件），则要借助ls -A 和 while read。</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>[root@localhost ~]# <span style="color: #0000ff;">for</span> i <span style="color: #0000ff;">in</span> ./.*;<span style="color: #0000ff;">do</span> <span style="color: #0000ff;">echo</span> $i;<span style="color: #0000ff;">done</span><span style="color: #000000;">
+.</span>/<span style="color: #000000;">.
+.</span>/<span style="color: #000000;">..
+.</span>/<span style="color: #000000;">.bash_history
+.</span>/<span style="color: #000000;">.bash_logout
+.</span>/<span style="color: #000000;">.bash_profile
+.</span>/<span style="color: #000000;">.bashrc
+.</span>/<span style="color: #000000;">.cshrc
+.</span>/<span style="color: #000000;">.dbshell
+.</span>/<span style="color: #000000;">.lesshst
+.</span>/<span style="color: #000000;">.mongorc.js
+.</span>/<span style="color: #000000;">.tcshrc
+.</span>/.viminfo</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>[root@localhost ~]# <span style="color: #0000ff;">ls</span> -A ./|<span style="color: #0000ff;">while</span> read i;<span style="color: #0000ff;">do</span> <span style="color: #0000ff;">echo</span> $i;<span style="color: #0000ff;">done</span><span style="color: #000000;">
+a b
+anaconda</span>-<span style="color: #000000;">ks.cfg
+.bash_history
+.bash_logout
+.bash_profile
+.bashrc
+.cshrc
+.dbshell
+grub.conf
+</span><span style="color: #0000ff;">install</span><span style="color: #000000;">.log
+</span><span style="color: #0000ff;">install</span><span style="color: #000000;">.log.syslog
+.lesshst
+.mongorc.js
+nohup.out
+Python2.</span><span style="color: #800080;">7</span><span style="color: #000000;">
+Python</span>-<span style="color: #800080;">2.7</span>.<span style="color: #800080;">3</span><span style="color: #000000;">
+Python</span>-<span style="color: #800080;">2.7</span>.<span style="color: #800080;">3</span>.<span style="color: #0000ff;">tar</span>.bz2.<span style="color: #0000ff;">tar</span>.bz2.<span style="color: #0000ff;">tar</span><span style="color: #000000;">.bz2
+scripts
+sedlfz71t
+.tcshrc
+test
+test2
+.viminfo</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/nathaninchina/category/377824.html" target="_blank">SHELL.bash</a>,             <a href="https://www.cnblogs.com/nathaninchina/category/376234.html" target="_blank">解析</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/nathaninchina/tag/bash/">bash</a>,             <a href="https://www.cnblogs.com/nathaninchina/tag/Linux/">Linux</a>,             <a href="https://www.cnblogs.com/nathaninchina/tag/Unix/">Unix</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(2669291,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('044b3606-ec61-e111-aa3f-842b2b196315');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/nathaninchina/" target="_blank"><img src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/u380172.jpg" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/nathaninchina/">CCJPP</a><br>
+            <a href="https://home.cnblogs.com/u/nathaninchina/followees/">关注 - 1</a><br>
+            <a href="https://home.cnblogs.com/u/nathaninchina/followers/">粉丝 - 12</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('044b3606-ec61-e111-aa3f-842b2b196315');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(2669291,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(2669291,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/nathaninchina/archive/2012/08/28/2660782.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/nathaninchina/archive/2012/08/28/2660782.html" title="发布于 2012-08-28 20:18">Http Server：解析，在只有cgi-bin功能的服务器上如何通过html的&lt;script&gt;标签定位JQuery/JS代码。</a>
+    <br>
+    <a href="https://www.cnblogs.com/nathaninchina/archive/2012/09/03/2667545.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/nathaninchina/archive/2012/09/03/2667545.html" title="发布于 2012-09-03 19:41">Bash：解析，如何根据＂列＂筛选内容？</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2012-09-03 18:57</span>&nbsp;<a href="https://www.cnblogs.com/nathaninchina/">CCJPP</a> 阅读(<span id="post_view_count">1389</span>) 评论(<span id="post_comment_count">0</span>) <a href="https://i.cnblogs.com/EditPosts.aspx?postid=2669291" rel="nofollow"> 编辑</a> <a href="javascript:void(0)" onclick="AddToWz(2669291); return false;">收藏</a>
+</div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/highlight.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 110039, cb_blogApp = 'nathaninchina', cb_blogUserGuid = '044b3606-ec61-e111-aa3f-842b2b196315';
+    var cb_entryId = 2669291, cb_entryCreatedDate = '2012-09-03 18:57', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"><div class="login_tips">
+    注册用户登录后才能发表评论，请 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a>
+     或 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页。
+</div></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jdcloud.com/cn/activity/year-end?utm_source=DMT_cnblogs&amp;utm_medium=CH&amp;utm_campaign=q4vm&amp;utm_term=Virtual-Machines" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-京东云')">【活动】京东云服务器_云主机低于1折，低价高性能产品备战双11</a><br><a href="https://www.ctyun.cn/activity/#/201910/ecs?hmsr=%E7%9C%8B%E7%9C%8B-%E5%8D%9A%E5%AE%A2%E5%9B%AD-10.16-10%E6%9C%88%E7%89%B9%E6%83%A0&amp;hmpl=&amp;hmcu=&amp;hmkw=&amp;hmci=?track=|cp:cz_blog|tgdy:46861|ttjh:shouyedingbuyoucefenlan|key:czkk12|pf:pc" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-天翼云')">【推荐】天翼云双十一提前开抢，1核1G云主机3个月仅需59元</a><br><a href="https://cloud.tencent.com/act/double11/reserve?fromSource=gwzcw.3000742.3000742.3000742&amp;utm_medium=cpc&amp;utm_id=gwzcw.3000742.3000742.3000742" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-腾讯云')">【优惠】腾讯云 11.1 1智惠上云，爆款提前购与双11活动同价</a><br><a href="https://www.getui.com/2019devfest?f=5&amp;p=10&amp;c=15&amp;ch=1&amp;hmsr=%E5%8D%9A%E5%AE%A2%E5%9B%AD&amp;hmpl=2019%E5%BC%80%E5%8F%91%E8%80%85%E8%8A%82&amp;hmcu=PC&amp;hmkw=&amp;hmci=" target="_blank">【福利】个推四大热门移动开发SDK全部免费用一年，限时抢！</a><br></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="COv63d_ttuUCFQ5ylgod3tgLkw"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a title="bat中for /f 如何截取任意行" href="https://www.cnblogs.com/ranson7zop/p/7544887.html" target="_blank" onclick="clickRecomItmem(7544887)">bat中for /f 如何截取任意行</a><br>·  <a title="删除文件名含有特殊字符的文件" href="https://www.cnblogs.com/wuxi/p/3156440.html" target="_blank" onclick="clickRecomItmem(3156440)">删除文件名含有特殊字符的文件</a><br>·  <a title="Linux shell脚本 遍历带空格的文件名" href="https://www.cnblogs.com/google4y/archive/2013/03/12/2956086.html" target="_blank" onclick="clickRecomItmem(2956086)">Linux shell脚本 遍历带空格的文件名</a><br>·  <a title="bash有空格的文件名" href="https://www.cnblogs.com/heshangaichirou/p/5326031.html" target="_blank" onclick="clickRecomItmem(5326031)">bash有空格的文件名</a><br>·  <a title="SHELL技巧：处理文件名中的那些空格" href="https://www.cnblogs.com/cocowool/archive/2013/01/15/2861904.html" target="_blank" onclick="clickRecomItmem(2861904)">SHELL技巧：处理文件名中的那些空格</a><br>»  <a target="_blank" href="https://recomm.cnblogs.com/r?postId=2669291&amp;index=1">更多推荐...</a></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CNik3d_ttuUCFQ5ylgod3tgLkw">
+            
+        <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br>
+ ·              <a href="https://news.cnblogs.com/n/645666/" target="_blank">马云命名的达摩院商标被驳回</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/645665/" target="_blank">特斯拉史上“中国存在感最强”财报：上海工厂占据大半篇幅</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/645664/" target="_blank">记录青春的人人网又回来了，情怀还能唤回用户吗？</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/645663/" target="_blank">谷歌造出AI调香师：看一眼分子结构，就知道它闻起来什么味儿</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/645662/" target="_blank">网传Keep裁员 Keep回应：合理优化80-120人</a>
+            <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/nathaninchina/">
+            CCJPP
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/nathaninchina/" title="入园时间：2012-02-28">
+            7年7个月
+        </a>
+        <br>
+        粉丝：
+        <a href="https://home.cnblogs.com/u/nathaninchina/followers/">
+            12
+        </a>
+        <br>
+        关注：
+        <a href="https://home.cnblogs.com/u/nathaninchina/followees/">
+            1
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('044b3606-ec61-e111-aa3f-842b2b196315')">+加关注</a></div>
+        <script>getFollowStatus('044b3606-ec61-e111-aa3f-842b2b196315');</script>
+    </div>
+</div>
+
+</div>
+
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2012/08/03'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2012年9月</td>
+                            <td class="CalNextPrev" align="right">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2012/10/03'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+                    <th class="CalDayHeader" abbr="日" scope="col" align="center">日</th>
+                    <th class="CalDayHeader" abbr="一" scope="col" align="center">一</th>
+                    <th class="CalDayHeader" abbr="二" scope="col" align="center">二</th>
+                    <th class="CalDayHeader" abbr="三" scope="col" align="center">三</th>
+                    <th class="CalDayHeader" abbr="四" scope="col" align="center">四</th>
+                    <th class="CalDayHeader" abbr="五" scope="col" align="center">五</th>
+                    <th class="CalDayHeader" abbr="六" scope="col" align="center">六</th>
+        </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">26</td>
+                            <td class="CalOtherMonthDay" align="center">27</td>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                    <td class="CalWeekendDay" align="center">
+                        1
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            2
+                        </td>
+                            <td class="" align="center">
+                                <a href="https://www.cnblogs.com/nathaninchina/archive/2012/09/03.html"><u>3</u></a>
+                            </td>
+                            <td class="" align="center">
+                                <a href="https://www.cnblogs.com/nathaninchina/archive/2012/09/04.html"><u>4</u></a>
+                            </td>
+                            <td class="" align="center">
+                                5
+                            </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            8
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            <a href="https://www.cnblogs.com/nathaninchina/archive/2012/09/09.html"><u>9</u></a>
+                        </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            15
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            16
+                        </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            22
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            23
+                        </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            29
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            30
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            6
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn">
+<!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            
+            <div id="widget_my_google" class="div_my_zzk">
+                <input name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+
+
+<!-- 最新随笔 -->
+
+
+
+<!-- 我的标签 -->
+
+
+<!-- 积分与排名 -->
+<div id="sidebar_scorerank" class="sidebar-block">
+    <div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	
+44502
+	</li>
+	<li class="liRank">
+		排名 -	
+15197
+	</li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+    
+        <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+            <h3 class="catListTitle">
+                
+
+随笔分类
+<span style="font-size:11px;font-weight:normal">(69)</span>
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/371657.html" rel="" target="">
+    Algorithms(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/433912.html" rel="" target="">
+    Apache/Tomcat
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/358424.html" rel="" target="">
+    C *notes*(5)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/377845.html" rel="" target="">
+    C *programming*
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/412254.html" rel="" target="">
+    cloud computing
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/429049.html" rel="" target="">
+    db.Mongo_MySQL
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/429050.html" rel="" target="">
+    db.Oracle_DB2
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/417564.html" rel="" target="">
+    Email Service
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/377390.html" rel="" target="">
+    Encryption(2)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/412296.html" rel="" target="">
+    GNU Linux.netprogramming
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/359488.html" rel="" target="">
+    GNU Linux.notes(3)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/361780.html" rel="" target="">
+    JAVA.notes
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/412142.html" rel="" target="">
+    JAVA.programming
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/407999.html" rel="" target="">
+    JS/JQuery, HTML/CSS, XML
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/435244.html" rel="" target="">
+    log_checking
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/414473.html" rel="" target="">
+    Marketing Analyze
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/433603.html" rel="" target="">
+    Monitoring Tools
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/430346.html" rel="" target="">
+    os.kernels
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/377733.html" rel="" target="">
+    os.RHEL
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/425714.html" rel="" target="">
+    os.server.ssh
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/417572.html" rel="" target="">
+    os.services
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/420874.html" rel="" target="">
+    os.Solaris_FreeBSD
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/425377.html" rel="" target="">
+    os.System Optimize
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/413632.html" rel="" target="">
+    os.Windows Server
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/358423.html" rel="" target="">
+    perl.notes(2)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/410631.html" rel="" target="">
+    perl.programming
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/358426.html" rel="" target="">
+    PHP.notes(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/377388.html" rel="" target="">
+    python.notes(6)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/358416.html" rel="" target="">
+    python.programming(10)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/405840.html" rel="" target="">
+    RE &amp;&amp; Coding(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/420280.html" rel="" target="">
+    rhel.LVM
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/436015.html" rel="" target="">
+    Search Engine Techs
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/377824.html" rel="" target="">
+    SHELL.bash(7)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/406601.html" rel="" target="">
+    SHELL.bash.scripts(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/431244.html" rel="" target="">
+    SHELL.csh
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/360875.html" rel="" target="">
+    TCP/IP(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/413775.html" rel="" target="">
+    Tools
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/433604.html" rel="" target="">
+    vim/nano
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/407683.html" rel="" target="">
+    vm.KVM
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/420645.html" rel="" target="">
+    vm.VirtualBox_VMWare_Hyper-V
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/367755.html" rel="" target="">
+    编程(12)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/376234.html" rel="" target="">
+    解析(7)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/408450.html" rel="" target="">
+    探讨
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/365564.html" rel="" target="">
+    学习笔记(10)
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_articlecategory" class="catListArticleCategory sidebar-block">
+            <h3 class="catListTitle">
+                
+
+文章分类
+<span style="font-size:11px;font-weight:normal">(91)</span>
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/407419.html" rel="" target="">
+    Algorithms(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/378101.html" rel="" target="">
+    c/c++(4)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/412279.html" rel="" target="">
+    Cloud Architecture(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/378098.html" rel="" target="">
+    HTML5/CSS3
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/378100.html" rel="" target="">
+    Java(EE)(3)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/424654.html" rel="" target="">
+    JBOSS(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/378104.html" rel="" target="">
+    JS/JQuery
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/418688.html" rel="" target="">
+    KVM(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/419160.html" rel="" target="">
+    Load Balance
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/420337.html" rel="" target="">
+    LVM(5)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/429081.html" rel="" target="">
+    Mongo
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/434790.html" rel="" target="">
+    MySQL
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/433608.html" rel="" target="">
+    nagios/cacti(2)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/426829.html" rel="" target="">
+    Oracle(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/378102.html" rel="" target="">
+    Perl
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/378099.html" rel="" target="">
+    Python(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/413751.html" rel="" target="">
+    RHEL(48)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/419551.html" rel="" target="">
+    Shell Script(4)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/421504.html" rel="" target="">
+    Solaris(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/430354.html" rel="" target="">
+    System Optimize
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/378103.html" rel="" target="">
+    TCP/IP(5)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/413774.html" rel="" target="">
+    Tools(4)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/425406.html" rel="" target="">
+    Unix Programming(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/420648.html" rel="" target="">
+    VM(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/category/413631.html" rel="" target="">
+    Windows(7)
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links379456" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+Bash
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://iraniweb.com/blog/?p=222" rel="nofollow noopener noreferrer" target="">
+    Emacs in shell
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://content.hccfl.edu/pollock/unix/findcmd.htm" rel="nofollow noopener noreferrer" target="">
+    A Unix/Linux “find” Command Tutorial 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.gnu.org/software/bash/manual/bashref.html#Introduction" rel="nofollow noopener noreferrer" target="">
+    Bash Reference Manual
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.gnu.org/software/coreutils/manual/html_node/date-invocation.html#date-invocation" rel="nofollow noopener noreferrer" target="">
+    date: Print or set system date and time
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.gnu.org/software/coreutils/manual/html_node/Operating-on-sorted-files.html#Operating-on-sorted-files" rel="nofollow noopener noreferrer" target="">
+    7 Operating on sorted files
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.gnu.org/software/coreutils/manual/coreutils.html" rel="nofollow noopener noreferrer" target="">
+    GNU Coreutils
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://imghch.com/doc/basic_bashforloop.html" rel="nofollow noopener noreferrer" target="">
+    Bash for Loop Examples
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://bbs.chinaunix.net/thread-44502-1-1.html" rel="nofollow noopener noreferrer" target="">
+    在Linux下配置TCP/IP
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links365279" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+C/C++
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://book.51cto.com/art/201109/290105.htm" rel="nofollow noopener noreferrer" target="">
+    《深入体验C语言项目开发》
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://dev.yesky.com/topic/299/7654799.shtml" rel="nofollow noopener noreferrer" target="">
+    《Linux系统下的C语言编程入门》
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://hi.baidu.com/%D3%A5%DE%C4/blog/item/019bcafefade81c2b58f3159.html" rel="nofollow noopener noreferrer" target="">
+    Ｃ语言《各种》书籍资料
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.chinaunix.net/space.php?uid=683300&amp;do=blog&amp;id=24727" rel="nofollow noopener noreferrer" target="">
+    Linux清空内存和磁盘缓存
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://os.51cto.com/art/200709/55562.htm" rel="nofollow noopener noreferrer" target="">
+    Linux之父炮轰C++：糟糕程序员的垃圾语言(1)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://hi.baidu.com/lanyi_522/blog/item/2154c223aeaf504593580763.html" rel="nofollow noopener noreferrer" target="">
+    【转】某人推荐的Linux 编程好书
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://topic.csdn.net/t/20040717/09/3183257.html" rel="nofollow noopener noreferrer" target="">
+    介绍几本Linux编程的好书！
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://bbs.ednchina.com/BLOG_ARTICLE_164971.HTM" rel="nofollow noopener noreferrer" target="">
+    Linux编程推荐书籍一览表
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://xzf.2000y.com/mb/1/smallclass.asp?typeid=2835&amp;bigclassid=8253&amp;smallclassid=3216" rel="nofollow noopener noreferrer" target="">
+    C语言经典100例
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://fanqiang.chinaunix.net/a4/b2/20010508/113129.html" rel="nofollow noopener noreferrer" target="">
+    Linux下C语言编程
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://clanguage.baike.com/article-74289.html" rel="nofollow noopener noreferrer" target="">
+    运算符的优先级和结合性
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://ganquan.info/standard-c/" rel="nofollow noopener noreferrer" target="">
+    Standard C 语言标准函数库速查 (Cheat Sheet)
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links378239" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+Chrome EXt
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://code.google.com/chrome/extensions/devguide.html" rel="nofollow noopener noreferrer" target="">
+    Developer's Guide
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links367753" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+Computer Networks
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://book.51cto.com/art/200704/46345.htm" rel="nofollow noopener noreferrer" target="">
+    数据通信的几个基本概念
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://book.51cto.com/art/200704/46276.htm" rel="nofollow noopener noreferrer" target="">
+    网络工程师必读——网络工程基础
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://edu.yesky.com/edupxpt/102/2124602.shtml" rel="nofollow noopener noreferrer" target="">
+    子网划分方法及掩码简便算法（组图）
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://cisco.chinaitlab.com/configure/782755.html" rel="nofollow noopener noreferrer" target="">
+    轻松掌握IP子网划分的概念和操作方法
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.zhongguosou.com/computer_question_tools/network_calculator.html" rel="nofollow noopener noreferrer" target="">
+    子网与掩码计算器
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ixpub.net/thread-658464-1-1.html" rel="nofollow noopener noreferrer" target="">
+    TCP/IP协议数据报结构详解
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/suiyunonghen/article/details/3962643" rel="nofollow noopener noreferrer" target="">
+    各类报头TCP/UDP/ICMP/IP结构
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://lonlon88.blog.51cto.com/834029/281442" rel="nofollow noopener noreferrer" target="">
+    VLSM和CIDR的简单介绍和应用举例
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://netsecurity.51cto.com/art/200609/31745.htm" rel="nofollow noopener noreferrer" target="">
+    ARP攻击原理及解决方法
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.163.com/zsy_2008188/blog/static/230136942007111845954450/" rel="nofollow noopener noreferrer" target="">
+    ARP攻击原理及解决方法(2)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.chinaunix.net/jh/4/198859.html" rel="nofollow noopener noreferrer" target="">
+    [精华] socket编程原理
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links408529" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+Fedora
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://support.mozilla.org/en-US/kb/use-java-plugin-to-view-interactive-content" rel="nofollow noopener noreferrer" target="">
+     Related Articles      Play Windows Media files in Firefox with the 
+Windows Media plugin     Install the Flash plugin to view videos, 
+animations and g
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links365285" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+Java(EE)
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://blog.csdn.net/lb85858585/article/details/7304304" rel="nofollow noopener noreferrer" target="">
+    Java多线程下载文件 
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links371337" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+JS/JQuery
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://www.linuxeden.com/html/softuse/20110601/110062.html" rel="nofollow noopener noreferrer" target="">
+    GNOME 3 使用及扩展开发的一点感受
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links377835" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+Linux 命令详解
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://blog.csdn.net/dzassn/article/details/1623360" rel="nofollow noopener noreferrer" target="">
+    tar和gzip、unzip命令详解 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/dzassn/article/details/1623360" rel="nofollow noopener noreferrer" target="">
+    linux unzip 命令详解
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/thinkerABC/article/details/647272" rel="nofollow noopener noreferrer" target="">
+    Linux命令详解 — time
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://witmax.cn/linux-date.html" rel="nofollow noopener noreferrer" target="">
+    【Linux】date命令用法详解（日期格式）
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://bakcom.iteye.com/blog/226037" rel="nofollow noopener noreferrer" target="">
+    wget实现快速下载
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.groad.net/bbs/read.php?tid-1200.html" rel="nofollow noopener noreferrer" target="">
+    wget 下载工具的使用
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links365644" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+NoSQL
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://www.oschina.net/p/mongodb" rel="nofollow noopener noreferrer" target="">
+    分布式文档存储数据库 MongoDB
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://robbin.iteye.com/blog/524977" rel="nofollow noopener noreferrer" target="">
+    NoSQL数据库探讨之一 － 为什么要用非关系数据库？
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links365626" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+Perl
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://www.linuxtopia.org/online_books/perl/pickingUpPerl_toc.html#SEC_Contents" rel="nofollow noopener noreferrer" target="">
+    《Pick Up Perl》
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://bbs.linuxtone.org/thread-18774-1-1.html" rel="nofollow noopener noreferrer" target="">
+    [perl] 监控某个进程的cpu使用率
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links365277" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+Python
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://blog.csdn.net/dyx1024/article/details/7300497" rel="nofollow noopener noreferrer" target="">
+    Python:使用pycha快速绘制办公常用图(饼图、垂直直方图、水平直方图、散点图等七种图形) 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/lanphaday/article/details/1852726" rel="nofollow noopener noreferrer" target="">
+    用Python做图像处理 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.cnblogs.com/flyingfish/archive/2007/06/15/785174.html" rel="" target="">
+    推荐：用Python进行图像处理
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://simple-is-better.com/news/362" rel="nofollow noopener noreferrer" target="">
+    Python 图像处理应用介绍：通道运算，图像增加，滤镜，PIL介绍等
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.cnblogs.com/flyingfish/archive/2007/05/16/748123.html" rel="" target="">
+    Python的内置功能讲解
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://developer.51cto.com/art/201002/182446.htm" rel="nofollow noopener noreferrer" target="">
+    怎样使用Python图像处理?
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.iteye.com/news/24582" rel="nofollow noopener noreferrer" target="">
+    Python 之父：Python 并不慢
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://hi.baidu.com/%B8%E3%D0%A6%D0%A6%BB%B0%CD%BC%C6%AC/blog/item/ce0651382a015bced56225e3.html" rel="nofollow noopener noreferrer" target="">
+    Python中glob模块常用函数 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://docs.python.org/library/glob.html" rel="nofollow noopener noreferrer" target="">
+    10.7. glob — Unix style pathname pattern expansion
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/jgood/article/details/4329532" rel="nofollow noopener noreferrer" target="">
+    python模块学习 ---- smtplib 邮件发送 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/jgood/article/details/4317416" rel="nofollow noopener noreferrer" target="">
+    Python模块学习 ---- httplib HTTP协议客户端实现 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://docs.python.org/library/smtplib.html" rel="nofollow noopener noreferrer" target="">
+    20.12. smtplib — SMTP protocol client
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.91python.com/archives/317" rel="nofollow noopener noreferrer" target="">
+    python脚本检测linux进程是否运行(v2)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.91python.com/archives/321" rel="nofollow noopener noreferrer" target="">
+    google的免费午餐–日历短信通知来监控服务器
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://hi.baidu.com/chjj910/blog/item/e1d5030b32d7af0f94ca6be8.html/cmtid/88d98b31c2da7e97a8018e94" rel="nofollow noopener noreferrer" target="">
+    监控进程 python程序汇总（转）
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.python.org/doc//current/library/subprocess.html" rel="nofollow noopener noreferrer" target="">
+    subprocess — Subprocess management
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://slaytanic.blog.51cto.com/2057708/742049" rel="nofollow noopener noreferrer" target="">
+    用python编写daemon监控进程并自动恢复(附Shell版)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://hi.baidu.com/mxp446533129/blog/item/15ddb639ca4830f414cecb01.html" rel="nofollow noopener noreferrer" target="">
+    python 中subprocess用法
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/marising/article/details/2845339" rel="nofollow noopener noreferrer" target="">
+    Python调用c/c++函数（1）
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://my.oschina.net/kuafu/blog/42543" rel="nofollow noopener noreferrer" target="">
+    转-杀掉subprocess全部派生的子进程
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.iteye.com/topic/406623" rel="nofollow noopener noreferrer" target="">
+    python安全管理子进程-subprocess
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://john2007.iteye.com/blog/309552" rel="nofollow noopener noreferrer" target="">
+    几个有趣的python开源项目
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.gisforum.net/u/31039/archives/2009/9505.html" rel="nofollow noopener noreferrer" target="">
+    使用pyPdf实现合并pdf文件的功能 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ai7.org/wp/html/916.html" rel="nofollow noopener noreferrer" target="">
+    Python处理pdf文件的包
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://hypeshell.com/index.php/articles/22-sqlite/74-how-to-use-sqlite3-from-python--introductory-tutorial" rel="nofollow noopener noreferrer" target="">
+    How to Use SQLite3 from Python â€“ Introductory Tutorial
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ibm.com/developerworks/cn/aix/library/au-multiprocessing/index.html" rel="nofollow noopener noreferrer" target="">
+    使用 Python 实现多进程
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://developer.51cto.com/art/201003/189060.htm" rel="nofollow noopener noreferrer" target="">
+    Python进程的守护进程实施方案的详细介绍
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.lzhaohao.info/archive/debug-python-process-using-gdb/" rel="" target="">
+    使用gdb调试Python进程
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-pexpect1/index.html" rel="nofollow noopener noreferrer" target="">
+    探索 Pexpect，第 1 部分：剖析 Pexpect
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.lag.net/paramiko/" rel="nofollow noopener noreferrer" target="">
+    paramiko
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.donews.com/maverick/archive/2007/04/18/1157594.aspx" rel="" target="">
+    用PExpect模拟终端用户与系统的交互
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/berlinix/article/details/2220773" rel="nofollow noopener noreferrer" target="">
+    python源码中使用中文注释 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ebnd.cn/2009/08/29/parse-binary-file-in-python/" rel="nofollow noopener noreferrer" target="">
+    python 下读取二进制文件
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://pypi.python.org/pypi/pexpect/#downloads" rel="nofollow noopener noreferrer" target="">
+    pexpect 2.4 intro from python.org
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.noah.org/wiki/Pexpect" rel="nofollow noopener noreferrer" target="">
+    pexpect homepage
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://pexpect.sourceforge.net/pexpect.html" rel="nofollow noopener noreferrer" target="">
+    pexpect
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://oldj.net/article/python-upload-file-via-form-post/" rel="nofollow noopener noreferrer" target="">
+    Python中使用POST方式上传文件
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://long.objectis.net/wanglaoriji/yongpython-shixianshangzhuanwenjiangongneng" rel="nofollow noopener noreferrer" target="">
+    用python 实现上传文件功能
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://oss.org.cn/man/develop/python/mod_python/mod_python.html" rel="nofollow noopener noreferrer" target="">
+    mod_python中文文档
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://webpy.org/" rel="nofollow noopener noreferrer" target="">
+    webpy.org
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.blueidea.com/tech/program/2007/5181.asp" rel="nofollow noopener noreferrer" target="">
+    web.py的简介
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://pycurl.sourceforge.net/" rel="nofollow noopener noreferrer" target="">
+    PYCURL
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://pys60.blogbus.com/logs/10236070.html" rel="nofollow noopener noreferrer" target="">
+    python cgi文件上传程序(修改)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://tech.ddvip.com/2012-03/1330675060172926.html" rel="nofollow noopener noreferrer" target="">
+    Google App Engine 正式支持 Python 2.7
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/magictong/article/details/2687183" rel="nofollow noopener noreferrer" target="">
+    Base64 编码原理简介和python的base64模块的使用 
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links370988" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+SQLite3
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://hypeshell.com/index.php/articles/22-sqlite/76-sqlite-examples-with-bash-perl-and-python" rel="nofollow noopener noreferrer" target="">
+    SQLite examples with Bash, Perl and Python
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links365286" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+Unix/Linux
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://www.chineselinuxuniversity.net/news/58080.shtml" rel="nofollow noopener noreferrer" target="">
+    fedora free and nonfree rpm
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.linuxdiyf.com/bbs/thread-234719-1-1.html" rel="nofollow noopener noreferrer" target="">
+    fedora16配置脚本
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ramoonus.nl/2011/05/26/how-to-setup-fedora-linux-15-as-lamp-server/" rel="nofollow noopener noreferrer" target="">
+    HOW TO SETUP FEDORA LINUX 15 AS LAMP SERVER
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/sannychan/article/details/7234819" rel="nofollow noopener noreferrer" target="">
+    Fedora16安装和自启动Mysql
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.sina.com.cn/s/blog_605adf070100epps.html" rel="nofollow noopener noreferrer" target="">
+    linux下添加用户和删除用户以及该密码
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.if-not-true-then-false.com/2010/linux-install-eclipse-on-fedora-centos-red-hat-rhel/" rel="nofollow noopener noreferrer" target="">
+    Install Eclipse SDK 3.7.1 (Indigo) on Fedora 16/15, CentOS/RHEL 6.2/5.7
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/" rel="nofollow noopener noreferrer" target="">
+    深刻理解Linux进程间通信（IPC）
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part1/" rel="nofollow noopener noreferrer" target="">
+    Linux环境进程间通信（一）
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.chinaunix.net/space.php?uid=683300&amp;do=blog&amp;id=24727" rel="nofollow noopener noreferrer" target="">
+    Linux清空内存和磁盘缓存
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.kuqin.com/linux/20110918/264989.html" rel="nofollow noopener noreferrer" target="">
+    Linux清除arp缓存
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://linuxtoy.org/archives/top-5-screen-recorder-for-linux.html" rel="nofollow noopener noreferrer" target="">
+    Linux 下值得使用的 5 个屏幕录像软件
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.linuxeden.com/html/news/20080625/58969.html" rel="nofollow noopener noreferrer" target="">
+    5种LINUX屏幕录像的方法
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://ubuntuforums.org/showthread.php?t=1309247" rel="nofollow noopener noreferrer" target="">
+    Karmic dual monitors now assigns second monitor as primary
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://linux.vbird.org/linux_basic/0320bash.php" rel="nofollow noopener noreferrer" target="">
+    第十一章、認識與學習 BASH
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/wd4084/article/details/6452574" rel="nofollow noopener noreferrer" target="">
+    UNIX网络编程之旅-配置unp.h头文件环境
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.baiming.org/hulianwang/CentOS/17064.1.html" rel="nofollow noopener noreferrer" target="">
+    删除文本中的重复行(sort+uniq/awk/sed)
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://askubuntu.com/questions/33640/kworker-what-is-it-and-why-is-it-hogging-so-much-cpu" rel="nofollow noopener noreferrer" target="">
+    Kworker, what is it and why is it hogging so much CPU?
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.5dlinux.com/article/1/2012/linux_54513.html" rel="nofollow noopener noreferrer" target="">
+    Linux下FireFox和ThunderBird相互调用
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://kasy-13.blog.163.com/blog/static/821469142011102543651436/" rel="nofollow noopener noreferrer" target="">
+    如何用bzip2和openssl加密压缩文件
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.enet.com.cn/article/2008/0516/A20080516267007.shtml" rel="nofollow noopener noreferrer" target="">
+    黑客眼中OpenSSL：强大的密码工具
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://my.oschina.net/acejimmyster/blog/26244" rel="nofollow noopener noreferrer" target="">
+    Linux下使用SSH详解–图文教程(转载）以备查阅
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://codingstandards.iteye.com/blog/776124" rel="nofollow noopener noreferrer" target="">
+    我使用过的Linux命令之arp - 操作ARP缓存
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://bbs.chinaunix.net/thread-1632380-1-1.html" rel="nofollow noopener noreferrer" target="">
+    检测zip文件是否加密
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://codingstandards.iteye.com/blog/805778" rel="nofollow noopener noreferrer" target="">
+    我使用过的Linux命令之hexdump - ”十六“进制查看器
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ideaex.net/html/Article/2011/07/31/293.html" rel="nofollow noopener noreferrer" target="">
+    Linux命令大全整理_磁盘操作_文件存取_目录操作_进程管理_文件权限设定
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.xxlinux.com/linux/article/accidence/technique/20070129/7255.html" rel="nofollow noopener noreferrer" target="">
+    ffmpeg命令使用详解
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.sina.com.cn/s/blog_62de66340100kivo.html" rel="nofollow noopener noreferrer" target="">
+    linux 彻底删除、粉碎文件命令shred
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://news.newhua.com/news1/evaluation/2008/411/08411102621976BFA14E4E51EB6895A1H05FB75K2GJC02GAJHCA0E2J.html" rel="nofollow noopener noreferrer" target="">
+    Linux操作系统下文件保护与彻底删除技巧 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.linuxsong.org/2010/12/shred-file/" rel="nofollow noopener noreferrer" target="">
+    Linux中彻底删除文件
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://soft.zdnet.com.cn/software_zone/2007/1014/553088.shtml" rel="nofollow noopener noreferrer" target="">
+    关于Linux Grep命令使用的详细介绍
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://bbs.linuxpk.com/" rel="nofollow noopener noreferrer" target="">
+    linuxpk
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.nist.gov/el/msid/expect.cfm" rel="nofollow noopener noreferrer" target="">
+    expect learning website (NIST) 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ibm.com/developerworks/cn/aix/library/au-expect/" rel="nofollow noopener noreferrer" target="">
+    Expect 在网络管理中发挥着重要作用
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://pygstdocs.berlios.de/pygst-tutorial/index.html" rel="nofollow noopener noreferrer" target="">
+    Python GStreamer Tutorial
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.sina.com.cn/s/blog_8cb5c0e501012i2v.html" rel="nofollow noopener noreferrer" target="">
+    Linux下翻墙
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.frozentux.net/iptables-tutorial/cn/iptables-tutorial-cn-1.1.19.html" rel="nofollow noopener noreferrer" target="">
+    Iptables 指南 1.1.19
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://confluence.ea.com/display/EADP/Benchmark+Tool" rel="nofollow noopener noreferrer" target="">
+    Benchmark Tool
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.360doc.com/content/10/1202/09/25127_74266206.shtml" rel="nofollow noopener noreferrer" target="">
+    LVM备份(snapshot)
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links396255" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+VIM
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://blog.csdn.net/tge7618291/article/details/4216977" rel="nofollow noopener noreferrer" target="">
+    经典vim插件功能说明、安装方法和使用方法介绍（已更新） 
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://edyfox.codecarver.org/html/vimplugins.html" rel="nofollow noopener noreferrer" target="">
+    VIM 插件
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://hi.baidu.com/lampers/blog/item/45b34331bf919811eac4af5a.html" rel="nofollow noopener noreferrer" target="">
+    编写VIM插件实现利用VIM上传、同步文件（原创_原发于lamper.cn）
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.oschina.net/question/12_39383" rel="nofollow noopener noreferrer" target="">
+    使用 Python 编写 vim 插件
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/africahyena/article/details/1485315" rel="nofollow noopener noreferrer" target="">
+    VIM常用命令 
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links359546" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+代码下载
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://www.hicode.cn/download/category-26-1.html" rel="nofollow noopener noreferrer" target="">
+    大众源码
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.oschina.net/" rel="nofollow noopener noreferrer" target="">
+    开源中国社区
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.jb51.net/" rel="nofollow noopener noreferrer" target="">
+    脚本之家
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.comicer.com/stronghorse/index.htm" rel="nofollow noopener noreferrer" target="">
+    个人技术网站
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://ffmpeg.org/" rel="nofollow noopener noreferrer" target="">
+    ffmpeg office website
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links358518" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+技术网站
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://www.linuxtopia.org/index.html" rel="nofollow noopener noreferrer" target="">
+    Linuxtopia
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://phprimer.com/" rel="nofollow noopener noreferrer" target="">
+    PHPrimer -- PHP架构师之路
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://book.51cto.com/" rel="nofollow noopener noreferrer" target="">
+    51CTO的读书频道
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.open-open.com/doc/list/all" rel="nofollow noopener noreferrer" target="">
+    Open文档
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://ffmpeg.org/" rel="nofollow noopener noreferrer" target="">
+    FFmpeg
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://man.lupaworld.com/" rel="nofollow noopener noreferrer" target="">
+    书籍总汇
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.chinaitlab.com/" rel="nofollow noopener noreferrer" target="">
+    中国IT实验室
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://xiaoxia.org/" rel="nofollow noopener noreferrer" target="">
+    xiaoxia技术博客
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://oss.org.cn/html/index.html" rel="nofollow noopener noreferrer" target="">
+    开源中国
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.heise.de/" rel="nofollow noopener noreferrer" target="">
+    HEISE ONLINE
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.linuxfocus.org/" rel="nofollow noopener noreferrer" target="">
+    linuxfocus.org
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://dev.chromechina.com/forumdisplay.php?fid=32" rel="nofollow noopener noreferrer" target="">
+    ChromeChina
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://simple-is-better.com/" rel="nofollow noopener noreferrer" target="">
+    python.cn
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.linode.com/" rel="nofollow noopener noreferrer" target="">
+    linode.com
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://bbs.chinaunix.net/" rel="nofollow noopener noreferrer" target="">
+    ChinaUnix.net
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.linuxsky.org/index.html" rel="nofollow noopener noreferrer" target="">
+    linuxSky
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links377389" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+教程大全
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://www.rupeng.com/forum/forum-52-1.html" rel="nofollow noopener noreferrer" target="">
+    《C语言也能干大事》
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://soft.yesky.com/lesson/281/2472281.shtml" rel="nofollow noopener noreferrer" target="">
+    《轻松玩建模--统一建模语言UML快速入门》
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.python.org/doc/essays/ppt/sd99east/index.htm" rel="nofollow noopener noreferrer" target="">
+    Using Python for CGI programming
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://oss.org.cn/kernel-book/" rel="nofollow noopener noreferrer" target="">
+    深入分析Linux内核源码
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.learninglinux.de/" rel="nofollow noopener noreferrer" target="">
+    learninglinux
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.tudou.com/programs/view/xSr7-ra11Sk/" rel="nofollow noopener noreferrer" target="">
+    红帽linux视频教程：basic-server
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links375929" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+软件文档
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://simeon.blog.51cto.com/18680/11664" rel="nofollow noopener noreferrer" target="">
+    软件文档知多少？
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links376389" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+文件格式
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://handsomeboy226.blog.163.com/blog/static/9665175200891373140372/" rel="nofollow noopener noreferrer" target="">
+    AVI格式解析
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/aoosang/article/details/531126" rel="nofollow noopener noreferrer" target="">
+    AVI族函数的说明
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://hi.baidu.com/raymond2016/blog/item/ed2e014468c8a32fcefca332.html" rel="nofollow noopener noreferrer" target="">
+    AVI文件格式 文件解析 从AVI文件获取帧数，播放时间等信息
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.docin.com/p-236101267.html" rel="nofollow noopener noreferrer" target="">
+    AVI文件结构的实例分析
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.dianbo.org/archiver/index.php?tid-11149.html" rel="nofollow noopener noreferrer" target="">
+    如何合并双音轨AVI片段
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://riaoo.com/wp-content/uploads/2009/09/ZIP-File-Format-Specification-2007-zh_cn.txt" rel="nofollow noopener noreferrer" target="">
+    zip文件格式说明书
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://topic.csdn.net/t/20040720/14/3192315.html" rel="nofollow noopener noreferrer" target="">
+    如何读取十六进制文件的内容？
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.utf.com.cn/article/s1045" rel="nofollow noopener noreferrer" target="">
+    ZIP文件格式详解
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://hi.baidu.com/chenxiaowen/blog/item/926cd22ad4f07324d52af12c.html" rel="nofollow noopener noreferrer" target="">
+    用java破解采用windows xp加密的zip文件的密码的过程和经验总结（pkzip decryption encryption）
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://zhidao.baidu.com/question/16248824" rel="nofollow noopener noreferrer" target="">
+    AVI数字视频的格式
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://blog.csdn.net/aero_boy/article/details/2029156" rel="nofollow noopener noreferrer" target="">
+    CHM格式简介
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://wenku.baidu.com/view/b7889b64783e0912a2162aa4.html" rel="nofollow noopener noreferrer" target="">
+    RAR文件格式的研究
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://www.ibm.com/developerworks/aix/library/au-gstreamer.html?ca=dgr-lnxw07GStreamer" rel="nofollow noopener noreferrer" target="">
+    Multipurpose multimedia processing with GStreamer
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="http://gstreamer.freedesktop.org/documentation/" rel="nofollow noopener noreferrer" target="">
+    GStreamer Documentation
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links365040" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+我的其他博客
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://www.iteye.com/" rel="nofollow noopener noreferrer" target="">
+    ITEYE
+</a>
+ 
+
+                        </li>
+                        <li>
+                            
+<a href="https://www.cnblogs.com/nathaninchina/archive/2012/09/03/www.csdn.net" rel="nofollow noopener noreferrer" target="">
+    CSDN
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+        <div id="sidebar_links410894" class="catList sidebar-block">
+            <h3 class="catListTitle">
+                
+
+友情博客
+
+
+
+            </h3>
+
+
+            <ul>
+
+                        <li>
+                            
+<a href="http://iregex.org/" rel="nofollow noopener noreferrer" target="">
+    我爱正则表达式
+</a>
+ 
+
+                        </li>
+
+            </ul>
+
+
+        </div>
+
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block">
+    <div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="http://www.cnblogs.com/nathaninchina/archive/2012/04/17/python_check_unix_cmd.html#2357803">1. Re:Python：解析，如何分析unix是否安装了某个命令</a></li>
+                    <li class="recent_comment_body">学习了。</li>
+                    <li class="recent_comment_author">--macrossyu</li>
+                    <li class="recent_comment_title"><a href="http://www.cnblogs.com/nathaninchina/archive/2012/04/12/c_notebook1.html#2356058">2. Re:C：学习笔记（一）</a></li>
+                    <li class="recent_comment_body">选择法排序是错误的<br>那个不是选择法</li>
+                    <li class="recent_comment_author">--garbageMan</li>
+                    <li class="recent_comment_title"><a href="http://www.cnblogs.com/nathaninchina/archive/2012/04/12/c_notebook1.html#2356057">3. Re:C：学习笔记（一）</a></li>
+                    <li class="recent_comment_body">void main()<br>是野路子写法</li>
+                    <li class="recent_comment_author">--garbageMan</li>
+                    <li class="recent_comment_title"><a href="http://www.cnblogs.com/nathaninchina/archive/2012/04/13/c_2.html#2356055">4. Re:C：学习笔记（二）</a></li>
+                    <li class="recent_comment_body">第一段代码很明显的错误<br>越界</li>
+                    <li class="recent_comment_author">--garbageMan</li>
+                    <li class="recent_comment_title"><a href="http://www.cnblogs.com/nathaninchina/archive/2012/04/12/c_notebook1.html#2354847">5. Re:C：学习笔记（一）</a></li>
+                    <li class="recent_comment_body">@ volcanol多谢指正:)...</li>
+                    <li class="recent_comment_author">--ccjpp</li>
+        </ul>
+    </div>
+</div>
+
+
+</div>
+
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+    <div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/nathaninchina/archive/2012/02/29/unix_xsel_intro.html">
+                            1. xsel：解析，在Unix下与鼠标粘帖功能互动，让粘帖操作变的更加快捷。(9409)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/nathaninchina/archive/2012/07/18/python_get_complementaryset_of_two_files.html">
+                            2. Python：脚本，比较两个文件，求A-B。(2345)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/nathaninchina/archive/2012/05/02/python_pexpect_module.html">
+                            3. Python：利用pexpect库直接解压缩加密的zip文件。(2138)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/nathaninchina/archive/2012/05/04/python_encrypted_zipfile2.html">
+                            4. Python：解压缩前检测一个zip文件否为加密，两种算法。(1519)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/nathaninchina/archive/2012/09/03/shell_loop_spaces_within_fname.html">
+                            5. Bash：如何循环含有空格的文件名或文件中的行？(1389)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block">
+    <div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/nathaninchina/archive/2012/04/12/c_notebook1.html">
+                            1. C：学习笔记（一）(6)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/nathaninchina/archive/2012/04/17/python_check_unix_cmd.html">
+                            2. Python：一个小小程序，如何分析unix是否安装了某个命令(1)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/nathaninchina/archive/2012/04/13/c_2.html">
+                            3. C语言：学习笔记（二）(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+    
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/nathaninchina/archive/2012/04/13/c_2.html">
+                                1. C语言：学习笔记（二）(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/nathaninchina/archive/2012/04/12/c_notebook1.html">
+                                2. C：学习笔记（一）(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2019 CCJPP
+<br><span id="poweredby">Powered by .NET Core 3.0.0 on Linux</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+
+<iframe src="Bash%EF%BC%9A%E5%A6%82%E4%BD%95%E5%BE%AA%E7%8E%AF%E5%90%AB%E6%9C%89%E7%A9%BA%E6%A0%BC%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E8%A1%8C%EF%BC%9F%20-%20CCJPP%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe><div id="SL_balloon_obj" alt="0" style="display: block;"><div id="SL_button" class="SL_ImTranslatorLogo" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/imtranslator-s.png&quot;) repeat scroll 0% 0%; display: none; opacity: 1;"></div><div id="SL_shadow_translation_result2" style="display: none;"></div><div id="SL_shadow_translator" style="left: -10000px; top: -10000px; display: none;"><div id="SL_planshet"><div id="SL_arrow_up" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/up.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_Bproviders"></div><div id="SL_alert_bbl" style="display: none;"><div id="SLHKclose" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/delete.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_alert_cont"></div></div><div id="SL_TB"><table id="SL_tables" cellspacing="1"><tr><td class="SL_td" align="right" width="10%"><input id="SL_locer" title="锁定语言" type="checkbox"></td><td class="SL_td" align="left" width="20%"><select id="SL_lng_from" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="auto" selected="selected">检测语言</option><option value="eo">世界语</option><option value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" align="center" width="3"><div id="SL_switch_b" title="切换语言" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/switchb.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="left" width="20%"><select id="SL_lng_to" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="eo">世界语</option><option value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" align="center" width="8%"><div id="SL_TTS_voice" title="undefined" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/ttsvoice.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="8%"><div id="SL_copy" title="复制译文" class="SL_copy" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/copy.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="8%"><div id="SL_bbl_font_patch"></div><div id="SL_bbl_font" title="字体大小" class="SL_bbl_font" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/font.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="8%"><div id="SL_bbl_help" title="帮助" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bhelp.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="right" width="15%"><div id="SL_pin" class="SL_pin_off" title="固定弹出窗口" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/pin-on.png&quot;) repeat scroll 0% 0%;"></div></td></tr></table></div></div><div id="SL_shadow_translation_result" style="visibility: visible;"></div><div id="SL_loading" class="SL_loading" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/loading.gif&quot;) repeat scroll 0% 0%;"></div><div id="SL_player2"></div><div id="SL_alert100">文本转语音功能仅限200个字符</div><div id="SL_Balloon_options" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bg3.png&quot;) repeat scroll 0% 0%;"><div id="SL_arrow_down" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/down.png&quot;) repeat scroll 0% 0%;"></div><table id="SL_tbl_opt" width="100%"><tr><td class="SL_td" align="center" width="5%"><input id="SL_BBL_locer" checked="checked" title="显示翻译器的按钮 3 秒" type="checkbox"></td><td class="SL_td" align="left" width="5%"><div id="SL_BBL_IMG" title="显示翻译器的按钮 3 秒" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bbl-logo.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="70%"><a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?bbl" target="_blank" class="SL_options" id="SL_opt1" title="显示选项">选项</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?hist" target="_blank" class="SL_options" id="SL_opt2" title="翻译历史记录">历史</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?feed" target="_blank" class="SL_options" id="SL_opt3" title="反馈">反馈</a> : <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GD9D8CPW8HFA2" target="_blank" class="SL_options" id="SL_opt4" title="作出一点点贡献">Donate</a></td><td class="SL_td" align="right" width="15%"><span id="SL_Balloon_Close" class="SL_options" title="关闭">关闭</span></td></tr></table></div></div></div></body></html>

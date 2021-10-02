@@ -1,0 +1,116 @@
+<html><head><meta charset="UTF-8">
+
+
+
+<meta content="width=device-width,user-scalable=no" name="viewport">
+<meta name="apple-itunes-app" content="app-id=425349261">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>sqlite3添加、修改列名 - CSDN博客</title>
+<link rel="Stylesheet" type="text/css" href="wapall.css">
+
+</head>
+<body>
+<div id="wrap">
+<div id="header">
+<a class="home" href="http://www.csdn.net/"><img src="home.png.avi"></a> 
+<a class="logo" href="http://m.blog.csdn.net/">
+<img src="logo.jpg"></a>
+<a id="loginname" href="http://m.blog.csdn.net/blog/bienilz">bienilz</a>
+</div>
+<div id="nav">
+<a href="http://m.blog.csdn.net/" id="shouye1">首页</a>
+<a href="http://m.blog.csdn.net/column/index" id="zhuanlan1">专栏</a>
+<a href="http://m.blog.csdn.net/People/index" id="zhuanjia1">专家</a>
+<a href="http://m.blog.csdn.net/home/hot" id="rewen1">热文</a>
+</div>
+<div id="main">
+        <div id="top">
+        <div class="avatar">
+        <a href="http://m.blog.csdn.net/blog/az44yao" class="name">az44yao的专栏</a>
+        </div>
+        <div class="content">
+        <h1><a href="7736782.htm#">[原]sqlite3添加、修改列名</a></h1>
+        <p class="time"><span>2012-7-11</span><span>阅读6180</span> <a href="7736782.htm#comment">评论<span id="sp_cmt">0</span></a></p>
+        <div id="articlecontent">
+        
+<p>sqlite3添加、修改列名<br>
+<a href="http://blog.163.com/yi_xiaoluo@126/blog/static/72090439201161533941528/">http://blog.163.com/yi_xiaoluo@126/blog/static/72090439201161533941528/</a><br>
+SQLite如何删除，修改、重命名列 .<br>
+<a href="http://blog.csdn.net/cangkukuaimanle/article/details/6847536">http://blog.csdn.net/cangkukuaimanle/article/details/6847536</a></p>
+<p><br>
+今天在SQLite数据库中添加了一列，后来发现列名写错了，于是使用SQL语句来修改列名，可是根本不管用。</p>
+<p>首先，请放弃alter吧。</p>
+<p>sqlite官方说明如下：<br>
+SQLite supports a limited subset of ALTER TABLE. The ALTER TABLE command in SQLite allows the user to rename a table or to add a new column to an existing table. It is not possible to rename a column, remove a column, or add or remove constraints from a table.
+<br>
+大概意思是sqlite的alter功能只是alter table的一个子集，只有部分功能，比如重命名表名，新增列到现有表中。<br>
+不支持现有列的重命名，删除和修改。</p>
+<p><br>
+查了N多资料，貌似只能通过一种间接的办法去做了，不管是重命名列还是删除列。</p>
+<p>比如说你要修改的表名是A，方法步骤如下：</p>
+<p>1.新建一个临时表T，这个T和表A具有相同的列。</p>
+<p>2.把A中所有的数据都通过insert语句插入到T中</p>
+<p>3.删除表A</p>
+<p>4.新建表A，这时表A的列名就是你想要的结果，以前想修改的列名是什么，这时候就定义成什么，以前要删除的某个列，那么在定义的时候就不定义它。</p>
+<p>5.恢复数据，把数据通过insert语句插入A，结构是insert into A select ... from tablen T</p>
+<p>6.删除临时表T。</p>
+<p>这个办法太笨拙了，但是目前还没有更好的办法啊，啊，啊，啊，啊，啊，啊 ，啊， 啊， 啊，啊， 啊，</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>查了半天sqlite的手册，没找到怎么修改列名。最后用了一个很笨的方法。 <br>
+这里我要把post的tbl重命名为tb_l。</p>
+<p>首先重命名post表。</p>
+<p>ALTER TABLE post RENAME TO tmp_post;<br>
+在重新创建post表。</p>
+<p>?1234 CREATE TABLE post(id integer primary key autoincrement,tb_l varchar(128) not null);
+<br>
+把tmp_post的数据导入post，并删除tmp_post；</p>
+<p>insert into post (tb_l) select tbl from tmp_post;<br>
+drop table tmp_post;<br>
+如果原表tmp_post和新创建的标post列数一致，并且是一一对应的话，可以用一下语句导入。</p>
+<p>insert into post select * from tmp_talbe;</p>
+<p>--------------------------------------</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>使用Sqliteman修改表时，遇到一个问题，每当添加或修改列信息时，作为主键的信息就会丢失，所以只能自己写Sql执行了。示例：</p>
+<p>&nbsp;</p>
+<p>ALTER TABLE "store_productcategory"&nbsp; ADD COLUMN "DisplayOrder" INT DEFAULT(0)</p>
+
+        </div>
+        </div>
+        <div class="next_page">
+            <a href="http://m.blog.csdn.net/blog/az44yao/7733368" class="next_btn">上一篇</a>
+            <a href="http://m.blog.csdn.net/blog/az44yao/7752234" class="next_btn">下一篇</a>
+        </div>
+        <div class="comment">
+        <p><a name="comment"></a>发表评论</p>
+        <p><textarea id="con" rows="4" style="width:99%;"></textarea></p>
+        <p><input type="button" class="login_sub1" value="提 交" style="margin-top:0;" onclick="subform()"></p>
+        </div>
+        <div class="comment_sub">
+        <span class="lf10">查看评论</span>
+        <ul id="cmt_ul">        </ul>
+        <a href="http://m.blog.csdn.net/comment/7736782" class="lf10">更多评论（0）</a>
+        </div>
+        </div>
+        
+        
+
+</div>
+
+<div class="back-top" id="ding1">
+<a href="7736782.htm#" onclick="document.body.scrollTop=0;return false;">
+<img src="back-top.jpg">回顶部</a>
+</div>
+<div id="footer">
+<p><a class="now" href="http://m.blog.csdn.net/">移动版</a>|<a href="http://blog.csdn.net/" onclick="document.cookie='wap-pc=1; domain=blog.csdn.net; path=/;';">桌面版</a></p>
+<p>©1999-2012, CSDN.NET, All Rights Reserved</p>
+</div>
+
+</div>
+
+
+
+
+</body></html>

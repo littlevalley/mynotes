@@ -1,0 +1,286 @@
+<html><head><meta charset="UTF-8">
+
+
+
+<meta content="width=device-width,user-scalable=no" name="viewport">
+<meta name="apple-itunes-app" content="app-id=425349261">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Qt获得焦点和失去焦点处理事件 （Focus事件） - CSDN博客</title>
+<link rel="Stylesheet" type="text/css" href="wapall.css">
+
+</head>
+<body>
+<div id="wrap">
+<div id="header">
+<a class="home" href="http://www.csdn.net/"><img src="home.png.avi"></a> 
+<a class="logo" href="http://m.blog.csdn.net/">
+<img src="logo.jpg"></a>
+<a id="loginname" href="http://m.blog.csdn.net/blog/bienilz">bienilz</a>
+</div>
+<div id="nav">
+<a href="http://m.blog.csdn.net/" id="shouye1">首页</a>
+<a href="http://m.blog.csdn.net/column/index" id="zhuanlan1">专栏</a>
+<a href="http://m.blog.csdn.net/People/index" id="zhuanjia1">专家</a>
+<a href="http://m.blog.csdn.net/home/hot" id="rewen1">热文</a>
+</div>
+<div id="main">
+        <div id="top">
+        <div class="avatar">
+        <a href="http://m.blog.csdn.net/blog/yu275184637" class="name">yu275184637的专栏</a>
+        </div>
+        <div class="content">
+        <h1><a href="22865015.htm#">[转]Qt获得焦点和失去焦点处理事件 （Focus事件）</a></h1>
+        <p class="time"><span>2014-4-3</span><span>阅读2954</span> <a href="22865015.htm#comment">评论<span id="sp_cmt">0</span></a></p>
+        <div id="articlecontent">
+        
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+</p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+<strong><span style="font-size:18px">方法一：</span></strong></p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+描述：一开始我要实现的目的就是，在一个窗体上有多个可编辑控件（比如QLineEdit、QTextEdit等），当哪个控件获得焦点，哪个控件的背景就高亮用来起提示作用，查了下文档应该用focusInEvent()和focusOutEvent(), 在实际过程中，我犯了十分严重的错误，最开始的时候我是这样做的：我重写了窗体QWidget的这两个函数，然后再在函数体中把QFocusEvent事件传递给窗体上的QLineEdit控件:</p>
+<div class="cnblogs_code" style="margin:5px 0px; padding:5px; background-color:rgb(245,245,245); border:1px solid rgb(204,204,204); overflow:auto; line-height:18px; color:rgb(68,68,68); font-family:'Courier New'!important">
+<pre style="margin-top:0px; margin-bottom:0px; padding:0px; white-space:pre-wrap; word-wrap:break-word; font-family:'Courier New'!important"><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">void</span> Widget::focusInEvent(QFocusEvent *<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">)
+{
+      QLineEdit::focusInEvent(</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+       .....
+}</span></pre>
+</div>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+编译的时候报错，说是没有调用对象什么的，后来问了下朋友才得到了完美的答案：</p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+既然是要控件得到焦点改变动作，则应该重写该控件的focusInEvent()和focusOutEvent(),即重写QLineEdit类，再重新定义这两个处理函数，然后再在主程序中，include 我们自己重写的QLineEdit头文件，具体代码如下：</p>
+<div class="cnblogs_code" style="margin:5px 0px; padding:5px; background-color:rgb(245,245,245); border:1px solid rgb(204,204,204); overflow:auto; line-height:18px; color:rgb(68,68,68); font-family:'Courier New'!important">
+<div class="cnblogs_code_toolbar" style="margin:5px 0px 0px; padding:0px; line-height:1.5!important">
+<span class="cnblogs_code_copy" style="margin:0px; padding:0px 5px 0px 0px; line-height:1.5!important"><a target="_blank" title="复制代码" style="margin:0px; padding:0px; text-decoration:underline; border:none!important"><img src="copycode.gif" alt="复制代码" style="margin:0px; padding:0px; border:none!important"></a></span></div>
+<pre style="margin-top:0px; margin-bottom:0px; padding:0px; white-space:pre-wrap; word-wrap:break-word; font-family:'Courier New'!important"><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important"> MYLINEEDIT_H</span>
+<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">#ifndef MYLINEEDIT_H
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">#define</span> MYLINEEDIT_H<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+#include </span>&lt;QLineEdit&gt;
+<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">class</span> MyLineEdit : <span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">public</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> QLineEdit
+{
+        Q_OBJECT
+
+ </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">public</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">:
+       MyLineEdit(QWidget </span>*parent=<span style="margin:0px; padding:0px; color:rgb(128,0,128); line-height:1.5!important">0</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+       </span>~<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">MyLineEdit();
+ </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">protected</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">:
+       </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">virtual</span> <span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">void</span> focusInEvent(QFocusEvent *<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">e);
+       </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">virtual</span> <span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">void</span> focusOutEvent(QFocusEvent *<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">e);
+};
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">#endif</span> <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important"> MYLINEEDIT_H</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+`
+
+</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">myLineEdit.cpp</span>
+#include <span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">myLineEdit.h</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+
+MyLineEdit::MyLineEdit(QWidget </span>*<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">parent):QLineEdit(parent)
+{
+
+}
+
+MyLineEdit::</span>~<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">MyLineEdit()
+{
+
+}
+
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">void</span> MyLineEdit::focusInEvent(QFocusEvent *<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">e)
+{
+       QPalette p</span>=<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QPalette();
+       p.setColor(QPalette::Base,Qt::green);    </span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">QPalette::Base 对可编辑输入框有效，还有其他类型，具体的查看文档</span>
+<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">       setPalette(p);
+}
+
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">void</span> MyLineEdit::focusOutEvent(QFocusEvent *<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">e)
+{
+       QPalette p1</span>=<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QPalette();
+       p1.setColor(QPalette::Base,Qt::white);
+       setPalette(p1);
+}
+`
+
+</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">widget.cpp</span>
+#include <span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">widget.h</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+#include </span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">ui_widget.h</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+#include </span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">MyLineEdit.h</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+#include </span>&lt;QGridLayout&gt;<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+#include </span>&lt;QMessageBox&gt;<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+Widget::Widget(QWidget </span>*<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">parent) :
+               QWidget(parent),
+               ui(</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">new</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> Ui::Widget)
+{
+       ui</span>-&gt;setupUi(<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">this</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+       init();
+}
+Widget::</span>~<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">Widget()
+{
+       delete ui;
+}
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">void</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> Widget::init()
+{
+       lineEdit1</span>=<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">new</span> MyLineEdit(<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">this</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+       lineEdit2</span>=<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">new</span> MyLineEdit(<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">this</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+       gridLayout</span>=<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">new</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> QGridLayout;
+       gridLayout</span>-&gt;addWidget(lineEdit1,<span style="margin:0px; padding:0px; color:rgb(128,0,128); line-height:1.5!important">0</span>,<span style="margin:0px; padding:0px; color:rgb(128,0,128); line-height:1.5!important">0</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+       gridLayout</span>-&gt;addWidget(lineEdit2,<span style="margin:0px; padding:0px; color:rgb(128,0,128); line-height:1.5!important">1</span>,<span style="margin:0px; padding:0px; color:rgb(128,0,128); line-height:1.5!important">0</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+       setLayout(gridLayout);
+}</span></pre>
+<div class="cnblogs_code_toolbar" style="margin:5px 0px 0px; padding:0px; line-height:1.5!important">
+<span class="cnblogs_code_copy" style="margin:0px; padding:0px 5px 0px 0px; line-height:1.5!important"><a target="_blank" title="复制代码" style="margin:0px; padding:0px; text-decoration:underline; border:none!important"><img src="copycode.gif" alt="复制代码" style="margin:0px; padding:0px; border:none!important"></a></span></div>
+</div>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+</p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+<br>
+</p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+<span style="color:rgb(68,68,68); font-family:tahoma,arial,sans-serif; line-height:18px"><span style="font-size:18px"><strong>方法二：</strong></span></span><br>
+</p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+我实现了QLineEdit获得焦点高亮显示与失去焦点恢复原样的操作，是通过重新继承该类，再重构该事件函数的方式。这篇文章紧跟那篇文章，这里要实现的功能也是一样的，而是通过另外不同的方式——事件过滤器(eventFilter)。</p>
+<blockquote style="margin:10px 0px 10px 25px; padding:10px 60px 5px; border:2px solid rgb(239,239,239); color:rgb(51,51,51); min-height:35px; line-height:1.6em; font-family:tahoma,arial,sans-serif">
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:1.5!important">
+Qt的事件模型中提供的事件过滤功能使得一个QObject对象可以监视另一个QObject对象中的事件，通过在一个QObject对象中安装事件过滤器可以在事件到达该对象前捕获事件，从而起到监视该对象事件的效果。</p>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:1.5!important">
+实现类似功能的另一种方式是通过分别继承不同的控件类，并重构各控件的事件响应函数，但若窗体中包含大量不同的控件时，每一个控件都必须重新继承，然后分别重构不同的事件函数，实现比较复杂。事件过滤器可以实现在窗体中监视全部控件的不同事件，方便实现功能扩展。</p>
+</blockquote>
+<div class="cnblogs_code" style="margin:5px 0px; padding:5px; background-color:rgb(245,245,245); border:1px solid rgb(204,204,204); overflow:auto; line-height:18px; color:rgb(68,68,68); font-family:'Courier New'!important">
+<div class="cnblogs_code_toolbar" style="margin:5px 0px 0px; padding:0px; line-height:1.5!important">
+<span class="cnblogs_code_copy" style="margin:0px; padding:0px 5px 0px 0px; line-height:1.5!important"><a target="_blank" title="复制代码" style="margin:0px; padding:0px; text-decoration:underline; border:none!important"><img src="copycode.gif" alt="复制代码" style="margin:0px; padding:0px; border:none!important"></a></span></div>
+<pre style="margin-top:0px; margin-bottom:0px; padding:0px; white-space:pre-wrap; word-wrap:break-word; font-family:'Courier New'!important"><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">#ifndef WIDGET_H
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">#define</span> WIDGET_H<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+#include </span>&lt;QWidget&gt;
+<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">namespace</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> Ui {
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">class</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> Widget;
+}
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">class</span> Widget : <span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">public</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> QWidget
+{
+     Q_OBJECT
+ </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">public</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">:
+     </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">explicit</span> Widget(QWidget *parent = <span style="margin:0px; padding:0px; color:rgb(128,0,128); line-height:1.5!important">0</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+     </span>~<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">Widget();
+ </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">public</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> slots:
+     </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">bool</span> eventFilter(QObject *,QEvent *);    <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">注意这里</span>
+ <span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">private</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">:
+     Ui::Widget </span>*<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">ui;
+};
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">#endif</span> <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important"> WIDGET_H</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+`
+
+#include </span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">widget.h</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+#include </span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">ui_widget.h</span><span style="margin:0px; padding:0px; color:rgb(128,0,0); line-height:1.5!important">"</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+#include </span>&lt;QPalette&gt;<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">
+Widget::Widget(QWidget </span>*<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">parent) :
+        QWidget(parent),
+        ui(</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">new</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> Ui::Widget)
+{
+     ui</span>-&gt;setupUi(<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">this</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+     ui</span>-&gt;lineEdit1-&gt;installEventFilter(<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">this</span>);  <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">在窗体上为lineEdit1安装过滤器</span>
+     ui-&gt;lineEdit2-&gt;installEventFilter(<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">this</span>);  <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">在窗体上为lineEdit2安装过滤器</span>
+<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">}
+
+Widget::</span>~<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">Widget()
+{
+     delete ui;
+}
+
+</span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">bool</span> Widget::eventFilter(QObject *watched, QEvent *<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">)
+{
+     </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (watched==ui-&gt;lineEdit1)         <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">首先判断控件(这里指 lineEdit1)</span>
+<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">     {
+          </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span>-&gt;type()==QEvent::FocusIn)     <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">然后再判断控件的具体事件 (这里指获得焦点事件)</span>
+<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">          {
+              QPalette p</span>=<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QPalette();
+              p.setColor(QPalette::Base,Qt::green);
+              ui</span>-&gt;lineEdit1-&gt;<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">setPalette(p);
+          }
+          </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">else</span> <span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span>-&gt;type()==QEvent::FocusOut)    <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important"> 这里指 lineEdit1 控件的失去焦点事件</span>
+<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">          {
+              QPalette p</span>=<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QPalette();
+              p.setColor(QPalette::Base,Qt::white);
+              ui</span>-&gt;lineEdit1-&gt;<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">setPalette(p);
+           }
+     }
+     </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (watched==ui-&gt;lineEdit2)           <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">这里来处理 lineEdit2 , 和处理lineEdit1 是一样的</span>
+<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">     {
+          </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span>-&gt;type()==<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QEvent::FocusIn)
+         {
+              QPalette p</span>=<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QPalette();
+              p.setColor(QPalette::Base,Qt::green);
+              ui</span>-&gt;lineEdit2-&gt;<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">setPalette(p);
+          }
+         </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">else</span> <span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span>-&gt;type()==<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QEvent::FocusOut)
+         {
+              QPalette p</span>=<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QPalette();
+              p.setColor(QPalette::Base,Qt::white);
+              ui</span>-&gt;lineEdit2-&gt;<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">setPalette(p);
+         }
+     }
+ </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">return</span> QWidget::eventFilter(watched,<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span>);     <span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important"> 最后将事件交给上层对话框</span>
+}</pre>
+<div class="cnblogs_code_toolbar" style="margin:5px 0px 0px; padding:0px; line-height:1.5!important">
+<span class="cnblogs_code_copy" style="margin:0px; padding:0px 5px 0px 0px; line-height:1.5!important"><a target="_blank" title="复制代码" style="margin:0px; padding:0px; text-decoration:underline; border:none!important"><img src="copycode.gif" alt="复制代码" style="margin:0px; padding:0px; border:none!important"></a></span></div>
+</div>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+另外，我在一本书上看到作者有一个例子是关于动态按钮的：鼠标未按下时没有任何反应，当鼠标左键按下时图片变大，松开鼠标后又恢复原来的状态。其实这个效果和我这个例子是一个道理，也就是监听按钮的按下事件(QEvent::MouseButtonPress)和释放事件(QEvent::MouseButtonRelease)</p>
+<div class="cnblogs_code" style="margin:5px 0px; padding:5px; background-color:rgb(245,245,245); border:1px solid rgb(204,204,204); overflow:auto; line-height:18px; color:rgb(68,68,68); font-family:'Courier New'!important">
+<div class="cnblogs_code_toolbar" style="margin:5px 0px 0px; padding:0px; line-height:1.5!important">
+<span class="cnblogs_code_copy" style="margin:0px; padding:0px 5px 0px 0px; line-height:1.5!important"><a target="_blank" title="复制代码" style="margin:0px; padding:0px; text-decoration:underline; border:none!important"><img src="copycode.gif" alt="复制代码" style="margin:0px; padding:0px; border:none!important"></a></span></div>
+<pre style="margin-top:0px; margin-bottom:0px; padding:0px; white-space:pre-wrap; word-wrap:break-word; font-family:'Courier New'!important"><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">bool</span> EventFilter::eventFilter(QObject *watched,QEvent *<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">)
+{
+  </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (watched==<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">Label1)
+  {
+      </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span>-&gt;type()==<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QEvent::MouseButtonPress)
+      {
+            QMouseEvent </span>*mouseEvent=static_cast&lt;QMouseEvent *&gt;<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">;
+            </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (mouseEvent-&gt;buttons() &amp;&amp;<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important"> Qt::LeftButton)
+            {  </span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important"> 更换一张大一点的图片    ..........</span>
+<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">            }
+      </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">if</span> (<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span>-&gt;type()==<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">QEvent::MouseButtonRelease)
+      {    </span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important">//</span><span style="margin:0px; padding:0px; color:rgb(0,128,0); line-height:1.5!important"> 重新换回最初那张图片 ...........</span>
+<span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">      }
+  </span><span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">return</span> QWidget::eventFilter(watched,<span style="margin:0px; padding:0px; color:rgb(0,0,255); line-height:1.5!important">event</span><span style="margin:0px; padding:0px; color:rgb(0,0,0); line-height:1.5!important">);
+}</span></pre>
+<div class="cnblogs_code_toolbar" style="margin:5px 0px 0px; padding:0px; line-height:1.5!important">
+<span class="cnblogs_code_copy" style="margin:0px; padding:0px 5px 0px 0px; line-height:1.5!important"><a target="_blank" title="复制代码" style="margin:0px; padding:0px; text-decoration:underline; border:none!important"><img src="copycode.gif" alt="复制代码" style="margin:0px; padding:0px; border:none!important"></a></span></div>
+</div>
+<p style="margin:10px auto; padding-top:0px; padding-bottom:0px; line-height:18px; color:rgb(68,68,68); font-family:tahoma,arial,sans-serif">
+&nbsp;转载自：&nbsp;<a target="_blank" href="http://www.cnblogs.com/hicjiajia/archive/2012/05/30/2526776.html">http://www.cnblogs.com/hicjiajia/archive/2012/05/30/2526776.html</a></p>
+<br>
+
+        </div>
+        </div>
+        <div class="next_page">
+            <a href="http://m.blog.csdn.net/blog/yu275184637/11173903" class="next_btn">上一篇</a>
+        </div>
+        <div class="comment">
+        <p><a name="comment"></a>发表评论</p>
+        <p><textarea id="con" rows="4" style="width:99%;"></textarea></p>
+        <p><input type="button" class="login_sub1" value="提 交" style="margin-top:0;" onclick="subform()"></p>
+        </div>
+        <div class="comment_sub">
+        <span class="lf10">查看评论</span>
+        <ul id="cmt_ul">        </ul>
+        <a href="http://m.blog.csdn.net/comment/22865015" class="lf10">更多评论（0）</a>
+        </div>
+        </div>
+        
+        
+
+</div>
+
+<div class="back-top" id="ding1">
+<a href="22865015.htm#" onclick="document.body.scrollTop=0;return false;">
+<img src="back-top.jpg">回顶部</a>
+</div>
+<div id="footer">
+<p><a class="now" href="http://m.blog.csdn.net/">移动版</a>|<a href="http://blog.csdn.net/" onclick="document.cookie='wap-pc=1; domain=blog.csdn.net; path=/;';">桌面版</a></p>
+<p>©1999-2012, CSDN.NET, All Rights Reserved</p>
+</div>
+
+</div>
+
+
+
+
+</body></html>

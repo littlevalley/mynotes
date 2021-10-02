@@ -1,0 +1,410 @@
+<html><head><meta charset="UTF-8">
+
+
+
+<meta content="width=device-width,user-scalable=no" name="viewport">
+<meta name="apple-itunes-app" content="app-id=425349261">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>PyQt 获取键盘事件 - CSDN博客</title>
+<link rel="Stylesheet" type="text/css" href="wapall.css">
+
+</head>
+<body>
+<div id="wrap">
+<div id="header">
+<a class="home" href="http://www.csdn.net/"><img src="home.png.avi"></a> 
+<a class="logo" href="http://m.blog.csdn.net/">
+<img src="logo.jpg"></a>
+<a id="loginname" href="http://m.blog.csdn.net/blog/bienilz">bienilz</a>
+</div>
+<div id="nav">
+<a href="http://m.blog.csdn.net/" id="shouye1">首页</a>
+<a href="http://m.blog.csdn.net/column/index" id="zhuanlan1">专栏</a>
+<a href="http://m.blog.csdn.net/People/index" id="zhuanjia1">专家</a>
+<a href="http://m.blog.csdn.net/home/hot" id="rewen1">热文</a>
+</div>
+<div id="main">
+        <div id="top">
+        <div class="avatar">
+        <a href="http://m.blog.csdn.net/blog/a6225301" class="name">Better Thinker</a>
+        </div>
+        <div class="content">
+        <h1><a href="43272303.htm#">[转]PyQt 获取键盘事件</a></h1>
+        <p class="time"><span>2015-1-29</span><span>阅读545</span> <a href="43272303.htm#comment">评论<span id="sp_cmt">0</span></a></p>
+        <div id="articlecontent">
+        
+<p></p>
+<div class="section" id="id1" style="font-family:Arial; font-size:14px; line-height:21px">
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+在任何的 GUI 程序中，事件是很重要的部分。事件是由用户或操作系统产生的。当我们调用应用的&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">exec_()</span></tt>&nbsp;时，应用就进入了主循环。主循环会接受事件并且把它们发送给对象。Trolltech 引入了一个独特的信号和槽机制。</p>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+事件是任何 GUI 程序中很重要的部分。所有 GUI 应用都是事件驱动的。一个应用对其生命期产生的不同的事件类型做出反应。事件是主要由应用的用户产生。但是，也可以通过其他方法产生，比如，网络通信，窗口的管理者，计时器。在事件模型中，有三个参与者：</p>
+<ul class="simple">
+<li style="text-align:justify; line-height:18.2000007629395px">事件源（event source）</li><li style="text-align:justify; line-height:18.2000007629395px">事件对象（event object）</li><li style="text-align:justify; line-height:18.2000007629395px">事件目标（event target）</li></ul>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+<strong>event source</strong>&nbsp;是那些状态改变的对象。它产生事件。而&nbsp;<strong>event object</strong>&nbsp;（Event）封装了事件源的状态改变。而&nbsp;<strong>event target</strong>&nbsp;则是需要被通知的。事件源把处理事件的任务委托给了事件目标。</p>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+当我们调用了应用的&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">exec_()</span></tt>&nbsp;方法，应用就进入主循环了。主循环接受事件然后把他们发送给对象。信号和槽用于对象间的通信。当特定的事件发生时&nbsp;<strong>信号</strong>&nbsp;就被发送了。而&nbsp;<strong>槽</strong>&nbsp;则是任何
+ Python 中可调用的。当信号发送给了这个槽，槽就被调用了。</p>
+</div>
+<div class="section" id="api" style="font-family:Arial; font-size:14px; line-height:21px">
+<h2 style="margin:20px -20px 10px; font-size:14px; font-family:'Trebuchet MS',sans-serif; font-weight:normal; color:rgb(32,67,92); border-bottom-width:1px; border-bottom-style:solid; border-bottom-color:rgb(204,204,204); padding:3px 0px 3px 10px; background-color:rgb(242,242,242)">
+新的 API<a target="_blank" class="headerlink" href="http://www.cppblog.com/mirguest/archive/2012/02/05/164984.html#api" title="Permalink to this headline" style="color:rgb(198,15,15); text-decoration:none; visibility:hidden; font-size:0.8em; padding:0px 4px"></a></h2>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+PyQt 4.5 引入了新的 API 用于信号和槽。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="n">QtCore</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QObject</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="n">button</span><span class="p">,</span> <span class="n">QtCore</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">SIGNAL</span><span class="p">(</span><span class="s" style="color:rgb(64,112,160)">'clicked()'</span><span class="p">),</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">onClicked</span><span class="p">)</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+这是旧式的 API 。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="n">button</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">clicked</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">onClicked</span><span class="p">)</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+新式的更接近 Python 的标准。</p>
+</div>
+<div class="section" id="id2" style="font-family:Arial; font-size:14px; line-height:21px">
+<h2 style="margin:20px -20px 10px; font-size:14px; font-family:'Trebuchet MS',sans-serif; font-weight:normal; color:rgb(32,67,92); border-bottom-width:1px; border-bottom-style:solid; border-bottom-color:rgb(204,204,204); padding:3px 0px 3px 10px; background-color:rgb(242,242,242)">
+信号与槽<a target="_blank" class="headerlink" href="http://www.cppblog.com/mirguest/archive/2012/02/05/164984.html#id2" title="Permalink to this headline" style="color:rgb(198,15,15); text-decoration:none; visibility:hidden; font-size:0.8em; padding:0px 4px"></a></h2>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+这是一个简单的例子，描述 PyQt4 中的信号和槽。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="c" style="color:rgb(64,128,144); font-style:italic">#!/usr/bin/python</span>
+<span class="c" style="color:rgb(64,128,144); font-style:italic"># -*- coding: utf-8 -*-</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">"""</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">ZetCode PyQt4 tutorial</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">In this example, we connect a signal</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">of a QtGui.QSlider to a slot</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">of a QtGui.QLCDNumber.</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">author: Jan Bodnar</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">website: zetcode.com</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">last edited: October 2011</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">"""</span>
+<span class="kn" style="color:rgb(0,112,32); font-weight:bold">import</span> <span class="nn" style="color:rgb(14,132,181); font-weight:bold">sys</span>
+<span class="kn" style="color:rgb(0,112,32); font-weight:bold">from</span> <span class="nn" style="color:rgb(14,132,181); font-weight:bold">PyQt4</span> <span class="kn" style="color:rgb(0,112,32); font-weight:bold">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">class</span> <span class="nc" style="color:rgb(14,132,181); font-weight:bold">Example</span><span class="p">(</span><span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QWidget</span><span class="p">):</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">__init__</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+        <span class="nb" style="color:rgb(0,112,32)">super</span><span class="p">(</span><span class="n">Example</span><span class="p">,</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">)</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">initUI</span><span class="p">()</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">initUI</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+        <span class="n">lcd</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QLCDNumber</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">)</span>
+        <span class="n">sld</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QSlider</span><span class="p">(</span><span class="n">QtCore</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">Qt</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">Horizontal</span><span class="p">,</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">)</span>
+        <span class="n">vbox</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QVBoxLayout</span><span class="p">()</span>
+        <span class="n">vbox</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">lcd</span><span class="p">)</span>
+        <span class="n">vbox</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">sld</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">setLayout</span><span class="p">(</span><span class="n">vbox</span><span class="p">)</span>
+        <span class="n">sld</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">valueChanged</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="n">lcd</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">display</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="mi" style="color:rgb(32,128,80)">300</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">300</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">250</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">150</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s" style="color:rgb(64,112,160)">'Signal &amp; slot'</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">show</span><span class="p">()</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">main</span><span class="p">():</span>
+    <span class="n">app</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">ex</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">Example</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">exec_</span><span class="p">())</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">if</span> <span class="n">__name__</span> <span class="o" style="color:rgb(102,102,102)">==</span> <span class="s" style="color:rgb(64,112,160)">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+在我们的例子中，我们显示了&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">QtGui.QLCDNumber</span></tt>&nbsp;和&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">QtGui.QSlider</span></tt>&nbsp;。通过拖拽滑块，我们就可以更改
+ lcd 的数字。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="n">sld</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">valueChanged</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="n">lcd</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">display</span><span class="p">)</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+此处，我们把 slider 的信号&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">valueChanged</span></tt>&nbsp;和 lcd 的槽&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">display</span></tt>&nbsp;连接了起来。</p>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+<strong>sender</strong>&nbsp;是发送信号的对象。&nbsp;<strong>receiver</strong>&nbsp;是接受信号的对象。而&nbsp;<strong>slot</strong>&nbsp;是回馈信号的方法。</p>
+</div>
+<div class="section" id="id3" style="font-family:Arial; font-size:14px; line-height:21px">
+<h2 style="margin:20px -20px 10px; font-size:14px; font-family:'Trebuchet MS',sans-serif; font-weight:normal; color:rgb(32,67,92); border-bottom-width:1px; border-bottom-style:solid; border-bottom-color:rgb(204,204,204); padding:3px 0px 3px 10px; background-color:rgb(242,242,242)">
+重新实现事件处理句柄<a target="_blank" class="headerlink" href="http://www.cppblog.com/mirguest/archive/2012/02/05/164984.html#id3" title="Permalink to this headline" style="color:rgb(198,15,15); text-decoration:none; visibility:hidden; font-size:0.8em; padding:0px 4px"></a></h2>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+在 PyQt4 中事件的处理一般通过重新实现事件的句柄。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="c" style="color:rgb(64,128,144); font-style:italic">#!/usr/bin/python</span>
+<span class="c" style="color:rgb(64,128,144); font-style:italic"># -*- coding: utf-8 -*-</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">"""</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">ZetCode PyQt4 tutorial</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">In this example, we reimplement an</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">event handler.</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">author: Jan Bodnar</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">website: zetcode.com</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">last edited: October 2011</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">"""</span>
+<span class="kn" style="color:rgb(0,112,32); font-weight:bold">import</span> <span class="nn" style="color:rgb(14,132,181); font-weight:bold">sys</span>
+<span class="kn" style="color:rgb(0,112,32); font-weight:bold">from</span> <span class="nn" style="color:rgb(14,132,181); font-weight:bold">PyQt4</span> <span class="kn" style="color:rgb(0,112,32); font-weight:bold">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">class</span> <span class="nc" style="color:rgb(14,132,181); font-weight:bold">Example</span><span class="p">(</span><span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QWidget</span><span class="p">):</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">__init__</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+        <span class="nb" style="color:rgb(0,112,32)">super</span><span class="p">(</span><span class="n">Example</span><span class="p">,</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">)</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">initUI</span><span class="p">()</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">initUI</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="mi" style="color:rgb(32,128,80)">300</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">300</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">250</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">150</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s" style="color:rgb(64,112,160)">'Event handler'</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">keyPressEvent</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="k" style="color:rgb(0,112,32); font-weight:bold">if</span> <span class="n">e</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">key</span><span class="p">()</span> <span class="o" style="color:rgb(102,102,102)">==</span> <span class="n">QtCore</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">Qt</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">Key_Escape</span><span class="p">:</span>
+            <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">main</span><span class="p">():</span>
+    <span class="n">app</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">ex</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">Example</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">exec_</span><span class="p">())</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">if</span> <span class="n">__name__</span> <span class="o" style="color:rgb(102,102,102)">==</span> <span class="s" style="color:rgb(64,112,160)">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+在我们的例子中，我们重新实现了&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">keyPressEvent()</span></tt>&nbsp;。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">keyPressEvent</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">if</span> <span class="n">e</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">key</span><span class="p">()</span> <span class="o" style="color:rgb(102,102,102)">==</span> <span class="n">QtCore</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">Qt</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">Key_Escape</span><span class="p">:</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">close</span><span class="p">()</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+如果我们按 escape 键，那么应用就将终止。</p>
+</div>
+<div class="section" id="id4" style="font-family:Arial; font-size:14px; line-height:21px">
+<h2 style="margin:20px -20px 10px; font-size:14px; font-family:'Trebuchet MS',sans-serif; font-weight:normal; color:rgb(32,67,92); border-bottom-width:1px; border-bottom-style:solid; border-bottom-color:rgb(204,204,204); padding:3px 0px 3px 10px; background-color:rgb(242,242,242)">
+事件发送者<a target="_blank" class="headerlink" href="http://www.cppblog.com/mirguest/archive/2012/02/05/164984.html#id4" title="Permalink to this headline" style="color:rgb(198,15,15); text-decoration:none; visibility:hidden; font-size:0.8em; padding:0px 4px"></a></h2>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+有些时候，知道信号的发送者是很方便的。因此，PyQt4 有个&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">sender()</span></tt>&nbsp;方法。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="c" style="color:rgb(64,128,144); font-style:italic">#!/usr/bin/python</span>
+<span class="c" style="color:rgb(64,128,144); font-style:italic"># -*- coding: utf-8 -*-</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">"""</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">ZetCode PyQt4 tutorial</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">In this example, we determine the event sender</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">object.</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">author: Jan Bodnar</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">website: zetcode.com</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">last edited: October 2011</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">"""</span>
+<span class="kn" style="color:rgb(0,112,32); font-weight:bold">import</span> <span class="nn" style="color:rgb(14,132,181); font-weight:bold">sys</span>
+<span class="kn" style="color:rgb(0,112,32); font-weight:bold">from</span> <span class="nn" style="color:rgb(14,132,181); font-weight:bold">PyQt4</span> <span class="kn" style="color:rgb(0,112,32); font-weight:bold">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">class</span> <span class="nc" style="color:rgb(14,132,181); font-weight:bold">Example</span><span class="p">(</span><span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QMainWindow</span><span class="p">):</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">__init__</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+        <span class="nb" style="color:rgb(0,112,32)">super</span><span class="p">(</span><span class="n">Example</span><span class="p">,</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">)</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">initUI</span><span class="p">()</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">initUI</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+        <span class="n">btn1</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s" style="color:rgb(64,112,160)">"Button 1"</span><span class="p">,</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">)</span>
+        <span class="n">btn1</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">move</span><span class="p">(</span><span class="mi" style="color:rgb(32,128,80)">30</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">50</span><span class="p">)</span>
+        <span class="n">btn2</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="s" style="color:rgb(64,112,160)">"Button 2"</span><span class="p">,</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">)</span>
+        <span class="n">btn2</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">move</span><span class="p">(</span><span class="mi" style="color:rgb(32,128,80)">150</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">50</span><span class="p">)</span>
+        <span class="n">btn1</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">clicked</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">buttonClicked</span><span class="p">)</span>
+        <span class="n">btn2</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">clicked</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">buttonClicked</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">statusBar</span><span class="p">()</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="mi" style="color:rgb(32,128,80)">300</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">300</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">290</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">150</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s" style="color:rgb(64,112,160)">'Event sender'</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">buttonClicked</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+        <span class="n">sender</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">sender</span><span class="p">()</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">statusBar</span><span class="p">()</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">showMessage</span><span class="p">(</span><span class="n">sender</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">text</span><span class="p">()</span> <span class="o" style="color:rgb(102,102,102)">+</span> <span class="s" style="color:rgb(64,112,160)">' was pressed'</span><span class="p">)</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">main</span><span class="p">():</span>
+    <span class="n">app</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">ex</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">Example</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">exec_</span><span class="p">())</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">if</span> <span class="n">__name__</span> <span class="o" style="color:rgb(102,102,102)">==</span> <span class="s" style="color:rgb(64,112,160)">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+这个例子中有两个按钮。在&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">buttonClicked()</span></tt>&nbsp;方法中，我们通过调用&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">sender()</span></tt>&nbsp;方法知道了哪个按钮被点击了。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="n">btn1</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">clicked</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">buttonClicked</span><span class="p">)</span>
+<span class="n">btn2</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">clicked</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">buttonClicked</span><span class="p">)</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+两个按钮都连接到相同的槽中。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">buttonClicked</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+    <span class="n">sender</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">sender</span><span class="p">()</span>
+    <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">statusBar</span><span class="p">()</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">showMessange</span><span class="p">(</span><span class="n">sender</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">text</span><span class="p">()</span> <span class="o" style="color:rgb(102,102,102)">+</span> <span class="s" style="color:rgb(64,112,160)">" was pressed"</span><span class="p">)</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+我们通过调用&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">sender()</span></tt>&nbsp;方法知道了消息源。在状态栏中，我们显示了被按的按钮的标签。</p>
+</div>
+<div class="section" id="id5" style="font-family:Arial; font-size:14px; line-height:21px">
+<h2 style="margin:20px -20px 10px; font-size:14px; font-family:'Trebuchet MS',sans-serif; font-weight:normal; color:rgb(32,67,92); border-bottom-width:1px; border-bottom-style:solid; border-bottom-color:rgb(204,204,204); padding:3px 0px 3px 10px; background-color:rgb(242,242,242)">
+发送信号<a target="_blank" class="headerlink" href="http://www.cppblog.com/mirguest/archive/2012/02/05/164984.html#id5" title="Permalink to this headline" style="color:rgb(198,15,15); text-decoration:none; visibility:hidden; font-size:0.8em; padding:0px 4px"></a></h2>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+由&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">QtCore.QObject</span></tt>&nbsp;创建的对象可以发送信号。如果我们点击按钮，一个&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">clicked()</span></tt>&nbsp;信号就被生成。在下面的例子中我们将看到如何发送信号。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="c" style="color:rgb(64,128,144); font-style:italic">#!/usr/bin/python</span>
+<span class="c" style="color:rgb(64,128,144); font-style:italic"># -*- coding: utf-8 -*-</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">"""</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">ZetCode PyQt4 tutorial</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">In this example, we show how to emit a</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">custom signal.</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">author: Jan Bodnar</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">website: zetcode.com</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">last edited: October 2011</span>
+<span class="sd" style="color:rgb(64,112,160); font-style:italic">"""</span>
+<span class="kn" style="color:rgb(0,112,32); font-weight:bold">import</span> <span class="nn" style="color:rgb(14,132,181); font-weight:bold">sys</span>
+<span class="kn" style="color:rgb(0,112,32); font-weight:bold">from</span> <span class="nn" style="color:rgb(14,132,181); font-weight:bold">PyQt4</span> <span class="kn" style="color:rgb(0,112,32); font-weight:bold">import</span> <span class="n">QtGui</span><span class="p">,</span> <span class="n">QtCore</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">class</span> <span class="nc" style="color:rgb(14,132,181); font-weight:bold">Communicate</span><span class="p">(</span><span class="n">QtCore</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QObject</span><span class="p">):</span>
+    <span class="n">closeApp</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtCore</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">pyqtSignal</span><span class="p">()</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">class</span> <span class="nc" style="color:rgb(14,132,181); font-weight:bold">Example</span><span class="p">(</span><span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QMainWindow</span><span class="p">):</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">__init__</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+        <span class="nb" style="color:rgb(0,112,32)">super</span><span class="p">(</span><span class="n">Example</span><span class="p">,</span> <span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">)</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">initUI</span><span class="p">()</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">initUI</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">):</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">c</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">Communicate</span><span class="p">()</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">c</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">closeApp</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">close</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">setGeometry</span><span class="p">(</span><span class="mi" style="color:rgb(32,128,80)">300</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">300</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">290</span><span class="p">,</span> <span class="mi" style="color:rgb(32,128,80)">150</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="s" style="color:rgb(64,112,160)">'Emit signal'</span><span class="p">)</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">mousePressEvent</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">c</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">closeApp</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">emit</span><span class="p">()</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">main</span><span class="p">():</span>
+    <span class="n">app</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtGui</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QApplication</span><span class="p">(</span><span class="n">sys</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">argv</span><span class="p">)</span>
+    <span class="n">ex</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">Example</span><span class="p">()</span>
+    <span class="n">sys</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">exit</span><span class="p">(</span><span class="n">app</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">exec_</span><span class="p">())</span>
+<span class="k" style="color:rgb(0,112,32); font-weight:bold">if</span> <span class="n">__name__</span> <span class="o" style="color:rgb(102,102,102)">==</span> <span class="s" style="color:rgb(64,112,160)">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+我们创建了一个新的信号称为 closeApp 。这个信号在鼠标点击时将被发送。而这个信号又和&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">QtGui.QMainWindow</span></tt>&nbsp;的&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">close()</span></tt>&nbsp;槽相连接。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="k" style="color:rgb(0,112,32); font-weight:bold">class</span> <span class="nc" style="color:rgb(14,132,181); font-weight:bold">Communicate</span><span class="p">(</span><span class="n">QtCore</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">QObject</span><span class="p">):</span>
+    <span class="n">closeApp</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">QtCore</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">pyqtSignal</span><span class="p">()</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+我们创建了基于&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">QtCore.QObject</span></tt>&nbsp;的类。当它被实例化后就创建了一个 closeApp 信号。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">c</span> <span class="o" style="color:rgb(102,102,102)">=</span> <span class="n">Communicate</span><span class="p">()</span>
+<span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">c</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">closeApp</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">connect</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">close</span><span class="p">)</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+类&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">Communicate</span></tt>&nbsp;的实例就被创建了。我们把&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">QtGui.QMainWindow</span></tt>&nbsp;的&nbsp;<tt class="docutils literal" style="padding:0px 1px; font-size:0.95em; background-color:rgb(236,240,243)"><span class="pre">close()</span></tt>&nbsp;槽连接到信号
+ closeApp 上。</p>
+<div class="highlight-python">
+<div class="highlight" style="background:rgb(238,255,204)">
+<pre style="margin-top:0px; margin-bottom:0px; font-size:1em; overflow-x:auto; overflow-y:hidden; padding:5px; color:rgb(51,51,51); line-height:16.7999992370605px; border-top-width:1px; border-bottom-width:1px; border-style:solid none; border-top-color:rgb(170,204,153); border-bottom-color:rgb(170,204,153); background-color:rgb(238,255,204)"><span class="k" style="color:rgb(0,112,32); font-weight:bold">def</span> <span class="nf" style="color:rgb(6,40,126)">mousePressEvent</span><span class="p">(</span><span class="bp" style="color:rgb(0,112,32)">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="bp" style="color:rgb(0,112,32)">self</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">c</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">closeApp</span><span class="o" style="color:rgb(102,102,102)">.</span><span class="n">emit</span><span class="p">()</span>
+</pre>
+</div>
+</div>
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+当鼠标指针在窗口中点击，信号 closeApp 就被发送了。</p>
+<hr class="docutils">
+<p style="margin-top:0px; margin-bottom:14px; text-align:justify; line-height:18.2000007629395px">
+在这个部分，我们涉及了信号与槽。</p>
+</div>
+<span style="color:rgb(51,51,51); font-family:Helvetica,Tahoma,Arial,sans-serif; font-size:14px; line-height:24px; background-color:rgb(245,245,245)"></span>
+<p></p>
+<pre code_snippet_id="593579" snippet_file_name="blog_20150130_1_63812" name="code" class="python">from PyQt4.QtCore import *
+from PyQt4.QtGui import *
+
+class MyWidget(QWidget):
+    def __init__(self,parent=None):
+        super(QWidget,self).__init__(parent)
+        self.resize(600,400)
+        self.setStyleSheet(QString.fromLatin1("background:black"))
+        layout = QHBoxLayout()
+        self.btn1 = QPushButton()
+        self.btn2 = QPushButton()
+        self.btn3 = QPushButton()
+        layout.addWidget(self.btn1)
+        layout.addWidget(self.btn2)
+        layout.addWidget(self.btn3)
+        self.setLayout(layout)
+
+    def keyPressEvent(self, event):
+        keyEvent = QKeyEvent(event)
+        if keyEvent.key() == QtCore.Qt.Key_Enter:
+            self.focusNextChild()
+
+if __name__ == "__main__":
+    import sys
+    app = QApplication(sys.argv)
+    MainWidget = QWidget()
+    MainWidget.resize(800,600)
+    childWidget = MyWidget(MainWidget)
+    MainWidget.show()
+    childWidget.show()
+    app.exec_()
+
+写了下
+应该可以
+不过键盘有的键位映射不一样
+我这个用小键盘里的Enter是可以的
+不过大Enter好像被映射到别的值上去了
+你可以根据你的键位映射稍微改下
+重载KeyPressEvent
+
+可以感谢openXMPP, 以后在学习PyQt不懂的时候,麻烦多指教啊
+
+你的代码已经验证, 大键盘使用Qt.Key_Return就好.</pre><br>
+<br>
+<p>http://www.cppblog.com/mirguest/archive/2012/02/05/164981.html</p>
+
+        </div>
+        </div>
+        <div class="next_page">
+            <a href="http://m.blog.csdn.net/blog/a6225301/43270865" class="next_btn">上一篇</a>
+            <a href="http://m.blog.csdn.net/blog/a6225301/43274749" class="next_btn">下一篇</a>
+        </div>
+        <div class="comment">
+        <p><a name="comment"></a>发表评论</p>
+        <p><textarea id="con" rows="4" style="width:99%;"></textarea></p>
+        <p><input type="button" class="login_sub1" value="提 交" style="margin-top:0;" onclick="subform()"></p>
+        </div>
+        <div class="comment_sub">
+        <span class="lf10">查看评论</span>
+        <ul id="cmt_ul">        </ul>
+        <a href="http://m.blog.csdn.net/comment/43272303" class="lf10">更多评论（0）</a>
+        </div>
+        </div>
+        
+        
+
+</div>
+
+<div class="back-top" id="ding1">
+<a href="43272303.htm#" onclick="document.body.scrollTop=0;return false;">
+<img src="back-top.jpg">回顶部</a>
+</div>
+<div id="footer">
+<p><a class="now" href="http://m.blog.csdn.net/">移动版</a>|<a href="http://blog.csdn.net/" onclick="document.cookie='wap-pc=1; domain=blog.csdn.net; path=/;';">桌面版</a></p>
+<p>©1999-2012, CSDN.NET, All Rights Reserved</p>
+</div>
+
+</div>
+
+
+
+
+</body></html>

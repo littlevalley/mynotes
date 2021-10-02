@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 10:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs Gnus 多SMTP账户邮件发送配置及问题解决</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<h1 class="title">Emacs Gnus 多SMTP账户邮件发送配置及问题解决</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org32ff8cc">1. 需求</a></li>
+<li><a href="#orgc63dfe0">2. 环境</a></li>
+<li><a href="#orgd91ea86">3. 问题及解决方法</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org32ff8cc" class="outline-2">
+<h2 id="org32ff8cc"><span class="section-number-2">1</span> 需求</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+在Emacs 上收发邮件，收邮件用IMAP 访问，发邮件用SMTP。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc63dfe0" class="outline-2">
+<h2 id="orgc63dfe0"><span class="section-number-2">2</span> 环境</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Linux Debian stretch</li>
+<li>Emacs 26</li>
+<li>Gnus</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd91ea86" class="outline-2">
+<h2 id="orgd91ea86"><span class="section-number-2">3</span> 问题及解决方法</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+网络上有许多文章介绍如何设置，大多数应该可以工作，但我喜欢打破沙锅问到底，找来的
+配置也要看看是不是有必要。
+</p>
+
+<p>
+收邮件用 nnimap 后端，可以查看 Emacs Gnus 手册。
+</p>
+
+<p>
+单个SMTP账户的也好弄，可以网络搜索。
+</p>
+
+<p>
+关于多账户的要说两句，大多数采用的是 <a href="https://www.emacswiki.org/emacs/MultipleSMTPAccounts">MultipleSMTPAccounts</a> 上介绍的方式，定义一个
+change-smtp 的函数，并且在smtpmail-via-smtp 中调用它。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defadvice</span> <span class="org-function-name">smtpmail-via-smtp</span>
+    <span class="org-rainbow-delimiters-depth-2">(</span>before smtpmail-via-smtp-ad-change-smtp <span class="org-rainbow-delimiters-depth-3">(</span>recipient smtpmail-text-buffer <span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Call `</span><span class="org-doc"><span class="org-constant">change-smtp</span></span><span class="org-doc">' before every `</span><span class="org-doc"><span class="org-constant">smtpmail-via-smtp</span></span><span class="org-doc">'."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">with-current-buffer</span> smtpmail-text-buffer <span class="org-rainbow-delimiters-depth-3">(</span>change-smtp<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-rainbow-delimiters-depth-1">(</span>ad-activate 'smtpmail-via-smtp<span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+如果你的目录下有 .authinfo .authinfo.gpg .netrc 中的一个，并且有登录对应的服务器
+的用户名和密码的话，发送邮件完全没有问题。否则的话可能会出现 <b>参数个数不对</b> 的问
+题。
+</p>
+
+<blockquote>
+<p>
+apply: Wrong number of arguments: #[(ad&#x2013;addoit-function recipient
+smtpmail-text-buffer) 
+smtpmail-text-buffer ad&#x2013;addoit-function recipient nil change-smtp] 5], 4 M
+</p>
+</blockquote>
+
+<p>
+原因在于上面这段代码中，在 smtpmail.el 中它的定义是这新的：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">smtpmail-via-smtp</span> <span class="org-rainbow-delimiters-depth-2">(</span>recipient smtpmail-text-buffer
+                    <span class="org-type">&amp;optional</span> ask-for-password<span class="org-rainbow-delimiters-depth-2">)</span>
+<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+少了这最后的可选参数为什么会发送不出去呢？可以从 smtpmail.el 中找答案。它的流程
+是这样的：默认情况下直接尝试与邮件服务器建立连接，然后分析服务器的响应代码，只有
+收到 530 或者 550 错误的时候才会使用 ask-for-password =&gt; t 调用
+smtpmail-try-auth-methods ，向服务器发送用户名和密码。而
+smtpmail-try-auth-methods 会首先去找 auth-source 变量中定义的文件，默认就是前文
+提到的那几个文件，在其中查找用户名和密码，如果没有才会向用户询问。
+</p>
+
+<p>
+所以针对 Emacs 26.3 (其他版本未检查)，EmacsWiki 上的设置有些地方是没有必要的，比
+如 smtp-accounts 中就完全没有必要写密码了，也不安全。 set-smtp 和 set-smtp-ssl
+这两个函数中的如下两个变量设置完全没有必要。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> smtpmail-auth-credentials <span class="org-rainbow-delimiters-depth-2">(</span>list <span class="org-rainbow-delimiters-depth-3">(</span>list server port user password<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span> smtpmail-starttls-credentials <span class="org-rainbow-delimiters-depth-2">(</span>list <span class="org-rainbow-delimiters-depth-3">(</span>list server port key cert<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+完成设置后，可以测试一下。 Enjoy Emacs! 以下是我修改后的发送邮件的配置。
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Available SMTP accounts. The format is type of connection - account pattern</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">in the from field - smtp server - port. The user name and password need in</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">~/.authinfo for smtp server. This variable will be used in function chang-smtp,</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">if from address include the ACCOUNT PATTERN, then send mail through SMTP SERVER.</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">smtp-accounts</span>
+  '<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>ssl <span class="org-string">"@gmail.com"</span> <span class="org-string">"smtp.gmail.com"</span> 587 <span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Now lets configure smtpmail.el with your name and functions to send</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">mail using your smtp accounts by changing the from field</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">require</span> '<span class="org-constant">smtpmail</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> send-mail-function 'smtpmail-send-it
+      message-send-mail-function 'smtpmail-send-it
+      mail-from-style nil
+      smtpmail-debug-info t
+      smtpmail-debug-verb t<span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">set-smtp</span> <span class="org-rainbow-delimiters-depth-2">(</span>mech server port<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Set related SMTP variables for supplied parameters."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">setq</span> smtpmail-smtp-server server smtpmail-smtp-service port
+        smtpmail-auth-supported <span class="org-rainbow-delimiters-depth-3">(</span>list mech<span class="org-rainbow-delimiters-depth-3">)</span>
+        <span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"Setting SMTP server to `</span><span class="org-string"><span class="org-constant">%s:%s</span></span><span class="org-string">'."</span> server port<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">set-smtp-ssl</span> <span class="org-rainbow-delimiters-depth-2">(</span>server port<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Set related SMTP and SSL variables for supplied parameters."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">setq</span> starttls-use-gnutls t
+        <span class="org-comment-delimiter">;</span><span class="org-comment">starttls-gnutls-program "gnutls-cli"</span>
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">If you set starttls-use-gnutls as t, It means use gnutls-cli but</span>
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">starttls command tool. Of course ,you need install gnutls first on</span>
+        <span class="org-comment-delimiter">;; </span><span class="org-comment">your OS.</span>
+        starttls-extra-arguments nil
+        smtpmail-smtp-server server
+        smtpmail-smtp-service port
+        <span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"Setting SMTP server to `</span><span class="org-string"><span class="org-constant">%s:%s</span></span><span class="org-string">'. (SSL enabled.)"</span> server port <span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">change-smtp</span> <span class="org-rainbow-delimiters-depth-2">()</span>
+  <span class="org-doc">"Change the SMTP server according to the current from line."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">save-excursion</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">loop</span> with from = <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-keyword">save-restriction</span>
+                        <span class="org-rainbow-delimiters-depth-5">(</span>message-narrow-to-headers<span class="org-rainbow-delimiters-depth-5">)</span>
+                        <span class="org-rainbow-delimiters-depth-5">(</span>message-fetch-field <span class="org-string">"from"</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span>
+          for <span class="org-rainbow-delimiters-depth-4">(</span>auth-mech address . auth-spec<span class="org-rainbow-delimiters-depth-4">)</span> in smtp-accounts
+          when <span class="org-rainbow-delimiters-depth-4">(</span>string-match address from<span class="org-rainbow-delimiters-depth-4">)</span> do <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-keyword">cond</span>
+                                               <span class="org-rainbow-delimiters-depth-5">(</span><span class="org-rainbow-delimiters-depth-6">(</span>memq auth-mech '<span class="org-rainbow-delimiters-depth-7">(</span>cram-md5 plain login<span class="org-rainbow-delimiters-depth-7">)</span><span class="org-rainbow-delimiters-depth-6">)</span>
+                                                <span class="org-rainbow-delimiters-depth-6">(</span><span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-7">(</span>apply 'set-smtp <span class="org-rainbow-delimiters-depth-8">(</span>cons auth-mech auth-spec<span class="org-rainbow-delimiters-depth-8">)</span><span class="org-rainbow-delimiters-depth-7">)</span><span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span>
+                                               <span class="org-rainbow-delimiters-depth-5">(</span><span class="org-rainbow-delimiters-depth-6">(</span>eql auth-mech 'ssl<span class="org-rainbow-delimiters-depth-6">)</span>
+                                                <span class="org-rainbow-delimiters-depth-6">(</span><span class="org-keyword">return</span> <span class="org-rainbow-delimiters-depth-7">(</span>apply 'set-smtp-ssl auth-spec<span class="org-rainbow-delimiters-depth-7">)</span><span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span>
+                                               <span class="org-rainbow-delimiters-depth-5">(</span>t <span class="org-rainbow-delimiters-depth-6">(</span><span class="org-warning">error</span> <span class="org-string">"Unrecognized SMTP auth. mechanism:`</span><span class="org-string"><span class="org-constant">%s</span></span><span class="org-string">'."</span> auth-mech<span class="org-rainbow-delimiters-depth-6">)</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span> finally <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-warning">error</span> <span class="org-string">"Cannot infer SMTP information."</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">The previous function will complain if you fill the from field with</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">an account not present in smtp-accounts.</span>
+
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defadvice</span> <span class="org-function-name">smtpmail-via-smtp</span>
+    <span class="org-rainbow-delimiters-depth-2">(</span>before smtpmail-via-smtp-ad-change-smtp <span class="org-rainbow-delimiters-depth-3">(</span>recipient smtpmail-text-buffer <span class="org-type">&amp;optional</span> ask_for_password<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Call `</span><span class="org-doc"><span class="org-constant">change-smtp</span></span><span class="org-doc">' before every `</span><span class="org-doc"><span class="org-constant">smtpmail-via-smtp</span></span><span class="org-doc">'."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">with-current-buffer</span> smtpmail-text-buffer <span class="org-rainbow-delimiters-depth-3">(</span>change-smtp<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-rainbow-delimiters-depth-1">(</span>ad-activate 'smtpmail-via-smtp<span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">This wraps send mail via smtp mail, to be able to send multiple</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">messages with smtpmail.</span>
+
+</pre>
+</div>
+
+<p>
+本作品采用<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议</a> 进行许可。
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

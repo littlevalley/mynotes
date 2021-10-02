@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://github.githubassets.com/">
+  <link rel="dns-prefetch" href="https://avatars0.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars1.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars2.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com/">
+  <link rel="dns-prefetch" href="https://user-images.githubusercontent.com/">
+
+
+
+  <link crossorigin="anonymous" media="all" integrity="sha512-L6knYQj0qk2lhbBdXyy/eF0pc3uMue04cNJLLNWlHboKkkUQLJd4JbdYHGc9aqy92/vfVBLnddS6bpVf285Pqg==" rel="stylesheet" href="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/frameworks-c21c347ce575eb3ded7531f19af1d324.css">
+  <link crossorigin="anonymous" media="all" integrity="sha512-q0uE9UAtjRgctFaLFVvUGVtXC6ggCD9Qcg86uwRaLx2RdC7FIE+hPfB4YDaM8lCecPVMwsxDyvqkXI2XEKDCOA==" rel="stylesheet" href="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/site-d2ea9f95eb7121ca3a5f9571e0012f11.css">
+    <link crossorigin="anonymous" media="all" integrity="sha512-6QfBB54U8VlMGRoWSitwPCepDk2j/VDp4ibkVtirkqzFk0HXe+AjumWKpYNyTo55mjW/7YNB72AEIOdRlz3mGQ==" rel="stylesheet" href="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/github-d75aacb4325c4e48bd6d044b3cdfe327.css">
+    
+    
+    
+    
+
+  <meta name="viewport" content="width=device-width">
+  
+  <title>dot-files/emacs-eshell.org at master · howardabrams/dot-files · GitHub</title>
+    <meta name="description" content="My Emacs initialization code and standard scripts I use for client and servers alike. - howardabrams/dot-files">
+    <link rel="search" type="application/opensearchdescription+xml" href="https://github.com/opensearch.xml" title="GitHub">
+  <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
+  <meta property="fb:app_id" content="1401488693436528">
+
+    <meta name="twitter:image:src" content="https://avatars0.githubusercontent.com/u/500621?s=400&amp;v=4"><meta name="twitter:site" content="@github"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="howardabrams/dot-files"><meta name="twitter:description" content="My Emacs initialization code and standard scripts I use for client and servers alike. - howardabrams/dot-files">
+    <meta property="og:image" content="https://avatars0.githubusercontent.com/u/500621?s=400&amp;v=4"><meta property="og:site_name" content="GitHub"><meta property="og:type" content="object"><meta property="og:title" content="howardabrams/dot-files"><meta property="og:url" content="https://github.com/howardabrams/dot-files"><meta property="og:description" content="My Emacs initialization code and standard scripts I use for client and servers alike. - howardabrams/dot-files">
+
+  <link rel="assets" href="https://github.githubassets.com/">
+  
+  
+  <meta name="request-id" content="C128:40B7:197C422:28C793A:5D9C38CD" data-pjax-transient="">
+
+
+  
+
+  <meta name="selected-link" value="repo_source" data-pjax-transient="">
+
+      <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
+    <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
+    <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
+
+  <meta name="octolytics-host" content="collector.githubapp.com"><meta name="octolytics-app-id" content="github"><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event"><meta name="octolytics-dimension-request_id" content="C128:40B7:197C422:28C793A:5D9C38CD"><meta name="octolytics-dimension-region_edge" content="iad"><meta name="octolytics-dimension-region_render" content="iad"><meta name="octolytics-dimension-ga_id" content="376580041.1551239895" class="js-octo-ga-id"><meta name="octolytics-dimension-visitor_id" content="5649900931068070615">
+<meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient="true">
+
+
+
+    <meta name="google-analytics" content="UA-3769691-2">
+
+
+<meta class="js-ga-set" name="dimension1" content="Logged Out">
+
+
+
+  
+
+      <meta name="hostname" content="github.com">
+    <meta name="user-login" content="">
+
+      <meta name="expected-hostname" content="github.com">
+    <meta name="js-proxy-site-detection-payload" content="MzJiNzE1ZWNlMGY3YzNhZWE3NTJhOWI4MGMxN2NlYzAyOWZlMTkyNDVjZWU5NDQ2MzMxMGY1OTgzYWI5OWFkZnx7InJlbW90ZV9hZGRyZXNzIjoiMTQ5LjEyOS4xMjAuMTQ1IiwicmVxdWVzdF9pZCI6IkMxMjg6NDBCNzoxOTdDNDIyOjI4Qzc5M0E6NUQ5QzM4Q0QiLCJ0aW1lc3RhbXAiOjE1NzA1MTkyNDcsImhvc3QiOiJnaXRodWIuY29tIn0=">
+
+    <meta name="enabled-features" content="ACTIONS_V2_ON_MARKETPLACE,MARKETPLACE_FEATURED_BLOG_POSTS,MARKETPLACE_INVOICED_BILLING,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_RECOMMENDATIONS,MARKETPLACE_PENDING_INSTALLATIONS">
+
+  <meta name="html-safe-nonce" content="598db41b78da6814e6203a1d8d95124eccf3389e">
+
+  <meta http-equiv="x-pjax-version" content="79f899ce528f1a71ad44d1fd5e3f3ce1">
+  
+
+      <link href="https://github.com/howardabrams/dot-files/commits/master.atom" rel="alternate" title="Recent Commits to dot-files:master" type="application/atom+xml">
+
+  <meta name="go-import" content="github.com/howardabrams/dot-files git https://github.com/howardabrams/dot-files.git">
+
+  <meta name="octolytics-dimension-user_id" content="500621"><meta name="octolytics-dimension-user_login" content="howardabrams"><meta name="octolytics-dimension-repository_id" content="8573336"><meta name="octolytics-dimension-repository_nwo" content="howardabrams/dot-files"><meta name="octolytics-dimension-repository_public" content="true"><meta name="octolytics-dimension-repository_is_fork" content="false"><meta name="octolytics-dimension-repository_network_root_id" content="8573336"><meta name="octolytics-dimension-repository_network_root_nwo" content="howardabrams/dot-files"><meta name="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false">
+
+
+    <link rel="canonical" href="https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org" data-pjax-transient="">
+
+
+  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+
+  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+
+  <link rel="mask-icon" href="https://github.githubassets.com/pinned-octocat.svg" color="#000000">
+  <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://github.githubassets.com/favicon.ico">
+
+<meta name="theme-color" content="#1e2327">
+
+
+
+
+
+  <link rel="manifest" href="https://github.com/manifest.json" crossorigin="use-credentials">
+
+  <style>
+.vimvixen-console-frame {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2147483647;
+  border: none;
+  background-color: unset;
+  pointer-events:none;
+}
+
+.vimvixen-hint {
+  background-color: yellow;
+  border: 1px solid gold;
+  font-weight: bold;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  font-size: 12px;
+  color: black;
+}
+</style></head>
+
+  <body class="logged-out env-production page-responsive page-blob">
+    
+
+  <div class="position-relative js-header-wrapper ">
+    <a href="#start-of-content" tabindex="1" class="px-2 py-4 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>
+    <span class="Progress progress-pjax-loader position-fixed width-full js-pjax-loader-bar">
+      <span class="progress-pjax-loader-bar top-0 left-0" style="width: 0%;"></span>
+    </span>
+
+    
+    
+    
+
+
+        <header class="Header-old header-logged-out js-details-container Details position-relative f4 py-2" role="banner">
+  <div class="container-lg d-lg-flex flex-items-center p-responsive">
+    <div class="d-flex flex-justify-between flex-items-center">
+        <a class="mr-4" href="https://github.com/" aria-label="Homepage" data-ga-click="(Logged out) Header, go to homepage, icon:logo-wordmark">
+          <svg height="32" class="octicon octicon-mark-github text-white" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+        </a>
+
+          <div class="d-lg-none css-truncate css-truncate-target width-fit p-2">
+            
+              <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+    <a class="Header-link" href="https://github.com/howardabrams">howardabrams</a>
+    /
+    <a class="Header-link" href="https://github.com/howardabrams/dot-files">dot-files</a>
+
+
+          </div>
+
+        <div class="d-flex flex-items-center">
+            <a href="https://github.com/join?source=header-repo" class="d-inline-block d-lg-none f5 text-white no-underline border border-gray-dark rounded-2 px-2 py-1 mr-3 mr-sm-5" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:&quot;1315470070.1551239895&quot;,&quot;originating_request_id&quot;:&quot;C128:40B7:197C422:28C793A:5D9C38CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="c5a4c108ec326c3fa8e56ab2165122a82758a3d5f9d72ea101b24bb6ec49daf4" data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up">
+              Sign&nbsp;up
+            </a>
+
+          <button class="btn-link d-lg-none mt-1 js-details-target" type="button" aria-label="Toggle navigation" aria-expanded="false">
+            <svg height="24" class="octicon octicon-three-bars text-white" viewBox="0 0 12 16" version="1.1" width="18" aria-hidden="true"><path fill-rule="evenodd" d="M11.41 9H.59C0 9 0 8.59 0 8c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zm0-4H.59C0 5 0 4.59 0 4c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zM.59 11H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1H.59C0 13 0 12.59 0 12c0-.59 0-1 .59-1z"></path></svg>
+          </button>
+        </div>
+    </div>
+
+    <div class="HeaderMenu HeaderMenu--logged-out position-fixed top-0 right-0 bottom-0 height-fit position-lg-relative d-lg-flex flex-justify-between flex-items-center flex-auto">
+      <div class="d-flex d-lg-none flex-justify-end border-bottom bg-gray-light p-3">
+        <button class="btn-link js-details-target" type="button" aria-label="Toggle navigation" aria-expanded="false">
+          <svg height="24" class="octicon octicon-x text-gray" viewBox="0 0 12 16" version="1.1" width="18" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+        </button>
+      </div>
+
+        <nav class="mt-0 px-3 px-lg-0 mb-5 mb-lg-0" aria-label="Global">
+          <ul class="d-lg-flex list-style-none">
+              <li class="d-block d-lg-flex flex-lg-nowrap flex-lg-items-center border-bottom border-lg-bottom-0 mr-0 mr-lg-3 edge-item-fix position-relative flex-wrap flex-justify-between d-flex flex-items-center ">
+                <details class="HeaderMenu-details details-overlay details-reset width-full">
+                  <summary class="HeaderMenu-summary HeaderMenu-link px-0 py-3 border-0 no-wrap d-block d-lg-inline-block">
+                    Why GitHub?
+                    <svg x="0px" y="0px" viewBox="0 0 14 8" xml:space="preserve" fill="none" class="icon-chevon-down-mktg position-absolute position-lg-relative">
+                      <path d="M1,1l6.2,6L13,1"></path>
+                    </svg>
+                  </summary>
+                  <div class="dropdown-menu flex-auto rounded-1 bg-white px-0 mt-0 pb-4 p-lg-4 position-relative position-lg-absolute left-0 left-lg-n4">
+                    <a href="https://github.com/features" class="py-2 lh-condensed-ultra d-block link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Features">Features <span class="Bump-link-symbol float-right text-normal text-gray-light">→</span></a>
+                    <ul class="list-style-none f5 pb-3">
+                      <li class="edge-item-fix"><a href="https://github.com/features/code-review/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Code review">Code review</a></li>
+                      <li class="edge-item-fix"><a href="https://github.com/features/project-management/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Project management">Project management</a></li>
+                      <li class="edge-item-fix"><a href="https://github.com/features/integrations" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Integrations">Integrations</a></li>
+                      <li class="edge-item-fix"><a href="https://github.com/features/actions" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Actions">Actions</a>
+                          </li><li class="edge-item-fix"><a href="https://github.com/features/package-registry" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Package Registry">Package registry</a>
+
+                      </li><li class="edge-item-fix"><a href="https://github.com/features/security" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Security">Security</a>
+                      </li><li class="edge-item-fix"><a href="https://github.com/features#team-management" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Team management">Team management</a></li>
+                      <li class="edge-item-fix"><a href="https://github.com/features#social-coding" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Social coding">Social coding</a></li>
+                      <li class="edge-item-fix"><a href="https://github.com/features#documentation" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Documentation">Documentation</a></li>
+                      <li class="edge-item-fix"><a href="https://github.com/features#code-hosting" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Code hosting">Code hosting</a></li>
+                    </ul>
+
+                    <ul class="list-style-none mb-0 border-lg-top pt-lg-3">
+                      <li class="edge-item-fix"><a href="https://github.com/customer-stories" class="py-2 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Customer stories">Customer stories <span class="Bump-link-symbol float-right text-normal text-gray-light">→</span></a></li>
+                      <li class="edge-item-fix"><a href="https://github.com/security" class="py-2 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Security">Security <span class="Bump-link-symbol float-right text-normal text-gray-light">→</span></a></li>
+                    </ul>
+                  </div>
+                </details>
+              </li>
+              <li class="border-bottom border-lg-bottom-0 mr-0 mr-lg-3">
+                <a href="https://github.com/enterprise" class="HeaderMenu-link no-underline py-3 d-block d-lg-inline-block" data-ga-click="(Logged out) Header, go to Enterprise">Enterprise</a>
+              </li>
+
+              <li class="d-block d-lg-flex flex-lg-nowrap flex-lg-items-center border-bottom border-lg-bottom-0 mr-0 mr-lg-3 edge-item-fix position-relative flex-wrap flex-justify-between d-flex flex-items-center ">
+                <details class="HeaderMenu-details details-overlay details-reset width-full">
+                  <summary class="HeaderMenu-summary HeaderMenu-link px-0 py-3 border-0 no-wrap d-block d-lg-inline-block">
+                    Explore
+                    <svg x="0px" y="0px" viewBox="0 0 14 8" xml:space="preserve" fill="none" class="icon-chevon-down-mktg position-absolute position-lg-relative">
+                      <path d="M1,1l6.2,6L13,1"></path>
+                    </svg>
+                  </summary>
+
+                  <div class="dropdown-menu flex-auto rounded-1 bg-white px-0 pt-2 pb-0 mt-0 pb-4 p-lg-4 position-relative position-lg-absolute left-0 left-lg-n4">
+                    <ul class="list-style-none mb-3">
+                      <li class="edge-item-fix"><a href="https://github.com/explore" class="py-2 lh-condensed-ultra d-block link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Explore">Explore GitHub <span class="Bump-link-symbol float-right text-normal text-gray-light">→</span></a></li>
+                    </ul>
+
+                    <h4 class="text-gray-light text-normal text-mono f5 mb-2 border-lg-top pt-lg-3">Learn &amp; contribute</h4>
+                    <ul class="list-style-none mb-3">
+                      <li class="edge-item-fix"><a href="https://github.com/topics" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Topics">Topics</a></li>
+                        <li class="edge-item-fix"><a href="https://github.com/collections" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Collections">Collections</a></li>
+                      <li class="edge-item-fix"><a href="https://github.com/trending" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Trending">Trending</a></li>
+                      <li class="edge-item-fix"><a href="https://lab.github.com/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Learning lab">Learning Lab</a></li>
+                      <li class="edge-item-fix"><a href="https://opensource.guide/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Open source guides">Open source guides</a></li>
+                    </ul>
+
+                    <h4 class="text-gray-light text-normal text-mono f5 mb-2 border-lg-top pt-lg-3">Connect with others</h4>
+                    <ul class="list-style-none mb-0">
+                      <li class="edge-item-fix"><a href="https://github.com/events" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Events">Events</a></li>
+                      <li class="edge-item-fix"><a href="https://github.community/" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Community forum">Community forum</a></li>
+                      <li class="edge-item-fix"><a href="https://education.github.com/" class="py-2 pb-0 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to GitHub Education">GitHub Education</a></li>
+                    </ul>
+                  </div>
+                </details>
+              </li>
+
+              <li class="border-bottom border-lg-bottom-0 mr-0 mr-lg-3">
+                <a href="https://github.com/marketplace" class="HeaderMenu-link no-underline py-3 d-block d-lg-inline-block" data-ga-click="(Logged out) Header, go to Marketplace">Marketplace</a>
+              </li>
+
+              <li class="d-block d-lg-flex flex-lg-nowrap flex-lg-items-center border-bottom border-lg-bottom-0 mr-0 mr-lg-3 edge-item-fix position-relative flex-wrap flex-justify-between d-flex flex-items-center ">
+                <details class="HeaderMenu-details details-overlay details-reset width-full">
+                  <summary class="HeaderMenu-summary HeaderMenu-link px-0 py-3 border-0 no-wrap d-block d-lg-inline-block">
+                    Pricing
+                    <svg x="0px" y="0px" viewBox="0 0 14 8" xml:space="preserve" fill="none" class="icon-chevon-down-mktg position-absolute position-lg-relative">
+                       <path d="M1,1l6.2,6L13,1"></path>
+                    </svg>
+                  </summary>
+
+                  <div class="dropdown-menu flex-auto rounded-1 bg-white px-0 pt-2 pb-4 mt-0 p-lg-4 position-relative position-lg-absolute left-0 left-lg-n4">
+                    <a href="https://github.com/pricing" class="pb-2 lh-condensed-ultra d-block link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Pricing">Plans <span class="Bump-link-symbol float-right text-normal text-gray-light">→</span></a>
+
+                    <ul class="list-style-none mb-3">
+                      <li class="edge-item-fix"><a href="https://github.com/pricing#feature-comparison" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Compare plans">Compare plans</a></li>
+                      <li class="edge-item-fix"><a href="https://enterprise.github.com/contact" class="py-2 lh-condensed-ultra d-block link-gray no-underline f5" data-ga-click="(Logged out) Header, go to Contact Sales">Contact Sales</a></li>
+                    </ul>
+
+                    <ul class="list-style-none mb-0 border-lg-top pt-lg-3">
+                      <li class="edge-item-fix"><a href="https://github.com/nonprofit" class="py-2 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Nonprofits">Nonprofit <span class="Bump-link-symbol float-right text-normal text-gray-light">→</span></a></li>
+                      <li class="edge-item-fix"><a href="https://education.github.com/" class="py-2 pb-0 lh-condensed-ultra d-block no-underline link-gray-dark no-underline h5 Bump-link--hover" data-ga-click="(Logged out) Header, go to Education">Education <span class="Bump-link-symbol float-right text-normal text-gray-light">→</span></a></li>
+                    </ul>
+                  </div>
+                </details>
+              </li>
+          </ul>
+        </nav>
+
+      <div class="d-lg-flex flex-items-center px-3 px-lg-0 text-center text-lg-left">
+          <div class="d-lg-flex mb-3 mb-lg-0">
+            <div class="header-search flex-self-stretch flex-lg-self-auto mr-0 mr-lg-3 mb-3 mb-lg-0 scoped-search site-scoped-search js-site-search position-relative js-jump-to" role="combobox" aria-owns="jump-to-results" aria-label="Search or jump to" aria-haspopup="listbox" aria-expanded="false">
+  <div class="position-relative">
+    <!-- '"` --><!-- </textarea></xmp> --><form class="js-site-search-form" role="search" aria-label="Site" data-scope-type="Repository" data-scope-id="8573336" data-scoped-search-url="/howardabrams/dot-files/search" data-unscoped-search-url="/search" action="/howardabrams/dot-files/search" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden">
+      <label class="form-control input-sm header-search-wrapper p-0 header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center js-chromeless-input-container">
+        <input class="form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable" data-hotkey="s,/" name="q" placeholder="Search" data-unscoped-placeholder="Search GitHub" data-scoped-placeholder="Search" autocapitalize="off" aria-autocomplete="list" aria-controls="jump-to-results" aria-label="Search" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=Bg7S3ypSyGE8E/DAUEOfXOjOBJe0qITwdmN4M+TUwMRvHYTk8ym1nCt0KSKoN1i6a7nEWsB0nlWxfR4kUuFVnA==" spellcheck="false" autocomplete="off" type="text">
+          <input class="js-site-search-type-field" name="type" type="hidden">
+            <img src="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/search-key-slash.svg" alt="" class="mr-2 header-search-key-slash">
+
+            <div class="Box position-absolute overflow-hidden d-none jump-to-suggestions js-jump-to-suggestions-container">
+              
+<ul class="d-none js-jump-to-suggestions-template-container">
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-suggestion" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+</ul>
+
+<ul class="d-none js-jump-to-no-results-template-container">
+  <li class="d-flex flex-justify-center flex-items-center f5 d-none js-jump-to-suggestion p-2">
+    <span class="text-gray">No suggested jump to results</span>
+  </li>
+</ul>
+
+<ul id="jump-to-results" role="listbox" class="p-0 m-0 js-navigation-container jump-to-suggestions-results-container js-jump-to-suggestions-results-container">
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-scoped-search d-none" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-global-search d-none" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0 0 13 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 0 0 0-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+
+</ul>
+
+            </div>
+      </label>
+</form>  </div>
+</div>
+
+          </div>
+
+        <a href="https://github.com/login?return_to=%2Fhowardabrams%2Fdot-files%2Fblob%2Fmaster%2Femacs-eshell.org" class="HeaderMenu-link no-underline mr-3" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:&quot;1315470070.1551239895&quot;,&quot;originating_request_id&quot;:&quot;C128:40B7:197C422:28C793A:5D9C38CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="c72ebb3f0d3fd11008b4c7a74df67c0d1d1d27d94480134bb8c53887a62f276a" data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in">
+          Sign&nbsp;in
+        </a>
+          <a href="https://github.com/join?source=header-repo" class="HeaderMenu-link d-inline-block no-underline border border-gray-dark rounded-1 px-2 py-1" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;site header menu&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:&quot;1315470070.1551239895&quot;,&quot;originating_request_id&quot;:&quot;C128:40B7:197C422:28C793A:5D9C38CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="c72ebb3f0d3fd11008b4c7a74df67c0d1d1d27d94480134bb8c53887a62f276a" data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up">
+            Sign&nbsp;up
+          </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+  </div>
+
+  <div id="start-of-content" class="show-on-focus"></div>
+
+
+    <div id="js-flash-container">
+
+</div>
+
+
+
+  <div class="application-main " data-commit-hovercards-enabled="">
+        <div itemscope="" itemtype="http://schema.org/SoftwareSourceCode" class="">
+    <main>
+      
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <div class="pagehead repohead instapaper_ignore readability-menu experiment-repo-nav pt-0 pt-lg-4 ">
+    <div class="repohead-details-container clearfix container-lg p-responsive d-none d-lg-block">
+
+      <ul class="pagehead-actions">
+
+
+
+
+  <li>
+    
+  <a class="tooltipped tooltipped-s btn btn-sm btn-with-count" aria-label="You must be signed in to watch a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;notification subscription menu watch&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;1315470070.1551239895&quot;,&quot;originating_request_id&quot;:&quot;C128:40B7:197C422:28C793A:5D9C38CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="3be305e259fb1e81c3a5b562766d224c16aefe202a07993c0625f063b0fcf60b" href="https://github.com/login?return_to=%2Fhowardabrams%2Fdot-files">
+    <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+    Watch
+</a>    <a class="social-count" href="https://github.com/howardabrams/dot-files/watchers" aria-label="57 users are watching this repository">
+      57
+    </a>
+
+  </li>
+
+  <li>
+        <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to star a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;star button&quot;,&quot;repository_id&quot;:8573336,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;1315470070.1551239895&quot;,&quot;originating_request_id&quot;:&quot;C128:40B7:197C422:28C793A:5D9C38CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="4d8d815cc7358d41b52c63eef608f79b198305bf81644064aa00dc01cc3e8a14" href="https://github.com/login?return_to=%2Fhowardabrams%2Fdot-files">
+      <svg class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"></path></svg>
+      Star
+</a>
+    <a class="social-count js-social-count" href="https://github.com/howardabrams/dot-files/stargazers" aria-label="631 users starred this repository">
+      631
+    </a>
+
+  </li>
+
+  <li>
+      <a class="btn btn-sm btn-with-count tooltipped tooltipped-s" aria-label="You must be signed in to fork a repository" rel="nofollow" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;repo details fork button&quot;,&quot;repository_id&quot;:8573336,&quot;auth_type&quot;:&quot;LOG_IN&quot;,&quot;client_id&quot;:&quot;1315470070.1551239895&quot;,&quot;originating_request_id&quot;:&quot;C128:40B7:197C422:28C793A:5D9C38CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="25d7cd55a81f682b66250a4cdbe65c42e9fc40f387e8a475e68903524631ba41" href="https://github.com/login?return_to=%2Fhowardabrams%2Fdot-files">
+        <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 0 0-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 0 0 2 1a1.993 1.993 0 0 0-1 3.72V6.5l3 3v1.78A1.993 1.993 0 0 0 5 15a1.993 1.993 0 0 0 1-3.72V9.5l3-3V4.72A1.993 1.993 0 0 0 8 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+        Fork
+</a>
+    <a href="https://github.com/howardabrams/dot-files/network/members" class="social-count" aria-label="106 users forked this repository">
+      106
+    </a>
+  </li>
+</ul>
+
+      <h1 class="public ">
+    <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+  <span class="author" itemprop="author"><a class="url fn" rel="author" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=500621" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/howardabrams">howardabrams</a></span><!--
+--><span class="path-divider">/</span><!--
+--><strong itemprop="name"><a data-pjax="#js-repo-pjax-container" href="https://github.com/howardabrams/dot-files">dot-files</a></strong>
+  
+
+</h1>
+
+    </div>
+    
+<nav class="hx_reponav reponav js-repo-nav js-sidenav-container-pjax container-lg p-responsive d-none d-lg-block" itemscope="" itemtype="http://schema.org/BreadcrumbList" aria-label="Repository" data-pjax="#js-repo-pjax-container">
+
+  <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a class="js-selected-navigation-item selected reponav-item" itemprop="url" data-hotkey="g c" aria-current="page" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /howardabrams/dot-files" href="https://github.com/howardabrams/dot-files">
+      <svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg>
+      <span itemprop="name">Code</span>
+      <meta itemprop="position" content="1">
+</a>  </span>
+
+    <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+      <a itemprop="url" data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /howardabrams/dot-files/issues" href="https://github.com/howardabrams/dot-files/issues">
+        <svg class="octicon octicon-issue-opened" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 0 1 1.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg>
+        <span itemprop="name">Issues</span>
+        <span class="Counter">2</span>
+        <meta itemprop="position" content="2">
+</a>    </span>
+
+  <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a data-hotkey="g p" itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /howardabrams/dot-files/pulls" href="https://github.com/howardabrams/dot-files/pulls">
+      <svg class="octicon octicon-git-pull-request" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0 0 10 15a1.993 1.993 0 0 0 1-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 0 0-1 3.72v6.56A1.993 1.993 0 0 0 2 15a1.993 1.993 0 0 0 1-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+      <span itemprop="name">Pull requests</span>
+      <span class="Counter">0</span>
+      <meta itemprop="position" content="3">
+</a>  </span>
+
+
+    <a data-hotkey="g b" class="js-selected-navigation-item reponav-item" data-selected-links="repo_projects new_repo_project repo_project /howardabrams/dot-files/projects" href="https://github.com/howardabrams/dot-files/projects">
+      <svg class="octicon octicon-project" viewBox="0 0 15 16" version="1.1" width="15" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1z"></path></svg>
+      Projects
+      <span class="Counter">0</span>
+</a>
+
+
+    <a data-skip-pjax="true" class="js-selected-navigation-item reponav-item" data-selected-links="security alerts policy code_scanning /howardabrams/dot-files/security/advisories" href="https://github.com/howardabrams/dot-files/security/advisories">
+      <svg class="octicon octicon-shield" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 2l7-2 7 2v6.02C14 12.69 8.69 16 7 16c-1.69 0-7-3.31-7-7.98V2zm1 .75L7 1l6 1.75v5.268C13 12.104 8.449 15 7 15c-1.449 0-6-2.896-6-6.982V2.75zm1 .75L7 2v12c-1.207 0-5-2.482-5-5.985V3.5z"></path></svg>
+      Security
+</a>
+    <a class="js-selected-navigation-item reponav-item" data-selected-links="repo_graphs repo_contributors dependency_graph pulse people /howardabrams/dot-files/pulse" href="https://github.com/howardabrams/dot-files/pulse">
+      <svg class="octicon octicon-graph" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path></svg>
+      Insights
+</a>
+
+</nav>
+
+  <div class="reponav-wrapper reponav-small d-lg-none">
+  <nav class="reponav js-reponav text-center no-wrap" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+
+    <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+      <a class="js-selected-navigation-item selected reponav-item" itemprop="url" aria-current="page" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /howardabrams/dot-files" href="https://github.com/howardabrams/dot-files">
+        <span itemprop="name">Code</span>
+        <meta itemprop="position" content="1">
+</a>    </span>
+
+      <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+        <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /howardabrams/dot-files/issues" href="https://github.com/howardabrams/dot-files/issues">
+          <span itemprop="name">Issues</span>
+          <span class="Counter">2</span>
+          <meta itemprop="position" content="2">
+</a>      </span>
+
+    <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+      <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /howardabrams/dot-files/pulls" href="https://github.com/howardabrams/dot-files/pulls">
+        <span itemprop="name">Pull requests</span>
+        <span class="Counter">0</span>
+        <meta itemprop="position" content="3">
+</a>    </span>
+
+      <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+        <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_projects new_repo_project repo_project /howardabrams/dot-files/projects" href="https://github.com/howardabrams/dot-files/projects">
+          <span itemprop="name">Projects</span>
+          <span class="Counter">0</span>
+          <meta itemprop="position" content="4">
+</a>      </span>
+
+
+      <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="security alerts policy code_scanning /howardabrams/dot-files/security/advisories" href="https://github.com/howardabrams/dot-files/security/advisories">
+        <span itemprop="name">Security</span>
+        <meta itemprop="position" content="6">
+</a>
+      <a class="js-selected-navigation-item reponav-item" data-selected-links="pulse /howardabrams/dot-files/pulse" href="https://github.com/howardabrams/dot-files/pulse">
+        Pulse
+</a>
+
+  </nav>
+</div>
+
+
+  </div>
+<div class="container-lg clearfix new-discussion-timeline experiment-repo-nav  p-responsive">
+  <div class="repository-content ">
+
+    
+    
+
+
+  
+
+
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="https://github.com/howardabrams/dot-files/blob/1b54fe75d74670dc7bcbb6b01ea560c45528c628/emacs-eshell.org">Permalink</a>
+
+    <!-- blob contrib key: blob_contributors:v21:1acf429aa2daecf2566b18abe397f5b1 -->
+          <div class="signup-prompt-bg rounded-1">
+      <div class="signup-prompt p-4 text-center mb-4 rounded-1">
+        <div class="position-relative">
+          <!-- '"` --><!-- </textarea></xmp> --><form action="/prompt_dismissals/signup" accept-charset="UTF-8" method="post"><input name="utf8" value="✓" type="hidden"><input name="_method" value="put" type="hidden"><input name="authenticity_token" value="Gwkl/XjOad07tnngefcL4H/i/nXb21tvCyuT2EEFszTHjh3Y/hZCQfE2c2gyDC5cLwSStwBm+A9iLod3rCDyHA==" type="hidden">
+            <button type="submit" class="position-absolute top-0 right-0 btn-link link-gray" data-ga-click="(Logged out) Sign up prompt, clicked Dismiss, text:dismiss">
+              Dismiss
+            </button>
+</form>          <h3 class="pt-2">Join GitHub today</h3>
+          <p class="col-6 mx-auto">GitHub is home to over 40 million 
+developers working together to host and review code, manage projects, 
+and build software together.</p>
+          <a class="btn btn-primary" data-hydro-click="{&quot;event_type&quot;:&quot;authentication.click&quot;,&quot;payload&quot;:{&quot;location_in_page&quot;:&quot;files signup prompt&quot;,&quot;repository_id&quot;:null,&quot;auth_type&quot;:&quot;SIGN_UP&quot;,&quot;client_id&quot;:&quot;1315470070.1551239895&quot;,&quot;originating_request_id&quot;:&quot;C128:40B7:197C422:28C793A:5D9C38CD&quot;,&quot;originating_url&quot;:&quot;https://github.com/howardabrams/dot-files/blob/master/emacs-eshell.org&quot;,&quot;referrer&quot;:null,&quot;user_id&quot;:null}}" data-hydro-click-hmac="e1e6d9eb5136025c0bec0b3ee391c5cbe283044b101a67931d08a16957ecc486" data-ga-click="(Logged out) Sign up prompt, clicked Sign up, text:sign-up" href="https://github.com/join?source=prompt-blob-show">Sign up</a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="d-flex flex-items-start flex-shrink-0 pb-3 flex-column flex-md-row">
+      <span class="d-flex flex-justify-between width-full width-md-auto">
+        
+<details class="details-reset details-overlay select-menu branch-select-menu  hx_rsm" id="branch-select-menu">
+  <summary class="btn btn-sm select-menu-button css-truncate" data-hotkey="w" title="Switch branches or tags" aria-haspopup="menu" role="button">
+    <i>Branch:</i>
+    <span class="css-truncate-target" data-menu-button="">master</span>
+  </summary>
+
+  <details-menu class="select-menu-modal hx_rsm-modal position-absolute" style="z-index: 99;" src="/howardabrams/dot-files/ref-list/master/emacs-eshell.org?source_action=show&amp;source_controller=blob" preload="" role="menu">
+    <include-fragment class="select-menu-loading-overlay anim-pulse">
+      <svg height="32" class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path></svg>
+    </include-fragment>
+  </details-menu>
+</details>
+
+        <div class="BtnGroup flex-shrink-0 d-md-none">
+          <a href="https://github.com/howardabrams/dot-files/find/master" class="js-pjax-capture-input btn btn-sm BtnGroup-item" data-pjax="" data-hotkey="t">
+            Find file
+          </a>
+          <clipboard-copy value="emacs-eshell.org" class="btn btn-sm BtnGroup-item" tabindex="0" role="button">
+            Copy path
+          </clipboard-copy>
+        </div>
+      </span>
+      <h2 id="blob-path" class="breadcrumb flex-auto min-width-0 text-normal flex-md-self-center ml-md-2 mr-md-3 my-2 my-md-0">
+        <span class="js-repo-root text-bold"><span class="js-path-segment"><a data-pjax="true" href="https://github.com/howardabrams/dot-files"><span>dot-files</span></a></span></span><span class="separator">/</span><strong class="final-path">emacs-eshell.org</strong>
+      </h2>
+
+      <div class="BtnGroup flex-shrink-0 d-none d-md-inline-block">
+        <a href="https://github.com/howardabrams/dot-files/find/master" class="js-pjax-capture-input btn btn-sm BtnGroup-item" data-pjax="" data-hotkey="t">
+          Find file
+        </a>
+        <clipboard-copy value="emacs-eshell.org" class="btn btn-sm BtnGroup-item" tabindex="0" role="button">
+          Copy path
+        </clipboard-copy>
+      </div>
+    </div>
+
+
+
+    
+
+  <div class="Box Box--condensed d-flex flex-column flex-shrink-0">
+      <div class="Box-body d-flex flex-justify-between bg-blue-light flex-column flex-md-row flex-items-start flex-md-items-center">
+        <span class="pr-md-4 f6">
+          <a rel="contributor" data-skip-pjax="true" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=4965" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/larsen"><img class="avatar" src="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/4965.jpeg" alt="@larsen" width="20" height="20"></a>
+          <a class="text-bold link-gray-dark lh-default v-align-middle" rel="contributor" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=4965" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/larsen">larsen</a>
+            <span class="lh-default v-align-middle">
+              <a data-pjax="true" title="minor typo (#5)" class="link-gray" href="https://github.com/howardabrams/dot-files/commit/1ab404b8f6f267dc4f4e568e029941815a501b93">minor typo (</a><a class="issue-link js-issue-link" data-error-text="Failed to load issue title" data-id="321956921" data-permission-text="Issue title is private" data-url="https://github.com/howardabrams/dot-files/issues/5" data-hovercard-type="pull_request" data-hovercard-url="/howardabrams/dot-files/pull/5/hovercard" href="https://github.com/howardabrams/dot-files/pull/5">#5</a><a data-pjax="true" title="minor typo (#5)" class="link-gray" href="https://github.com/howardabrams/dot-files/commit/1ab404b8f6f267dc4f4e568e029941815a501b93">)</a>
+            </span>
+        </span>
+        <span class="d-inline-block flex-shrink-0 v-align-bottom f6 mt-2 mt-md-0">
+          <a class="pr-2 text-mono link-gray" href="https://github.com/howardabrams/dot-files/commit/1ab404b8f6f267dc4f4e568e029941815a501b93" data-pjax="">1ab404b</a>
+          <relative-time datetime="2018-05-11T16:51:31Z" class="no-wrap" title="2018年5月12日 GMT+8 上午12:51">on 12 May 2018</relative-time>
+        </span>
+      </div>
+
+    <div class="Box-body d-flex flex-items-center flex-auto f6 border-bottom-0 flex-wrap">
+      <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark float-left mr-2" id="blob_contributors_box">
+        <summary class="btn-link" role="button">
+          <span><strong>2</strong> contributors</span>
+        </summary>
+        <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast" aria-label="Users who have contributed to this file" src="/howardabrams/dot-files/contributors/master/emacs-eshell.org/list" preload="" role="dialog" aria-modal="true">
+          <div class="Box-header">
+            <button class="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog="">
+              <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+            </button>
+            <h3 class="Box-title">
+              Users who have contributed to this file
+            </h3>
+          </div>
+          <include-fragment class="octocat-spinner my-3" aria-label="Loading..."></include-fragment>
+        </details-dialog>
+      </details>
+        <span class="">
+    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=500621" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/howardabrams/dot-files/commits/master/emacs-eshell.org?author=howardabrams">
+      <img class="avatar mr-1" src="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/500621.png" alt="@howardabrams" width="20" height="20"> 
+</a>    <a class="avatar-link" data-hovercard-type="user" data-hovercard-url="/hovercards?user_id=4965" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/howardabrams/dot-files/commits/master/emacs-eshell.org?author=larsen">
+      <img class="avatar mr-1" src="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/4965.jpeg" alt="@larsen" width="20" height="20"> 
+</a>
+</span>
+
+    </div>
+  </div>
+
+
+
+
+
+    <div class="Box mt-3 position-relative">
+      
+<div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
+
+  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+      922 lines (758 sloc)
+      <span class="file-info-divider"></span>
+    35.8 KB
+  </div>
+
+  <div class="d-flex py-1 py-md-0 flex-auto flex-order-1 flex-md-order-2 flex-sm-grow-0 flex-justify-between">
+
+    <div class="BtnGroup">
+      <a id="raw-url" class="btn btn-sm BtnGroup-item" href="https://github.com/howardabrams/dot-files/raw/master/emacs-eshell.org">Raw</a>
+        <a class="btn btn-sm js-update-url-with-hash BtnGroup-item" data-hotkey="b" href="https://github.com/howardabrams/dot-files/blame/master/emacs-eshell.org">Blame</a>
+      <a rel="nofollow" class="btn btn-sm BtnGroup-item" href="https://github.com/howardabrams/dot-files/commits/master/emacs-eshell.org">History</a>
+    </div>
+
+
+    <div>
+
+          <button type="button" class="btn-octicon disabled tooltipped tooltipped-nw" aria-label="You must be signed in to make or propose changes">
+            <svg class="octicon octicon-pencil" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 0 1 1.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
+          </button>
+          <button type="button" class="btn-octicon btn-octicon-danger disabled tooltipped tooltipped-nw" aria-label="You must be signed in to make or propose changes">
+            <svg class="octicon octicon-trashcan" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"></path></svg>
+          </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+      
+  <div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
+    <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h1><a id="user-content-emacs-eshell-parameters" class="anchor" aria-hidden="true" href="#emacs-eshell-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Emacs EShell Parameters</h1>
+<p>My frustration with shells makes me enjoy Emacs Shell, but there are
+  some significant differences to address. To this end, I <a href="http://www.howardism.org/Technical/Emacs/eshell-fun.html" rel="nofollow">documented
+  most features</a>.</p>
+<p>I find it a shame that I can not successfully use <code>use-package</code> with the
+  <code>eshell</code> package. It loads quick enough, that I’ll simply deal with it.</p>
+<h1><a id="user-content-basics" class="anchor" aria-hidden="true" href="#basics"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basics</h1>
+<h2><a id="user-content-set-up-the-correct-path" class="anchor" aria-hidden="true" href="#set-up-the-correct-path"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Set up the Correct Path</h2>
+<p>Need the correct PATH even if we start Emacs from the GUI:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-c1">setenv</span> <span class="pl-s"><span class="pl-pds">"</span>PATH<span class="pl-pds">"</span></span>
+        (<span class="pl-c1">concat</span>
+         <span class="pl-s"><span class="pl-pds">"</span>/usr/local/bin:/usr/local/sbin:<span class="pl-pds">"</span></span>
+         (<span class="pl-c1">getenv</span> <span class="pl-s"><span class="pl-pds">"</span>PATH<span class="pl-pds">"</span></span>)))</pre></div>
+<h2><a id="user-content-pager-setup" class="anchor" aria-hidden="true" href="#pager-setup"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pager Setup</h2>
+<p>If any program wants to pause the output through the <code>$PAGER</code>
+  variable, well, we don’t really need that:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-c1">setenv</span> <span class="pl-s"><span class="pl-pds">"</span>PAGER<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>cat<span class="pl-pds">"</span></span>)</pre></div>
+<h2><a id="user-content-navigation-and-keys" class="anchor" aria-hidden="true" href="#navigation-and-keys"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Navigation and Keys</h2>
+<p>Eshell comes with some interesting features:</p>
+<ul>
+  <li><code>M-RET</code> can be used to accumulate further commands 
+while a command is currently running.  Since all input is passed to the 
+subprocess being executed, there is no automatic input queueing as there
+ is with other shells.</li>
+  <li><code>C-c C-t</code> can be used to truncate the buffer if it grows too large.</li>
+  <li><code>C-c C-r</code> will move point to the beginning of the 
+output of the last command.  With a prefix argument, it will narrow to 
+view only that output.</li>
+  <li><code>C-c C-o</code> will delete the output from the last command.</li>
+  <li><code>C-c C-f</code> will move forward a complete shell argument.</li>
+  <li><code>C-c C-b</code> will move backward a complete shell argument.</li>
+</ul>
+<h1><a id="user-content-configuration" class="anchor" aria-hidden="true" href="#configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration</h1>
+<p>Scrolling through the output and searching for results that can be
+  copied to the kill ring is a great feature of Eshell. However,
+  instead of running <code>end-of-buffer</code> key-binding, the following
+  setting means any other key will jump back to the prompt:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-c1">use-package</span> eshell
+  <span class="pl-c1">:init</span>
+  (<span class="pl-k">setq</span> <span class="pl-c"><span class="pl-c">;</span>; eshell-buffer-shorthand t ...  Can't see Bug#19391</span>
+        eshell-scroll-to-bottom-on-input <span class="pl-c1">'all</span>
+        eshell-error-if-no-glob <span class="pl-c1">t</span>
+        eshell-hist-ignoredups <span class="pl-c1">t</span>
+        eshell-save-history-on-exit <span class="pl-c1">t</span>
+        eshell-prefer-lisp-functions <span class="pl-c1">nil</span>
+        eshell-destroy-buffer-when-process-dies <span class="pl-c1">t</span>))</pre></div>
+<p>I can never seem to remember that <code>find</code> and <code>chmod</code> behave
+  differently from Emacs than their Unix counterparts, so the last
+  setting will prefer the native implementations.</p>
+<h1><a id="user-content-visual-executables" class="anchor" aria-hidden="true" href="#visual-executables"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Visual Executables</h1>
+<p>Eshell would get somewhat confused if I ran the following commands
+  directly through the normal Elisp library, as these need the better
+  handling of ansiterm:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-c1">use-package</span> eshell
+  <span class="pl-c1">:init</span>
+  (<span class="pl-c1">add-hook</span> <span class="pl-c1">'eshell-mode-hook</span>
+            (<span class="pl-k">lambda</span> ()
+              (<span class="pl-c1">add-to-list</span> <span class="pl-c1">'eshell-visual-commands</span> <span class="pl-s"><span class="pl-pds">"</span>ssh<span class="pl-pds">"</span></span>)
+              (<span class="pl-c1">add-to-list</span> <span class="pl-c1">'eshell-visual-commands</span> <span class="pl-s"><span class="pl-pds">"</span>tail<span class="pl-pds">"</span></span>)
+              (<span class="pl-c1">add-to-list</span> <span class="pl-c1">'eshell-visual-commands</span> <span class="pl-s"><span class="pl-pds">"</span>top<span class="pl-pds">"</span></span>))))</pre></div>
+<h1><a id="user-content-aliases" class="anchor" aria-hidden="true" href="#aliases"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Aliases</h1>
+<p>Gotta have some <a href="http://www.emacswiki.org/emacs/EshellAlias" rel="nofollow">shell aliases</a>, right?</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-c1">add-hook</span> <span class="pl-c1">'eshell-mode-hook</span> (<span class="pl-k">lambda</span> ()
+    (eshell/alias <span class="pl-s"><span class="pl-pds">"</span>e<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>find-file $1<span class="pl-pds">"</span></span>)
+    (eshell/alias <span class="pl-s"><span class="pl-pds">"</span>ff<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>find-file $1<span class="pl-pds">"</span></span>)
+    (eshell/alias <span class="pl-s"><span class="pl-pds">"</span>emacs<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>find-file $1<span class="pl-pds">"</span></span>)
+    (eshell/alias <span class="pl-s"><span class="pl-pds">"</span>ee<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>find-file-other-window $1<span class="pl-pds">"</span></span>)
+
+    (eshell/alias <span class="pl-s"><span class="pl-pds">"</span>gd<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>magit-diff-unstaged<span class="pl-pds">"</span></span>)
+    (eshell/alias <span class="pl-s"><span class="pl-pds">"</span>gds<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>magit-diff-staged<span class="pl-pds">"</span></span>)
+    (eshell/alias <span class="pl-s"><span class="pl-pds">"</span>d<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>dired $1<span class="pl-pds">"</span></span>)
+
+    <span class="pl-c"><span class="pl-c">;</span>; The 'ls' executable requires the Gnu version on the Mac</span>
+    (<span class="pl-k">let</span> ((ls (<span class="pl-k">if</span> (<span class="pl-c1">file-exists-p</span> <span class="pl-s"><span class="pl-pds">"</span>/usr/local/bin/gls<span class="pl-pds">"</span></span>)
+                  <span class="pl-s"><span class="pl-pds">"</span>/usr/local/bin/gls<span class="pl-pds">"</span></span>
+                <span class="pl-s"><span class="pl-pds">"</span>/bin/ls<span class="pl-pds">"</span></span>)))
+      (eshell/alias <span class="pl-s"><span class="pl-pds">"</span>ll<span class="pl-pds">"</span></span> (<span class="pl-c1">concat</span> ls <span class="pl-s"><span class="pl-pds">"</span> -AlohG --color=always<span class="pl-pds">"</span></span>)))))</pre></div>
+<h2><a id="user-content-git" class="anchor" aria-hidden="true" href="#git"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Git</h2>
+<p>My <code>gst</code> command is just an alias to <code>magit-status</code>, but using the
+  <code>alias</code> doesn’t pull in the current working directory, so I make it
+  a function, instead:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell/gst</span> (<span class="pl-c1">&amp;rest</span> <span class="pl-v">args</span>)
+    (magit-status (<span class="pl-k">pop</span> args) <span class="pl-c1">nil</span>)
+    (eshell/echo))   <span class="pl-c"><span class="pl-c">;</span>; The echo command suppresses output</span></pre></div>
+<h2><a id="user-content-find-file" class="anchor" aria-hidden="true" href="#find-file"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Find File</h2>
+<p>We should have an “f” alias for searching the current directory for
+  a file, and a “ef” for editing that file.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell/f</span> (<span class="pl-v">filename</span> <span class="pl-c1">&amp;optional</span> <span class="pl-v">dir</span> <span class="pl-v">try-count</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Searches for files matching FILENAME in either DIR or the</span>
+<span class="pl-s">current directory. Just a typical wrapper around the standard</span>
+<span class="pl-s"><span class="pl-smi">`find'</span> executable.</span>
+<span class="pl-s"></span>
+<span class="pl-s">Since any wildcards in FILENAME need to be escaped, this wraps the shell command.</span>
+<span class="pl-s"></span>
+<span class="pl-s">If not results were found, it calls the <span class="pl-smi">`find'</span> executable up to</span>
+<span class="pl-s">two more times, wrapping the FILENAME pattern in wildcat</span>
+<span class="pl-s">matches. This seems to be more helpful to me.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">let*</span> ((cmd (<span class="pl-c1">concat</span>
+               (<span class="pl-c1">executable-find</span> <span class="pl-s"><span class="pl-pds">"</span>find<span class="pl-pds">"</span></span>)
+               <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span> (<span class="pl-k">or</span> dir <span class="pl-s"><span class="pl-pds">"</span>.<span class="pl-pds">"</span></span>)
+               <span class="pl-s"><span class="pl-pds">"</span>      -not -path '*/.git*'<span class="pl-pds">"</span></span>
+               <span class="pl-s"><span class="pl-pds">"</span> -and -not -path '*node_modules*'<span class="pl-pds">"</span></span>
+               <span class="pl-s"><span class="pl-pds">"</span> -and -not -path '*classes*'<span class="pl-pds">"</span></span>
+               <span class="pl-s"><span class="pl-pds">"</span> -and <span class="pl-pds">"</span></span>
+               <span class="pl-s"><span class="pl-pds">"</span> -type f -and <span class="pl-pds">"</span></span>
+               <span class="pl-s"><span class="pl-pds">"</span>-iname '<span class="pl-pds">"</span></span> filename <span class="pl-s"><span class="pl-pds">"</span>'<span class="pl-pds">"</span></span>))
+         (results (<span class="pl-c1">shell-command-to-string</span> cmd)))
+
+    (<span class="pl-k">if</span> (<span class="pl-k">not</span> (s-blank-str<span class="pl-c1">? </span>results))
+        results
+      (<span class="pl-k">cond</span>
+       ((<span class="pl-k">or</span> (<span class="pl-k">null</span> try-count) (<span class="pl-k">=</span> <span class="pl-c1">0</span> try-count))
+        (eshell/f (<span class="pl-c1">concat</span> filename <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>) dir <span class="pl-c1">1</span>))
+       ((<span class="pl-k">or</span> (<span class="pl-k">null</span> try-count) (<span class="pl-k">=</span> <span class="pl-c1">1</span> try-count))
+        (eshell/f (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span> filename) dir <span class="pl-c1">2</span>))
+       (<span class="pl-c1">t</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>)))))
+
+(<span class="pl-k">defun</span> <span class="pl-e">eshell/ef</span> (<span class="pl-v">filename</span> <span class="pl-c1">&amp;optional</span> <span class="pl-v">dir</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Searches for the first matching filename and loads it into a</span>
+<span class="pl-s">file to edit.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">let*</span> ((<span class="pl-c1">files</span> (eshell/f filename dir))
+         (file (<span class="pl-k">car</span> (s-split <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\n</span><span class="pl-pds">"</span></span> <span class="pl-c1">files</span>))))
+    (<span class="pl-c1">find-file</span> file)))</pre></div>
+<p>Typing <code>find</code> in Eshell runs the <code>find</code> function, which doesn’t do
+  what I expect, and creating an alias is ineffective in overriding
+  it, so a function will do:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell/find</span> (<span class="pl-c1">&amp;rest</span> <span class="pl-v">args</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Wrapper around the ‘find’ executable.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">let</span> ((cmd (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span>find <span class="pl-pds">"</span></span> (<span class="pl-c1">string-join</span> args))))
+    (<span class="pl-c1">shell-command-to-string</span> cmd)))</pre></div>
+<h2><a id="user-content-clear" class="anchor" aria-hidden="true" href="#clear"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Clear</h2>
+<p>While deleting and recreating <code>eshell</code> may be just as fast, I always
+  forget and type <code>clear</code>, so let’s implement it:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell/clear</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Clear the eshell buffer.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">let</span> ((<span class="pl-c1">inhibit-read-only</span> <span class="pl-c1">t</span>))
+    (<span class="pl-c1">erase-buffer</span>)
+    (<span class="pl-c1">eshell-send-input</span>)))</pre></div>
+<h1><a id="user-content-predicate-filters-and-modifiers" class="anchor" aria-hidden="true" href="#predicate-filters-and-modifiers"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Predicate Filters and Modifiers</h1>
+<p>The <code>T</code> predicate filter allows me to limit file results that have
+  have internal <code>org-mode</code> tags. For instance, files that have a
+  <code>#+TAGS:</code> header with a <code>mac</code> label will be given to the <code>grep</code>
+  function:</p>
+<div class="highlight highlight-source-shell"><pre>$ grep brew <span class="pl-k">*</span>.org(T<span class="pl-s"><span class="pl-pds">'</span>mac<span class="pl-pds">'</span></span>)</pre></div>
+<p>To extend Eshell, we need a two-part function.</p>
+<ol>
+  <li>Parse the Eshell buffer to look for the parameter
+    (and move the point past the parameter).</li>
+  <li>A predicate function that takes a file as a parameter.</li>
+</ol>
+<p>For the first step, we have our function <i>called</i> as it helps
+  parse the text at this time.  Based on what it sees, it returns
+  the predicate function used to filter the files:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell-org-file-tags</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Helps the eshell parse the text the point is currently on,</span>
+<span class="pl-s">looking for parameters surrounded in single quotes. Returns a</span>
+<span class="pl-s">function that takes a FILE and returns nil if the file given to</span>
+<span class="pl-s">it doesn't contain the org-mode #+TAGS: entry specified.<span class="pl-pds">"</span></span>
+
+  (<span class="pl-k">if</span> (<span class="pl-c1">looking-at</span> <span class="pl-s"><span class="pl-pds">"</span>'<span class="pl-cce">\\</span>([^)']+<span class="pl-cce">\\</span>)'<span class="pl-pds">"</span></span>)
+      (<span class="pl-k">let*</span> ((tag (<span class="pl-c1">match-string</span> <span class="pl-c1">1</span>))
+             (reg (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span>^#<span class="pl-cce">\\</span>+TAGS:.* <span class="pl-pds">"</span></span> tag <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>b<span class="pl-pds">"</span></span>)))
+        (<span class="pl-c1">goto-char</span> (<span class="pl-c1">match-end</span> <span class="pl-c1">0</span>))
+
+        `(<span class="pl-c1">lambda</span> (file)
+           (<span class="pl-c1">with-temp-buffer</span>
+             (<span class="pl-c1">insert-file-contents</span> file)
+             (<span class="pl-c1">re-search-forward</span> <span class="pl-c1"><span class="pl-mi1">,</span>reg</span> <span class="pl-c1">nil</span> <span class="pl-c1">t</span> <span class="pl-c1">1</span>))))
+    (<span class="pl-c1">error</span> <span class="pl-pds">"</span><span class="pl-s">The <span class="pl-smi">`T'</span> predicate takes an org-mode tag value in single quotes.</span><span class="pl-pds">"</span>)))</pre></div>
+<p>Add it to the <code>eshell-predicate-alist</code> as the <code>T</code> tag:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-c1">add-hook</span> <span class="pl-c1">'eshell-pred-load-hook</span> (<span class="pl-k">lambda</span> ()
+  (<span class="pl-c1">add-to-list</span> <span class="pl-c1">'eshell-predicate-alist</span> '(<span class="pl-c1">?T</span> <span class="pl-k">.</span> (eshell-org-file-tags)))))</pre></div>
+<p><b>Note:</b> We can’t add it to the list until after we start our first
+  eshell session, so we just add it to the <code>eshell-pred-load-hook</code>
+  which is sufficient.</p>
+<h1><a id="user-content-special-prompt" class="anchor" aria-hidden="true" href="#special-prompt"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Special Prompt</h1>
+<p>Following <a href="http://blog.liangzan.net/blog/2012/12/12/customizing-your-emacs-eshell-prompt/" rel="nofollow">these instructions</a>, we build a better prompt with the Git
+  branch in it (Of course, it matches my Bash prompt). First, we need
+  a function that returns a string with the Git branch in it,
+  e.g. “:master”</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">curr-dir-git-branch-string</span> (<span class="pl-v">pwd</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Returns current git branch as a string, or the empty string if</span>
+<span class="pl-s">PWD is not in a git repo (or the git command is not found).<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span>)
+  (<span class="pl-k">when</span> (<span class="pl-k">and</span> (<span class="pl-k">not</span> (<span class="pl-c1">file-remote-p</span> pwd))
+             (<span class="pl-c1">eshell-search-path</span> <span class="pl-s"><span class="pl-pds">"</span>git<span class="pl-pds">"</span></span>)
+             (<span class="pl-c1">locate-dominating-file</span> pwd <span class="pl-s"><span class="pl-pds">"</span>.git<span class="pl-pds">"</span></span>))
+    (<span class="pl-k">let*</span> ((git-url (<span class="pl-c1">shell-command-to-string</span> <span class="pl-s"><span class="pl-pds">"</span>git config --get remote.origin.url<span class="pl-pds">"</span></span>))
+           (git-repo (<span class="pl-c1">file-name-base</span> (s-trim git-url)))
+           (git-output (<span class="pl-c1">shell-command-to-string</span> (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span>git rev-parse --abbrev-ref HEAD<span class="pl-pds">"</span></span>)))
+           (git-branch (s-trim git-output))
+           (git-icon  <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\x</span>e0a0<span class="pl-pds">"</span></span>)
+           (git-icon2 (<span class="pl-c1">propertize</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\x</span>f020<span class="pl-pds">"</span></span> <span class="pl-c1">'face</span> `(<span class="pl-c1">:family</span> <span class="pl-s"><span class="pl-pds">"</span>octicons<span class="pl-pds">"</span></span>))))
+      (<span class="pl-c1">concat</span> git-repo <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span> git-icon2 <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span> git-branch))))</pre></div>
+<p>The function takes the current directory passed in via <code>pwd</code> and
+  replaces the <code>$HOME</code> part with a tilde. I’m sure this function
+  already exists in the eshell source, but I didn’t find it…</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">pwd-replace-home</span> (<span class="pl-v">pwd</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Replace home in PWD with tilde (~) character.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span>)
+  (<span class="pl-k">let*</span> ((home (<span class="pl-c1">expand-file-name</span> (<span class="pl-c1">getenv</span> <span class="pl-s"><span class="pl-pds">"</span>HOME<span class="pl-pds">"</span></span>)))
+         (home-len (<span class="pl-k">length</span> home)))
+    (<span class="pl-k">if</span> (<span class="pl-k">and</span>
+         (<span class="pl-k">&gt;=</span> (<span class="pl-k">length</span> pwd) home-len)
+         (<span class="pl-k">equal</span> home (<span class="pl-c1">substring</span> pwd <span class="pl-c1">0</span> home-len)))
+        (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span>~<span class="pl-pds">"</span></span> (<span class="pl-c1">substring</span> pwd home-len))
+      pwd)))</pre></div>
+<p>Make the directory name be shorter…by replacing all directory
+  names with just its first names. However, we leave the last two to
+  be the full names. Why yes, I did steal this.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">pwd-shorten-dirs</span> (<span class="pl-v">pwd</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Shorten all directory names in PWD except the last two.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">let</span> ((p-lst (<span class="pl-c1">split-string</span> pwd <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>)))
+    (<span class="pl-k">if</span> (<span class="pl-k">&gt;</span> (<span class="pl-k">length</span> p-lst) <span class="pl-c1">2</span>)
+        (<span class="pl-c1">concat</span>
+         (<span class="pl-c1">mapconcat</span> (<span class="pl-k">lambda</span> (<span class="pl-v">elm</span>) (<span class="pl-k">if</span> (<span class="pl-c1">zerop</span> (<span class="pl-k">length</span> elm)) <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+                               (<span class="pl-c1">substring</span> elm <span class="pl-c1">0</span> <span class="pl-c1">1</span>)))
+                    (<span class="pl-k">butlast</span> p-lst <span class="pl-c1">2</span>)
+                    <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>)
+         <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>
+         (<span class="pl-c1">mapconcat</span> (<span class="pl-k">lambda</span> (<span class="pl-v">elm</span>) elm)
+                    (<span class="pl-k">last</span> p-lst <span class="pl-c1">2</span>)
+                    <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span>))
+      pwd)))  <span class="pl-c"><span class="pl-c">;</span>; Otherwise, we just return the PWD</span></pre></div>
+<p>Break up the directory into a “parent” and a “base”:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">split-directory-prompt</span> (<span class="pl-v">directory</span>)
+  (<span class="pl-k">if</span> (<span class="pl-c1">string-match-p</span> <span class="pl-s"><span class="pl-pds">"</span>.*/.*<span class="pl-pds">"</span></span> directory)
+      (<span class="pl-k">list</span> (<span class="pl-c1">file-name-directory</span> directory) (<span class="pl-c1">file-name-base</span> directory))
+    (<span class="pl-k">list</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> directory)))</pre></div>
+<p>Using virtual environments for certain languages is helpful to know,
+  especially since I change them based on the directory.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">ruby-prompt</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Returns a string (may be empty) based on the current Ruby Virtual Environment.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">let*</span> ((executable <span class="pl-s"><span class="pl-pds">"</span>~/.rvm/bin/rvm-prompt<span class="pl-pds">"</span></span>)
+         (command    (<span class="pl-c1">concat</span> executable <span class="pl-s"><span class="pl-pds">"</span>v g<span class="pl-pds">"</span></span>)))
+    (<span class="pl-k">when</span> (<span class="pl-c1">file-exists-p</span> executable)
+      (<span class="pl-k">let*</span> ((results (<span class="pl-c1">shell-command-to-string</span> executable))
+             (cleaned (<span class="pl-c1">string-trim</span> results))
+             (gem     (<span class="pl-c1">propertize</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\x</span>e92b<span class="pl-pds">"</span></span> <span class="pl-c1">'face</span> `(<span class="pl-c1">:family</span> <span class="pl-s"><span class="pl-pds">"</span>alltheicons<span class="pl-pds">"</span></span>))))
+        (<span class="pl-k">when</span> (<span class="pl-k">and</span> cleaned (<span class="pl-k">not</span> (<span class="pl-k">equal</span> cleaned <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>)))
+          (s-replace <span class="pl-s"><span class="pl-pds">"</span>ruby-<span class="pl-pds">"</span></span> gem cleaned))))))
+
+(<span class="pl-k">defun</span> <span class="pl-e">python-prompt</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Returns a string (may be empty) based on the current Python</span>
+<span class="pl-s">   Virtual Environment. Assuming the M-x command: <span class="pl-smi">`pyenv-mode-set'</span></span>
+<span class="pl-s">   has been called.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">when</span> (<span class="pl-c1">fboundp</span> <span class="pl-c1">#<span class="pl-c1">'pyenv-mode-version</span></span>)
+    (<span class="pl-k">let</span> ((venv (pyenv-mode-version)))
+      (<span class="pl-k">when</span> venv
+        (<span class="pl-c1">concat</span>
+         (<span class="pl-c1">propertize</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\x</span>e928<span class="pl-pds">"</span></span> <span class="pl-c1">'face</span> `(<span class="pl-c1">:family</span> <span class="pl-s"><span class="pl-pds">"</span>alltheicons<span class="pl-pds">"</span></span>))
+         (pyenv-mode-version))))))</pre></div>
+<p>Now tie it all together with a prompt function can color each of the
+  prompts components.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell/eshell-local-prompt-function</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>A prompt for eshell that works locally (in that is assumes</span>
+<span class="pl-s">that it could run certain commands) in order to make a prettier,</span>
+<span class="pl-s">more-helpful local prompt.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span>)
+  (<span class="pl-k">let*</span> ((<span class="pl-c1">pwd</span>        (eshell/pwd))
+         (directory (split-directory-prompt
+                     (pwd-shorten-dirs
+                      (pwd-replace-home pwd))))
+         (parent (<span class="pl-k">car</span> directory))
+         (name   (<span class="pl-k">cadr</span> directory))
+         (branch (curr-dir-git-branch-string pwd))
+         (ruby   (<span class="pl-k">when</span> (<span class="pl-k">not</span> (<span class="pl-c1">file-remote-p</span> pwd)) (ruby-prompt)))
+         (python (<span class="pl-k">when</span> (<span class="pl-k">not</span> (<span class="pl-c1">file-remote-p</span> pwd)) (python-prompt)))
+
+         (dark-env (<span class="pl-k">eq</span> <span class="pl-c1">'dark</span> (<span class="pl-c1">frame-parameter</span> <span class="pl-c1">nil</span> <span class="pl-c1">'background-mode</span>)))
+         (for-bars                 `(<span class="pl-c1">:weight</span> <span class="pl-c1">bold</span>))
+         (for-parent  (<span class="pl-k">if</span> dark-env `(<span class="pl-c1">:foreground</span> <span class="pl-s"><span class="pl-pds">"</span>dark orange<span class="pl-pds">"</span></span>) `(<span class="pl-c1">:foreground</span> <span class="pl-s"><span class="pl-pds">"</span>blue<span class="pl-pds">"</span></span>)))
+         (for-dir     (<span class="pl-k">if</span> dark-env `(<span class="pl-c1">:foreground</span> <span class="pl-s"><span class="pl-pds">"</span>orange<span class="pl-pds">"</span></span> <span class="pl-c1">:weight</span> <span class="pl-c1">bold</span>)
+                        `(<span class="pl-c1">:foreground</span> <span class="pl-s"><span class="pl-pds">"</span>blue<span class="pl-pds">"</span></span> <span class="pl-c1">:weight</span> <span class="pl-c1">bold</span>)))
+         (for-git                  `(<span class="pl-c1">:foreground</span> <span class="pl-s"><span class="pl-pds">"</span>green<span class="pl-pds">"</span></span>))
+         (for-ruby                 `(<span class="pl-c1">:foreground</span> <span class="pl-s"><span class="pl-pds">"</span>red<span class="pl-pds">"</span></span>))
+         (for-python               `(<span class="pl-c1">:foreground</span> <span class="pl-s"><span class="pl-pds">"</span>#5555FF<span class="pl-pds">"</span></span>)))
+
+    (<span class="pl-c1">concat</span>
+     (<span class="pl-c1">propertize</span> <span class="pl-s"><span class="pl-pds">"</span>⟣─ <span class="pl-pds">"</span></span>    <span class="pl-c1">'face</span> for-bars)
+     (<span class="pl-c1">propertize</span> parent   <span class="pl-c1">'face</span> for-parent)
+     (<span class="pl-c1">propertize</span> name     <span class="pl-c1">'face</span> for-dir)
+     (<span class="pl-k">when</span> branch
+       (<span class="pl-c1">concat</span> (<span class="pl-c1">propertize</span> <span class="pl-s"><span class="pl-pds">"</span> ── <span class="pl-pds">"</span></span>    <span class="pl-c1">'face</span> for-bars)
+               (<span class="pl-c1">propertize</span> branch   <span class="pl-c1">'face</span> for-git)))
+     (<span class="pl-k">when</span> ruby
+       (<span class="pl-c1">concat</span> (<span class="pl-c1">propertize</span> <span class="pl-s"><span class="pl-pds">"</span> ── <span class="pl-pds">"</span></span> <span class="pl-c1">'face</span> for-bars)
+               (<span class="pl-c1">propertize</span> ruby   <span class="pl-c1">'face</span> for-ruby)))
+     (<span class="pl-k">when</span> python
+       (<span class="pl-c1">concat</span> (<span class="pl-c1">propertize</span> <span class="pl-s"><span class="pl-pds">"</span> ── <span class="pl-pds">"</span></span> <span class="pl-c1">'face</span> for-bars)
+               (<span class="pl-c1">propertize</span> python <span class="pl-c1">'face</span> for-python)))
+     (<span class="pl-c1">propertize</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\n</span><span class="pl-pds">"</span></span>     <span class="pl-c1">'face</span> for-bars)
+     (<span class="pl-c1">propertize</span> (<span class="pl-k">if</span> (<span class="pl-k">=</span> (<span class="pl-c1">user-uid</span>) <span class="pl-c1">0</span>) <span class="pl-s"><span class="pl-pds">"</span> #<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span> $<span class="pl-pds">"</span></span>) <span class="pl-c1">'face</span> `(<span class="pl-c1">:weight</span> ultra-bold))
+     <span class="pl-c"><span class="pl-c">;</span>; (propertize " └→" 'face (if (= (user-uid) 0) `(:weight ultra-bold :foreground "red") `(:weight ultra-bold)))</span>
+     (<span class="pl-c1">propertize</span> <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>    <span class="pl-c1">'face</span> `(<span class="pl-c1">:weight</span> <span class="pl-c1">bold</span>)))))
+
+(<span class="pl-c1">setq-default</span> eshell-prompt-function <span class="pl-c1">#<span class="pl-c1">'eshell/eshell-local-prompt-function</span></span>)</pre></div>
+<p>Turn off the default prompt, otherwise, it won’t use ours:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">setq</span> eshell-highlight-prompt <span class="pl-c1">nil</span>)</pre></div>
+<p>Here is the result:
+  <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/48eabd75b96727c2b56130df9bac60ddcd6a8abd/687474703a2f2f696d6775722e636f6d2f6e6b70774949302e706e67"><img src="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/687474703a2f2f696d6775722e636f6d2f6e6b70774949302e706e67.png" alt="http://imgur.com/nkpwII0.png" data-canonical-src="http://imgur.com/nkpwII0.png" style="max-width:100%;"></a></p>
+<h1><a id="user-content-shell-windows" class="anchor" aria-hidden="true" href="#shell-windows"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Shell Windows</h1>
+<p>Now that I often need to quickly pop into remote systems to run a
+  shell or commands, I create helper functions to create those buffer
+  windows.  Each begin with <code>eshell-</code>:</p>
+<h2><a id="user-content-shell-here" class="anchor" aria-hidden="true" href="#shell-here"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Shell Here</h2>
+<p>Making little Shells whenever I need them:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell-here</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Opens up a new shell in the directory associated with the</span>
+<span class="pl-s">current buffer's file. The eshell is renamed to match that</span>
+<span class="pl-s">directory to make multiple eshell windows easier.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span>)
+  (<span class="pl-k">let*</span> ((parent (<span class="pl-k">if</span> (<span class="pl-c1">buffer-file-name</span>)
+                     (<span class="pl-c1">file-name-directory</span> (<span class="pl-c1">buffer-file-name</span>))
+                   default-directory))
+         (height (<span class="pl-k">/</span> (<span class="pl-c1">window-total-height</span>) <span class="pl-c1">3</span>))
+         (name   (<span class="pl-k">car</span> (<span class="pl-k">last</span> (<span class="pl-c1">split-string</span> parent <span class="pl-s"><span class="pl-pds">"</span>/<span class="pl-pds">"</span></span> <span class="pl-c1">t</span>)))))
+    (<span class="pl-c1">split-window-vertically</span> (<span class="pl-k">-</span> height))
+    (<span class="pl-c1">other-window</span> <span class="pl-c1">1</span>)
+    (<span class="pl-c1">eshell</span> <span class="pl-s"><span class="pl-pds">"</span>new<span class="pl-pds">"</span></span>)
+    (<span class="pl-c1">rename-buffer</span> (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span>*eshell: <span class="pl-pds">"</span></span> name <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>))
+
+    (<span class="pl-c1">insert</span> (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span>ls<span class="pl-pds">"</span></span>))
+    (<span class="pl-c1">eshell-send-input</span>)))
+
+(bind-key <span class="pl-s"><span class="pl-pds">"</span>C-!<span class="pl-pds">"</span></span> <span class="pl-c1">'eshell-here</span>)</pre></div>
+<p>Let’s try a version that doesn’t put the current working directory
+  in the mode-line’s buffer title:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell-here</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Opens up a new shell in the directory associated with the</span>
+<span class="pl-s">    current buffer's file. The eshell is renamed to match that</span>
+<span class="pl-s">    directory to make multiple eshell windows easier.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span>)
+  (<span class="pl-k">let*</span> ((height (<span class="pl-k">/</span> (<span class="pl-c1">window-total-height</span>) <span class="pl-c1">3</span>)))
+    (<span class="pl-c1">split-window-vertically</span> (<span class="pl-k">-</span> height))
+    (<span class="pl-c1">other-window</span> <span class="pl-c1">1</span>)
+    (<span class="pl-c1">eshell</span> <span class="pl-s"><span class="pl-pds">"</span>new<span class="pl-pds">"</span></span>)
+    (<span class="pl-c1">insert</span> (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span>ls<span class="pl-pds">"</span></span>))
+    (<span class="pl-c1">eshell-send-input</span>)))
+
+(bind-key <span class="pl-s"><span class="pl-pds">"</span>C-!<span class="pl-pds">"</span></span> <span class="pl-c1">'eshell-here</span>)</pre></div>
+<p>Used to <code>C-d</code> exiting from a shell? Want it to keep working, but still
+  allow deleting a character? We can have it both (thanks to <a href="https://github.com/wasamasa/dotemacs/blob/master/init.org#eshell">wasamasa</a>):</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-c1">use-package</span> eshell
+  <span class="pl-c1">:config</span>
+  (<span class="pl-k">defun</span> <span class="pl-e">ha/eshell-quit-or-delete-char</span> (<span class="pl-v">arg</span>)
+    (<span class="pl-k">interactive</span> <span class="pl-s"><span class="pl-pds">"</span>p<span class="pl-pds">"</span></span>)
+    (<span class="pl-k">if</span> (<span class="pl-k">and</span> (<span class="pl-c1">eolp</span>) (<span class="pl-c1">looking-back</span> eshell-prompt-regexp))
+        (<span class="pl-k">progn</span>
+          (<span class="pl-c1">eshell-life-is-too-much</span>) <span class="pl-c"><span class="pl-c">;</span> Why not? (eshell/exit)</span>
+          (<span class="pl-c1">ignore-errors</span>
+            (<span class="pl-c1">delete-window</span>)))
+      (<span class="pl-c1">delete-forward-char</span> arg)))
+  <span class="pl-c1">:init</span>
+  (<span class="pl-c1">add-hook</span> <span class="pl-c1">'eshell-mode-hook</span>
+            (<span class="pl-k">lambda</span> ()
+              (bind-keys <span class="pl-c1">:map</span> eshell-mode-map
+                         (<span class="pl-s"><span class="pl-pds">"</span>C-d<span class="pl-pds">"</span></span> <span class="pl-k">.</span> ha/eshell-quit-or-delete-char)))))</pre></div>
+<h2><a id="user-content-shell-there" class="anchor" aria-hidden="true" href="#shell-there"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Shell There</h2>
+<p>Would be nice to be able to run an eshell session and use Tramp to
+  connect to the remote host in one fell swoop:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell-there</span> (<span class="pl-v">host</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Creates an eshell session that uses Tramp to automatically</span>
+<span class="pl-s">connect to a remote system, HOST.  The hostname can be either the</span>
+<span class="pl-s">IP address, or FQDN, and can specify the user account, as in</span>
+<span class="pl-s">root@blah.com. HOST can also be a complete Tramp reference.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span> <span class="pl-s"><span class="pl-pds">"</span>sHost: <span class="pl-pds">"</span></span>)
+
+  (<span class="pl-k">let*</span> ((<span class="pl-c1">default-directory</span>
+           (<span class="pl-k">cond</span>
+            ((<span class="pl-c1">string-match-p</span> <span class="pl-s"><span class="pl-pds">"</span>^/<span class="pl-pds">"</span></span> host) host)
+
+            ((<span class="pl-c1">string-match-p</span> (ha/eshell-host-regexp <span class="pl-c1">'full</span>) host)
+             (<span class="pl-c1">string-match</span> (ha/eshell-host-regexp <span class="pl-c1">'full</span>) host) <span class="pl-c"><span class="pl-c">;</span>; Why!?</span>
+             (<span class="pl-k">let*</span> ((user1 (<span class="pl-c1">match-string</span> <span class="pl-c1">2</span> host))
+                    (host1 (<span class="pl-c1">match-string</span> <span class="pl-c1">3</span> host))
+                    (user2 (<span class="pl-c1">match-string</span> <span class="pl-c1">6</span> host))
+                    (host2 (<span class="pl-c1">match-string</span> <span class="pl-c1">7</span> host)))
+               (<span class="pl-k">if</span> host1
+                   (ha/eshell-host-&gt;tramp user1 host1)
+                 (ha/eshell-host-&gt;tramp user2 host2))))
+
+            (<span class="pl-c1">t</span> (<span class="pl-c1">format</span> <span class="pl-pds">"</span><span class="pl-s">/<span class="pl-c1">%s</span>:</span><span class="pl-pds">"</span> host)))))
+    (eshell-here)))</pre></div>
+<p>Note that this function uses functions defined below.</p>
+<h2><a id="user-content-shell-here-to-there" class="anchor" aria-hidden="true" href="#shell-here-to-there"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Shell Here to There</h2>
+<p>Since I have Org files that contains tables of system to remotely
+  connect to, I figured I should have a little function that can jump
+  to a host found listed anywhere on the line.</p>
+<p>The regular expression associated with IP addresses, hostnames, user
+  accounts (of the form, <code>jenkins@my.build.server</code>, or even full Tramp
+  references, is a bit…uhm, hairy.  And since I want to reuse these,
+  I will hide them in a function:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">ha/eshell-host-regexp</span> (<span class="pl-v">regexp</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Returns a particular regular expression based on symbol, REGEXP<span class="pl-pds">"</span></span>
+  (<span class="pl-k">let*</span> ((user-regexp      <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>(<span class="pl-cce">\\</span>([[:alpha:].]+<span class="pl-cce">\\</span>)@<span class="pl-cce">\\</span>)?<span class="pl-pds">"</span></span>)
+         (tramp-regexp     <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>b/ssh:[:graph:]+<span class="pl-pds">"</span></span>)
+         (ip-char          <span class="pl-s"><span class="pl-pds">"</span>[[:digit:]]<span class="pl-pds">"</span></span>)
+         (ip-plus-period   (<span class="pl-c1">concat</span> ip-char <span class="pl-s"><span class="pl-pds">"</span>+<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>.<span class="pl-pds">"</span></span>))
+         (ip-regexp        (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>(<span class="pl-cce">\\</span>(<span class="pl-pds">"</span></span> ip-plus-period <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>)<span class="pl-cce">\\</span>{3<span class="pl-cce">\\</span>}<span class="pl-pds">"</span></span> ip-char <span class="pl-s"><span class="pl-pds">"</span>+<span class="pl-cce">\\</span>)<span class="pl-pds">"</span></span>))
+         (host-char        <span class="pl-s"><span class="pl-pds">"</span>[[:alpha:][:digit:]-]<span class="pl-pds">"</span></span>)
+         (host-plus-period (<span class="pl-c1">concat</span> host-char <span class="pl-s"><span class="pl-pds">"</span>+<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>.<span class="pl-pds">"</span></span>))
+         (host-regexp      (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>(<span class="pl-cce">\\</span>(<span class="pl-pds">"</span></span> host-plus-period <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>)+<span class="pl-pds">"</span></span> host-char <span class="pl-s"><span class="pl-pds">"</span>+<span class="pl-cce">\\</span>)<span class="pl-pds">"</span></span>))
+         (horrific-regexp  (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>b<span class="pl-pds">"</span></span>
+                                   user-regexp ip-regexp
+                                   <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>|<span class="pl-pds">"</span></span>
+                                   user-regexp host-regexp
+                                   <span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>b<span class="pl-pds">"</span></span>)))
+    (<span class="pl-k">cond</span>
+     ((<span class="pl-k">eq</span> regexp <span class="pl-c1">'tramp</span>) tramp-regexp)
+     ((<span class="pl-k">eq</span> regexp <span class="pl-c1">'host</span>)  host-regexp)
+     ((<span class="pl-k">eq</span> regexp <span class="pl-c1">'full</span>)  horrific-regexp))))</pre></div>
+<p>The function to scan a line for hostname patterns uses different
+  function calls that what I could use for <code>eshell-there</code>, so let’s
+  <code>save-excursion</code> and hunt around:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">ha/eshell-scan-for-hostnames</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Helper function to scan the current line for any hostnames, IP</span>
+<span class="pl-s">or Tramp references.  This returns a tuple of the username (if</span>
+<span class="pl-s">found) and the hostname.</span>
+<span class="pl-s"></span>
+<span class="pl-s">If a Tramp reference is found, the username part of the tuple</span>
+<span class="pl-s">will be <span class="pl-smi">`nil'</span>.<span class="pl-pds">"</span></span>
+  (<span class="pl-c1">save-excursion</span>
+    (<span class="pl-c1">goto-char</span> (<span class="pl-c1">line-beginning-position</span>))
+    (<span class="pl-k">if</span> (<span class="pl-c1">search-forward-regexp</span> (ha/eshell-host-regexp <span class="pl-c1">'tramp</span>) (<span class="pl-c1">line-end-position</span>) <span class="pl-c1">t</span>)
+        (<span class="pl-k">cons</span> <span class="pl-c1">nil</span> (<span class="pl-c1">buffer-substring-no-properties</span> (<span class="pl-c1">match-beginning</span> <span class="pl-c1">0</span>) (<span class="pl-c1">match-end</span> <span class="pl-c1">0</span>)))
+
+      <span class="pl-c"><span class="pl-c">;</span>; Returns the text associated with match expression, NUM or <span class="pl-smi">`nil'</span> if no match was found.</span>
+      (<span class="pl-c1">cl-flet</span> ((ha/eshell-get-expression (num) (<span class="pl-c1">if-let</span> ((<span class="pl-c1">first</span> (<span class="pl-c1">match-beginning</span> num))
+                                                         (end   (<span class="pl-c1">match-end</span> num)))
+                                                    (<span class="pl-c1">buffer-substring-no-properties</span> first end))))
+
+        (<span class="pl-c1">search-forward-regexp</span> (ha/eshell-host-regexp <span class="pl-c1">'full</span>) (<span class="pl-c1">line-end-position</span>))
+
+        <span class="pl-c"><span class="pl-c">;</span>; Until this is completely robust, let's keep this debugging code here:</span>
+        <span class="pl-c"><span class="pl-c">;</span>; (message (mapconcat (lambda (tup) (if-let ((s (car tup))</span>
+        <span class="pl-c"><span class="pl-c">;</span>;                                       (e (cadr tup)))</span>
+        <span class="pl-c"><span class="pl-c">;</span>;                                  (buffer-substring-no-properties s e)</span>
+        <span class="pl-c"><span class="pl-c">;</span>;                                "null"))</span>
+        <span class="pl-c"><span class="pl-c">;</span>;             (-partition 2 (match-data t)) " -- "))</span>
+
+        (<span class="pl-k">let</span> ((user1 (ha/eshell-get-expression <span class="pl-c1">2</span>))
+              (host1 (ha/eshell-get-expression <span class="pl-c1">3</span>))
+              (user2 (ha/eshell-get-expression <span class="pl-c1">6</span>))
+              (host2 (ha/eshell-get-expression <span class="pl-c1">7</span>)))
+          (<span class="pl-k">if</span> host1
+              (<span class="pl-k">cons</span> user1 host1)
+            (<span class="pl-k">cons</span> user2 host2)))))))</pre></div>
+<p>Tramp reference can be long when attempting to connect as another
+  user account using the pipe symbol.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">ha/eshell-host-&gt;tramp</span> (<span class="pl-v">username</span> <span class="pl-v">hostname</span> <span class="pl-c1">&amp;optional</span> <span class="pl-v">prefer-root</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Returns a TRAMP reference based on a USERNAME and HOSTNAME</span>
+<span class="pl-s">that refers to any host or IP address.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">cond</span> ((<span class="pl-c1">string-match-p</span> <span class="pl-s"><span class="pl-pds">"</span>^/<span class="pl-pds">"</span></span> host)
+           host)
+        ((<span class="pl-k">or</span> (<span class="pl-k">and</span> prefer-root (<span class="pl-k">not</span> username)) (<span class="pl-k">equal</span> username <span class="pl-s"><span class="pl-pds">"</span>root<span class="pl-pds">"</span></span>))
+           (<span class="pl-c1">format</span> <span class="pl-pds">"</span><span class="pl-s">/ssh:<span class="pl-c1">%s</span>|sudo:<span class="pl-c1">%s</span>:</span><span class="pl-pds">"</span> hostname hostname))
+        ((<span class="pl-k">or</span> (<span class="pl-k">null</span> username) (<span class="pl-k">equal</span> username user-login-name))
+           (<span class="pl-c1">format</span> <span class="pl-pds">"</span><span class="pl-s">/ssh:<span class="pl-c1">%s</span>:</span><span class="pl-pds">"</span> hostname))
+        (<span class="pl-c1">t</span>
+           (<span class="pl-c1">format</span> <span class="pl-pds">"</span><span class="pl-s">/ssh:<span class="pl-c1">%s</span>|sudo:<span class="pl-c1">%s</span>|sudo@<span class="pl-c1">%s</span>:<span class="pl-c1">%s</span>:</span><span class="pl-pds">"</span> hostname hostname username hostname))))</pre></div>
+<p>Finally</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell-here-on-line</span> (<span class="pl-v">p</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Search the current line for an IP address or hostname, and call the <span class="pl-smi">`eshell-here'</span> function.</span>
+<span class="pl-s"></span>
+<span class="pl-s">Call with PREFIX to connect with the <span class="pl-smi">`root'</span> useraccount, via</span>
+<span class="pl-s"><span class="pl-smi">`sudo'</span>.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span> <span class="pl-s"><span class="pl-pds">"</span>p<span class="pl-pds">"</span></span>)
+  (<span class="pl-c1">destructuring-bind</span> (user host) (ha/eshell-scan-for-hostnames)
+    (<span class="pl-k">let</span> ((<span class="pl-c1">default-directory</span> (ha/eshell-host-&gt;tramp user host (<span class="pl-k">&gt;</span> p <span class="pl-c1">1</span>))))
+      (<span class="pl-c1">message</span> <span class="pl-pds">"</span><span class="pl-s">Connecting to: <span class="pl-c1">%s</span></span><span class="pl-pds">"</span> default-directory)
+      <span class="pl-c"><span class="pl-c">;</span>; With the <span class="pl-smi">`default-directory'</span> set to a Tramp reference, rock on!</span>
+      (eshell-here))))
+
+(bind-key <span class="pl-s"><span class="pl-pds">"</span>M-s-1<span class="pl-pds">"</span></span> <span class="pl-c1">#<span class="pl-c1">'eshell-here-on-line</span></span>)</pre></div>
+<h2><a id="user-content-shell-favorites" class="anchor" aria-hidden="true" href="#shell-favorites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Shell Favorites</h2>
+<p>Since the Tramp syntax is a bit verbose, a few <i>wrapper functions</i>
+  would make things easier. Also, having a list of <i>favorite hosts</i>
+  with simpler names would also be a nice feature.</p>
+<p>Since Emacs doesn’t have a memoize function, define a global
+  variable, <code>remote-shell-fav-hosts</code>, a hash that maps nicknames of
+  hosts to their IP address.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defvar</span> <span class="pl-en">remote-shell-fav-hosts</span> (<span class="pl-c1">make-hash-table</span> <span class="pl-c1">:test</span> <span class="pl-c1">'equal</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Table of host aliases for IPs or other actual references.<span class="pl-pds">"</span></span>)</pre></div>
+<p>Can we make a list of what hosts are <i>pre-known</i>? What if no hosts
+  have been defined? In this case, we want to call the function,
+  <code>remote-shell-fav-hosts-get</code> to populate it:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">remote-shell-fav-hosts-map</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Returns the mapping between our simple names of our favorite</span>
+<span class="pl-s">hosts and their IP address. If the map is empty, and the function</span>
+<span class="pl-s"><span class="pl-smi">`remote-shell-fav-hosts-get'</span> has been defined, it calls that</span>
+<span class="pl-s">function to populate the map prior to returning it. This may</span>
+<span class="pl-s">return an empty map.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">when</span> (<span class="pl-k">and</span> <span class="pl-c1">#<span class="pl-c1">'remote-shell-fav-hosts-get</span></span>
+             (<span class="pl-c1">hash-table-empty-p</span> remote-shell-fav-hosts))
+    (remote-shell-fav-hosts-get))
+  remote-shell-fav-hosts)</pre></div>
+<p>In order to populate the <code>completing-read</code>, we need a list of hosts:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">remote-shell-fav-hosts-list</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Simply returns a list of known hosts from the cached map, or</span>
+<span class="pl-s">populates it first if it is empty and the</span>
+<span class="pl-s"><span class="pl-smi">`remote-shell-fav-hosts-get'</span> function has been defined.<span class="pl-pds">"</span></span>
+  (<span class="pl-c1">hash-table-keys</span> (remote-shell-fav-hosts-map)))</pre></div>
+<p>Most remote access is done with Tramp, so this function simplifies
+  the complex Tramp string creation, mostly using an <code>sudo</code> pipe for
+  <code>root</code> access. If the <code>remote-shell-fav-hosts</code> hash is empty, we’ll
+  populate it when this is called.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">remote-shell-tramp-connection</span> (<span class="pl-v">hostname</span> <span class="pl-c1">&amp;optional</span> <span class="pl-v">root</span> <span class="pl-v">directory</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Return a TRAMP connection string to HOSTNAME. If ROOT is</span>
+<span class="pl-s">non-nil, returns an sudo compatible string.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">when</span> (<span class="pl-k">null</span> directory)
+    (<span class="pl-k">setq</span> directory <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>))
+
+  <span class="pl-c"><span class="pl-c">;</span>; The ip address is either the value from a key in our cache, or whatever we pass in:</span>
+  (<span class="pl-k">let</span> ((ipaddr (<span class="pl-c1">gethash</span> hostname (remote-shell-fav-hosts-map) hostname)))
+    (<span class="pl-k">if</span> root
+        (<span class="pl-c1">format</span> <span class="pl-pds">"</span><span class="pl-s">/ssh:<span class="pl-c1">%s</span>|sudo:<span class="pl-c1">%s</span>:<span class="pl-c1">%s</span></span><span class="pl-pds">"</span> ipaddr ipaddr directory)
+        (<span class="pl-c1">format</span> <span class="pl-pds">"</span><span class="pl-s">/ssh:<span class="pl-c1">%s</span>:<span class="pl-c1">%s</span></span><span class="pl-pds">"</span>         ipaddr directory))))</pre></div>
+<p>If the window containing the results of the shell connection or
+  shell command is the same, we can take advantage of that from
+  multiple functions, so:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">remote-shell-buffer-name</span> (<span class="pl-v">hostname</span> <span class="pl-c1">&amp;optional</span> <span class="pl-v">command-str</span> <span class="pl-v">default-name</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Returns a standard format for our remote shell command buffer</span>
+<span class="pl-s">windows based on the HOSTNAME and the COMMAND-STR. Uses</span>
+<span class="pl-s">DEFAULT-NAME if specified.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">cond</span>
+   (default-name     default-name)
+   (command-str      (<span class="pl-k">let</span> ((command (<span class="pl-k">car</span> (<span class="pl-c1">split-string</span> command-str))))
+                        (<span class="pl-c1">format</span> <span class="pl-pds">"</span><span class="pl-s">*<span class="pl-c1">%s</span>:<span class="pl-c1">%s</span>*</span><span class="pl-pds">"</span> hostname command)))
+   (<span class="pl-c1">t</span>                (<span class="pl-c1">format</span> <span class="pl-pds">"</span><span class="pl-s">*<span class="pl-c1">%s</span>*</span><span class="pl-pds">"</span> hostname))))</pre></div>
+<p>Our simple wrapper function for accessing a remote shell, should
+  use <code>ido</code> if available.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">remote-shell</span> (<span class="pl-v">hostname</span> <span class="pl-c1">&amp;optional</span> <span class="pl-v">root</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Start an shell experience on HOSTNAME, that can be an alias to</span>
+<span class="pl-s">a virtual machine from my 'cloud' server. With prefix command, opens</span>
+<span class="pl-s">the shell as the root user account.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span>
+   (<span class="pl-k">list</span> (<span class="pl-k">if</span> (<span class="pl-c1">fboundp</span> <span class="pl-c1">#<span class="pl-c1">'ido-completing-read</span></span>)
+             (<span class="pl-c1">ido-completing-read</span> <span class="pl-s"><span class="pl-pds">"</span>Hostname: <span class="pl-pds">"</span></span> (remote-shell-fav-hosts-list))
+           (<span class="pl-c1">completing-read</span> <span class="pl-s"><span class="pl-pds">"</span>Hostname: <span class="pl-pds">"</span></span> (remote-shell-fav-hosts-list)))))
+  (<span class="pl-k">when</span> (<span class="pl-k">equal</span> current-prefix-arg '(<span class="pl-c1">4</span>))
+    (<span class="pl-k">setq</span> root <span class="pl-c1">t</span>))
+  (<span class="pl-k">let</span> ((<span class="pl-c1">default-directory</span> (remote-shell-tramp-connection hostname root)))
+    (<span class="pl-c1">shell</span> (remote-shell-buffer-name hostname))))</pre></div>
+<p>With the way Emacs Lisp’s <code>interactive</code> behaves, I’m not sure how to
+  DRY this function to be a simple alias with the exception of
+  using eshell:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell-favorite</span> (<span class="pl-v">hostname</span> <span class="pl-c1">&amp;optional</span> <span class="pl-v">root</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Start an shell experience on HOSTNAME, that can be an alias to</span>
+<span class="pl-s">a virtual machine from my 'cloud' server. With prefix command, opens</span>
+<span class="pl-s">the shell as the root user account.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span>
+   (<span class="pl-k">list</span> (<span class="pl-k">if</span> (<span class="pl-c1">fboundp</span> <span class="pl-c1">#<span class="pl-c1">'ido-completing-read</span></span>)
+             (<span class="pl-c1">ido-completing-read</span> <span class="pl-s"><span class="pl-pds">"</span>Hostname: <span class="pl-pds">"</span></span> (remote-shell-fav-hosts-list))
+           (<span class="pl-c1">completing-read</span> <span class="pl-s"><span class="pl-pds">"</span>Hostname: <span class="pl-pds">"</span></span> (remote-shell-fav-hosts-list)))))
+  (<span class="pl-k">when</span> (<span class="pl-k">equal</span> current-prefix-arg '(<span class="pl-c1">4</span>))
+    (<span class="pl-k">setq</span> root <span class="pl-c1">t</span>))
+  (<span class="pl-k">let</span> ((<span class="pl-c1">default-directory</span> (remote-shell-tramp-connection hostname root)))
+    (<span class="pl-c1">eshell</span> (remote-shell-buffer-name hostname))))</pre></div>
+<p>Instead of starting a shell, what if we just ran a command using the
+  <code>shell-command</code> (so that commands that end in a <code>&amp;</code> are automatically
+  ran asynchronously.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">remote-shell-command</span> (<span class="pl-v">hostname</span> <span class="pl-v">command</span>
+                                      <span class="pl-c1">&amp;optional</span> <span class="pl-v">root</span> <span class="pl-v">bufname</span> <span class="pl-v">directory</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>On HOSTNAME, run COMMAND (if the command ends with &amp;, run</span>
+<span class="pl-s">asynchronously). With a <span class="pl-smi">`C-u'</span> prefix, run the command as ROOT.</span>
+<span class="pl-s">When non-interactive, you can specify BUFNAME for the buffer's</span>
+<span class="pl-s">name, and DIRECTORY where the command should run.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span>
+   (<span class="pl-k">list</span> (<span class="pl-k">if</span> <span class="pl-c1">#<span class="pl-c1">'ido-completing-read</span></span>
+             (<span class="pl-c1">ido-completing-read</span> <span class="pl-s"><span class="pl-pds">"</span>Hostname: <span class="pl-pds">"</span></span> (remote-shell-fav-hosts-list))
+           (<span class="pl-c1">completing-read</span> <span class="pl-s"><span class="pl-pds">"</span>Hostname: <span class="pl-pds">"</span></span> (remote-shell-fav-hosts-list)))
+         (<span class="pl-c1">read-string</span> <span class="pl-s"><span class="pl-pds">"</span>Command: <span class="pl-pds">"</span></span>)))
+  (<span class="pl-k">when</span> (<span class="pl-k">equal</span> current-prefix-arg '(<span class="pl-c1">4</span>))
+    (<span class="pl-k">setq</span> root <span class="pl-c1">t</span>))
+  (<span class="pl-k">let</span> ((<span class="pl-c1">default-directory</span> (remote-shell-tramp-connection hostname root directory)))
+    (<span class="pl-c1">shell-command</span> command (remote-shell-buffer-name hostname command bufname))))</pre></div>
+<p>With the above helper functions, we can loop over a list of machines,
+  and kick off remote work on each one:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">remote-shell-commands</span> (<span class="pl-v">clients</span> <span class="pl-v">command</span>
+                                      <span class="pl-c1">&amp;optional</span> <span class="pl-v">root</span> <span class="pl-v">async</span> <span class="pl-v">directory</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>On each host entry in CLIENTS, run the shell COMMAND,</span>
+<span class="pl-s">optionally as ROOT. If ASYNC is non-nil, appends the <span class="pl-smi">`&amp;'</span> to the</span>
+<span class="pl-s">shell command in order to run it asynchronously. Runs the command</span>
+<span class="pl-s">in the default home directory unless DIRECTORY is specified.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">if</span> async
+      (<span class="pl-k">setq</span> command (<span class="pl-c1">concat</span> command <span class="pl-s"><span class="pl-pds">"</span> &amp;<span class="pl-pds">"</span></span>)))
+  (<span class="pl-k">dolist</span> (host clients)
+    (remote-shell-command host command root <span class="pl-c1">nil</span> directory)))</pre></div>
+<p>The results of each command is stored in a separate buffer, and
+  since we know what the names are, this command will attempt to load
+  them on the side… yeah, this is a bit ugly.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">remote-shell-commands-show</span> (<span class="pl-v">clients</span> <span class="pl-v">command</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Shows each buffer of a previously executed command. For example:</span>
+<span class="pl-s"></span>
+<span class="pl-s">        (let ((my-favs '(<span class="pl-cce">\"</span>os-controller<span class="pl-cce">\"</span> <span class="pl-cce">\"</span>contrail-controller<span class="pl-cce">\"</span></span>
+<span class="pl-s">                         <span class="pl-cce">\"</span>compute<span class="pl-cce">\"</span> <span class="pl-cce">\"</span>nagios<span class="pl-cce">\"</span> <span class="pl-cce">\"</span>elk<span class="pl-cce">\"</span>))</span>
+<span class="pl-s">              (command <span class="pl-cce">\"</span>chef-client<span class="pl-cce">\"</span>))</span>
+<span class="pl-s">          (remote-shell-commands my-favs command t t)</span>
+<span class="pl-s">          (remote-shell-commands-show my-favs command))<span class="pl-pds">"</span></span>
+
+  (<span class="pl-c1">delete-other-windows</span>)
+  (<span class="pl-k">let</span> ((first-time <span class="pl-c1">t</span>))
+    (<span class="pl-k">dolist</span> (host clients)
+      (<span class="pl-k">if</span> (<span class="pl-k">not</span> first-time)
+          (<span class="pl-c1">split-window-vertically</span>)
+        (<span class="pl-c1">split-window-horizontally</span>)
+        (<span class="pl-k">setq</span> first-time <span class="pl-c1">nil</span>))
+
+      (<span class="pl-c1">other-window</span> <span class="pl-c1">1</span>)
+      (<span class="pl-c1">switch-to-buffer</span> (remote-shell-buffer-name host command))
+      (<span class="pl-c1">balance-windows</span>)
+      (<span class="pl-c1">sit-for</span> <span class="pl-c1">0.5</span>))))</pre></div>
+<p>All this work allows me to do magic:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">let</span> ((my-favs '(<span class="pl-s"><span class="pl-pds">"</span>os-controller<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>contrail-controller<span class="pl-pds">"</span></span>
+                 <span class="pl-s"><span class="pl-pds">"</span>compute<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>nagios<span class="pl-pds">"</span></span> <span class="pl-s"><span class="pl-pds">"</span>elk<span class="pl-pds">"</span></span>))
+      (command <span class="pl-s"><span class="pl-pds">"</span>chef-client<span class="pl-pds">"</span></span>))
+  (remote-shell-commands my-favs command <span class="pl-c1">t</span> <span class="pl-c1">t</span>)
+  (remote-shell-commands-show my-favs command))</pre></div>
+<p>Check out this <a href="https://www.youtube.com/watch?v=pSjrwSI4OHk" rel="nofollow">YouTube video recording</a> of this section in action.</p>
+<h1><a id="user-content-tramp" class="anchor" aria-hidden="true" href="#tramp"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Tramp</h1>
+<p>The ability to edit files on remote systems is a wonderful win,
+  since it means I don’t need to have my Emacs environment running on
+  remote machines (still a possibility, just not a requirement).</p>
+<p>According to <a href="http://www.gnu.org/software/emacs/manual/html_node/tramp/Filename-Syntax.html" rel="nofollow">the manual</a>, I can access a file over SSH, via:</p>
+<pre>/ssh:10.52.224.67:blah
+</pre>
+<p>However, if I set the default method to SSH, I can do this:</p>
+<pre>/10.52.224.67:blah
+</pre>
+<p>So, let’s do it…</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">setq</span> tramp-default-method <span class="pl-s"><span class="pl-pds">"</span>ssh<span class="pl-pds">"</span></span>)</pre></div>
+<h1><a id="user-content-better-command-line-history" class="anchor" aria-hidden="true" href="#better-command-line-history"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Better Command Line History</h1>
+<p>On <a href="http://www.reddit.com/r/emacs/comments/1zkj2d/advanced_usage_of_eshell/" rel="nofollow">this discussion</a> a little gem for using IDO to search back through
+  the history, instead of <code>M-R</code> to display the history in a selectable
+  buffer.</p>
+<p>Also, while <code>M-p</code> cycles through the history, <code>M-P</code> actually moves
+  up the history in the buffer (easier than <code>C-c p</code> and <code>C-c n</code>?):</p>
+<p>Since eshell’s history often gets confused with blank lines in the
+  output, we can fix that with a better replacement functions pegged
+  to the <code>eshell-prompt-regexp</code> string:</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">eshell-next-prompt</span> (<span class="pl-v">n</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Move to end of Nth next prompt in the buffer. See <span class="pl-smi">`eshell-prompt-regexp'</span>.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span> <span class="pl-s"><span class="pl-pds">"</span>p<span class="pl-pds">"</span></span>)
+  (<span class="pl-c1">re-search-forward</span> eshell-prompt-regexp <span class="pl-c1">nil</span> <span class="pl-c1">t</span> n)
+  (<span class="pl-k">when</span> eshell-highlight-prompt
+    (<span class="pl-k">while</span> (<span class="pl-k">not</span> (<span class="pl-c1">get-text-property</span> (<span class="pl-c1">line-beginning-position</span>) <span class="pl-c1">'read-only</span>) )
+      (<span class="pl-c1">re-search-forward</span> eshell-prompt-regexp <span class="pl-c1">nil</span> <span class="pl-c1">t</span> n)))
+  (eshell-skip-prompt))
+
+(<span class="pl-k">defun</span> <span class="pl-e">eshell-previous-prompt</span> (<span class="pl-v">n</span>)
+  <span class="pl-s"><span class="pl-pds">"</span>Move to end of Nth previous prompt in the buffer. See <span class="pl-smi">`eshell-prompt-regexp'</span>.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span> <span class="pl-s"><span class="pl-pds">"</span>p<span class="pl-pds">"</span></span>)
+  (<span class="pl-c1">backward-char</span>)
+  (eshell-next-prompt (<span class="pl-k">-</span> n)))
+
+(<span class="pl-k">defun</span> <span class="pl-e">eshell-insert-history</span> ()
+  <span class="pl-s"><span class="pl-pds">"</span>Displays the eshell history to select and insert back into your eshell.<span class="pl-pds">"</span></span>
+  (<span class="pl-k">interactive</span>)
+  (<span class="pl-c1">insert</span> (<span class="pl-c1">ido-completing-read</span> <span class="pl-s"><span class="pl-pds">"</span>Eshell history: <span class="pl-pds">"</span></span>
+                               (<span class="pl-c1">delete-dups</span>
+                                (<span class="pl-c1">ring-elements</span> eshell-history-ring)))))
+
+(<span class="pl-c1">add-hook</span> <span class="pl-c1">'eshell-mode-hook</span> (<span class="pl-k">lambda</span> ()
+    (<span class="pl-c1">define-key</span> eshell-mode-map (<span class="pl-c1">kbd</span> <span class="pl-s"><span class="pl-pds">"</span>M-S-P<span class="pl-pds">"</span></span>) <span class="pl-c1">'eshell-previous-prompt</span>)
+    (<span class="pl-c1">define-key</span> eshell-mode-map (<span class="pl-c1">kbd</span> <span class="pl-s"><span class="pl-pds">"</span>M-S-N<span class="pl-pds">"</span></span>) <span class="pl-c1">'eshell-next-prompt</span>)
+    (<span class="pl-c1">define-key</span> eshell-mode-map (<span class="pl-c1">kbd</span> <span class="pl-s"><span class="pl-pds">"</span>M-r<span class="pl-pds">"</span></span>) <span class="pl-c1">'eshell-insert-history</span>)))</pre></div>
+<h1><a id="user-content-helpers" class="anchor" aria-hidden="true" href="#helpers"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Helpers</h1>
+<p>Sometimes you just need to change something about the current file
+  you are editing…like the permissions or even execute it. Hitting
+  <code>Command-1</code> will prompt for a shell command string and then append
+  the current file to it and execute it.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-k">defun</span> <span class="pl-e">execute-command-on-file-buffer</span> (<span class="pl-v">cmd</span>)
+  (<span class="pl-k">interactive</span> <span class="pl-s"><span class="pl-pds">"</span>sCommand to execute: <span class="pl-pds">"</span></span>)
+  (<span class="pl-k">let*</span> ((file-name (<span class="pl-c1">buffer-file-name</span>))
+         (full-cmd (<span class="pl-c1">concat</span> cmd <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span> file-name)))
+    (<span class="pl-c1">shell-command</span> full-cmd)))
+
+(bind-key <span class="pl-s"><span class="pl-pds">"</span>A-1<span class="pl-pds">"</span></span> <span class="pl-c1">#<span class="pl-c1">'execute-command-on-file-buffer</span></span>)
+
+(<span class="pl-k">defun</span> <span class="pl-e">execute-command-on-file-directory</span> (<span class="pl-v">cmd</span>)
+  (<span class="pl-k">interactive</span> <span class="pl-s"><span class="pl-pds">"</span>sCommand to execute: <span class="pl-pds">"</span></span>)
+  (<span class="pl-k">let*</span> ((dir-name (<span class="pl-c1">file-name-directory</span> (<span class="pl-c1">buffer-file-name</span>)))
+         (full-cmd (<span class="pl-c1">concat</span> <span class="pl-s"><span class="pl-pds">"</span>cd <span class="pl-pds">"</span></span> dir-name <span class="pl-s"><span class="pl-pds">"</span>; <span class="pl-pds">"</span></span> cmd)))
+    (<span class="pl-c1">shell-command</span> full-cmd)))
+
+(bind-key <span class="pl-s"><span class="pl-pds">"</span>A-!<span class="pl-pds">"</span></span> <span class="pl-c1">#<span class="pl-c1">'execute-command-on-file-directory</span></span>)
+(bind-key <span class="pl-s"><span class="pl-pds">"</span>s-!<span class="pl-pds">"</span></span> <span class="pl-c1">#<span class="pl-c1">'execute-command-on-file-directory</span></span>)</pre></div>
+<p>Some prompts, shells and terminal programs that display the exit
+  code as an icon in the fringe. So can the <a href="http://projects.ryuslash.org/eshell-fringe-status/" rel="nofollow">eshell-fringe-status</a>
+  project. Seems to me, that if would be useful to rejuggle those
+  fringe markers so that the marker matched the command entered
+  (instead of seeing a red mark, and needing to scroll back in order
+  to wonder what command it was that made it). Still…</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-c1">use-package</span> eshell-fringe-status
+  <span class="pl-c1">:config</span>
+  (<span class="pl-c1">add-hook</span> <span class="pl-c1">'eshell-mode-hook</span> <span class="pl-c1">'eshell-fringe-status-mode</span>))</pre></div>
+<h1><a id="user-content-technical-artifacts" class="anchor" aria-hidden="true" href="#technical-artifacts"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Technical Artifacts</h1>
+<p>Make sure that we can simply <code>require</code> this library.</p>
+<div class="highlight highlight-source-emacs-lisp"><pre>(<span class="pl-c1">provide</span> <span class="pl-c1">'init-eshell</span>)</pre></div>
+</article>
+  </div>
+
+    </div>
+
+  
+
+  <details class="details-reset details-overlay details-overlay-dark">
+    <summary data-hotkey="l" aria-label="Jump to line" role="button"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast linejump" aria-label="Jump to line" role="dialog" aria-modal="true">
+      <!-- '"` --><!-- </textarea></xmp> --><form class="js-jump-to-line-form Box-body d-flex" action="" accept-charset="UTF-8" method="get"><input name="utf8" value="✓" type="hidden">
+        <input class="form-control flex-auto mr-3 linejump-input js-jump-to-line-field" placeholder="Jump to line…" aria-label="Jump to line" autofocus="" type="text">
+        <button type="submit" class="btn" data-close-dialog="">Go</button>
+</form>    </details-dialog>
+  </details>
+
+
+
+  </div>
+</div>
+
+    </main>
+  </div>
+  
+
+  </div>
+
+        
+<div class="footer container-lg width-full p-responsive" role="contentinfo">
+  <div class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <ul class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      <li class="mr-3 mr-lg-0">© 2019 <span title="0.75836s from unicorn-7d97f988cf-64gdr">GitHub</span>, Inc.</li>
+        <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
+        <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
+        <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
+        <li class="mr-3 mr-lg-0"><a href="https://githubstatus.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+        <li><a data-ga-click="Footer, go to help, text:help" href="https://help.github.com/">Help</a></li>
+    </ul>
+
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mx-lg-4" href="https://github.com/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+</a>
+   <ul class="list-style-none d-flex flex-wrap col-12 col-lg-5 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+        <li class="mr-3 mr-lg-0"><a data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact GitHub</a></li>
+        <li class="mr-3 mr-lg-0"><a href="https://github.com/pricing" data-ga-click="Footer, go to Pricing, text:Pricing">Pricing</a></li>
+      <li class="mr-3 mr-lg-0"><a href="https://developer.github.com/" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li class="mr-3 mr-lg-0"><a href="https://training.github.com/" data-ga-click="Footer, go to training, text:training">Training</a></li>
+        <li class="mr-3 mr-lg-0"><a href="https://github.blog/" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+        <li><a data-ga-click="Footer, go to about, text:about" href="https://github.com/about">About</a></li>
+
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+</div>
+
+
+
+  <div id="ajax-error-message" class="ajax-error-message flash flash-error">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg>
+    <button type="button" class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+    </button>
+    You can’t perform that action at this time.
+  </div>
+
+
+    <script crossorigin="anonymous" integrity="sha512-qEBqJspghwU39FWsCD5V2TII1u0TjBb+xZ/k5Evxmnqgq3vhVBH3P0eQBB1PHeffzXqzI1XqfVrk1w6VUvajNg==" type="application/javascript" src="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/compat-bootstrap-de59f54e.js"></script>
+    <script crossorigin="anonymous" integrity="sha512-K6jLH63JSiiq86pQrdTTW16tl8GbTueellzKuLIKmOUmAJ2LzgC9oTCer+j3o0rFVjK8iY4y+MEAToRuJ8DqNg==" type="application/javascript" src="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/frameworks-c90b4ee3.js"></script>
+    
+    <script crossorigin="anonymous" async="async" integrity="sha512-QfWSx1CbB34iL0Ysf4fdsRe81SdD43/moO4dt2X5RMBOK5M1efCb7jZafhMBlv5JXpJIJYgaDfuZ8TGS9kDj4g==" type="application/javascript" src="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/github-bootstrap-9cc05e7a.js"></script>
+    
+    
+    
+  <div class="js-stale-session-flash flash flash-warn flash-banner" hidden="">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 0 0 0 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 0 0 .01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg>
+    <span class="js-stale-session-flash-signed-in" hidden="">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
+    <span class="js-stale-session-flash-signed-out" hidden="">You signed out in another tab or window. <a href="">Reload</a> to refresh your session.</span>
+  </div>
+  <template id="site-details-dialog">
+  <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark hx_rsm" open="">
+    <summary role="button" aria-label="Close dialog"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast hx_rsm-dialog hx_rsm-modal">
+      <button class="Box-btn-octicon m-0 btn-octicon position-absolute right-0 top-0" type="button" aria-label="Close dialog" data-close-dialog="">
+        <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+      </button>
+      <div class="octocat-spinner my-6 js-details-dialog-spinner"></div>
+    </details-dialog>
+  </details>
+</template>
+
+  <div class="Popover js-hovercard-content position-absolute" style="display: none; outline: none;" tabindex="0">
+  <div class="Popover-message Popover-message--bottom-left Popover-message--large Box box-shadow-large" style="width:360px;">
+  </div>
+</div>
+
+  <div aria-live="polite" class="js-global-screen-reader-notice sr-only"></div>
+
+  
+
+
+<iframe src="dot-files_emacs-eshell.org%20at%20master%20%C2%B7%20howardabrams_dot-files%20%C2%B7%20GitHub_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe></body></html>

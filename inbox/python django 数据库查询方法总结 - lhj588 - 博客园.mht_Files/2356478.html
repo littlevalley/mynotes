@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head><meta charset="UTF-8"><link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADEElEQVQ4jS3OW0wXdADF8R+Jy6zpZjPXZiz1wco0J7q1Wksf8qE2ly9t3eYF+OOcMoXAUJuXdJJaQgUK3ubWQts0mXm3xAsgoX+5BKYpVn+ZBmLe8AL4//Tw7+mcnfPd2QmhVHkoJWwQTyrjsY2EYkIRYT3JZTxWSvgmkSWVEsrEQymhVHlILia5mL4lCQ2FjCqnuJnGTi7epuUmh64QOc5TGwklJJURSgn91on3L6JfIY+vY+0Z4MQVFlWRfph5lXx/LpFHO3h2M+Fb+qwXDwPWMHAtfQvY1pSAZuwlFJC0kqRVCd9/HVN+TPTbmglrePJrwjMFJC8lc0+iTK8gLKDPMgatpjpGRxf3ehhRRPr/3Kgy+n5BGLyMoStpv8ueFpLyydlH7n4mbWLJYVZV8ulBIhV8WU0cCw4TlhAG5vHRtl48MHVzXP88SqvpfURXN223uXyDa3fo6eXnC9T+ze5m+i0mDMhiRUWXtmudRizmuXwG5zFyKa+t5egFLnXQeZflBwiz2dVANMbTiwhD5lCy77qTDVcN/4ThuYxaGDcyP+6JWeTu6HG+7b7L7d0W734kpLOlivoYQ3IJKbMo2d3mYFWrF+YxJJM1O/+1/eh1gzLI2nJfw8VOja23rNj1QJ/p/HCqW92lHkPnE4bNZMGGa+pOR72a3SsljfxNnVrOnTd8FoU7Ox2ouWrrwRtqmv4xbDaV9bdUnLojZTbh5TSm5N/zW0OtuV91eP5jpiy652w0au/Rc1qaG2UX3zAxt9fZpssO1bSJxf6yesdNKWmE8RHGpLH9p99Vn4qamNVt2Ae899kdJdtb5RS1e2k6Ke/z4fLbYq31quv+MGl+rzEZhNSI+CvpTM554FhVvZM1UdmF7d7KfmhsOq/P6TXt85sKv/vTr3Wn7f+lyTt5942ewfiIeEiNMD4z8eLNrB6rtsQcOdaoqiaq8mS9E9Vn1daeceR4g4KtMW/M7TF6JhMySY0QxmUoT40k1samM3IaEzLj3s57YOrCLu8u7DI556HUCC9OZ2x6gk2NMC5D+X8Ph/iU9x/v+gAAAABJRU5ErkJggg==" rel="shortcut icon" type="image/png">
+
+<title>python django 数据库查询方法总结 - lhj588 - 博客园</title>
+<link href="blog-common.css_v_bUI.css" rel="stylesheet" type="text/css">
+<link href="bundle-darkgreentrip.css_v_xPX.css" id="MainCss" rel="stylesheet" type="text/css">
+<link href="http://www.cnblogs.com/lhj588/rss" rel="alternate" title="RSS" type="application/rss+xml">
+<link href="http://www.cnblogs.com/lhj588/rsd.xml" rel="EditURI" title="RSD" type="application/rsd+xml">
+<link href="http://www.cnblogs.com/lhj588/wlwmanifest.xml" rel="wlwmanifest" type="application/wlwmanifest+xml">
+<script src="jquery.js.htm" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'lhj588', cb_enable_mathjax=true;</script>
+<script src="blog-common.js_v_CLLi.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script src="http://mathjax.b0.upaiyun.com/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><base href="http://www.cnblogs.com/lhj588/archive/2012/02/17/"></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="http://www.cnblogs.com/lhj588/" id="lnkBlogLogo"><img alt="返回主页" id="blogLogo" src="logo.gif"></a>			
+		
+<!--done-->
+<h1><a class="headermaintitle" href="http://www.cnblogs.com/lhj588/" id="Header1_HeaderTitle">lhj588</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a class="menu" href="http://www.cnblogs.com/" id="MyLinks1_HomeLink">博客园</a></li>
+<li><a class="menu" href="http://www.cnblogs.com/lhj588/" id="MyLinks1_MyHomeLink">首页</a></li>
+<li><a class="menu" href="http://i.cnblogs.com/EditPosts.aspx?opt=1" id="MyLinks1_NewPostLink" rel="nofollow">新随笔</a></li>
+<li><a class="menu" href="http://msg.cnblogs.com/send/lhj588" id="MyLinks1_ContactLink" rel="nofollow">联系</a></li>
+<li><a class="menu" href="http://www.cnblogs.com/lhj588/rss" id="MyLinks1_Syndication">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/lhj588/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a class="menu" href="http://i.cnblogs.com/" id="MyLinks1_Admin" rel="nofollow">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔- 155&#xa0;
+文章- 8&#xa0;
+评论- 62&#xa0;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a class="postTitle2" href="2356478.html" id="cb_post_title_url">python django 数据库查询方法总结</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>&#xa0;</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">__exact 精确等于 like ‘aaa’<br>__iexact 精确等于 忽略大小写 ilike ‘aaa’<br>__contains 包含 like ‘%aaa%’<br>__icontains 包含 忽略大小写 ilike ‘%aaa%’，但是对于sqlite来说，contains的作用效果等同于icontains。<br>__gt 大于<br>__gte 大于等于<br>__lt 小于<br>__lte 小于等于<br>__in 存在于一个list范围内<br>__startswith 以…开头<br>__istartswith 以…开头 忽略大小写<br>__endswith 以…结尾<br>__iendswith 以…结尾，忽略大小写<br>__range 在…范围内<br>__year 日期字段的年份<br>__month 日期字段的月份<br>__day 日期字段的日<br>__isnull=True/False<br>__isnull=True 与 __exact=None的区别</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">class Blog(models.Model):<br>name = models.CharField(max_length=100)<br>tagline = models.TextField()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">def __unicode__(self):<br>return self.name</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">class Author(models.Model):<br>name = models.CharField(max_length=50)<br>email = models.EmailField()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">def __unicode__(self):<br>return self.name</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">class Entry(models.Model):<br>blog = models.ForeignKey(Blog)<br>headline = models.CharField(max_length=255)<br>body_text = models.TextField()<br>pub_date = models.DateTimeField()<br>authors = models.ManyToManyField(Author)</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">def __unicode__(self):<br>return self.headline</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">这是model，有blog，author，以及entry；其中entry分别与blog与author表关 联，entry与blog表是通过 外键(models.ForeignKey())相连，属于一对多的关系，即一个entry对应多个blog，entry与author是多对多的关系， 通过modles.ManyToManyField()实现。<br>一、插入数据库，用save()方法实现，如下：<br>&gt;&gt;&gt; from mysite.blog.models import Blog<br>&gt;&gt;&gt; b = Blog(name=’Beatles Blog’, tagline=’All the latest Beatles news.’)<br>&gt;&gt;&gt; b.save()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">二、更新数据库，也用save()方法实现，如下：<br>&gt;&gt; b5.name = ‘New name’<br>&gt;&gt; b5.save()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">保存外键和多对多关系的字段，如下例子：<br>更新外键字段和普通的字段一样，只要指定一个对象的正确类型。<br>&gt;&gt;&gt; cheese_blog = Blog.objects.get(name=”Cheddar Talk”)<br>&gt;&gt;&gt; entry.blog = cheese_blog<br>&gt;&gt;&gt; entry.save()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">更新多对多字段时又一点不太一样，使用add()方法添加相关联的字段的值。<br>&gt;&gt; joe = Author.objects.create(name=”Joe”)<br>&gt;&gt; entry.authors.add(joe)</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">三、检索对象</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Blog.objects</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; b = Blog(name=’Foo’, tagline=’Bar’)<br>&gt;&gt;&gt; b.objects<br>Traceback:<br>…<br>AttributeError: “Manager isn’t accessible via Blog instances.”</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">1、检索所有的对象</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; all_entries = Entry.objects.all()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">使用all()方法返回数据库中的所有对象。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">2、检索特定的对象<br>使用以下两个方法：<br>fileter(**kwargs)<br>返回一个与参数匹配的QuerySet,相当于等于(=).<br>exclude(**kwargs)<br>返回一个与参数不匹配的QuerySet,相当于不等于(!=)。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Entry.objects.filter(pub_date__year=2006)<br>不使用Entry.objects.all().filter(pub_date__year=2006),虽然也能运行，all()最好再获取所有的对象时使用。<br>上面的例子等同于的sql语句：<br>slect * from entry where pub_date_year=’2006′</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">链接过滤器：<br>&gt;&gt;&gt; Entry.objects.filter(<br>… headline__startswith=’What’<br>… ).exclude(<br>… pub_date__gte=datetime.now()<br>… ).filter(<br>… pub_date__gte=datetime(2005, 1, 1)<br>… )</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">最后返回的QuerySet是headline like ‘What%’ and put_date2005-01-01</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">另外一种方法：<br>&gt;&gt; q1 = Entry.objects.filter(headline__startswith=”What”)<br>&gt;&gt; q2 = q1.exclude(pub_date__gte=datetime.now())<br>&gt;&gt; q3 = q1.filter(pub_date__gte=datetime.now())<br>这种方法的好处是可以对q1进行重用。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">QuerySet是延迟加载<br>只在使用的时候才会去访问数据库，如下：<br>&gt;&gt;&gt; q = Entry.objects.filter(headline__startswith=”What”)<br>&gt;&gt;&gt; q = q.filter(pub_date__lte=datetime.now())<br>&gt;&gt;&gt; q = q.exclude(body_text__icontains=”food”)<br>&gt;&gt;&gt; print q<br>在print q时才会访问数据库。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">其他的QuerySet方法<br>&gt;&gt;&gt; Entry.objects.all()[:5]<br>这是查找前5个entry表里的数据</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Entry.objects.all()[5:10]<br>这是查找从第5个到第10个之间的数据。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Entry.objects.all()[:10:2]<br>这是查询从第0个开始到第10个，步长为2的数据。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Entry.objects.order_by(‘headline’)[0]<br>这是取按headline字段排序后的第一个对象。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Entry.objects.order_by(‘headline’)[0:1].get()<br>这和上面的等同的。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Entry.objects.filter(pub_date__lte=’2006-01-01′)<br>等同于SELECT * FROM blog_entry WHERE pub_date &lt;= ’2006-01-01′; &gt;&gt;&gt; Entry.objects.get(headline__exact=”Man bites dog”)<br>等同于SELECT … WHERE headline = ‘Man bites dog’;</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Blog.objects.get(id__exact=14) # Explicit form<br>&gt;&gt;&gt; Blog.objects.get(id=14) # __exact is implied<br>这两种方式是等同的，都是查找id=14的对象。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Blog.objects.get(name__iexact=”beatles blog”)<br>查找name=”beatles blog”的对象，不去饭大小写。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Entry.objects.get(headline__contains=’Lennon’)<br>等同于SELECT … WHERE headline LIKE ‘%Lennon%’;</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">startswith 等同于sql语句中的 name like ‘Lennon%’,<br>endswith等同于sql语句中的 name like ‘%Lennon’.</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Entry.objects.filter(blog__name__exact=’Beatles Blog’)<br>查找entry表中外键关系blog_name=’Beatles Blog’的Entry对象。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Blog.objects.filter(entry__headline__contains=’Lennon’)<br>查找blog表中外键关系entry表中的headline字段中包含Lennon的blog数据。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Blog.objects.filter(entry__author__name=’Lennon’)<br>查找blog表中外键关系entry表中的author字段中包含Lennon的blog数据。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Blog.objects.filter(entry__author__name__isnull=True)<br>Blog.objects.filter(entry__author__isnull=False,entry__author__name__isnull=True)<br>查询的是author_name为null的值</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Blog.objects.filter(entry__headline__contains=’Lennon’,entry__pub_date__year=2008)<br>Blog.objects.filter(entry__headline__contains=’Lennon’).filter( entry__pub_date__year=2008)<br>这两种查询在某些情况下是相同的，某些情况下是不同的。第一种是限制所有的blog数据的，而第二种情况则是第一个filter是<br>限制blog的，而第二个filter则是限制entry的</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Blog.objects.get(id__exact=14) # Explicit form<br>&gt;&gt;&gt; Blog.objects.get(id=14) # __exact is implied<br>&gt;&gt;&gt; Blog.objects.get(pk=14) # pk implies id__exact<br>等同于select * from where id=14</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; "># Get blogs entries with id 1, 4 and 7<br>&gt;&gt;&gt; Blog.objects.filter(pk__in=[1,4,7])<br>等同于select * from where id in{1,4,7}<br># Get all blog entries with id &gt; 14<br>&gt;&gt;&gt; Blog.objects.filter(pk__gt=14)<br>等同于select * from id&gt;14</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Entry.objects.filter(blog__id__exact=3) # Explicit form<br>&gt;&gt;&gt; Entry.objects.filter(blog__id=3) # __exact is implied<br>&gt;&gt;&gt; Entry.objects.filter(blog__pk=3) # __pk implies __id__exact<br>这三种情况是相同的</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; Entry.objects.filter(headline__contains=’%&#x27;)<br>等同于SELECT … WHERE headline LIKE ‘%\%%’;</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Caching and QuerySets</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; print [e.headline for e in Entry.objects.all()]<br>&gt;&gt;&gt; print [e.pub_date for e in Entry.objects.all()]<br>应改写为：<br>&gt;&gt; queryset = Poll.objects.all()<br>&gt;&gt;&gt; print [p.headline for p in queryset] # Evaluate the query set.<br>&gt;&gt;&gt; print [p.pub_date for p in queryset] # Re-use the cache from the evaluation.、<br>这样利用缓存，减少访问数据库的次数。</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">四、用Q对象实现复杂的查询</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Q(question__startswith=’Who’) | Q(question__startswith=’What’)<br>等同于WHERE question LIKE ‘Who%’ OR question LIKE ‘What%’</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Poll.objects.get(<br>Q(question__startswith=’Who’),<br>Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6))<br>)<br>等同于SELECT * from polls WHERE question LIKE ‘Who%’ AND (pub_date = ’2005-05-02′ OR pub_date = ’2005-05-06′)</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Poll.objects.get(<br>Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)),<br>question__startswith=’Who’)<br>等同于Poll.objects.get(question__startswith=’Who’, Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)))</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">五、比较对象</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; some_entry == other_entry<br>&gt;&gt;&gt; some_entry.id == other_entry.id</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">六、删除</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Entry.objects.filter(pub_date__year=2005).delete()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">b = Blog.objects.get(pk=1)<br># This will delete the Blog and all of its Entry objects.<br>b.delete()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">Entry.objects.all().delete()<br>删除所有</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">七、一次更新多个值</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; "># Update all the headlines with pub_date in 2007.<br>Entry.objects.filter(pub_date__year=2007).update(headline=’Everything is the same’)</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; b = Blog.objects.get(pk=1)<br># Change every Entry so that it belongs to this Blog.<br>&gt;&gt;&gt; Entry.objects.all().update(blog=b)</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">如果用save()方法，必须一个一个进行保存，需要对其就行遍历，如下：<br>for item in my_queryset:<br>item.save()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">关联对象</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">one-to-many<br>&gt;&gt;&gt; e = Entry.objects.get(id=2)<br>&gt;&gt;&gt; e.blog # Returns the related Blog object.</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; e = Entry.objects.get(id=2)<br>&gt;&gt;&gt; e.blog = some_blog<br>&gt;&gt;&gt; e.save()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; e = Entry.objects.get(id=2)<br>&gt;&gt;&gt; e.blog = None<br>&gt;&gt;&gt; e.save() # “UPDATE blog_entry SET blog_id = NULL …;”</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; e = Entry.objects.get(id=2)<br>&gt;&gt;&gt; print e.blog # Hits the database to retrieve the associated Blog.<br>&gt;&gt;&gt; print e.blog # Doesn’t hit the database; uses cached version.</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; e = Entry.objects.select_related().get(id=2)<br>&gt;&gt;&gt; print e.blog # Doesn’t hit the database; uses cached version.<br>&gt;&gt;&gt; print e.blog # Doesn’t hit the database; uses cached version</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; b = Blog.objects.get(id=1)<br>&gt;&gt;&gt; b.entry_set.all() # Returns all Entry objects related to Blog.</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; "># b.entry_set is a Manager that returns QuerySets.<br>&gt;&gt;&gt; b.entry_set.filter(headline__contains=’Lennon’)<br>&gt;&gt;&gt; b.entry_set.count()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">&gt;&gt;&gt; b = Blog.objects.get(id=1)<br>&gt;&gt;&gt; b.entries.all() # Returns all Entry objects related to Blog.<br># b.entries is a Manager that returns QuerySets.<br>&gt;&gt;&gt; b.entries.filter(headline__contains=’Lennon’)<br>&gt;&gt;&gt; b.entries.count()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">You cannot access a reverse ForeignKey Manager from the class; it must be accessed from an instance:<br>&gt;&gt;&gt; Blog.entry_set</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">add(obj1, obj2, …)<br>Adds the specified model objects to the related object set.<br>create(**kwargs)<br>Creates a new object, saves it and puts it in the related object set. Returns the newly created object.<br>remove(obj1, obj2, …)<br>Removes the specified model objects from the related object set.<br>clear()<br>Removes all objects from the related object set.</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">many-to-many类型：<br>e = Entry.objects.get(id=3)<br>e.authors.all() # Returns all Author objects for this Entry.<br>e.authors.count()<br>e.authors.filter(name__contains=’John’)<br>a = Author.objects.get(id=5)<br>a.entry_set.all() # Returns all Entry objects for this Author.</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">one-to-one 类型：<br>class EntryDetail(models.Model):<br>entry = models.OneToOneField(Entry)<br>details = models.TextField()</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">ed = EntryDetail.objects.get(id=2)<br>ed.entry # Returns the related Entry object</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">使用sql语句进行查询：</p><p style="margin-top: 0px; margin-right: 0px; margin-bottom: 1.375em; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-family: Cambria, Georgia, Times, serif; font-size: 16px; line-height: 24px; text-align: left; background-color: #f2f2f2; ">def my_custom_sql(self):<br>from django.db import connection<br>cursor = connection.cursor()<br>cursor.execute(“SELECT foo FROM bar WHERE baz = %s”, [self.baz])<br>row = cursor.fetchone()<br>return row</p><p>&#xa0;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/lhj588/category/382937.html">Django</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(2356478,cb_blogId,1);green_channel_success(this,&#x27;谢谢推荐！&#x27;);">好文要顶</a>
+<a href="javascript:void(0);" id="green_channel_follow" onclick="c_follow();">关注我</a>
+<a href="javascript:void(0);" id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;">收藏该文</a><a href="//msg.cnblogs.com/send/lhj588" id="green_channel_contact" target="_blank">联系我</a>
+<a href="javascript:void(0);" id="green_channel_weibo" onclick="ShareToTsina()" title="分享至新浪微博"><img alt="" src="//common.cnblogs.com/images/icon_weibo_24.png"></a>
+<a href="javascript:void(0);" id="green_channel_wechat" onclick="shareOnWechat()" title="分享至微信"><img alt="" src="//common.cnblogs.com/images/wechat.png"></a>
+</div>
+<div id="author_profile">
+<div class="author_profile_info" id="author_profile_info">
+<a href="http://home.cnblogs.com/u/lhj588/" target="_blank"><img alt="" class="author_avatar" src="u128587.png_id_04.jpg"></a>
+<div class="author_profile_info" id="author_profile_detail">
+<a href="http://home.cnblogs.com/u/lhj588/">lhj588</a><br>
+<a href="http://home.cnblogs.com/u/lhj588/followees">关注 - 7</a><br>
+<a href="http://home.cnblogs.com/u/lhj588/followers">粉丝 - 80</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(2356478,&#x27;Digg&#x27;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+	<div class="buryit" onclick="votePost(2356478,&#x27;Bury&#x27;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a class="p_n_p_prefix" href="http://www.cnblogs.com/lhj588/archive/2012/02/17/2355493.html">« </a> 上一篇：<a href="http://www.cnblogs.com/lhj588/archive/2012/02/17/2355493.html" title="发布于2012-02-17 11:24">linux查看进程和终止进程</a><br><a class="p_n_p_prefix" href="http://www.cnblogs.com/lhj588/archive/2012/02/20/2359172.html">» </a> 下一篇：<a href="http://www.cnblogs.com/lhj588/archive/2012/02/20/2359172.html" title="发布于2012-02-20 11:46">linux中Cron定时任务系统命令详解</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2012-02-17 21:52</span> <a href="http://www.cnblogs.com/lhj588/">lhj588</a> 阅读(<span id="post_view_count">3978</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=2356478" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(2356478);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=90036,cb_entryId=2356478,cb_blogApp=currentBlogApp,cb_blogUserGuid='93934771-a04e-df11-ba8f-001cf0cd104b',cb_entryCreatedDate='2012/2/17 21:52:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div class="commentform" id="comment_form">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" id="lnk_RefreshComments" onclick="return RefreshCommentList();">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a class="underline" href="javascript:void(0);" onclick="return login(&#x27;commentform&#x27;);" rel="nofollow">登录</a> 或 <a class="underline" href="javascript:void(0);" onclick="return register();" rel="nofollow">注册</a>，<a href="http://www.cnblogs.com">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="site_nav_under"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="http://www.rongcloud.cn/" target="_blank">【推荐】融云即时通讯云－专注为 App 开发者提供IM云服务</a><br></div>
+<div id="opt_under_post"></div>
+<script type="text/javascript">
+    fixPostBodyFormat();
+</script>
+<div class="c_ad_block" id="google_ad_c1"><a href="http://www.gcpowertools.com.cn/order/specialoffers.htm?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=promotion&amp;utm_campaign=community" target="_blank"><img alt="" height="250" src="24442-20151110205559353-1320016985.png" title="" width="300"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/533192/" target="_blank">蘑菇街完成D轮超2亿美元融资 平安创投领投</a><br> ·  <a href="http://news.cnblogs.com/n/533191/" target="_blank">华为推出玫瑰金智能手表并公布黑色星期五促销计划</a><br> ·  <a href="http://news.cnblogs.com/n/533190/" target="_blank">Facebook发布工作聊天软件 目前仅有Android版本</a><br> ·  <a href="http://news.cnblogs.com/n/533189/" target="_blank">麻省理工研究人员研发可用来监测心率和呼吸频率的传感器</a><br> ·  <a href="http://news.cnblogs.com/n/533188/" target="_blank">埃隆·马斯克惊喜现身《生活大爆炸》</a><br>» <a href="http://news.cnblogs.com/" target="_blank" title="IT新闻">更多新闻...</a></div></div>
+<div class="c_ad_block" id="google_ad_c2"><a href="http://e.jikexueyuan.com/html5.html?hmsr=cnb_banner_html5_09.14" target="_blank"><img alt="" height="60" src="24442-20150914101329570-406117032.jpg" title="" width="468"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/532236/" target="_blank">被误解的MVC和被神化的MVVM</a><br> ·  <a href="http://kb.cnblogs.com/page/530046/" target="_blank">再谈设计和编码</a><br> ·  <a href="http://kb.cnblogs.com/page/531270/" target="_blank">什么时候应该避免写代码注释？</a><br> ·  <a href="http://kb.cnblogs.com/page/529677/" target="_blank">持续集成是什么？</a><br> ·  <a href="http://kb.cnblogs.com/page/530389/" target="_blank">人，技术与流程</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div class="c_ad_block" id="HistoryToday"></div>
+<script type="text/javascript">
+$(function () {
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 200);
+});
+</script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/lhj588/">lhj588</a><br>园龄：<a href="http://home.cnblogs.com/u/lhj588/" title="入园时间：2010-04-23">5年6个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/lhj588/followers/">80</a><br>关注：<a href="http://home.cnblogs.com/u/lhj588/followees/">7</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#x27;93934771-a04e-df11-ba8f-001cf0cd104b&#x27;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table cellpadding="0" cellspacing="0" class="Cal" id="blogCalendar" title="Calendar">
+	<tbody><tr><td colspan="7"><table cellspacing="0" class="CalTitle">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#x27;2012/01/01&#x27;);return false;">&lt;</a></td><td align="center">2012年2月</td><td align="right" class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#x27;2012/03/01&#x27;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th abbr="日" align="center" class="CalDayHeader" scope="col">日</th><th abbr="一" align="center" class="CalDayHeader" scope="col">一</th><th abbr="二" align="center" class="CalDayHeader" scope="col">二</th><th abbr="三" align="center" class="CalDayHeader" scope="col">三</th><th abbr="四" align="center" class="CalDayHeader" scope="col">四</th><th abbr="五" align="center" class="CalDayHeader" scope="col">五</th><th abbr="六" align="center" class="CalDayHeader" scope="col">六</th></tr><tr><td align="center" class="CalOtherMonthDay">29</td><td align="center" class="CalOtherMonthDay">30</td><td align="center" class="CalOtherMonthDay">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center" class="CalWeekendDay">4</td></tr><tr><td align="center" class="CalWeekendDay">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center" class="CalWeekendDay">11</td></tr><tr><td align="center" class="CalWeekendDay">12</td><td align="center">13</td><td align="center">14</td><td align="center"><a href="http://www.cnblogs.com/lhj588/archive/2012/02/15.html"><u>15</u></a></td><td align="center">16</td><td align="center"><a href="http://www.cnblogs.com/lhj588/archive/2012/02/17.html"><u>17</u></a></td><td align="center" class="CalWeekendDay">18</td></tr><tr><td align="center" class="CalWeekendDay">19</td><td align="center"><a href="http://www.cnblogs.com/lhj588/archive/2012/02/20.html"><u>20</u></a></td><td align="center"><a href="http://www.cnblogs.com/lhj588/archive/2012/02/21.html"><u>21</u></a></td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center" class="CalWeekendDay">25</td></tr><tr><td align="center" class="CalWeekendDay">26</td><td align="center">27</td><td align="center">28</td><td align="center"><a href="http://www.cnblogs.com/lhj588/archive/2012/02/29.html"><u>29</u></a></td><td align="center" class="CalOtherMonthDay">1</td><td align="center" class="CalOtherMonthDay">2</td><td align="center" class="CalOtherMonthDay">3</td></tr><tr><td align="center" class="CalOtherMonthDay">4</td><td align="center" class="CalOtherMonthDay">5</td><td align="center" class="CalOtherMonthDay">6</td><td align="center" class="CalOtherMonthDay">7</td><td align="center" class="CalOtherMonthDay">8</td><td align="center" class="CalOtherMonthDay">9</td><td align="center" class="CalOtherMonthDay">10</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div class="sidebar-block" id="sidebar_search">
+<div class="mySearch" id="sidebar_search">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div class="div_my_zzk" id="widget_my_zzk"><input class="input_my_zzk" id="q" onkeydown="return zzk_go_enter(event);" type="text" value="">&#xa0;<input class="btn_my_zzk" id="btnZzk" onclick="zzk_go()" type="button" value="找找看"></div>
+<div class="div_my_zzk" id="widget_my_google"><input class="input_my_zzk" id="google_q" name="google_q" onkeydown="return google_go_enter(event)" type="text" value="">&#xa0;<input class="btn_my_zzk" onclick="google_go()" type="button" value="谷歌搜索"></div>
+</div>
+</div>
+
+</div><div class="sidebar-block" id="sidebar_shortcut">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/lhj588/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/lhj588/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/lhj588/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/lhj588/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/lhj588/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a href="#" id="itemListLink" onclick="this.blur();WarpClass(&#x27;itemListLink&#x27;, &#x27;itemListLin_con&#x27;);return false;">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div class="sidebar-block" id="sidebar_recentposts">
+<div class="catListEssay">
+<h3 class="catListTitle">最新随笔</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/lhj588/p/4802916.html">1. discuz 使用阿里云OSS</a></li><li><a href="http://www.cnblogs.com/lhj588/p/4614740.html">2. MySQL 编写递归查询函数</a></li><li><a href="http://www.cnblogs.com/lhj588/p/4344366.html">3. Nginx负载均衡 后端服务器怎么共享Session 问题</a></li><li><a href="http://www.cnblogs.com/lhj588/p/4344354.html">4. nginx做反向代理负载均衡 Java怎么获取后端服务器获取用户IP</a></li><li><a href="http://www.cnblogs.com/lhj588/p/4334162.html">5. liunx CentOS 升级Python版本</a></li><li><a href="http://www.cnblogs.com/lhj588/p/4301234.html">6. 修改nginx服务器类型</a></li><li><a href="http://www.cnblogs.com/lhj588/p/4245719.html">7. Mysql  如何设置字段自动获取当前时间</a></li><li><a href="http://www.cnblogs.com/lhj588/articles/4211460.html">8. xmemcached spring 配置文件</a></li><li><a href="http://www.cnblogs.com/lhj588/p/4154251.html">9. 如何利用OCS缓存TomcatSession全局变量（转）</a></li><li><a href="http://www.cnblogs.com/lhj588/p/3805285.html">10. CDN技术分享</a></li>
+</ul>
+</div>
+</div><div class="sidebar-block" id="sidebar_toptags">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/lhj588/tag/Python%20GUI/">Python GUI</a>(2)</li><li><a href="http://www.cnblogs.com/lhj588/tag/php/">php</a>(2)</li><li><a href="http://www.cnblogs.com/lhj588/tag/SQL%E4%BC%98%E5%8C%96/">SQL优化</a>(1)</li><li><a href="http://www.cnblogs.com/lhj588/tag/Jquery/">Jquery</a>(1)</li><li><a href="http://www.cnblogs.com/lhj588/tag/Lucene/">Lucene</a>(1)</li><li><a href="http://www.cnblogs.com/lhj588/tag/pyQt4/">pyQt4</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostCategory sidebar-block" id="sidebar_postcategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(57)</span></h3>
+
+<ul>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/382937.html" id="CatList_LinkList_0_Link_0">Django(11)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/490412.html" id="CatList_LinkList_0_Link_1">IOS(1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/438656.html" id="CatList_LinkList_0_Link_2">Java(12)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/382938.html" id="CatList_LinkList_0_Link_3">Linux(9)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/438655.html" id="CatList_LinkList_0_Link_4">mybatis(1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/386142.html" id="CatList_LinkList_0_Link_5">MySql(10)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/332315.html" id="CatList_LinkList_0_Link_6">NET Error</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/383900.html" id="CatList_LinkList_0_Link_7">Python(7)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/332314.html" id="CatList_LinkList_0_Link_8">python Error(2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/441363.html" id="CatList_LinkList_0_Link_9">Quartz(1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/383231.html" id="CatList_LinkList_0_Link_10">Ruby(2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/403337.html" id="CatList_LinkList_0_Link_11">SQL Server(1)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive sidebar-block" id="sidebar_postarchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(155)</span></h3>
+
+<ul>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2015/09.html" id="CatList_LinkList_1_Link_0">2015年9月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2015/07.html" id="CatList_LinkList_1_Link_1">2015年7月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2015/03.html" id="CatList_LinkList_1_Link_2">2015年3月 (3)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2015/02.html" id="CatList_LinkList_1_Link_3">2015年2月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2015/01.html" id="CatList_LinkList_1_Link_4">2015年1月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2014/12.html" id="CatList_LinkList_1_Link_5">2014年12月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2014/06.html" id="CatList_LinkList_1_Link_6">2014年6月 (5)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2014/03.html" id="CatList_LinkList_1_Link_7">2014年3月 (8)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2014/02.html" id="CatList_LinkList_1_Link_8">2014年2月 (3)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2014/01.html" id="CatList_LinkList_1_Link_9">2014年1月 (4)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/10.html" id="CatList_LinkList_1_Link_10">2013年10月 (2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/09.html" id="CatList_LinkList_1_Link_11">2013年9月 (2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/08.html" id="CatList_LinkList_1_Link_12">2013年8月 (5)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/07.html" id="CatList_LinkList_1_Link_13">2013年7月 (2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/06.html" id="CatList_LinkList_1_Link_14">2013年6月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/05.html" id="CatList_LinkList_1_Link_15">2013年5月 (4)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/04.html" id="CatList_LinkList_1_Link_16">2013年4月 (3)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/03.html" id="CatList_LinkList_1_Link_17">2013年3月 (7)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/02.html" id="CatList_LinkList_1_Link_18">2013年2月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2013/01.html" id="CatList_LinkList_1_Link_19">2013年1月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/12.html" id="CatList_LinkList_1_Link_20">2012年12月 (2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/11.html" id="CatList_LinkList_1_Link_21">2012年11月 (6)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/10.html" id="CatList_LinkList_1_Link_22">2012年10月 (9)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/08.html" id="CatList_LinkList_1_Link_23">2012年8月 (5)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/07.html" id="CatList_LinkList_1_Link_24">2012年7月 (5)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/06.html" id="CatList_LinkList_1_Link_25">2012年6月 (3)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/05.html" id="CatList_LinkList_1_Link_26">2012年5月 (22)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/04.html" id="CatList_LinkList_1_Link_27">2012年4月 (6)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/03.html" id="CatList_LinkList_1_Link_28">2012年3月 (14)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/02.html" id="CatList_LinkList_1_Link_29">2012年2月 (6)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2012/01.html" id="CatList_LinkList_1_Link_30">2012年1月 (2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2011/12.html" id="CatList_LinkList_1_Link_31">2011年12月 (2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2011/11.html" id="CatList_LinkList_1_Link_32">2011年11月 (10)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2011/10.html" id="CatList_LinkList_1_Link_33">2011年10月 (2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archive/2011/06.html" id="CatList_LinkList_1_Link_34">2011年6月 (5)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListArticleCategory sidebar-block" id="sidebar_articlecategory">
+<h3 class="catListTitle">文章分类</h3>
+
+<ul>
+
+<li><a href="http://www.cnblogs.com/lhj588/category/331764.html" id="CatList_LinkList_2_Link_0">Django Web</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListArticleArchive sidebar-block" id="sidebar_articlearchive">
+<h3 class="catListTitle">文章档案<span style="font-size:11px;font-weight:normal">(6)</span></h3>
+
+<ul>
+
+<li><a href="http://www.cnblogs.com/lhj588/archives/2015/01.html" id="CatList_LinkList_3_Link_0" rel="nofollow">2015年1月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archives/2014/06.html" id="CatList_LinkList_3_Link_1" rel="nofollow">2014年6月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archives/2014/04.html" id="CatList_LinkList_3_Link_2" rel="nofollow">2014年4月 (2)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archives/2011/10.html" id="CatList_LinkList_3_Link_3" rel="nofollow">2011年10月 (1)</a> </li>
+
+<li><a href="http://www.cnblogs.com/lhj588/archives/2011/09.html" id="CatList_LinkList_3_Link_4" rel="nofollow">2011年9月 (1)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div class="sidebar-block" id="sidebar_scorerank">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	159276
+	</li>
+	<li class="liRank">
+		排名 -	996
+	</li>
+</ul>
+</div>
+
+
+</div><div class="sidebar-block" id="sidebar_recentcomments"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/lhj588/archive/2012/07/06/2579188.html#3275102">1. Re:用 HttpServletResponseWrapper 实现 Etag 过滤器</a></li>
+    <li class="recent_comment_body">有才</li>
+    <li class="recent_comment_author">--NewSea</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/lhj588/archive/2012/04/23/2466653.html#3268657">2. Re:python datetime处理时间</a></li>
+    <li class="recent_comment_body">灰常感谢</li>
+    <li class="recent_comment_author">--GoingMyWay</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/lhj588/p/3315876.html#3213373">3. Re:Mysql  列转行统计查询  、行转列统计查询</a></li>
+    <li class="recent_comment_body">列转行那里怎么动态遍历NAME那一列啊？新手求例子，谢谢！</li>
+    <li class="recent_comment_author">--GraspTheTime</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/lhj588/archive/2011/06/20/2085549.html#3153606">4. Re:图解 PHP运行环境配置和开发环境的配置</a></li>
+    <li class="recent_comment_body">我设置Alias目录物理路径老是显示不成功怎么办</li>
+    <li class="recent_comment_author">--一洛一洛伞</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/lhj588/archive/2011/06/20/2085549.html#3153601">5. Re:图解 PHP运行环境配置和开发环境的配置</a></li>
+    <li class="recent_comment_body">为什么创建目录创建不好</li>
+    <li class="recent_comment_author">--一洛一洛伞</li>
+</ul>
+</div>
+</div>
+</div></div><div class="sidebar-block" id="sidebar_topviewedposts"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/lhj588/archive/2012/01/06/2314181.html">1. python操作Excel读写--使用xlrd(142202)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2012/04/23/2466653.html">2. python datetime处理时间(71955)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2012/02/15/2353139.html">3. CentOS 查看IP,端口 修改IP,打开端口生效(38094)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2012/05/15/2501007.html">4. linux如何查看系统信息(29584)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2011/11/09/2242483.html">5. python 解析XML xml.dom(25825)</a></li></ul></div>
+</div>
+</div></div><div class="sidebar-block" id="sidebar_topcommentedposts"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/lhj588/archive/2011/10/03/2198472.html">1. python+PyQT+Eric安装配置(13)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2011/06/20/2085549.html">2. 图解 PHP运行环境配置和开发环境的配置(7)</a></li><li><a href="http://www.cnblogs.com/lhj588/p/3805285.html">3. CDN技术分享(6)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2012/04/23/2466653.html">4. python datetime处理时间(5)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2012/01/06/2314181.html">5. python操作Excel读写--使用xlrd(5)</a></li></ul></div>
+</div>
+</div></div><div class="sidebar-block" id="sidebar_topdiggedposts"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/lhj588/archive/2012/04/23/2466653.html">1. python datetime处理时间(7)</a></li><li><a href="http://www.cnblogs.com/lhj588/p/3805285.html">2. CDN技术分享(6)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2012/01/06/2314181.html">3. python操作Excel读写--使用xlrd(6)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2013/02/06/2900937.html">4. 使用Lucene.Net实现全文检索(4)</a></li><li><a href="http://www.cnblogs.com/lhj588/archive/2011/10/03/2198472.html">5. python+PyQT+Eric安装配置(4)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2015 lhj588
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

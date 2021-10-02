@@ -1,0 +1,99 @@
+@charset "utf-8";
+
+body { font-style: normal; font-variant: normal; font-stretch: normal; font-size: 12px; font-family: ����; font-weight: normal; line-height: 150%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); }
+
+#main { margin: 0px auto; text-align: center; }
+
+span { color: red; }
+
+td { font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: ����; }
+
+.font12 { font-size: 12px; }
+
+a { text-decoration: none; font-size: 12px; }
+
+.MainBgColor { background: rgb(239, 239, 239); }
+
+.FrameBgColor { background: rgb(204, 204, 204); }
+
+.clsCommonTable { font-style: normal; font-variant: normal; font-stretch: normal; font-size: 12px; font-family: ����; font-weight: normal; line-height: 150%; }
+
+.clsCommonTR { font-style: normal; font-variant: normal; font-stretch: normal; font-size: 12px; font-family: ����; font-weight: normal; line-height: 150%; padding: 5px; }
+
+.clsCommonTD { font-style: normal; font-variant: normal; font-stretch: normal; font-size: 12px; font-family: ����; font-weight: normal; line-height: 150%; padding: 5px; }
+
+.clsCommonControl { font-style: normal; font-variant: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: ����; font-weight: normal; }
+
+.clsNote { font-style: normal; font-variant: normal; font-stretch: normal; font-size: 12px; font-family: ����; font-weight: normal; color: teal; line-height: 200%; }
+
+.clsValidator { font-style: normal; font-variant: normal; font-stretch: normal; font-size: 12px; font-family: ����; font-weight: bold; line-height: 200%; }
+
+.clsTextBoxWaterMark { font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: ����; color: gray; }
+
+.divNotice { font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: ����; line-height: 150%; color: rgb(100, 149, 237); }
+
+.TD_LineHeight150 { font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; font-family: ����; line-height: 150%; color: black; }
+
+.smartmenu, .smartmenufloaty { background: none 0px 0px repeat scroll rgb(0, 89, 130); border-top: 1px solid rgb(183, 223, 99); margin: 0px; padding: 0px; overflow: hidden; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; width: 970px; }
+
+.smartmenuie6 { height: 30px; }
+
+.smartmenu a, .smartmenufloaty a { font-family: ����, "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 14px; font-weight: bold; text-decoration: none; color: rgb(255, 255, 255); border-right: 1px dotted rgb(255, 255, 255); padding: 0px 15px; }
+
+.smartmenu .noneboder a { border-right: none; }
+
+.smartmenu a.last { border: none; }
+
+.smartmenu a:hover { color: rgb(255, 204, 0); }
+
+.smartmenu ul, .smartmenufloaty ul { margin: 0px; padding: 0px; list-style: none; }
+
+.smartmenu ul li, .smartmenufloaty li { padding: 8px 0px; float: left; }
+
+.smartmenu li ul { display: none; }
+
+.smartmenufloaty { background: transparent; position: absolute; border: none; width: auto; height: auto; left: 0px; top: 0px; z-index: 1000; }
+
+.smartmenufloaty .tip { background: url("img/floatytip.png") no-repeat; font-size: 0px; height: 20px; width: 50px; margin: 0px; overflow: hidden; display: block; }
+
+.smartmenufloaty .tipIE6 { background: url("img/floatytip.gif"); }
+
+.smartmenufloaty .padder { background: url("img/floatybg.png"); padding: 0px 8px; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+
+.smartmenufloaty .padderIE6 { background: url("img/floatybg.gif"); }
+
+.smartmenufloaty li { float: none; border-bottom: 1px dotted rgb(255, 255, 255); padding: 5px 8px; }
+
+.smartmenufloaty li.last { border: none; }
+
+.smartmenufloaty a { border: none; padding: 0px; }
+
+.smartmenufloaty a:hover { color: rgb(34, 34, 34); }
+
+.menu, .menu a { font-style: normal; font-variant: normal; font-weight: bold; font-stretch: normal; font-size: 14px; line-height: 150%; font-family: ����; color: rgb(0, 89, 130); height: auto; padding: 5px; text-align: center; }
+
+.menu a { margin-left: 22px; font-size: 20px; }
+
+.menu_current { font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: 150%; font-family: ����; height: auto; padding: 5px 5px 5px 0px; }
+
+#gonggao td { font-size: 12px; }
+
+#gonggao td a { color: rgb(0, 89, 130); }
+
+.index_ul { font-size: 12px; }
+
+.index_ul li { line-height: 2; }
+
+.trover { background-color: rgb(255, 255, 153); }
+
+#sfzh, #mm, #yzm { width: 150px; height: 17px; }
+
+.bm_table td { font-size: 12px; }
+
+.cbuttton { background-color: rgb(255, 102, 51); width: 90px; height: 25px; color: rgb(255, 255, 255); font-weight: bold; border: 0px; cursor: pointer; font-size: 16px; }
+
+.a_in0 { width: 100px; border: 1px solid rgb(204, 204, 204); height: 24px; line-height: 24px; font-size: 12px; margin-left: 5px; }
+
+.a_in2 { width: 300px; border: 1px solid rgb(204, 204, 204); height: 24px; line-height: 24px; font-size: 12px; margin-left: 5px; }
+
+.a_in1 { width: 120px; border: 1px solid rgb(204, 204, 204); height: 24px; line-height: 24px; font-size: 12px; margin-left: 5px; }

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 10:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Arduino+AS608指纹锁避坑记</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<h1 class="title">Arduino+AS608指纹锁避坑记</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgab24288">1. 关于找不到传感器的问题</a></li>
+<li><a href="#org900d5db">2. 关于内侧开门的问题</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgab24288" class="outline-2">
+<h2 id="orgab24288"><span class="section-number-2">1</span> 关于找不到传感器的问题</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+使用Arduino 连接AS608指纹模块，使用 Ardafurit fingureprint sensor library 的示例，
+下载时第一次可能出现找不到传感器的情况，大多数时候还是没有问题的，写入之后使用单
+独的电源供电，开机却总是找不到传感器（Did not find fingureprint sensor），考虑串
+口线接触不良、外部干扰等情况，我通过近50次测试，找到的原因是指纹模块还没有启动起
+来。
+</p>
+
+<p>
+AS608模块具有自己的处理器和存储设备，通过串口和Arduino 连接，它的启动需要一定时
+间，经测试大概需要5至10秒，在电脑连接下载线测试时一般情况下指纹模块已经启动好了，
+而在实际应用中直接上电的情况下，如果只做一次测试（如库中的示例程序），往往出现找
+不到模块的情况。
+</p>
+
+<p>
+解决办法是，不断测试是否成功，如果不成功则使用 resetFunc() 复位，经测试，在硬件
+没有问题的情况下，这是很可靠的。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org900d5db" class="outline-2">
+<h2 id="org900d5db"><span class="section-number-2">2</span> 关于内侧开门的问题</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+曾将开关连接到处理器上，检测按键输入再开锁，测试发现并不好用，且容易出现BUG。一
+是在主板没有加电时开关是不可用的；二是如果按键输入引脚出现脱落等情况，处理器得到
+的输入是随机的，可能出现不停自动开关的情况。
+</p>
+
+<p>
+解决办法是，将开关接到继电器的输出端。当然，有一个问题是，延时开关的效果要另外实
+现了。
+</p>
+
+<p>
+此记。
+</p>
+
+<p>
+本作品采用<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议</a> 进行许可。
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>

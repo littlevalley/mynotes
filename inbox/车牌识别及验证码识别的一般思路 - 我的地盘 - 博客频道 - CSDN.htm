@@ -1,0 +1,2631 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0054)http://blog.csdn.net/sing_sing/article/details/5938162 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET</title>
+
+<meta name="description" content="下文为车牌识别的一些思路，实现方式不是通过opencv实现的，作为思路参考一下也不错，故转帖于此。原文地址：http://www.cnblogs.com/xiaotie/archive/2009/01/15/1376677.html 一、车牌/验证码识别的普通方法 车牌、验证码识别的普通方法为：（1）       将图片灰度化与二值化（2）       去噪，然后切割成一个一个的字符（">
+<script type="text/javascript" async="" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ga.js"></script><script src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/jquery.js" type="text/javascript"></script>
+<script src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/plugins.js" type="text/javascript"></script>
+<script src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/common.js" type="text/javascript"></script>
+<link rel="Stylesheet" type="text/css" href="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/style.css">
+<link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/sing_sing/rss/list">
+<link rel="shortcut icon" href="http://blog.csdn.net/favicon.ico">
+<link type="text/css" rel="stylesheet" href="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/default.css">
+</head>
+<body>
+<script src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/pub_topnav_2011.js" type="text/javascript"></script><link rel="stylesheet" type="text/css" href="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/navtop_2012.css">
+<div class="nav_top_2011">
+<p><span style="color:red;">您还未登录！</span>|<a href="http://passport.csdn.net/account/login">登录</a>|<a href="http://passport.csdn.net/account/register">注册</a>|<a href="http://passport.csdn.net/help/faq">帮助</a></p><ul>
+<li><a href="http://www.csdn.net/" target="_blank">CSDN首页</a></li>
+<li><a href="http://news.csdn.net/" target="_blank">资讯</a></li>
+<li><a href="http://bbs.csdn.net/" target="_blank">论坛</a></li>
+<li><a href="http://blog.csdn.net/" target="_blank">博客</a></li>
+<li><a href="http://download.csdn.net/" target="_blank">下载</a></li>
+<li><a href="http://so.csdn.net/" target="_blank">搜索</a></li>
+<li class="more"><h2 id="topnav_btnmore" onclick="showNavMore(this)"><a href="javascript:void(0);">更多</a></h2>
+<ul id="topnav_hidlist">
+<li><a href="http://cto.csdn.net/" target="_blank">CTO俱乐部</a></li>
+<li><a href="http://student.csdn.net/" target="_blank">学生大本营</a></li>
+<li><a href="http://edu.csdn.net/" target="_blank">培训充电</a></li>
+<li><a href="http://mobile.csdn.net/" target="_blank">移动开发</a></li>
+<li><a href="http://sd.csdn.net/" target="_blank">软件研发</a></li>
+<li><a href="http://cloud.csdn.net/" target="_blank">云计算</a></li>
+<li><a href="http://www.programmer.com.cn/" target="_blank">程序员</a></li>
+<li><a href="http://www.iteye.com/" target="_blank">ITeye</a></li>
+<li><a href="http://tup.csdn.net/" target="_blank">TUP</a></li>
+</ul>
+</li>
+</ul>
+</div>
+
+
+<div id="container">
+<div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h1>
+                <a href="http://blog.csdn.net/sing_sing">我的地盘</a></h1>
+            <h2>CALL ME SING,STEVEN SING!!</h2>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>
+            <!--<li id="btnHome"><a href="/sing_sing"><span><img src="http://static.blog.csdn.net/images/ico_home.gif">我的首页</span></a></li>-->
+            <li id="btnContents"><a href="http://blog.csdn.net/sing_sing?viewmode=contents"><span><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ico_list.gif">目录视图</span></a></li>
+            <li id="btnView"><a href="http://blog.csdn.net/sing_sing?viewmode=list"><span><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ico_summary.gif">摘要视图</span></a></li>
+            <li id="btnRss"><a href="http://blog.csdn.net/sing_sing/rss/list"><span><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ico_rss.gif">订阅</span></a></li>
+</ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "sing_sing";
+    var blog_address = "http://blog.csdn.net/sing_sing";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = $.cookie("UserName");
+</script>
+        
+<div id="body">
+<div id="main">
+<div class="main">
+<div class="notice"> 
+
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/7568876" target="_blank"><font color="red">精创之作《雷神的微软平台安全宝典》诚邀译者 </font></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://www.mobileasiaexpo.cn/?MAECN=CSDN2" target="_blank"><font color="blue">移动业界领袖会议·上海·6.20</font></a>
+<br>
+<a href="http://blog.csdn.net/blogdevteam/article/details/7489275" target="_blank"><font color="blue">第四届云计算大会门票抢购：史上最低价，每日限5张！ </font></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://topic.csdn.net/u/20120416/10/9123faba-8474-4f2a-a0cf-a1b7d0fe5913.html" target="_blank"><font color="red">【分享季1】：网友推荐130个经典资源，分享再赠分！</font></a>
+
+</div><script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ad.js"></script>
+
+<div id="article_details" class="details">
+    <div class="article_title">
+    <span class="ico ico_type_Repost"></span>
+    <h3>
+        <span class="link_title"><a href="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET.htm">
+        车牌识别及验证码识别的一般思路
+        </a></span>
+    </h3>
+</div>
+
+        
+    <div class="article_manage">
+        <span class="link_categories">
+        分类：
+            <a href="http://blog.csdn.net/sing_sing/article/category/723012">OpenCV&amp;amp;计算机视觉</a> 
+        </span>
+    <span class="link_postdate">2010-10-13 13:32</span>
+    <span class="link_view" title="阅读次数">390人阅读</span>
+    <span class="link_comments" title="评论次数"><a href="http://blog.csdn.net/sing_sing/article/details/5938162#comments">评论</a>(0)</span>
+    <span class="link_collect"><a href="javascript:void(0);" onclick="javascript:collectArticle(&#39;车牌识别及验证码识别的一般思路&#39;,&#39;5938162&#39;);return false;" title="收藏">收藏</a></span>
+    <span class="link_report"><a href="http://blog.csdn.net/sing_sing/article/details/5938162#report" onclick="javascript:report(5938162,2);return false;" title="举报">举报</a></span>
+    
+</div>
+
+    
+<div id="article_content" class="article_content">
+    <p>下文为车牌识别的一些思路，实现方式不是通过opencv实现的，作为思路参考一下也不错，故转帖于此。</p>
+<p>原文地址：</p>
+<p>http://www.cnblogs.com/xiaotie/archive/2009/01/15/1376677.html</p>
+<p>&nbsp;</p>
+<p style="margin: 0cm 0cm 0pt 21pt; text-indent: -21pt;">一、<span style="font-family: 宋体;">车牌</span>
+/<span style="font-family: 宋体;">验证码识别的普通方法</span>
+</p>
+<p>&nbsp;</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">车牌、验证码识别的普通方法为：</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;">（1）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<span style="font-family: 宋体;">将图片灰度化与二值化</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;">（2）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<span style="font-family: 宋体;">去噪，然后切割成一个一个的字符</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;">（3）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<span style="font-family: 宋体;">提取每一个字符的特征，生成特征矢量或特征矩阵</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;">（4）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<span style="font-family: 宋体;">分类与学习。将特征矢量或特征矩阵与样本库进行比对，挑选出相似的那类样本，将这类样本的值作为输出结果。</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 21pt;">&nbsp;</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">下面借着代码，描述一下上述过程。因为更新</span>
+SVN Server<span style="font-family: 宋体;">，我以前以</span>
+bdb<span style="font-family: 宋体;">储存的代码访问不了，因此部分代码是用</span>
+Reflector<span style="font-family: 宋体;">反编译过来的，望见谅。</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 21pt;">&nbsp;</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;">（1）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<span style="font-family: 宋体;">图片的灰度化与二值化</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;">&nbsp;</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">这样做的目的是将图片的每一个象素变成</span>
+0<span style="font-family: 宋体;">或者255</span>
+<span style="font-family: 宋体;">，以便以计算。同时，也可以去除部分噪音。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">图片的灰度化与二值化的前提是</span>
+bmp<span style="font-family: 宋体;">图片，如果不是，则需要首先转换为</span>
+bmp<span style="font-family: 宋体;">图片。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">用代码说话，我的将图片灰度化的代码（算法是在网上搜到的）：</span>
+</p>
+<p style="text-indent: 21pt;">&nbsp;</p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_222008" style="display: none;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ContractedBlock.gif" alt="" width="11" height="16" align="top">
+<img id="Code_Open_Image_222008" style="display: inline;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ExpandedBlockStart.gif" alt="" width="11" height="16" align="top">
+<span id="Code_Closed_Text_222008" class="cnblogs_code_Collapse" style="display: none;">Code</span>
+<span id="Code_Open_Text_222008" style="display: inline;"><br>
+<span style="color: #008080;">1</span>
+&nbsp;<span style="color: #0000ff;">protected</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">static</span>
+<span style="color: #000000;">&nbsp;Color&nbsp;Gray(Color&nbsp;c)<br>
+</span>
+<span style="color: #008080;">2</span>
+&nbsp;<span style="color: #000000;">{<br>
+</span>
+<span style="color: #008080;">3</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;rgb&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;Convert.ToInt32((</span>
+<span style="color: #0000ff;">double</span>
+<span style="color: #000000;">)&nbsp;(((</span>
+<span style="color: #800080;">0.3</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #000000;">*</span>
+<span style="color: #000000;">&nbsp;c.R)&nbsp;</span>
+<span style="color: #000000;">+</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #800080;">0.59</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #000000;">*</span>
+<span style="color: #000000;">&nbsp;c.G))&nbsp;</span>
+<span style="color: #000000;">+</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #800080;">0.11</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #000000;">*</span>
+<span style="color: #000000;">&nbsp;c.B)));<br>
+</span>
+<span style="color: #008080;">4</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;Color.FromArgb(rgb,&nbsp;rgb,&nbsp;rgb);<br>
+</span>
+<span style="color: #008080;">5</span>
+&nbsp;<span style="color: #000000;">}<br>
+</span>
+<span style="color: #008080;">6</span>
+&nbsp;</span>
+</div>
+<p>&nbsp;</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">通过将图片灰度化，每一个象素就变成了一个</span>
+0-255<span style="font-family: 宋体;">的灰度值。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">然后是将灰度值二值化为</span>
+ 0 <span style="font-family: 宋体;">或</span>
+255<span style="font-family: 宋体;">。一般的处理方法是设定一个区间，比如，</span>
+[a,b]<span style="font-family: 宋体;">，将</span>
+[a,b]<span style="font-family: 宋体;">之间的灰度全部变成</span>
+255<span style="font-family: 宋体;">，其它的变成</span>
+0<span style="font-family: 宋体;">。这里我采用的是网上广为流行的自适应二值化算法。</span>
+</p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_222051" style="display: none;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ContractedBlock.gif" alt="" width="11" height="16" align="top">
+<img id="Code_Open_Image_222051" style="display: inline;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ExpandedBlockStart.gif" alt="" width="11" height="16" align="top">
+<span id="Code_Closed_Text_222051" class="cnblogs_code_Collapse" style="display: none;">Code</span>
+<span id="Code_Open_Text_222051" style="display: inline;"><br>
+<span style="color: #008080;">&nbsp;1</span>
+&nbsp;<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">static</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">void</span>
+<span style="color: #000000;">&nbsp;Binarizate(Bitmap&nbsp;map)<br>
+</span>
+<span style="color: #008080;">&nbsp;2</span>
+&nbsp;<span style="color: #000000;">{<br>
+</span>
+<span style="color: #008080;">&nbsp;3</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;tv&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;ComputeThresholdValue(map);<br>
+</span>
+<span style="color: #008080;">&nbsp;4</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;x&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;map.Width;<br>
+</span>
+<span style="color: #008080;">&nbsp;5</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;y&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;map.Height;<br>
+</span>
+<span style="color: #008080;">&nbsp;6</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;i&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;i&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;x;&nbsp;i</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">&nbsp;7</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">&nbsp;8</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;j&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;j&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;y;&nbsp;j</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">&nbsp;9</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">10</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(map.GetPixel(i,&nbsp;j).R&nbsp;</span>
+<span style="color: #000000;">&gt;=</span>
+<span style="color: #000000;">&nbsp;tv)<br>
+</span>
+<span style="color: #008080;">11</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">12</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.SetPixel(i,&nbsp;j,&nbsp;Color.FromArgb(</span>
+<span style="color: #800080;">0xff</span>
+<span style="color: #000000;">,&nbsp;</span>
+<span style="color: #800080;">0xff</span>
+<span style="color: #000000;">,&nbsp;</span>
+<span style="color: #800080;">0xff</span>
+<span style="color: #000000;">));<br>
+</span>
+<span style="color: #008080;">13</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">14</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">else</span>
+<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">15</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">16</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;map.SetPixel(i,&nbsp;j,&nbsp;Color.FromArgb(</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">,&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">,&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">));<br>
+</span>
+<span style="color: #008080;">17</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">18</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">19</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">20</span>
+&nbsp;<span style="color: #000000;">}<br>
+</span>
+<span style="color: #008080;">21</span>
+&nbsp;<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">22</span>
+&nbsp;<span style="color: #0000ff;">private</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">static</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;ComputeThresholdValue(Bitmap&nbsp;img)<br>
+</span>
+<span style="color: #008080;">23</span>
+&nbsp;<span style="color: #000000;">{<br>
+</span>
+<span style="color: #008080;">24</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;i;<br>
+</span>
+<span style="color: #008080;">25</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;k;<br>
+</span>
+<span style="color: #008080;">26</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">double</span>
+<span style="color: #000000;">&nbsp;csum;<br>
+</span>
+<span style="color: #008080;">27</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;thresholdValue&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">1</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">28</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">[]&nbsp;ihist&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">[</span>
+<span style="color: #800080;">0x100</span>
+<span style="color: #000000;">];<br>
+</span>
+<span style="color: #008080;">29</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(i&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;i&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0x100</span>
+<span style="color: #000000;">;&nbsp;i</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">30</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">31</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ihist[i]&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">32</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">33</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;gmin&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0xff</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">34</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;gmax&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">35</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(i&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">1</span>
+<span style="color: #000000;">;&nbsp;i&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;(img.Width&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">1</span>
+<span style="color: #000000;">);&nbsp;i</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">36</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">37</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;j&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">1</span>
+<span style="color: #000000;">;&nbsp;j&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;(img.Height&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">1</span>
+<span style="color: #000000;">);&nbsp;j</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">38</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">39</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;cn&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;img.GetPixel(i,&nbsp;j).R;<br>
+</span>
+<span style="color: #008080;">40</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ihist[cn]</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">41</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(cn&nbsp;</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;gmax)<br>
+</span>
+<span style="color: #008080;">42</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">43</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gmax&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;cn;<br>
+</span>
+<span style="color: #008080;">44</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">45</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(cn&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;gmin)<br>
+</span>
+<span style="color: #008080;">46</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">47</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gmin&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;cn;<br>
+</span>
+<span style="color: #008080;">48</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">49</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">50</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">51</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">double</span>
+<span style="color: #000000;">&nbsp;sum&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;csum&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0.0</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">52</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;n&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">53</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(k&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;k&nbsp;</span>
+<span style="color: #000000;">&lt;=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0xff</span>
+<span style="color: #000000;">;&nbsp;k</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">54</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">55</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum&nbsp;</span>
+<span style="color: #000000;">+=</span>
+<span style="color: #000000;">&nbsp;k&nbsp;</span>
+<span style="color: #000000;">*</span>
+<span style="color: #000000;">&nbsp;ihist[k];<br>
+</span>
+<span style="color: #008080;">56</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;</span>
+<span style="color: #000000;">+=</span>
+<span style="color: #000000;">&nbsp;ihist[k];<br>
+</span>
+<span style="color: #008080;">57</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">58</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(n&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">59</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">60</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">60</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">61</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">62</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">double</span>
+<span style="color: #000000;">&nbsp;fmax&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #800080;">1.0</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">63</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;n1&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">64</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(k&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;k&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0xff</span>
+<span style="color: #000000;">;&nbsp;k</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">65</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">66</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n1&nbsp;</span>
+<span style="color: #000000;">+=</span>
+<span style="color: #000000;">&nbsp;ihist[k];<br>
+</span>
+<span style="color: #008080;">67</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(n1&nbsp;</span>
+<span style="color: #000000;">!=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">68</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">69</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;n2&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;n&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;n1;<br>
+</span>
+<span style="color: #008080;">70</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(n2&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">71</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">72</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;thresholdValue;<br>
+</span>
+<span style="color: #008080;">73</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">74</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;csum&nbsp;</span>
+<span style="color: #000000;">+=</span>
+<span style="color: #000000;">&nbsp;k&nbsp;</span>
+<span style="color: #000000;">*</span>
+<span style="color: #000000;">&nbsp;ihist[k];<br>
+</span>
+<span style="color: #008080;">75</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">double</span>
+<span style="color: #000000;">&nbsp;m1&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;csum&nbsp;</span>
+<span style="color: #000000;">/</span>
+<span style="color: #000000;">&nbsp;((</span>
+<span style="color: #0000ff;">double</span>
+<span style="color: #000000;">)&nbsp;n1);<br>
+</span>
+<span style="color: #008080;">76</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">double</span>
+<span style="color: #000000;">&nbsp;m2&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;(sum&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;csum)&nbsp;</span>
+<span style="color: #000000;">/</span>
+<span style="color: #000000;">&nbsp;((</span>
+<span style="color: #0000ff;">double</span>
+<span style="color: #000000;">)&nbsp;n2);<br>
+</span>
+<span style="color: #008080;">77</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">double</span>
+<span style="color: #000000;">&nbsp;sb&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;((n1&nbsp;</span>
+<span style="color: #000000;">*</span>
+<span style="color: #000000;">&nbsp;n2)&nbsp;</span>
+<span style="color: #000000;">*</span>
+<span style="color: #000000;">&nbsp;(m1&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;m2))&nbsp;</span>
+<span style="color: #000000;">*</span>
+<span style="color: #000000;">&nbsp;(m1&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;m2);<br>
+</span>
+<span style="color: #008080;">78</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(sb&nbsp;</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;fmax)<br>
+</span>
+<span style="color: #008080;">79</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">80</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fmax&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;sb;<br>
+</span>
+<span style="color: #008080;">81</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thresholdValue&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;k;<br>
+</span>
+<span style="color: #008080;">82</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">83</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">84</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">85</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;thresholdValue;<br>
+</span>
+<span style="color: #008080;">86</span>
+&nbsp;<span style="color: #000000;">}&nbsp;<br>
+</span>
+<span style="color: #008080;">87</span>
+&nbsp;<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">88</span>
+&nbsp;</span>
+</div>
+<p>&nbsp;</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-family: 宋体;">灰度化与二值化之前的图片：</span>
+</p>
+<p align="center"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/20080604115835.jpg" border="0" alt="" width="192" height="46">
+</p>
+<p><span style="font-family: 宋体;">灰度化与二值化之后的图片：</span>
+</p>
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/20080603084649.jpg" border="0" alt="" width="192" height="46">
+</span>
+</p>
+<p><span style="font-family: 宋体;">&nbsp;</span>
+</p>
+<p><span style="font-family: 宋体;">注：对于车牌识别来说，这个算法还不错。对于验证码识别，可能需要针对特定的网站设计特殊的二值化算法，以过滤杂色。</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;">（2）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<span style="font-family: 宋体;">去噪，然后切割成一个一个的字符</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;">&nbsp;</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">上面这张车牌切割是比较简单的，从左到右扫描一下，碰见空大的，咔嚓一刀，就解决了。但有一些车牌，比如这张：</span>
+</p>
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/20080603082403.jpg" border="0" alt="" width="192" height="46">
+</span>
+</p>
+<p align="center"><span style="font-family: 宋体;">&nbsp;</span>
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family: 宋体;">简单的扫描就解决不了。因此需要一个比较通用的去噪和切割算法。</span>
+<span style="font-family: 宋体;">这里我采用的是比较朴素的方法：</span>
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family: 宋体;">将上面的图片看成是一个平面。将图片向水平方向投影，这样有字的地方的投影值就高，没字的地方投影得到的值就低。这样会得到一根曲线，像一个又一个山头。下面是我手画示意图：</span>
+</p>
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/X向投影.jpg" border="0" alt="" width="528" height="184">
+</span>
+</p>
+<p><span style="font-family: 宋体;">&nbsp;</span>
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family: 宋体;">然后，用一根扫描线（上图中的</span>
+S<span style="font-family: 宋体;">）从下向上扫描。这个扫描线会与图中曲线存在交点，这些交点会将山头分割成一个又一个区域。车牌图片一般是</span>
+7<span style="font-family: 宋体;">个字符，因此，当扫描线将山头分割成七个区域时停止。然后根据这七个区域向水平线的投影的坐标就可以将图片中的七个字符分割出来。</span>
+</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-family: 宋体;">但是，现实是复杂的。比如，“川”字，它的水平投影是三个山头。按上面
+这种扫描方法会将它切开。因此，对于上面的切割，需要加上约束条件：每个山头有一个中心线，山头与山头的中心线的距离必需在某一个值之上，否则，则需要将
+这两个山头进行合并。加上这个约束之后，便可以有效的切割了。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">以上是水平投影。然后还需要做垂直投影与切割。这里的垂直投影与切割就一个山头，因此好处理一些。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-family: 宋体;">切割结果如下：</span>
+</p>
+<p style="text-indent: 21pt;" align="center"><span style="font-family: 宋体;"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/splitter.jpg" border="0" alt="" width="881" height="270">
+</span>
+</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-family: 宋体;">水平投影及切割代码：</span>
+</p>
+<p><span style="font-family: 宋体;">&nbsp;</span>
+</p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_223446" style="display: none;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ContractedBlock.gif" alt="" width="11" height="16" align="top">
+<img id="Code_Open_Image_223446" style="display: inline;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ExpandedBlockStart.gif" alt="" width="11" height="16" align="top">
+<span id="Code_Closed_Text_223446" class="cnblogs_code_Collapse" style="display: none;">Code</span>
+<span id="Code_Open_Text_223446" style="display: inline;"><br>
+<span style="color: #008080;">&nbsp;1</span>
+&nbsp;<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">static</span>
+<span style="color: #000000;">&nbsp;IList</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">Bitmap</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;Split(Bitmap&nbsp;map,&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;count)<br>
+</span>
+<span style="color: #008080;">&nbsp;2</span>
+&nbsp;<span style="color: #000000;">{<br>
+</span>
+<span style="color: #008080;">&nbsp;3</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(count&nbsp;</span>
+<span style="color: #000000;">&lt;=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">&nbsp;4</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">&nbsp;5</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">throw</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;ArgumentOutOfRangeException(</span>
+<span style="color: #800000;">"</span>
+<span style="color: #800000;">Count&nbsp;必须大于0.</span>
+<span style="color: #800000;">"</span>
+<span style="color: #000000;">);<br>
+</span>
+<span style="color: #008080;">&nbsp;6</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">&nbsp;7</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;IList</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">Bitmap</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;resultList&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;List</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">Bitmap</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">();<br>
+</span>
+<span style="color: #008080;">&nbsp;8</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;x&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;map.Width;<br>
+</span>
+<span style="color: #008080;">&nbsp;9</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;y&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;map.Height;<br>
+</span>
+<span style="color: #008080;">10</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;splitBitmapMinWidth&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">4</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">11</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">[]&nbsp;xNormal&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">[x];<br>
+</span>
+<span style="color: #008080;">12</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;i&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;i&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;x;&nbsp;i</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">13</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">14</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;j&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;j&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;y;&nbsp;j</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">15</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">16</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(map.GetPixel(i,&nbsp;j).R&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;CharGrayValue)<br>
+</span>
+<span style="color: #008080;">17</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">18</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xNormal[i]</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">19</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">20</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">21</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">22</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;Pair&nbsp;pair&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;Pair();<br>
+</span>
+<span style="color: #008080;">23</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;i&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;i&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;y;&nbsp;i</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">24</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">25</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IList</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">Pair</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;pairList&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;List</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">Pair</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">(count&nbsp;</span>
+<span style="color: #000000;">+</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">1</span>
+<span style="color: #000000;">);<br>
+</span>
+<span style="color: #008080;">26</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;j&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;j&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;x;&nbsp;j</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">27</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">28</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(xNormal[j]&nbsp;</span>
+<span style="color: #000000;">&gt;=</span>
+<span style="color: #000000;">&nbsp;i)<br>
+</span>
+<span style="color: #008080;">29</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">30</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;((j&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;(x&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">1</span>
+<span style="color: #000000;">))&nbsp;</span>
+<span style="color: #000000;">&amp;&amp;</span>
+<span style="color: #000000;">&nbsp;(pair.Status&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;PairStatus.Start))<br>
+</span>
+<span style="color: #008080;">31</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">32</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pair.End&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;j;<br>
+</span>
+<span style="color: #008080;">33</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pair.Status&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;PairStatus.End;<br>
+</span>
+<span style="color: #008080;">34</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;((pair.End&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;pair.Start)&nbsp;</span>
+<span style="color: #000000;">&gt;=</span>
+<span style="color: #000000;">&nbsp;splitBitmapMinWidth)<br>
+</span>
+<span style="color: #008080;">35</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">36</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pairList.Add(pair);<br>
+</span>
+<span style="color: #008080;">37</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">38</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pair&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;Pair();<br>
+</span>
+<span style="color: #008080;">39</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">40</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">else</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(pair.Status&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;PairStatus.JustCreated)<br>
+</span>
+<span style="color: #008080;">41</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">42</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pair.Start&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;j;<br>
+</span>
+<span style="color: #008080;">43</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pair.Status&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;PairStatus.Start;<br>
+</span>
+<span style="color: #008080;">44</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">45</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">46</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">else</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(pair.Status&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;PairStatus.Start)<br>
+</span>
+<span style="color: #008080;">47</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">48</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pair.End&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;j;<br>
+</span>
+<span style="color: #008080;">49</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pair.Status&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;PairStatus.End;<br>
+</span>
+<span style="color: #008080;">50</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;((pair.End&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;pair.Start)&nbsp;</span>
+<span style="color: #000000;">&gt;=</span>
+<span style="color: #000000;">&nbsp;splitBitmapMinWidth)<br>
+</span>
+<span style="color: #008080;">51</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">52</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pairList.Add(pair);<br>
+</span>
+<span style="color: #008080;">53</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">54</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pair&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;Pair();<br>
+</span>
+<span style="color: #008080;">55</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">56</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(pairList.Count&nbsp;</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;count)<br>
+</span>
+<span style="color: #008080;">57</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">58</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">break</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">59</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">60</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">61</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(pairList.Count&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;count)<br>
+</span>
+<span style="color: #008080;">62</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">63</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">foreach</span>
+<span style="color: #000000;">&nbsp;(Pair&nbsp;p&nbsp;</span>
+<span style="color: #0000ff;">in</span>
+<span style="color: #000000;">&nbsp;pairList)<br>
+</span>
+<span style="color: #008080;">64</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">65</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(p.Width&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;(map.Width&nbsp;</span>
+<span style="color: #000000;">/</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">10</span>
+<span style="color: #000000;">))<br>
+</span>
+<span style="color: #008080;">66</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">67</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;width&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;(map.Width&nbsp;</span>
+<span style="color: #000000;">/</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">10</span>
+<span style="color: #000000;">)&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;p.Width;<br>
+</span>
+<span style="color: #008080;">68</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.Start&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;Math.Max(</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">,&nbsp;p.Start&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;(width&nbsp;</span>
+<span style="color: #000000;">/</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">2</span>
+<span style="color: #000000;">));<br>
+</span>
+<span style="color: #008080;">69</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p.End&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;Math.Min((</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">)&nbsp;(p.End&nbsp;</span>
+<span style="color: #000000;">+</span>
+<span style="color: #000000;">&nbsp;(width&nbsp;</span>
+<span style="color: #000000;">/</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">2</span>
+<span style="color: #000000;">)),&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">)&nbsp;(map.Width&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">1</span>
+<span style="color: #000000;">));<br>
+</span>
+<span style="color: #008080;">70</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">71</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">72</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">foreach</span>
+<span style="color: #000000;">&nbsp;(Pair&nbsp;p&nbsp;</span>
+<span style="color: #0000ff;">in</span>
+<span style="color: #000000;">&nbsp;pairList)<br>
+</span>
+<span style="color: #008080;">73</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">74</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;newMapWidth&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;(p.End&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;p.Start)&nbsp;</span>
+<span style="color: #000000;">+</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">1</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">75</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bitmap&nbsp;newMap&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;Bitmap(newMapWidth,&nbsp;y);<br>
+</span>
+<span style="color: #008080;">76</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;ni&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;p.Start;&nbsp;ni&nbsp;</span>
+<span style="color: #000000;">&lt;=</span>
+<span style="color: #000000;">&nbsp;p.End;&nbsp;ni</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">77</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">78</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;nj&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;nj&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;y;&nbsp;nj</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">79</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">80</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newMap.SetPixel(ni&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;p.Start,&nbsp;nj,&nbsp;map.GetPixel(ni,&nbsp;nj));<br>
+</span>
+<span style="color: #008080;">81</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">82</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">83</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;resultList.Add(newMap);<br>
+</span>
+<span style="color: #008080;">84</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">85</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;resultList;<br>
+</span>
+<span style="color: #008080;">86</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">87</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">88</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;resultList;<br>
+</span>
+<span style="color: #008080;">89</span>
+&nbsp;<span style="color: #000000;">}<br>
+</span>
+<span style="color: #008080;">90</span>
+&nbsp;</span>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-family: 宋体;">代码中的</span>
+ Pair,<span style="font-family: 宋体;">代表扫描线与曲线的一对交点：</span>
+</p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_223519" style="display: none;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ContractedBlock.gif" alt="" width="11" height="16" align="top">
+<img id="Code_Open_Image_223519" style="display: inline;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ExpandedBlockStart.gif" alt="" width="11" height="16" align="top">
+<span id="Code_Closed_Text_223519" class="cnblogs_code_Collapse" style="display: none;">Code</span>
+<span id="Code_Open_Text_223519" style="display: inline;"><br>
+<span style="color: #008080;">&nbsp;1</span>
+&nbsp;<span style="color: #0000ff;">private</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">class</span>
+<span style="color: #000000;">&nbsp;Pair<br>
+</span>
+<span style="color: #008080;">&nbsp;2</span>
+&nbsp;<span style="color: #000000;">{<br>
+</span>
+<span style="color: #008080;">&nbsp;3</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;Pair();<br>
+</span>
+<span style="color: #008080;">&nbsp;4</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;CharPixelCount&nbsp;{&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">get</span>
+<span style="color: #000000;">;&nbsp;</span>
+<span style="color: #0000ff;">set</span>
+<span style="color: #000000;">;&nbsp;}<br>
+</span>
+<span style="color: #008080;">&nbsp;5</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;CharPixelXDensity&nbsp;{&nbsp;</span>
+<span style="color: #0000ff;">get</span>
+<span style="color: #000000;">;&nbsp;}<br>
+</span>
+<span style="color: #008080;">&nbsp;6</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;End&nbsp;{&nbsp;</span>
+<span style="color: #0000ff;">get</span>
+<span style="color: #000000;">;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">set</span>
+<span style="color: #000000;">;&nbsp;}<br>
+</span>
+<span style="color: #008080;">&nbsp;7</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;Start&nbsp;{&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">get</span>
+<span style="color: #000000;">;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">set</span>
+<span style="color: #000000;">;&nbsp;}<br>
+</span>
+<span style="color: #008080;">&nbsp;8</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;BitmapConverter.PairStatus&nbsp;Status&nbsp;{&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">get</span>
+<span style="color: #000000;">;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">set</span>
+<span style="color: #000000;">;&nbsp;}<br>
+</span>
+<span style="color: #008080;">&nbsp;9</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;Width&nbsp;{&nbsp;</span>
+<span style="color: #0000ff;">get</span>
+<span style="color: #000000;">;&nbsp;}<br>
+</span>
+<span style="color: #008080;">10</span>
+&nbsp;<span style="color: #000000;">}<br>
+</span>
+<span style="color: #008080;">11</span>
+&nbsp;</span>
+</div>
+<p><span style="font-family: 宋体;">&nbsp;</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">PairStatus</span>
+<span style="font-size: 10pt; font-family: 宋体;">代表</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">Pair</span>
+<span style="font-size: 10pt; font-family: 宋体;">的状态。具体哪个状态是什么意义，我已经忘了。</span>
+</p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_223540" style="display: none;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ContractedBlock.gif" alt="" width="11" height="16" align="top">
+<img id="Code_Open_Image_223540" style="display: inline;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ExpandedBlockStart.gif" alt="" width="11" height="16" align="top">
+<span id="Code_Closed_Text_223540" class="cnblogs_code_Collapse" style="display: none;">Code</span>
+<span id="Code_Open_Text_223540" style="display: inline;"><br>
+<span style="color: #008080;">1</span>
+&nbsp;<span style="color: #0000ff;">private</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">enum</span>
+<span style="color: #000000;">&nbsp;PairStatus<br>
+</span>
+<span style="color: #008080;">2</span>
+&nbsp;<span style="color: #000000;">{<br>
+</span>
+<span style="color: #008080;">3</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;JustCreated,<br>
+</span>
+<span style="color: #008080;">4</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;Start,<br>
+</span>
+<span style="color: #008080;">5</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;End<br>
+</span>
+<span style="color: #008080;">6</span>
+&nbsp;<span style="color: #000000;">}<br>
+</span>
+<span style="color: #008080;">7</span>
+&nbsp;</span>
+</div>
+<p>&nbsp;</p>
+<p><span style="font-size: 10pt; font-family: 宋体;">以上这一段代码写的很辛苦，因为要处理很多特殊情况。那个</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">PairStatus </span>
+<span style="font-size: 10pt; font-family: 宋体;">也是为处理特殊情况引进的。</span>
+</p>
+<p><span style="font-size: 10pt; font-family: 宋体;">垂直投影与切割的代码简单一些，不贴了，见附后的</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">dll</span>
+<span style="font-size: 10pt; font-family: 宋体;">的</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">BitmapConverter.TrimHeight</span>
+<span style="font-size: 10pt; font-family: 宋体;">方法。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; font-family: 宋体;">以上用到的是朴素的去噪与切割方法。有些图片，尤其是验证码图片，需要特别的去噪处理。具体操作方法就是，打开</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">CxImage</span>
+<span style="font-size: 10pt; font-family: 宋体;">（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;"><a href="http://www.codeproject.com/KB/graphics/cximage.aspx">http://www.codeproject.com/KB/graphics/cximage.aspx</a>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">），或者</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Paint.Net</span>
+<span style="font-size: 10pt; font-family: 宋体;">，用上面的那些图片处理方法，看看能否有效去噪。记住自己的操作步骤，然后翻他们的源代码，将其中的算法提取出来。还有什么细化啊，滤波啊，这些处理可以提高图片的质量。具体可参考</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">ITK</span>
+<span style="font-size: 10pt; font-family: 宋体;">的代码或图像处理书籍。</span>
+</p>
+<p style="text-indent: 21pt;">&nbsp;</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;">（3）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+<span style="font-family: 宋体;">提取每一个字符的特征，生成特征矢量或特征矩阵</span>
+</p>
+<p>&nbsp;</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; font-family: 宋体;">将切割出来的字符，分割成一个一个的小块，比如</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">3</span>
+<span style="font-size: 10pt; font-family: 宋体;">×</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">3</span>
+<span style="font-size: 10pt; font-family: 宋体;">，</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">5</span>
+<span style="font-size: 10pt; font-family: 宋体;">×</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">5</span>
+<span style="font-size: 10pt; font-family: 宋体;">，或</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">3</span>
+<span style="font-size: 10pt; font-family: 宋体;">×</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">5</span>
+<span style="font-size: 10pt; font-family: 宋体;">，或</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">10</span>
+<span style="font-size: 10pt; font-family: 宋体;">×</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">8</span>
+<span style="font-size: 10pt; font-family: 宋体;">，然后统计一下每小块的值为</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">255</span>
+<span style="font-size: 10pt; font-family: 宋体;">的像素数量，这样得到一个矩阵</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">M</span>
+<span style="font-size: 10pt; font-family: 宋体;">，或者将这个矩阵简化为矢量</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V</span>
+<span style="font-size: 10pt; font-family: 宋体;">。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; font-family: 宋体;">通过以上</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">3</span>
+<span style="font-size: 10pt; font-family: 宋体;">步，就可以将一个车牌中的字符数值化为矢量了。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; font-family: 宋体;">（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">1</span>
+<span style="font-size: 10pt; font-family: 宋体;">）</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">-</span>
+<span style="font-size: 10pt; font-family: 宋体;">（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">3</span>
+<span style="font-size: 10pt; font-family: 宋体;">）步具体的代码流程如下：</span>
+</p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_223611" style="display: none;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ContractedBlock.gif" alt="" width="11" height="16" align="top">
+<img id="Code_Open_Image_223611" style="display: inline;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ExpandedBlockStart.gif" alt="" width="11" height="16" align="top">
+<span id="Code_Closed_Text_223611" class="cnblogs_code_Collapse" style="display: none;">Code</span>
+<span id="Code_Open_Text_223611" style="display: inline;"><br>
+<span style="color: #008080;">&nbsp;1</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/dot.gif" alt="">
+<br>
+</span>
+<span style="color: #008080;">&nbsp;2</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BitmapConverter.ToGrayBmp(bitmap);&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #008000;">//</span>
+<span style="color: #008000;">&nbsp;图片灰度化</span>
+<span style="color: #008000;"><br>
+</span>
+<span style="color: #008080;">&nbsp;3</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BitmapConverter.Binarizate(bitmap);&nbsp;</span>
+<span style="color: #008000;">//</span>
+<span style="color: #008000;">&nbsp;图片二值化</span>
+<span style="color: #008000;"><br>
+</span>
+<span style="color: #008080;">&nbsp;4</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IList</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">Bitmap</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;mapList&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;BitmapConverter.Split(bitmap,&nbsp;DefaultCharsCount);&nbsp;</span>
+<span style="color: #008000;">//</span>
+<span style="color: #008000;">&nbsp;水平投影然后切割</span>
+<span style="color: #008000;"><br>
+</span>
+<span style="color: #008080;">&nbsp;5</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bitmap&nbsp;map0&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;BitmapConverter.TrimHeight(mapList[</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">],&nbsp;DefaultHeightTrimThresholdValue);&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #008000;">//</span>
+<span style="color: #008000;">&nbsp;垂直投影然后切割</span>
+<span style="color: #008000;"><br>
+</span>
+<span style="color: #008080;">&nbsp;6</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageSpliter&nbsp;spliter&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;ImageSpliter(map0);<br>
+</span>
+<span style="color: #008080;">&nbsp;7</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spliter.WidthSplitCount&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;DefaultWidthSplitCount;<br>
+</span>
+<span style="color: #008080;">&nbsp;8</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spliter.HeightSplitCount&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;DefaultHeightSplitCount;<br>
+</span>
+<span style="color: #008080;">&nbsp;9</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spliter.Init();<br>
+</span>
+<span style="color: #008080;">10</span>
+&nbsp;</span>
+</div>
+<p>&nbsp;</p>
+<p align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然后，通过spliter.ValueList就可以获得 </span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Bitmap map0 </span>
+<span style="font-size: 10pt; font-family: 宋体;">的矢量表示。</span>
+</p>
+<p align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">&nbsp;&nbsp;&nbsp; （4）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp; </span>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">分类</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; font-family: 宋体;">分类的原理很简单。用</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">(Vij,Ci)</span>
+<span style="font-size: 10pt; font-family: 宋体;">表示一个样本。其中，</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Vij</span>
+<span style="font-size: 10pt; font-family: 宋体;">是样本图片经过上面过程数值化后的矢量。</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Ci</span>
+<span style="font-size: 10pt; font-family: 宋体;">是人肉眼识别这张图片，给出的结果。</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Vij</span>
+<span style="font-size: 10pt; font-family: 宋体;">表明，有多个样本，它们的数值化后的矢量不同，但是它们的结果都是</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Ci</span>
+<span style="font-size: 10pt; font-family: 宋体;">。假设待识别的图片矢量化后，得到的矢量是</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V’</span>
+<span style="font-size: 10pt; font-family: 宋体;">。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; font-family: 宋体;">直观上，我们会有这样一个思路，就是这张待识别的图片，最像样本库中的某张图片，那么我们就将它当作那张图片，将它识别为样本库中那张图片事先指定的字符。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; font-family: 宋体;">在我们眼睛里，判断一张图片和另一张图片是否相似很简单，但对于电脑来说，就很难判断了。我们前面已经将图片数值化为一个个维度一样的矢量，电脑是怎样判断一个矢量与另一个矢量相似的呢？</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; font-family: 宋体;">这里需要计算一个矢量与另一个矢量间的距离。这个距离越短，则认为这两个矢量越相似。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; font-family: 宋体;">我用</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;"> <span style="color: #2b91af;">SampleVector</span>
+&lt;T&gt; </span>
+<span style="font-size: 10pt; font-family: 宋体;">来代表矢量：</span>
+</p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_223656" style="display: none;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ContractedBlock.gif" alt="" width="11" height="16" align="top">
+<img id="Code_Open_Image_223656" style="display: inline;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ExpandedBlockStart.gif" alt="" width="11" height="16" align="top">
+<span id="Code_Closed_Text_223656" class="cnblogs_code_Collapse" style="display: none;">Code</span>
+<span id="Code_Open_Text_223656" style="display: inline;"><br>
+<span style="color: #008080;">1</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">class</span>
+<span style="color: #000000;">&nbsp;SampleVector</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">T</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">2</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">3</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">protected</span>
+<span style="color: #000000;">&nbsp;T[]&nbsp;Vector&nbsp;{&nbsp;</span>
+<span style="color: #0000ff;">get</span>
+<span style="color: #000000;">;&nbsp;</span>
+<span style="color: #0000ff;">set</span>
+<span style="color: #000000;">;&nbsp;}<br>
+</span>
+<span style="color: #008080;">4</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;Int32&nbsp;Dimension&nbsp;{&nbsp;</span>
+<span style="color: #0000ff;">get</span>
+<span style="color: #000000;">&nbsp;{&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;Vector.Length;&nbsp;}&nbsp;}<br>
+</span>
+<span style="color: #008080;">5</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;……<br>
+</span>
+<span style="color: #008080;">6</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">7</span>
+&nbsp;</span>
+</div>
+<p>&nbsp;</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 21pt;"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">T</span>
+<span style="font-size: 10pt; font-family: 宋体;">代表数据类型，可以为</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">Int32</span>
+<span style="font-size: 10pt; font-family: 宋体;">，也可以为</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">Double</span>
+<span style="font-size: 10pt; font-family: 宋体;">等更精确的类型。</span>
+</p>
+<p style="text-indent: 21pt;"><span style="font-size: 10pt; color: #2b91af; font-family: 宋体;">测量距离的公共接口为：</span>
+<span style="font-size: 10pt; color: #2b91af; font-family: &#39;Courier New&#39;;">IMetric</span>
+</p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_223720" style="display: none;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ContractedBlock.gif" alt="" width="11" height="16" align="top">
+<img id="Code_Open_Image_223720" style="display: inline;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ExpandedBlockStart.gif" alt="" width="11" height="16" align="top">
+<span id="Code_Closed_Text_223720" class="cnblogs_code_Collapse" style="display: none;">Code</span>
+<span id="Code_Open_Text_223720" style="display: inline;"><br>
+<span style="color: #008080;">1</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">interface</span>
+<span style="color: #000000;">&nbsp;IMetric</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement,TReturn</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">2</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">3</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TReturn&nbsp;Compute(SampleVector</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;v1,&nbsp;SampleVector</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;v2);<br>
+</span>
+<span style="color: #008080;">4</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">5</span>
+&nbsp;</span>
+</div>
+<p>&nbsp;</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-align: left;" align="left"><span style="font-size: 10pt; font-family: 宋体;">常用的是</span>
+<span style="font-size: 10pt; color: #2b91af; font-family: &#39;Courier New&#39;;" lang="EN-US">MinkowskiMetric</span>
+<span style="font-size: 10pt; color: #2b91af; font-family: 宋体;">。</span>
+</p>
+<p>&nbsp;</p>
+<div class="cnblogs_code"><img id="Code_Closed_Image_223756" style="display: none;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ContractedBlock.gif" alt="" width="11" height="16" align="top">
+<img id="Code_Open_Image_223756" style="display: inline;" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ExpandedBlockStart.gif" alt="" width="11" height="16" align="top">
+<span id="Code_Closed_Text_223756" class="cnblogs_code_Collapse" style="display: none;">Code</span>
+<span id="Code_Open_Text_223756" style="display: inline;"><br>
+<span style="color: #008080;">&nbsp;1</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #808080;">///</span>
+<span style="color: #008000;">&nbsp;</span>
+<span style="color: #808080;">&lt;summary&gt;</span>
+<span style="color: #008000;"><br>
+</span>
+<span style="color: #008080;">&nbsp;2</span>
+&nbsp;<span style="color: #008000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #808080;">///</span>
+<span style="color: #008000;">&nbsp;Minkowski&nbsp;测度。<br>
+</span>
+<span style="color: #008080;">&nbsp;3</span>
+&nbsp;<span style="color: #008000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #808080;">///</span>
+<span style="color: #008000;">&nbsp;</span>
+<span style="color: #808080;">&lt;/summary&gt;</span>
+<span style="color: #808080;"><br>
+</span>
+<span style="color: #008080;">&nbsp;4</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">class</span>
+<span style="color: #000000;">&nbsp;MinkowskiMetric</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;:&nbsp;IMetric</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement,&nbsp;Double</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">&nbsp;5</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">&nbsp;6</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;Int32&nbsp;Scale&nbsp;{&nbsp;</span>
+<span style="color: #0000ff;">get</span>
+<span style="color: #000000;">;&nbsp;</span>
+<span style="color: #0000ff;">private</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">set</span>
+<span style="color: #000000;">;&nbsp;}<br>
+</span>
+<span style="color: #008080;">&nbsp;7</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;MinkowskiMetric(Int32&nbsp;scale)<br>
+</span>
+<span style="color: #008080;">&nbsp;8</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{&nbsp;Scale&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;scale;&nbsp;}<br>
+</span>
+<span style="color: #008080;">&nbsp;9</span>
+&nbsp;<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">10</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;Double&nbsp;Compute(SampleVector</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;v1,&nbsp;SampleVector</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;v2)<br>
+</span>
+<span style="color: #008080;">11</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">12</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(v1&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">null</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #000000;">||</span>
+<span style="color: #000000;">&nbsp;v2&nbsp;</span>
+<span style="color: #000000;">==</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">null</span>
+<span style="color: #000000;">)&nbsp;</span>
+<span style="color: #0000ff;">throw</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;ArgumentNullException();<br>
+</span>
+<span style="color: #008080;">13</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">if</span>
+<span style="color: #000000;">&nbsp;(v1.Dimension&nbsp;</span>
+<span style="color: #000000;">!=</span>
+<span style="color: #000000;">&nbsp;v2.Dimension)&nbsp;</span>
+<span style="color: #0000ff;">throw</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;ArgumentException(</span>
+<span style="color: #800000;">"</span>
+<span style="color: #800000;">v1&nbsp;和&nbsp;v2&nbsp;的维度不等.</span>
+<span style="color: #800000;">"</span>
+<span style="color: #000000;">);<br>
+</span>
+<span style="color: #008080;">14</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Double&nbsp;result&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;<br>
+</span>
+<span style="color: #008080;">15</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">for</span>
+<span style="color: #000000;">&nbsp;(</span>
+<span style="color: #0000ff;">int</span>
+<span style="color: #000000;">&nbsp;i&nbsp;</span>
+<span style="color: #000000;">=</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #800080;">0</span>
+<span style="color: #000000;">;&nbsp;i&nbsp;</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">&nbsp;v1.Dimension;&nbsp;i</span>
+<span style="color: #000000;">++</span>
+<span style="color: #000000;">)<br>
+</span>
+<span style="color: #008080;">16</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">17</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;</span>
+<span style="color: #000000;">+=</span>
+<span style="color: #000000;">&nbsp;Math.Pow(Math.Abs(Convert.ToDouble(v1[i])&nbsp;</span>
+<span style="color: #000000;">-</span>
+<span style="color: #000000;">&nbsp;Convert.ToDouble(v2[i])),&nbsp;Scale);<br>
+</span>
+<span style="color: #008080;">18</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">19</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;Math.Pow(result,&nbsp;</span>
+<span style="color: #800080;">1.0</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #000000;">/</span>
+<span style="color: #000000;">&nbsp;Scale);<br>
+</span>
+<span style="color: #008080;">20</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">21</span>
+&nbsp;<span style="color: #000000;">}<br>
+</span>
+<span style="color: #008080;">22</span>
+&nbsp;<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">23</span>
+&nbsp;<span style="color: #000000;">MetricFactory&nbsp;负责生产各种维度的MinkowskiMetric：<br>
+</span>
+<span style="color: #008080;">24</span>
+&nbsp;<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">25</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">class</span>
+<span style="color: #000000;">&nbsp;MetricFactory<br>
+</span>
+<span style="color: #008080;">26</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">27</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">static</span>
+<span style="color: #000000;">&nbsp;IMetric</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement,&nbsp;Double</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;CreateMinkowskiMetric</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">(Int32&nbsp;scale)<br>
+</span>
+<span style="color: #008080;">28</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">29</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">new</span>
+<span style="color: #000000;">&nbsp;MinkowskiMetric</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">(scale);<br>
+</span>
+<span style="color: #008080;">30</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">31</span>
+&nbsp;<span style="color: #000000;"><br>
+</span>
+<span style="color: #008080;">32</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">public</span>
+<span style="color: #000000;">&nbsp;</span>
+<span style="color: #0000ff;">static</span>
+<span style="color: #000000;">&nbsp;IMetric</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement,&nbsp;Double</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">&nbsp;CreateEuclideanMetric</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">()<br>
+</span>
+<span style="color: #008080;">33</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+</span>
+<span style="color: #008080;">34</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span style="color: #0000ff;">return</span>
+<span style="color: #000000;">&nbsp;CreateMinkowskiMetric</span>
+<span style="color: #000000;">&lt;</span>
+<span style="color: #000000;">TElement</span>
+<span style="color: #000000;">&gt;</span>
+<span style="color: #000000;">(</span>
+<span style="color: #800080;">2</span>
+<span style="color: #000000;">);<br>
+</span>
+<span style="color: #008080;">35</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">36</span>
+&nbsp;<span style="color: #000000;">&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+</span>
+<span style="color: #008080;">37</span>
+&nbsp;</span>
+</div>
+<p>&nbsp;</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">MinkowskiMetric</span>
+<span style="font-size: 10pt; font-family: 宋体;">是普遍使用的测度。但不一定是最有效的量。因为它对于矢量</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V</span>
+<span style="font-size: 10pt; font-family: 宋体;">中的每一个点都一视同仁。而在图像识别中，每一个点的重要性却并不一样，例如，</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Q</span>
+<span style="font-size: 10pt; font-family: 宋体;">和</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">O</span>
+<span style="font-size: 10pt; font-family: 宋体;">的识别，特征在下半部分，下半部分的权重应该大于上半部分。对于这些易混淆的字符，需要设计特殊的测量方法。在车牌识别中，其它易混淆的有</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">D</span>
+<span style="font-size: 10pt; font-family: 宋体;">和</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">0</span>
+<span style="font-size: 10pt; font-family: 宋体;">，</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">0</span>
+<span style="font-size: 10pt; font-family: 宋体;">和</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">O</span>
+<span style="font-size: 10pt; font-family: 宋体;">，</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">I</span>
+<span style="font-size: 10pt; font-family: 宋体;">和</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">1</span>
+<span style="font-size: 10pt; font-family: 宋体;">。</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Minkowski Metric</span>
+<span style="font-size: 10pt; font-family: 宋体;">识别这些字符，效果很差。因此，当碰到这些字符时，需要进行特别的处理。由于当时时间紧，我就只用了</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Minkowski Metric</span>
+<span style="font-size: 10pt; font-family: 宋体;">。</span>
+</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">我的代码中，只实现了哪个最近，就选哪个。更好的方案是用</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">K</span>
+<span style="font-size: 10pt; font-family: 宋体;">近邻分类器或神经网络分类器。</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">K</span>
+<span style="font-size: 10pt; font-family: 宋体;">近邻的原理是，找出和待识别的图片（矢量）距离最近的</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">K</span>
+<span style="font-size: 10pt; font-family: 宋体;">个样本，然后让这</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">K</span>
+<span style="font-size: 10pt; font-family: 宋体;">个样本使用某种规则计算（投票），这个新图片属于哪个类别（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">C</span>
+<span style="font-size: 10pt; font-family: 宋体;">）；神经网络则将测量的过程和投票判决的过程参数化，使它可以随着样本的增加而改变，是这样的一种学习机。有兴趣的可以去看《模式分类》一书的第三章和第四章。</span>
+</p>
+<p style="text-indent: 21pt;" align="left">&nbsp;</p>
+<p style="margin: 0cm 0cm 0pt 21pt; text-indent: -21pt;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">二、 </span>
+<span style="font-size: 10pt; font-family: 宋体;">变态字符的识别</span>
+</p>
+<p align="left">&nbsp;</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">有些字符变形很严重，有的字符连在一起互相交叉，有的字符被掩盖在一堆噪音海之中。对这类字符的识别需要用上特殊的手段。</span>
+</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">下面介绍几种几个经典的处理方法，这些方法都是被证实对某些问题很有效的方法：</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">（1）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp; </span>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">切线距离</span>
+ <span style="font-size: 10pt; font-family: 宋体;">（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Tangent Distance</span>
+<span style="font-size: 10pt; font-family: 宋体;">）：可用于处理字符的各种变形，</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">OCR</span>
+<span style="font-size: 10pt; font-family: 宋体;">的核心技术之一。</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">（2）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp; </span>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">霍夫变换（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Hough Transform</span>
+<span style="font-size: 10pt; font-family: 宋体;">）：对噪音极其不敏感，常用于从图片中提取各种形状。图像识别中最基本的方法之一。</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">（3）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp; </span>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">形状上下文（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Shape Context</span>
+<span style="font-size: 10pt; font-family: 宋体;">）：将特征高维化，对形变不很敏感，对噪音也不很敏感。新世纪出现的新方法。</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;" align="left">&nbsp;</p>
+<p style="margin: 0cm 0cm 0pt 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">因为这几种方法我均未编码实现过，因此只简单介绍下原理及主要应用场景。</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 21pt;" align="left">&nbsp;</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">（1）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp; </span>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">切线距离</span>
+</p>
+<p align="left">&nbsp;</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">前面介绍了</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">MinkowskiMetric</span>
+<span style="font-size: 10pt; font-family: 宋体;">。这里我们看看下面这张图：一个正写的</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">1</span>
+<span style="font-size: 10pt; font-family: 宋体;">与一个歪着的</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">1.</span>
+</p>
+<p style="text-indent: 21pt;" align="left">&nbsp;</p>
+<p align="center"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/tv01.jpg" border="0" alt="" width="110" height="42">
+</p>
+<p>&nbsp;</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">用</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">MinkowskiMetric</span>
+<span style="font-size: 10pt; font-family: 宋体;">计算的话，两者的</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">MinkowskiMetric</span>
+<span style="font-size: 10pt; font-family: 宋体;">很大。</span>
+</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">然而，在图像识别中，形状形变是常事。理论上，为了更好地识别，</span>
+<span style="font-size: 10pt; font-family: 宋体;">我们需要对每一种形变都采足够的样，这样一来，会发现样本数几乎无穷无尽，计算量越来越大。</span>
+</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">怎么办呢？那就是通过计算切线距离，来代替直接距离。切线距离比较抽象，我们将问题简化为二维空间，以便以理解。</span>
+</p>
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/tv02.jpg" border="0" alt="" width="394" height="201">
+</span>
+</p>
+<p>&nbsp;</p>
+<p><span style="font-family: 宋体;">&nbsp;</span>
+</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">上图有两条曲线。分别是两个字符经过某一形变后所产生的轨迹。</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V1</span>
+<span style="font-size: 10pt; font-family: 宋体;">和</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V2</span>
+<span style="font-size: 10pt; font-family: 宋体;">是</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">2</span>
+<span style="font-size: 10pt; font-family: 宋体;">个样本。</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V’</span>
+<span style="font-size: 10pt; font-family: 宋体;">是待识别图片。如果用样本之间的直接距离，比较哪个样本离</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V’</span>
+<span style="font-size: 10pt; font-family: 宋体;">最近，就将</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V’</span>
+<span style="font-size: 10pt; font-family: 宋体;">当作哪一类，这样的话，就要把</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V’</span>
+<span style="font-size: 10pt; font-family: 宋体;">分给</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V1</span>
+<span style="font-size: 10pt; font-family: 宋体;">了。理论上，如果我们无限取样的话，下面那一条曲线上的某个样本离</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V’</span>
+<span style="font-size: 10pt; font-family: 宋体;">最近，<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V’</span>
+应该归类为V2。不过，无限取样不现实，于是就引出了切线距离：在样本</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V1</span>
+<span style="font-size: 10pt; font-family: 宋体;">，</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V2</span>
+<span style="font-size: 10pt; font-family: 宋体;">处做切线，然后计算</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">V’</span>
+<span style="font-size: 10pt; font-family: 宋体;">离这两条切线的距离，哪个最近就算哪一类。这样一来，每一个样本，就可以代表它附近的一个样本区域，不需要海量的样本，也能有效的计算不同形状间的相似性。</span>
+</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">深入了解切线距离，可参考这篇文章。</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;"><a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.32.9482">Transformation
+ invariance in pattern recognition – tangent distance and tangent 
+propagation 
+(http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.32.9482)</a>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">这篇文章。</span>
+</p>
+<p style="text-indent: 21pt;" align="left">&nbsp;</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">（2）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp; </span>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">霍夫变换</span>
+</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;" align="left">&nbsp;</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">霍夫变换出自</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">1962</span>
+<span style="font-size: 10pt; font-family: 宋体;">年的一篇专利。它的原理非常简单：就是坐标变换的问题。</span>
+</p>
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/hf_02.jpg" border="0" alt="" width="592" height="286">
+</span>
+</p>
+<p><span style="font-family: 宋体;">&nbsp;</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 21pt; text-align: left;" align="left"><span style="font-size: 10pt; font-family: 宋体;">如，上图中左图中的直线，对应着有图中</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">k-b</span>
+<span style="font-size: 10pt; font-family: 宋体;">坐标系中的一个点。通过坐标变换，可以将直线的识别转换为点的识别。点的识别就比直线识别简单的多。为了避免无限大无限小问题，常用的是如下变换公式：</span>
+</p>
+<p>&nbsp;</p>
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/hf03.png" border="0" alt="" width="222" height="50">
+</span>
+</p>
+<p>&nbsp;</p>
+<p>
+<span style="font-family: 宋体;">
+</span></p><p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">下面这张图是</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">wikipedia</span>
+<span style="font-size: 10pt; font-family: 宋体;">上一张霍夫变换的示意图。左图中的两条直线变换后正对应着右图中的两个亮点。</span>
+</p>
+
+<p></p>
+&nbsp;
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ht01.png" border="0" alt="" width="800" height="409">
+</span>
+</p>
+<p><span style="font-family: 宋体;">&nbsp;</span>
+</p>
+<p align="left">&nbsp;</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-family: 宋体;">通过霍夫变换原理可以看出，它的抗干扰性极强极强：如果直线不是连续的，是断断续续的，变换之后仍然是一个点，只是这个点的强度要低一些。如果一个直线被一个矩形遮盖住了，同样不影响识别。因为这个特征，它的应用性非常广泛。</span>
+</p>
+<p style="text-indent: 21pt;" align="left">&nbsp;</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-family: 宋体;">对于直线，圆这样容易被参数化的图像，霍夫变换是最擅长处理的。对于一般的曲线，可通过广义霍夫变换进行处理。感兴趣的可以</span>
+google<span style="font-family: 宋体;">之，全是数学公式，看的人头疼。</span>
+</p>
+<p style="text-indent: 21pt;" align="left">&nbsp;</p>
+<p style="margin: 0cm 0cm 0pt 57pt; text-indent: -36pt;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">（3）<span style="font: 7pt &#39;Times New Roman&#39;;">&nbsp;&nbsp; </span>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">形状上下文</span>
+</p>
+<p align="left">&nbsp;</p>
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/sc02.jpg" border="0" alt="" width="598" height="465">
+</span>
+</p>
+<p>
+<span style="font-family: 宋体;">
+</span></p><p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">图像中的像素点不是孤立的，每个像素点，处于一个形状背景之下，因此，在提取特征时，需要将像素点的背景也作为该像素点的特征提取出来，数值化。</span>
+</p>
+<p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">形状上下文（Shape Context，形状背景）</span>
+<span style="font-size: 10pt; font-family: 宋体;">就是这样一种方法：假定要提取像素点</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">O</span>
+<span style="font-size: 10pt; font-family: 宋体;">的特征，采用上图（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">c</span>
+<span style="font-size: 10pt; font-family: 宋体;">）中的坐标系，以</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">O</span>
+<span style="font-size: 10pt; font-family: 宋体;">点作为坐标系的圆心。这个坐标系将</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">O</span>
+<span style="font-size: 10pt; font-family: 宋体;">点的上下左右切割成了</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">12</span>
+<span style="font-size: 10pt; font-family: 宋体;">×</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">5=60</span>
+<span style="font-size: 10pt; font-family: 宋体;">小块，然后统计这</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">60</span>
+<span style="font-size: 10pt; font-family: 宋体;">小块之内的像素的特征，将其数值化为</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">12</span>
+<span style="font-size: 10pt; font-family: 宋体;">×</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">5</span>
+<span style="font-size: 10pt; font-family: 宋体;">的矩阵，上图中的（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">d</span>
+<span style="font-size: 10pt; font-family: 宋体;">），（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">e</span>
+<span style="font-size: 10pt; font-family: 宋体;">），（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">f</span>
+<span style="font-size: 10pt; font-family: 宋体;">）便分别是三个像素点的</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Shape Context</span>
+<span style="font-size: 10pt; font-family: 宋体;">数值化后的结果。如此一来，提取的每一个点的特征便包括了形状特征，加以计算，威力甚大。来看看</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Shape Context</span>
+<span style="font-size: 10pt; font-family: 宋体;">的威力：</span>
+</p>
+
+<p></p>
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/sc00.jpg" border="0" alt="" width="464" height="643">
+</span>
+</p>
+<p>
+<span style="font-family: 宋体;">
+</span></p><p style="text-indent: 21pt;" align="left"><span style="font-size: 10pt; font-family: 宋体;">上图中的验证码，对</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Shape Context</span>
+<span style="font-size: 10pt; font-family: 宋体;">来说只是小</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;">Case</span>
+<span style="font-size: 10pt; font-family: 宋体;">。</span>
+</p>
+
+<p></p>
+<p align="center"><span style="font-family: 宋体;"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/sc01.jpg" border="0" alt="" width="466" height="614">
+</span>
+</p>
+<p><span style="font-family: 宋体;">&nbsp;</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 21pt; text-align: left;" align="left"><span style="font-size: 10pt; font-family: 宋体;">看看这几张图。嘿嘿，硬是给识别出来了。</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 21pt; text-align: left;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">&nbsp;</span>
+</p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt; text-indent: 21pt; text-align: left;" align="left"><span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">Shape Context</span>
+<span style="font-size: 10pt; font-family: 宋体;">是新出现的方法，其威力到底有多大目前还未见底。这篇文章是</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">Shape context</span>
+<span style="font-size: 10pt; font-family: 宋体;">的必读文章：</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">Shape Matching and Object Recognitiom using shape contexts</span>
+<span style="font-size: 10pt; font-family: 宋体;">（</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US"><a href="http://www.cs.berkeley.edu/~malik/papers/BMP-shape.pdf">http://www.cs.berkeley.edu/~malik/papers/BMP-shape.pdf</a>
+</span>
+<span style="font-size: 10pt; font-family: 宋体;">）。</span>
+<span style="font-size: 10pt; font-family: 宋体;">最后那两张验证码识别图出自</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">Greg Mori,Jitendra Malik</span>
+<span style="font-size: 10pt; font-family: 宋体;">的《</span>
+<span style="font-size: 10pt; font-family: &#39;Courier New&#39;;" lang="EN-US">Recognizing Objects in Adversarial Clutter:Breaking a Visual CAPTCHA</span>
+<span style="font-size: 10pt; font-family: 宋体;">》一文。</span>
+</p>
+</div>
+<div class="share_buttons" id="sharePanel"><span>分享到：</span> <a name="sina" class="share_sina" title="分享到新浪微博"></a><a name="qq" class="share_qq" title="分享到腾讯微博"></a></div>
+
+<div class="article_next_prev">
+        <li class="prev_article">
+            <span>上一篇：</span><a href="http://blog.csdn.net/sing_sing/article/details/5937751"> 车牌识别之二：字符分割</a></li>
+        <li class="next_article">
+            <span>下一篇：</span><a href="http://blog.csdn.net/sing_sing/article/details/5941063">车牌识别之一：车牌定位【实践篇】</a></li>
+</div>
+
+
+</div>
+<div id="ad_cen"><iframe id="ad_frm_0" frameborder="0" scrolling="no" style="border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; overflow-x: hidden; overflow-y: hidden; width: 732px; height: 105px; " src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ad(1).htm"></iframe></div>
+<script type="text/javascript">
+    new Ad(4, 'ad_cen');
+</script>
+<div id="comment_title" class="panel_head">查看评论<a name="comments"></a></div>
+<div id="comment_list"><br>&nbsp;&nbsp;暂无评论<br><br><div class="clear"></div></div>
+<div id="comment_bar"></div>
+<div id="comment_form"><div class="guest_link">您还没有登录,请<a href="http://passport.csdn.net/account/login?from=http%3A%2F%2Fblog.csdn.net%2Fsing_sing%2Farticle%2Fdetails%2F5938162">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Fsing_sing%2Farticle%2Fdetails%2F5938162">[注册]</a></div></div>
+<div class="announce">* 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+<script type="text/javascript">
+    var fileName = '5938162';
+    var commentscount = 0;
+    var islock = false
+</script>
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/comment.js"></script>
+<div id="ad_bot"><iframe id="ad_frm_1" frameborder="0" scrolling="no" style="border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; overflow-x: hidden; overflow-y: hidden; width: 732px; height: 170px; " src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ad(2).htm"></iframe></div>
+<script type="text/javascript">
+    new Ad(5, 'ad_bot');
+</script>
+<div id="report_dialog"></div>
+
+
+<div class="clear"></div>
+</div>
+</div>
+<div id="side">
+    <div class="side">
+<div id="panel_Profile" class="panel">
+    <ul class="panel_head"><span>个人资料</span></ul>
+    <ul class="panel_body profile">
+        <div id="blog_userface">
+            <a href="http://my.csdn.net/sing_sing" target="_blank">
+            <img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/1_sing_sing.jpg" title="访问我的空间" style="max-width:90%">
+            </a>
+            <br>
+            <span><a href="http://my.csdn.net/sing_sing" target="_blank">sing_sing</a></span>
+        </div>
+<div class="interact">
+<!--<a href="#" class="attented" title="已关注"></a>-->
+<a href="http://blog.csdn.net/sing_sing/article/details/5938162#" class="attent" id="span_add_follow" title="[加关注]"></a>
+<a href="http://my.csdn.net/my/letter/send/sing_sing" class="letter" title="[发私信]"></a>
+</div>
+        <div id="blog_medal">
+        <div id="bms_box"><a href="http://medal.blog.csdn.net/allmedal.aspx" target="_blank"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/holdon_s.gif" onmouseover="m_over_m(this,0)" onmouseout="m_out_m()" alt=""></a></div></div>
+        <ul id="blog_rank">
+            <li>访问：<span>30964次</span></li>
+            <li>积分：<span>794分</span></li>
+            <li>排名：<span>第9157名</span></li>
+        </ul>
+        <ul id="blog_statistics">
+            <li>原创：<span>44篇</span></li>
+            <li>转载：<span>21篇</span></li>
+            <li>译文：<span>0篇</span></li>
+            <li>评论：<span>15条</span></li>
+        </ul>
+    </ul>
+</div>
+
+<script type="text/javascript">
+var _blogger='sing_sing';
+$(document).ready(function () {
+    $('#span_add_follow').click(function () {
+        var url = "http://my.csdn.net/index.php/follow/do_follow?jsonpcallback=?";
+        $.getJSON(url, { "username": _blogger }, function (data) {
+            if (data.succ == 1) {
+                alert('关注成功！');
+                $('#span_add_follow').attr('class', 'attented').click(function () { return false; });
+            } else {
+                alert(data.msg);
+            }
+        });
+    });
+    if (getUN().toLowerCase() == _blogger.toLowerCase()) {
+        $('.interact').hide();
+    }
+});
+function getUN() {
+    var m = document.cookie.match(new RegExp("(^| )UserName=([^;]*)(;|$)"));
+    if (m) return m[2];
+    else return '';
+}
+</script>
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search" target="_blank">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字"></span>
+        <input id="btnSubmit" type="submit" value="搜索" title="search in blog">
+        <input type="hidden" name="q" id="inputQ">
+        <input type="hidden" name="t" value="blog">
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div><div id="panel_Category" class="panel">
+    <ul class="panel_head"><span>文章分类</span></ul>
+    <ul class="panel_body">
+        <li>
+        <a href="http://blog.csdn.net/sing_sing/article/category/772242">c/c++基础、技巧</a><span>(5)</span>
+        
+        </li>
+        <li>
+        <a href="http://blog.csdn.net/sing_sing/article/category/800044">Flex&amp;amp;Action Script</a><span>(4)</span>
+        
+        </li>
+        <li>
+        <a href="http://blog.csdn.net/sing_sing/article/category/821127">iOS开发</a><span>(18)</span>
+        
+        </li>
+        <li>
+        <a href="http://blog.csdn.net/sing_sing/article/category/723012">OpenCV&amp;amp;计算机视觉</a><span>(9)</span>
+        
+        </li>
+        <li>
+        <a href="http://blog.csdn.net/sing_sing/article/category/775457">其他</a><span>(2)</span>
+        
+        </li>
+        <li>
+        <a href="http://blog.csdn.net/sing_sing/article/category/741925">手机开发</a><span>(3)</span>
+        
+        </li>
+        <li>
+        <a href="http://blog.csdn.net/sing_sing/article/category/741926">流媒体编程</a><span>(0)</span>
+        
+        </li>
+        <li>
+        <a href="http://blog.csdn.net/sing_sing/article/category/902558">Flex&amp;Action Script</a><span>(5)</span>
+        
+        </li>
+    </ul>
+</div><div id="panel_Archive" class="panel">
+    <ul class="panel_head"><span>文章存档</span></ul>
+    <ul class="panel_body">
+        <div id="archive_list"><li><a href="http://blog.csdn.net/sing_sing/article/month/2012/05">2012年05月</a>(2)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2012/04">2012年04月</a>(4)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2012/03">2012年03月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2012/02">2012年02月</a>(6)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2012/01">2012年01月</a>(1)</li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/12">2011年12月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/10">2011年10月</a>(3)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/09">2011年09月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/08">2011年08月</a>(4)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/07">2011年07月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/06">2011年06月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/05">2011年05月</a>(3)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/04">2011年04月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/03">2011年03月</a>(3)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/02">2011年02月</a>(3)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2011/01">2011年01月</a>(5)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2010/12">2010年12月</a>(2)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2010/11">2010年11月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2010/10">2010年10月</a>(8)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2010/08">2010年08月</a>(2)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2010/07">2010年07月</a>(2)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2010/06">2010年06月</a>(6)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2010/05">2010年05月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2010/03">2010年03月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2009/11">2009年11月</a>(1)</li><li><a href="http://blog.csdn.net/sing_sing/article/month/2008/05">2008年05月</a>(1)</li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+    </ul>
+</div>
+<div id="hotarticls" class="panel">
+    <ul class="panel_head"><span>阅读排行</span></ul>
+    <ul class="panel_body">
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6415703" title="UITabBarController使用总结(重大更新)">UITabBarController使用...</a> (4781)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6447314" title="ios字符串编码转换(utf-8 &amp; gbk)［转贴］">ios字符串编码转换(utf-8 &amp; g...</a> (1469)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/5972438" title="经验总结：HTTP返回505错误小记">经验总结：HTTP返回505错误小记</a> (1273)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6707163" title="万恶的imageNamed">万恶的imageNamed</a> (1057)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6916178" title="惨痛的教训，NSURL访问本地文件的问题">惨痛的教训，NSURL访问本地文件的问题</a> (964)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/5937751" title=" 车牌识别之二：字符分割"> 车牌识别之二：字符分割</a> (937)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/5660657" title="转帖一个rtsp流的测试地址">转帖一个rtsp流的测试地址</a> (935)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6430476" title="UITableViewController中显示navigationItem按钮">UITableViewControlle...</a> (866)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6126792" title="c++模拟鼠标事件">c++模拟鼠标事件</a> (772)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6687068" title="iOS实现模态对话框">iOS实现模态对话框</a> (675)
+        </li>
+    </ul>
+</div>
+<div id="hotarticls" class="panel">
+    <ul class="panel_head"><span>评论排行</span></ul>
+    <ul class="panel_body">
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/5937751" title=" 车牌识别之二：字符分割"> 车牌识别之二：字符分割</a> (6)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/7489906" title="不通过App Store，在iOS设备上直接安装应用程序">不通过App Store，在iOS设备上...</a> (5)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/7576027" title="解决XCode无法生成Archive的问题">解决XCode无法生成Archive的问...</a> (1)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/7094855" title="Flex PopUpManager弹出窗口事件捕获">Flex PopUpManager弹出窗...</a> (1)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/5987923" title="viscual studio2008添加opencv自定义向导（Custom Wizard）">viscual studio2008添加...</a> (1)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6109813" title="c语言中通过函数指针实现函数重载">c语言中通过函数指针实现函数重载</a> (1)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6707163" title="万恶的imageNamed">万恶的imageNamed</a> (0)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6699698" title="iphone界面元素的尺寸［转］">iphone界面元素的尺寸［转］</a> (0)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6687068" title="iOS实现模态对话框">iOS实现模态对话框</a> (0)
+        </li>
+        <li>
+            <a href="http://blog.csdn.net/sing_sing/article/details/6679207" title="xcode调试优化之NSLog">xcode调试优化之NSLog</a> (0)
+        </li>
+    </ul>
+</div>
+<div id="homepageArticles" class="panel">
+    <ul class="panel_head"><span>推荐文章</span></ul>
+    <ul class="panel_body" id="ad_commend"><iframe id="ad_frm_2" frameborder="0" scrolling="no" style="border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; overflow-x: hidden; overflow-y: hidden; width: 182px; height: 236px; " src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ad.htm"></iframe></ul>
+</div>
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ad.js"></script>
+<script type="text/javascript">
+    new Ad(12, 'ad_commend');
+</script><div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body">
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/7576027#comments">解决XCode无法生成Archive的问题</a>
+    <p style="margin:0px;">xiaobahfb:
+看一看，学习下
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/7489906#comments">不通过App Store，在iOS设备上直接安装应用程序</a>
+    <p style="margin:0px;">sing_sing:
+@alexciel:3gs我没有机器，无法测试呢。有将3gs的udid加入到develop prof...
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/7489906#comments">不通过App Store，在iOS设备上直接安装应用程序</a>
+    <p style="margin:0px;">alexciel:
+非常感谢分享，方法可用！但是我现在遇到一个问题就是我测试用机是iP4，但是有同事尝试用3Gs安装不成...
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/5937751#comments"> 车牌识别之二：字符分割</a>
+    <p style="margin:0px;">ZCQ183:
+是的应该调换一下，没有影响，可能是数据比较接近
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/7489906#comments">不通过App Store，在iOS设备上直接安装应用程序</a>
+    <p style="margin:0px;">sugarsla:
+呵呵 , 赶忙让公司用iphone的 果断测试我的apple app .!!
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/7489906#comments">不通过App Store，在iOS设备上直接安装应用程序</a>
+    <p style="margin:0px;">sing_sing:
+使用这种方式发布的app不需要上架到app stroe的。@a383028663:
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/7489906#comments">不通过App Store，在iOS设备上直接安装应用程序</a>
+    <p style="margin:0px;">a383028663:
+感觉这APP会被苹果下架。。。
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/5937751#comments"> 车牌识别之二：字符分割</a>
+    <p style="margin:0px;">sing_sing:
+不客气。我没搞opencv好久了，所以现在再问我都想不起来了。不好意思呢。@Hello_Legend...
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/5937751#comments"> 车牌识别之二：字符分割</a>
+    <p style="margin:0px;">Hello_Legend:
+我又试了，发现交换后对结果没有影响另外忽略螺丝的问题我已经明白了，谢谢！
+    </p>
+    </li>
+    <li>
+    <a href="http://blog.csdn.net/sing_sing/article/details/5937751#comments"> 车牌识别之二：字符分割</a>
+    <p style="margin:0px;">Hello_Legend:
+好文章，受教了！有几个问题，一是如何忽略白色的螺丝二是CvScalar maxVal = cvRea...
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+</div>
+
+<div class="clear"></div>
+</div>
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/shCore-src.js"></script>
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ZeroClipboard.js"></script>
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/article_code.js"></script>
+
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/show.js"></script>
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/showblogmedal.ashx"></script>
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/pv.aspx" border="0" width="0" height="0">
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/counter.js"></script><script type="text/javascript" charset="UTF-8" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/msg.popup.js"></script><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/visitlog.php" width="1" height="1" border="0" alt="">
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/publib_footer.js"></script><link rel="stylesheet" type="text/css" href="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/pub_footer_2012.css"><div class="pub_footerall"><dl><dt></dt> <dd><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a>|<a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a>|<a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a>|<a href="http://www.csdn.net/company/account.html" target="_blank">银行汇款帐号</a>|<a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a>|<a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a>|<a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a>|<a href="mailto:webmaster@csdn.net">问题报告</a></dd><dd>京&nbsp;ICP&nbsp;证&nbsp;070598&nbsp;号</dd><dd>北京创新乐知信息技术有限公司 版权所有</dd><dd><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ico_email.gif" alt="" title=""> 联系邮箱：webmaster@csdn.net</dd><dd>Copyright © 1999-2012, CSDN.NET, All Rights Reserved&nbsp;<a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div>
+
+
+
+<script type="text/javascript" src="./车牌识别及验证码识别的一般思路 - 我的地盘 - 博客频道 - CSDN.NET_files/ad-gsma.js"></script>
+
+
+</div>
+
+</body></html>

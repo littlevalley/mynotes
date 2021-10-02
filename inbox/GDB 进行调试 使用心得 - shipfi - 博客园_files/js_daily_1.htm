@@ -1,0 +1,82 @@
+﻿
+
+<!doctype html public "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="all" />
+    <meta name="keywords" content="沪江网推荐的英语在线词典" />
+    <meta name="description" content="英语词典，在线词典" />
+    <title>
+	    沪江小D - 在线词典 Dictionary Online
+    </title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="ICON" href="/images/icon_search_en.gif" />
+    <link rel="search" type="application/opensearchdescription+xml" href="/hjdict_ie7_en.xml" title="沪江小D-英语" />
+    <style type="text/css">
+        body { font-family:'Microsoft YaHei'}
+        .error_content { width:100%; margin:0 auto;}
+        .error_content_img { background:url("/app/images/404_Error.jpg") no-repeat; width:265px; height:210px; margin:50px auto; }
+        .error_content_time { text-align:center; line-height:30px;}
+        .error_content_time span { color:red; font-weight:bold; margin-right:5px; font-size:16px;}
+        .error_content_fankui { text-align:center; line-height:30px; width:200px; margin:0 auto;}
+        .error_content_nav { margin-top:10px; text-align:center; line-height:30px;}
+        .error_content_nav a { margin-left:10px;}
+        .error_content_nav span {color:#8a8a8a; font-size:14px;}
+    </style>
+    <script language="javascript" type="text/javascript" src="/js/jquery-last.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            setTimeout("updateTime()", 1000);
+        });
+
+        function updateTime() {
+            var times = $(".error_content_time").find("span").text();
+            if (times != 1 || times != "1") {
+                //alert(times);
+                $(".error_content_time").find("span").text(times - 1);
+                setTimeout("updateTime()", 1000);
+            }
+            else {
+                $(".error_content_time").find("span").text(times - 1);
+                document.location.href = "/";
+            }
+        };
+    </script>
+</head>
+
+<body> 
+
+	<div id="error_content">
+        <div class="error_content_img"></div>
+        <div class="error_content_time">
+            <span>5</span>秒之后返回首页
+        </div>
+        <div class="error_content_fankui">
+            <div style="float:left;"><a href="/">返回首页</a></div>
+            <div style="float:right;"><a href="http://kefu.hujiang.com/feedback/">问题反馈</a></div>
+        </div>
+        <div style="clear:both"></div>
+        <div class="error_content_nav">
+            翻译导航：
+            <a href="/" class="footer_link">英语在线翻译</a>
+            <a href="http://dict.hjenglish.com/jp/" class="footer_link">日语在线翻译</a>
+            <a href="http://dict.hjenglish.com/fr/" class="footer_link">法语在线翻译</a>
+            <a href="http://dict.hjenglish.com/kr/" class="footer_link">韩语在线翻译</a>
+            <br />
+            <span>如果对此页面有疑问欢迎参考首页联系方式联系我们&nbsp;沪江网 &copy;2013年 </span>
+        </div>
+	</div>
+
+
+
+
+
+
+<div style="display:none;"> 
+    <script language="javascript" type="text/javascript" src="http://count16.51yes.com/click.aspx?id=168990323&logo=1"></script>
+    
+</div>  
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+@charset "UTF-8";
+
+.csdn_note dd, .csdn_notice_tip dd { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; }
+
+.csdn_note { z-index: 9999; }
+
+.csdn_note .notice_top_arrow { z-index: 100; position: absolute; top: -9px; left: 50%; margin-left: -10px; display: block; height: 0px; width: 0px; font-size: 0px; line-height: 0; border-top-color: transparent; border-right-color: transparent; border-bottom-color: rgb(170, 170, 170); border-left-color: transparent; border-top-style: dashed; border-right-style: dashed; border-bottom-style: solid; border-left-style: dashed; border-top-width: 0px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; }
+
+.csdn_note .notice_top_arrow .inner { position: absolute; top: 1px; left: -10px; display: block; height: 0px; width: 0px; font-size: 0px; line-height: 0; border-top-color: transparent; border-right-color: transparent; border-bottom-color: rgb(255, 255, 255); border-left-color: transparent; border-top-style: dashed; border-right-style: dashed; border-bottom-style: solid; border-left-style: dashed; border-top-width: 0px; border-right-width: 10px; border-bottom-width: 10px; border-left-width: 10px; }
+
+.csdn_note a { color: rgb(0, 104, 183); cursor: pointer; text-decoration: none; text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; outline-width: 0px; outline-style: initial; outline-color: initial; }
+
+.csdn_note a:link { text-decoration: none; color: rgb(0, 104, 183); }
+
+.csdn_note a:visited { text-decoration: none; color: rgb(0, 104, 183); outline-width: 0px; outline-style: initial; outline-color: initial; }
+
+.csdn_note a:active { outline-width: 0px; outline-style: initial; outline-color: initial; }
+
+.csdn_note .notifications a:hover { text-decoration: none; color: rgb(0, 104, 183); }
+
+.csdn_note .notifications a:active { text-decoration: none; color: rgb(0, 104, 183); }
+
+.csdn_note img { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; border-image: initial; }
+
+.csdn_note .notifications { font-family: Helvetica, Tahoma, Arial, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 24px; color: rgb(51, 51, 51); overflow-x: hidden; overflow-y: hidden; }
+
+.csdn_note .menu_title { height: 35px; overflow-x: hidden; overflow-y: hidden; padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: rgb(221, 221, 221); line-height: 35px; position: relative; -webkit-box-shadow: rgba(198, 198, 198, 0.398438) 0px 1px 1px; box-shadow: rgba(198, 198, 198, 0.398438) 0px 1px 1px; }
+
+.csdn_note .title { display: block; width: 100%; }
+
+.csdn_note .notifications .menu_title a { margin-right: 10px; }
+
+.csdn_note .notifications .menu_title .close1 { margin-right: 0px; margin-bottom: 0px; margin-left: 0px; margin-top: 3px; }
+
+.csdn_note .hidden { display: none; }
+
+.csdn_note .notifications dl { text-align: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-weight: 400; }
+
+.csdn_note .box { overflow-x: hidden; overflow-y: hidden; position: relative; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; -webkit-box-shadow: rgba(0, 0, 0, 0.199219) 0px 2px 4px; box-shadow: rgba(0, 0, 0, 0.199219) 0px 2px 4px; text-align: left; margin-bottom: 0px; margin-top: 0px; background-position: initial initial; background-repeat: initial initial; }
+
+.csdn_note .box dt { font-weight: 400; }
+
+.csdn_note .notifications dl:last-child { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0px 0px; background-repeat: initial initial; }
+
+.csdn_note .notifications dt { padding-top: 13px; padding-right: 15px; padding-bottom: 13px; padding-left: 38px; line-height: 24px; font-size: 13px; color: rgb(153, 153, 153); border-bottom-width: 1px; border-bottom-color: rgb(221, 221, 221); border-bottom-style: solid; position: relative; background-color: rgb(246, 250, 252); word-wrap: break-word; word-break: break-all; }
+
+.csdn_note .notifications .list dt { background-color: rgb(255, 255, 255); cursor: pointer; }
+
+.csdn_note .notifications .noslide dt { cursor: default; }
+
+.csdn_note .notifications .list dt, .csdn_note .detail_con dt { overflow-x: hidden; overflow-y: hidden; }
+
+.csdn_note .notifications .list dt:hover { background-color: rgb(248, 248, 248); }
+
+.csdn_note .notifications dt .wrap { width: auto; display: inline; }
+
+.csdn_note .notifications .list dt a { line-height: 24px; color: rgb(153, 153, 153); text-decoration: none; }
+
+.csdn_note .notifications .noslide dt a { color: rgb(0, 104, 183); }
+
+.csdn_note .notifications .list dt a:hover { }
+
+.csdn_note .notifications dt a { display: inline; color: rgb(0, 104, 183); }
+
+.csdn_note .notifications dt a:hover { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0px 0px; background-repeat: initial initial; }
+
+.csdn_note .notifications dd { padding-top: 13px; padding-right: 15px; padding-bottom: 13px; padding-left: 38px; color: rgb(102, 102, 102); margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; border-bottom-width: 1px; border-bottom-color: rgb(221, 221, 221); border-bottom-style: dotted; display: block; }
+
+.csdn_note .notifications dd::after { content: '.'; display: block; height: 0px; clear: both; visibility: hidden; }
+
+.csdn_note .notifications li { padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 9px; background-image: url(http://csdnimg.cn/rabbit/notev2/images/point_1.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0% 11px; background-repeat: no-repeat no-repeat; }
+
+.csdn_note .notifications .rev_conn dd img { margin-right: 10px; vertical-align: middle; }
+
+.csdn_note .notifications .rev_img dd img { width: 64px; height: 64px; margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; }
+
+.csdn_note .notifications dt i { background-image: url(http://csdnimg.cn/rabbit/notev2/images/notice.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; position: absolute; left: 9px; margin-top: -6px; width: 28px; height: 33px; background-position: 5px -168px; background-repeat: no-repeat no-repeat; }
+
+.csdn_note .notice_11, .csdn_note .rev_type100 dt i, .csdn_note .rev_type101 dt i, .csdn_note .rev_type102 dt i, .csdn_note .rev_type103 dt i, .csdn_note .rev_type104 dt i, .csdn_note .rev_type105 dt i, .csdn_note .rev_type106 dt i, .csdn_note .rev_type107 dt i, .csdn_note .rev_type108 dt i, .csdn_note .rev_type109 dt i, .csdn_note .rev_type110 dt i { background-position: 5px -200px; }
+
+.csdn_note .rev_type200 dt i { background-position: 5px -350px; }
+
+.csdn_note .rev_type300 dt i, .csdn_note .rev_type301 dt i, .csdn_note .rev_type302 dt i, .csdn_note .rev_type303 dt i, .csdn_note .rev_type304 dt i, .csdn_note .rev_type305 dt i, .csdn_note .rev_type306 dt i, .csdn_note .rev_type307 dt i, .csdn_note .rev_type308 dt i, .csdn_note .rev_type309 dt i, .csdn_note .rev_type310 dt i, .csdn_note .rev_type311 dt i, .csdn_note .rev_type312 dt i, .csdn_note .rev_type313 dt i, .csdn_note .rev_type314 dt i, .csdn_note .rev_type3020 dt i, .csdn_note .rev_type3050 dt i, .csdn_note .rev_type3110 dt i, .csdn_note .rev_type3100 dt i { background-position: 5px -230px; }
+
+.csdn_note .rev_type400 dt i, .csdn_note .rev_type401 dt i, .csdn_note .rev_type402 dt i, .csdn_note .rev_type403 dt i, .csdn_note .rev_type404 dt i { background-position: 5px -320px; }
+
+.csdn_note .rev_type500 dt i, .csdn_note .rev_type501 dt i, .csdn_note .rev_type502 dt i { background-position: 5px -50px; }
+
+.csdn_note .rev_type600 dt i { background-position: 5px -290px; }
+
+.csdn_note .rev_type701 dt i, .csdn_note .rev_type702 dt i, .csdn_note .rev_type703 dt i, .csdn_note .rev_type704 dt i, .csdn_note .rev_type705 dt i, .csdn_note .rev_type706 dt i, .csdn_note .rev_type707 dt i, .csdn_note .rev_type708 dt i, .csdn_note .rev_type709 dt i, .csdn_note .rev_type710 dt i, .csdn_note .rev_type711 dt i, .csdn_note .rev_type712 dt i, .csdn_note .rev_type713 dt i, .csdn_note .rev_type714 dt i, .csdn_note .rev_type715 dt i, .csdn_note .rev_type716 dt i, .csdn_note .rev_type717 dt i { background-position: 5px -510px; }
+
+.csdn_note .notice_13, .csdn_note .rev_news dt i, .csdn_note .rev_type17 dt i, .csdn_note .rev_type18 dt i { background-position: 5px -350px; }
+
+.csdn_note .notice_14 { background-position: 5px -380px; }
+
+.csdn_note .notice_15 { background-position: 5px -410px; }
+
+.csdn_note .notice_16 { background-position: 5px -440px; }
+
+.csdn_note .notice_17, .csdn_note .rev_type9 dt i { background-position: 5px -475px; }
+
+.csdn_note .notice_18, .csdn_note .rev_ask dt i { background-position: 5px -510px; }
+
+.csdn_note .rev_type1234 dt i { background-position: 5px -673px; }
+
+.csdn_note .notifications .count_down { float: right; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 5px; color: rgb(153, 153, 153); text-align: right; font-size: 12px; }
+
+.csdn_note .notifications div.more { margin-top: 20px; margin-right: 0px; margin-bottom: 20px; margin-left: 0px; text-align: center; }
+
+.csdn_note .notifications_page { float: right; }
+
+.csdn_note .notifications_page_none { float: right; }
+
+.csdn_note .notifications .notice_content .block { display: block; }
+
+.csdn_note .notifications .notifications_more { display: none; padding-top: 5px; padding-right: 0px; padding-bottom: 5px; padding-left: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(238, 238, 238); background-size: initial; text-align: center; color: rgb(102, 102, 102); background-position: initial initial; background-repeat: initial initial; }
+
+.csdn_note .notifications .notifications_more:hover { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(221, 221, 221); background-size: initial; background-position: initial initial; background-repeat: initial initial; }
+
+.csdn_note .notifications_more:hover { display: block; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(248, 248, 248); background-size: initial; text-align: center; color: rgb(51, 51, 51); background-position: initial initial; background-repeat: initial initial; }
+
+.csdn_note .close1, .csdn_notice_tip .close2 { z-index: 20; background-image: url(http://csdnimg.cn/rabbit/notev2/images/ico_remove.png); background-attachment: scroll; background-origin: initial; background-clip: initial; background-color: transparent; background-size: initial; display: block; height: 14px; line-height: 30px; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; overflow-x: hidden; overflow-y: hidden; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; position: absolute; right: 4px; text-decoration: none; top: 8px; width: 15px; background-position: -41px -3px; background-repeat: no-repeat no-repeat; }
+
+.csdn_notice_tip .close2 { top: 12px; right: 10px; }
+
+.nav_top_2011 p a.notice_num { outline-width: 0px; outline-style: initial; outline-color: initial; }
+
+.notice_num { position: relative; }
+
+.notice_num .icon-hasnotes { background-image: url(f_icon.png); height: 10px; left: 8px; position: absolute; top: 0px; width: 10px; z-index: 1002; background-position: -23px -196px; }
+
+.csdn_note .notice_list_con .unread dt { color: rgb(51, 51, 51); background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(246, 250, 252); background-size: initial; font-weight: 700; background-position: initial initial; background-repeat: initial initial; }
+
+.csdn_note .notice_list_con .unread dt a:link { color: rgb(51, 51, 51); }
+
+.csdn_notice_tip .notifications .item { font-weight: 400; }
+
+.csdn_notice_tip .notifications .item img { padding-right: 10px; vertical-align: middle; }
+
+.csdn_notice_tip .notifications .item a { display: inline; color: rgb(0, 104, 183); margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; }
+
+.csdn_note .notifications .menu_title .nex.csdn_note:active, .csdn_note .notifications .menu_title .pr.csdn_note:active { margin-top: 1px; }
+
+.csdn_note .notifications .menu_title .disabled, .csdn_note .notifications .menu_title .disabled:active { color: rgb(153, 153, 153); margin-top: 0px; cursor: default; }
+
+.csdn_note .detail_con .notice_content { position: relative; }
+
+.csdn_note .go_all { display: inline-block; }
+
+.csdn_note .go_all, .csdn_note .read_all { float: right; }
+
+.csdn_note .go_back { display: inline-block; padding-left: 25px; background-image: url(http://csdnimg.cn/rabbit/notev2/images/notice.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0px -615px; background-repeat: no-repeat no-repeat; }
+
+.csdn_notice_tip { display: none !important; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(238, 238, 238); border-right-color: rgb(238, 238, 238); border-bottom-color: rgb(238, 238, 238); border-left-color: rgb(238, 238, 238); border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-image: initial; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; -webkit-box-shadow: rgb(102, 102, 102) 1px 2px 3px; box-shadow: rgb(51, 51, 51) 1px 1px 3px; background-position: initial initial; background-repeat: initial initial; }
+
+.csdn_notice_tip .tip_text { padding-top: 8px; padding-right: 15px; padding-bottom: 8px; padding-left: 15px; font-size: 13px; color: rgb(0, 104, 183); text-align: left; cursor: pointer; line-height: 24px; }
+
+.csdn_note .notice_txt { float: left; word-wrap: break-word; word-break: break-all; }
+
+.csdn_note .empty { display: none; text-align: center; height: 100px; line-height: 100px; color: rgb(153, 153, 153); text-indent: -9999em; background-image: url(http://csdnimg.cn/rabbit/notev2/images/no.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 50% 50%; background-repeat: no-repeat no-repeat; }
+
+.csdn_note .loading { display: none; height: 51px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; font-size: 12px; background-image: url(http://csdnimg.cn/rabbit/notev2/images/loading.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 50% 50%; background-repeat: no-repeat no-repeat; }
+
+#header_notice_num, .nav_top_2011 p a.notice_num { background-color: rgba(0, 0, 0, 0); background-image: url(f_icon.png); display: inline-block; font-size: 0px !important; height: 14px !important; line-height: 0 !important; padding-top: 0px !important; padding-right: 0px !important; padding-bottom: 0px !important; padding-left: 0px !important; text-indent: -9999em; width: 18px !important; vertical-align: middle; background-position: -22px -93px; }
+
+.csdn_note .error { display: none; color: red; font-weight: 700; height: 51px; line-height: 51px; font-size: 14px; text-align: center; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; border-image: initial; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; width: auto; background-position: 0px 0px; background-repeat: initial initial; }
+
+html .nav_top_2011 p em, html .pagetop_notice span em { margin-right: 0px; }
+
+.csdn_note .notice_txt fieldset { border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-style: groove; border-right-style: groove; border-bottom-style: groove; border-left-style: groove; border-top-color: rgb(249, 249, 248); border-right-color: rgb(249, 249, 248); border-bottom-color: rgb(249, 249, 248); border-left-color: rgb(249, 249, 248); border-image: initial; margin-top: auto; margin-right: 2px; margin-bottom: auto; margin-left: 2px; outline-color: rgb(0, 0, 0); outline-style: none; outline-width: 0px; padding-top: 0.35em; padding-right: 0.625em; padding-bottom: 0.75em; padding-left: 0.625em; }
+
+.csdn_note .notice_txt legend { padding-left: 2px; padding-right: 2px; }
+
+.csdn_note .hover-overflow { height: 255px; }
+
+.csdn_note .hover-overflow:hover { overflow-x: auto; overflow-y: auto; height: 255px; }
+
+.csdn-toolbar .csdn_note .hover-overflow { height: 270px; }

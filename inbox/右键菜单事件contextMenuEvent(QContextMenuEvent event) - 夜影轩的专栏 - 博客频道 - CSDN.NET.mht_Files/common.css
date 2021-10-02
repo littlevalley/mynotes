@@ -1,0 +1,153 @@
+body, form, h1, h2, h3, h4 { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+.side li { list-style-type: none; list-style-position: initial; list-style-image: initial; }
+
+.side ul { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+img { border-top-style: none; border-right-style: none; border-bottom-style: none; border-left-style: none; border-width: initial; border-color: initial; border-image: initial; }
+
+pre { white-space: pre-wrap; word-wrap: break-word; }
+
+.share_buttons { float: right; width: 170px; margin-top: 5px; margin-right: 0px; margin-bottom: 5px; margin-left: 0px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; line-height: 24px; text-align: right; }
+
+.share_buttons span { display: inline-block; line-height: 30px; font-weight: bold; color: green; vertical-align: middle; }
+
+.share_buttons a { display: inline-block; width: 25px; height: 30px; cursor: pointer; vertical-align: middle; background-position: 0px 5px; }
+
+.share_douban { background-image: url(http://static.blog.csdn.net/images/ico_douban.gif); }
+
+.share_renren { background-image: url(http://static.blog.csdn.net/images/ico_renren.gif); }
+
+.share_sina { background-image: url(http://static.blog.csdn.net/images/ico_sina.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 50% 50%; background-repeat: no-repeat no-repeat; }
+
+.share_qq { background-image: url(http://static.blog.csdn.net/images/ico_qq.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 50% 50%; background-repeat: no-repeat no-repeat; }
+
+.article_description { text-indent: 2em; }
+
+.list_opended { background-image: url(http://static.blog.csdn.net/images/dir_arr.gif); background-position: 0px 7px; background-repeat: no-repeat no-repeat; }
+
+.list_opended:hover { background-position: 0px -15px; background-repeat: no-repeat no-repeat; }
+
+.list_closed { background-image: url(http://static.blog.csdn.net/images/dir_arr.gif); background-position: 0px -45px; background-repeat: no-repeat no-repeat; }
+
+.list_closed:hover { background-position: 0px -69px; background-repeat: no-repeat no-repeat; }
+
+.comment_item { margin-top: 2px; margin-right: 10px; margin-bottom: 2px; margin-left: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; line-height: 26px; }
+
+.comment_item fieldset { border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-color: initial; border-image: initial; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; line-height: 26px; }
+
+.comment_reply { margin-left: 50px; }
+
+.comment_list { clear: both; }
+
+.comment_list dl { clear: both; display: block; overflow-x: hidden; overflow-y: hidden; }
+
+.comment_item .user { }
+
+.comment_item_reply { margin-left: 50px; }
+
+.comment_userface { float: left; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; }
+
+.comment_userface img { width: 40px; height: 40px; }
+
+.comment_body { margin-left: 50px; line-height: 20px; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; min-height: 35px; }
+
+.commentform { }
+
+.commentform ul { clear: both; margin-top: 0px; margin-right: 20px; margin-bottom: 5px; margin-left: 20px; font-family: Arial, Helvetica, sans-serif; font-size: 12px; font-style: normal; font-variant: normal; font-weight: normal; line-height: 24px; }
+
+.commentform .left { float: left; display: block; width: 80px; }
+
+.commentform .right { display: block; margin-left: 90px; }
+
+.commentform textarea { padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(221, 221, 221); border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221); border-image: initial; color: rgb(85, 85, 85); font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; line-height: 24px; }
+
+.guest_link { background-color: rgb(245, 245, 245); border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; font-size: 12px; }
+
+#lang_list { background-color: rgb(255, 255, 255); border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; font-size: 12px; }
+
+#lang_list a { display: inline-block; cursor: pointer; border-right-width: 1px; border-right-style: solid; border-right-color: rgb(204, 204, 204); padding-top: 0px; padding-right: 5px; padding-bottom: 0px; padding-left: 5px; text-align: center; float: left; }
+
+#lang_list a:hover { background-color: rgb(102, 102, 102); color: rgb(255, 255, 255); }
+
+a.cmt_btn { overflow-x: hidden; overflow-y: hidden; display: inline-block; width: 16px; height: 16px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; margin-bottom: -5px; text-indent: -2000px; background-position: 0% 0%; background-repeat: no-repeat no-repeat; }
+
+a.cmt_btn:hover { border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+a.reply { background-image: url(http://static.blog.csdn.net/images/ico_reply.png); }
+
+a.quote { background-image: url(http://static.blog.csdn.net/images/ico_quote.png); }
+
+a.report { background-image: url(http://static.blog.csdn.net/images/ico_report.png); }
+
+a.delete { background-image: url(http://static.blog.csdn.net/images/ico_del.png); }
+
+#report_dialog { position: absolute; left: 30%; right: 33%; top: 33%; z-index: 99; }
+
+#panel_report { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(255, 255, 255); background-size: initial; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(221, 221, 221); border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221); border-image: initial; width: 440px; padding-top: 8px; padding-right: 8px; padding-bottom: 20px; padding-left: 8px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; background-position: initial initial; background-repeat: initial initial; }
+
+#panel_report .pop_table { line-height: 20px; margin-top: 10px; margin-right: 0px; margin-bottom: 0px; margin-left: 12px; }
+
+#panel_report th, #panel_report td { padding-top: 4px; padding-right: 0px; padding-bottom: 4px; padding-left: 0px; vertical-align: top; }
+
+#panel_report th { text-align: right; font-weight: normal; }
+
+#panel_report h3 { line-height: 60px; }
+
+#report_other_content { height: 16px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(153, 153, 153); border-right-color: rgb(153, 153, 153); border-bottom-color: rgb(153, 153, 153); border-left-color: rgb(153, 153, 153); border-image: initial; }
+
+#btnSubmitReport { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; border-image: initial; }
+
+#bms_box { display: block; margin-top: 4px; padding-top: 14px; padding-right: 4px; padding-bottom: 4px; padding-left: 0px; border-top-style: dashed; border-top-width: 1px; border-top-color: rgb(204, 204, 204); text-align: left; }
+
+#bms_box img { margin-left: 6px; cursor: pointer; }
+
+.medal_intro { display: block; font-family: 微软雅黑; position: absolute; text-align: center; width: 252px; min-height: 100px; background-color: rgb(255, 255, 255); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; border-top-color: rgb(221, 221, 221); border-right-color: rgb(221, 221, 221); border-bottom-color: rgb(221, 221, 221); border-left-color: rgb(221, 221, 221); border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-image: initial; box-shadow: rgba(0, 0, 0, 0.0976563) 0px 2px 2px; left: -55px; top: 33px; z-index: 100; vertical-align: top; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; }
+
+.medal_intro::after { content: '.'; display: block; height: 0px; clear: both; visibility: hidden; }
+
+.medal_intro dl { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; }
+
+.medal_intro dt { float: left; margin-right: 18px; }
+
+.medal_intro dd { float: left; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; text-align: left; width: 180px; color: rgb(102, 102, 102); line-height: 18px; }
+
+.medal_intro dd strong { display: block; padding-bottom: 10px; color: rgb(0, 66, 121); font-size: 18px; }
+
+#sp_column img { border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; }
+
+#sp_column p { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 6px; padding-right: 0px; padding-bottom: 6px; padding-left: 0px; }
+
+.interact { padding-top: 0px; padding-right: 0px; padding-bottom: 15px; padding-left: 0px; text-align: center; }
+
+.interact .attent, .interact .attented, .interact .letter { display: inline-block; width: 59px; height: 20px; overflow-x: hidden; overflow-y: hidden; cursor: pointer; }
+
+.interact .attent { background-image: url(http://static.blog.csdn.net/images/btn_attent.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0px 0px; background-repeat: no-repeat no-repeat; }
+
+.interact .attented { background-image: url(http://static.blog.csdn.net/images/btn_attented.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0px 0px; background-repeat: no-repeat no-repeat; }
+
+.interact .letter { margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 0px; background-image: url(http://static.blog.csdn.net/images/btn_sendletter.gif); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; background-size: initial; background-position: 0px 0px; background-repeat: no-repeat no-repeat; }
+
+.panel_body li span { padding-left: 6px; position: relative; }
+
+.itemlist li a { display: inline-block; white-space: nowrap; width: 130px; height: 15px; overflow-x: hidden; overflow-y: hidden; }
+
+.itemlist li span { display: inline-block; height: 14px; float: right; }
+
+#newcomments .itemlist li a { width: 98%; }
+
+#newcomments .itemlist li a.user_name { display: inline; width: auto; }
+
+#side #blog_userface a { color: rgb(51, 51, 51); }
+
+#d-top { position: fixed; float: right; z-index: 10; right: 10px; bottom: 10px; }
+
+#d-top img { width: 42px; opacity: 0.3; }
+
+#d-top a:hover img { opacity: 1; }
+
+.article_next_prev { margin-top: 30px; }
+
+.tag2box { margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; }
+
+.tag2box a { display: inline-block; padding-top: 4px; padding-right: 10px; padding-bottom: 4px; padding-left: 10px; line-height: 100%; margin-right: 10px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-color: rgb(238, 238, 238); border-right-color: rgb(238, 238, 238); border-bottom-color: rgb(238, 238, 238); border-left-color: rgb(238, 238, 238); border-image: initial; background-color: rgb(238, 238, 238); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }

@@ -1,0 +1,120 @@
+<html><head><meta charset="UTF-8"></head><body style="display: none; ">
+<div id="layout-root" style="width: 100%; min-height: 643px; overflow-x: hidden; overflow-y: hidden; ">
+<div id="layout-root-pllist"><div class="f-wraper" id="layout-base" style="position: relative; width: 100%; z-index: 20; ">
+<div class="f-wrap" id="layout-base-pllist" data-box="init-view" style="min-height: 637px; "><div id="layout-base-mask" style="position: absolute; top: 0px; display: none; opacity: 0; width: 100%; z-index: 99; background-color: rgba(0, 0, 0, 0.296875); height: 100%; overflow-x: hidden; overflow-y: hidden; "></div>
+<!--第一列start-->
+    <header class="bl-header" id="pl-navigation">
+    <div class="menu clearfix">
+    <a trace-code="38_01_06"><span class="dashbd" data-role="menu"><span class="b-dashbd-icn"><span class="a"></span><span class="b"></span><span class="c"></span><span class="d"></span></span></span></a>
+    <a trace-code="38_01_01"><span class="usercnt b-ft-icon" data-role="user">.</span></a>
+        <div style="display:none" data-role="logo" class="blog-logo"></div>	
+            <div class="user-sort" data-role="info"><a data-role="list-button" class="b-txt2"><span data-role="title" class="blog-nm b-ellipsis">喜欢天才</span><i data-role="tite-icon" class="b-ft-icon dw-arw-icn">"</i></a></div>
+        </div>
+    <div class="l-blg-sort" data-role="sort-box" style="display:none;">
+    <div class="blg-sort" data-role="sort-panel"></div>
+    </div>
+    </header><div id="layout-content">
+<div id="layout-content-pllist" style="overflow-y: hidden; height: auto; ">
+<div class="bl-article" id="pl-blog-article">
+            <div data-role="sax-wrap-articletop" style="display:none;"></div>
+
+        	<article class="article" pagecount="2" data-blogid="93dc666c0101b1bj" data-pubdate="2012-09-05 23:58:19" data-role="article">
+            	<h1>Linux&nbsp;下安装配置&nbsp;JDK7</h1>
+                <div class="b-txt3 read-time"><span class="reads">阅读：<span data-role="read-num"></span></span><span class="time">2012-09-05 23:58</span></div>
+                                <div class="tag b-txt3 clearfix"><span class="tg">标签：</span><a class="b-txt3" target="_blank" href="http://site.proc.sina.cn/search/blog_search.php?keyword=linux&amp;type=%E5%8D%9A%E6%96%87&amp;vt=4&amp;vt=4&amp;by=title">linux</a><a class="b-txt3" target="_blank" href="http://site.proc.sina.cn/search/blog_search.php?keyword=java&amp;type=%E5%8D%9A%E6%96%87&amp;vt=4&amp;vt=4&amp;by=title">java</a><a class="b-txt3" target="_blank" href="http://site.proc.sina.cn/search/blog_search.php?keyword=jdk&amp;type=%E5%8D%9A%E6%96%87&amp;vt=4&amp;vt=4&amp;by=title">jdk</a><a class="b-txt3" target="_blank" href="http://site.proc.sina.cn/search/blog_search.php?keyword=it&amp;type=%E5%8D%9A%E6%96%87&amp;vt=4&amp;vt=4&amp;by=title">it</a>				</div>
+                				                <div class="content b-txt1">
+				1.下载JDK 目前最新的JDK版本是：Java SE Development Kit 7u5<br>
+下载地址：<a href="http://download.oracle.com/otn-pub/java/jdk/7u5-b06/jdk-7u5-linux-i586.tar.gz" target="_blank">http://download.oracle.com/otn-pub/java/jdk/7u5-b06/jdk-7u5-linux-i586.tar.gz</a><br>
+
+查看最新：<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html" target="_blank">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a><br>
+
+2.解压安装 我们把JDK安装到这个路径：/usr/lib/jvm<br>
+如果没有这个目录（第一次当然没有），我们就新建一个目录<br>
+1<br>
+2<br>
+cd /usr/lib<br>
+sudo mkdir jvm<br>
+建立好了以后，我们来到刚才下载好的压缩包的目录，解压到我们刚才新建的文件夹里面去，并且修改好名字方便我们管理<br>
+1<br>
+2<br>
+3<br>
+sudo tar zxvf ./jdk-7-linux-i586.tar.gz -C /usr/lib/jvm<br>
+cd /usr/lib/jvm<br>
+sudo mv jdk1.7.0_05/ jdk7<br>
+3.配置环境变量 1<br>
+gedit ~/.bashrc<br>
+在打开的文件的末尾添加<br>
+1<br>
+2<br>
+3<br>
+4<br>
+export JAVA_HOME=/usr/lib/jvm/jdk7<br>
+export JRE_HOME=${JAVA_HOME}/jre<br>
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>
+export PATH=${JAVA_HOME}/bin:$PATH<br>
+保存退出，然后</div>
+            </article>
+            <div class="bl-operation"><div data-role="more-article" style="display:none;"><div data-role="sax-wrap-1" style="display:none;"></div><div data-role="sax-wrap-2" style="display:none;"></div><div class="bl-related-more"><h3 class="b-txt1">我的更多文章</h3><ul class="related-ls"><li class="b-ellipsis"><a href="http://blog.sina.cn/dpool/blog/s/blog_93dc666c0101b6b1.html?md=gd" trace-code="38_01_52" class="b-txt2">ubuntu翻墙解决ADT&nbsp;SDK等安装问题</a></li><li class="b-ellipsis"><a href="http://blog.sina.cn/dpool/blog/s/blog_93dc666c0101b39p.html?md=gd" trace-code="38_01_52" class="b-txt2">Ubuntu&nbsp;12.04&nbsp;搭建&nbsp;Eclipse&nbsp;Android&nbsp;开发环境</a></li><li class="b-ellipsis"><a href="http://blog.sina.cn/dpool/blog/s/blog_93dc666c0101b1ch.html?md=gd" trace-code="38_01_52" class="b-txt2">Ubuntu&nbsp;下搭建&nbsp;Android&nbsp;开发环境(图文)</a></li><li class="b-ellipsis"><a href="http://blog.sina.cn/dpool/blog/s/blog_93dc666c0101ax83.html?md=gd" trace-code="38_01_52" class="b-txt2">用Eclipse进行C语言编程</a></li><li class="b-ellipsis"><a href="http://blog.sina.cn/dpool/blog/s/blog_93dc666c0101aw7l.html?md=gd" trace-code="38_01_52" class="b-txt2">MinGW安装与设置简明教程</a></li><li class="b-ellipsis"><a href="http://blog.sina.cn/dpool/blog/s/blog_93dc666c0101autn.html?md=gd" trace-code="38_01_52" class="b-txt2">百度工程师鬼节下套捉鬼&nbsp;360浏览器抓取隐私现形</a></li></ul></div></div><div data-role="blogger" class="bl-head">
+                                        <a class="head-l" href="http://blog.sina.cn/dpool/blog/u/2480694892#type=-1">
+                                            <span class="sp2 b-pic-style" style="background-image:url(30)"></span>
+                                            <span class="sp1 b-txt1 b-ellipsis">喜欢天才</span>
+                                        </a><div class="head-r"><a data-role="follow-btn" class="b-btn-b" href="javascript:;" trace-code="19_01_09_2480694892">加关注</a></div></div></div>      </div>
+
+            <div class="mutual-mod" id="pl-blog-mutual">
+        <div class="bl-comment">
+            <textarea placeholder="可输入1000个汉字" disabled="" class="b-txtarea" id="" name=""></textarea>
+            <div style="display:none" class="submint clearfix" data-role="submit-row"><a data-role="comment-submit" class="b-btn-b" href="javascript:;">发 送</a>
+                <div class="forward"><div data-role="share-checkbox" class="b-checkbox"><span class="b-ft-icon">N</span></div><i data-role="share-label" class="b-txt3">同时转发到微博</i></div>
+            </div>
+            <div class="login clearfix" data-role="login-row" style="display:none;"><a data-role="comment-login" class="b-btn-b" href="javascript:;">登 录</a><p data-role="comment-login" class="tips">登录后才可发表评论<i class="raquo">»</i></p></div>
+        </div>
+      </div>
+      
+<div id="pl-blog-top" class="bl-sinaapp bl-sinaapp-patch" style="display:none;"></div>
+<div id="pl-blog-game" class="bl-sinaapp" style="display:none;">
+        <a data-role="link" href="http://dl.kjava.sina.cn/gamecenter/package/502571/502571_100010041000.apk" class="b-txt2" trace-code="12_01_06">
+            <span class="appimg game4-app"></span> 
+            <span class="b-btn-b app-download">打 开</span>
+            <h4 class="b-ellipsis">疯狂捕鱼</h4>
+            <p class="txt b-ellipsis">海底宝藏等你探寻！</p>
+        </a>
+</div>
+
+<div id="pl-blog-tbyy">
+    <textarea data-type="ad-scripts" class="bl-tb-yy" style="display:none">%3Cscript%20type%3D%22text%2Fjavascript%22%3E%0A%20%20%20%20%20tanx_c%20%3D%20window.tanx_c%20%7C%7C%20%7B%7D%3B%20%0A%20%20%20%20%20tanx_c.mm_15890324_8176878_28008044%20%3D%20%7BwidthEl%3A%27PARENT%27%2Cresponse%3A%27TRUE%27%7D%3B%0A%20%20%20%20%20document.write%28%27%3Ca%20style%3D%22display%3Anone%21important%22%20id%3D%22tanx-a-mm_15890324_8176878_28008044%22%3E%3C%2Fa%3E%27%29%3B%0A%20%20%20%20%20tanx_s%20%3D%20document.createElement%28%22script%22%29%3B%0A%20%20%20%20%20tanx_s.type%20%3D%20%22text%2Fjavascript%22%3B%0A%20%20%20%20%20tanx_s.charset%20%3D%20%22gbk%22%3B%0A%20%20%20%20%20tanx_s.id%20%3D%20%22tanx-s-mm_15890324_8176878_28008044%22%3B%0A%20%20%20%20%20tanx_s.async%20%3D%20true%3B%0A%20%20%20%20%20tanx_s.src%20%3D%20%22http%3A%2F%2Fp.tanx.com%2Fex%3Fi%3Dmm_15890324_8176878_28008044%26m%3D1%22%3B%0A%20%20%20%20%20tanx_h%20%3D%20document.getElementsByTagName%28%22head%22%29%5B0%5D%3B%0A%20%20%20%20%20if%28tanx_h%29tanx_h.insertBefore%28tanx_s%2Ctanx_h.firstChild%29%3B%0A%3C%2Fscript%3E%0A
+    </textarea>
+</div>
+
+<div class="bl-blog-foot" id="pl-foot-opin">
+    <span class="back" data-role="foot-back"></span>
+    <a href="http://www.sina.cn/" class="b-txt1">手机新浪网</a>
+    <a href="http://news.sina.cn/?sa=t124d8889597v84&amp;pos=99&amp;vt=4" class="b-txt1">导航</a>
+    <a href="http://site.proc.sina.cn/search/index.php?search_kind=blog&amp;vt=4" class="b-txt1">搜索</a>
+    <a href="http://dp.sina.cn/dpool/messagev2/index.php?boardid=36" class="b-txt1">意见反馈</a>
+    <span class="home-up" data-role="gotop-btn"><em>回顶部</em></span>
+</div>
+</div>
+</div>
+<!--第二列start-->
+
+</div>
+</div>
+
+<div id="pl-float-bar" class="bl-bar" style="display:none;">
+    <div class="bl-bar-l">
+        <a data-role="share-btn" allow-repost="1"><span class="b-ft-icon">,</span></a>
+        <a data-role="like-btn"><span class="b-ft-icon">)</span></a>
+        <a data-role="fav-btn"><span class="b-ft-icon">&amp;</span></a>
+                <a data-role="comment-btn"><span class="b-ft-icon">$</span><span data-role="comment-num" class="b-redtips-a" style="display:none;">3</span></a>
+            </div>
+</div>
+<div data-role="backtop" style="right:1em;top:50%;display:none" class="b-backtop"><span class="b-ft-icon">"</span></div>
+</div>
+</div>
+<div style="display:none">
+
+
+
+
+
+</div><title>Linux&nbsp;下安装配置&nbsp;JDK7_喜欢天才 </title></body></html>

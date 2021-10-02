@@ -1,0 +1,74 @@
+许多人说彩色小怪兽的手册是很全，以前没有深切的感受，今天，我终于明白了。
+
+好多次想用Wifi上网，但不知如何下手，看[[http://www.freebsd.org/doc/zh_CN/books/handbook/network-wireless.html][中文手册]]就是没有搞明白。今天，又在网上搜索时，无意看到了网友给出的链接，是美式英语的，看了第一遍，试了一下，没成功，又把[[http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-wireless.html][手册]]仔细看看，终于搞懂了。现将相关过程分享如下：
+
+手册上的描述是这样的：
+
+点击(此处)折叠或打开
+
+1.  *31.3.2. Quick Start*
+2.  
+
+3.  Connecting a computer to an existing wireless network is a very
+    common situation. This procedure shows the steps required.
+4.  
+
+5.   Obtain the SSID (Service Set Identifier) and PSK (Pre-Shared Key)
+    for the wireless network from the network administrator.
+6.  
+
+7.   Identify the wireless adapter. The FreeBSD GENERIC kernel includes
+    drivers for many common wireless adapters. If the wireless adapter
+    is one of those models, it will be shown in the output from
+    ifconfig(8):
+8.  
+
+9.   % ifconfig | grep -B3 -i wireless
+10. 
+
+11.  If a wireless adapter is not listed, an additional kernel module
+    might be required, or it might be a model not supported by FreeBSD.
+12. 
+
+13.  This example shows the Atheros ath0 wireless adapter.
+14. 
+
+15.  Add an entry for this network to /etc/wpa\_supplicant.conf. If the
+    file does not exist, create it. Replace myssid and mypsk with the
+    SSID and PSK provided by the network administrator.
+16. 
+
+17.  network={
+18.  ssid="myssid"
+19.  psk="mypsk"
+20.  }
+21. 
+
+22.  Add entries to /etc/rc.conf to configure the network on startup:
+23. 
+
+24.  wlans\_ath0="wlan0"
+25.  ifconfig\_wlan0="WPA SYNCDHCP"
+26. 
+
+27.  Restart the computer, or restart the network service to connect to
+    the network:
+28. 
+
+29. # service netif restart
+
+标注成黄色的是配置文件名，绿色的是命令和配置文件的内容。红色是要特别注意的内容。第一次，我没有注意到"ath0"，只是生搬硬套修改了配置文件，失败了。用“ifconfig
+| grep -B3 -i wireless“在我电脑上查出的结果是一个叫"iwn0"的接口。
+
+在 /etc/rc.conf中的内容要这样写。
+
+点击(此处)折叠或打开
+
+1. wlans\_iwn0="wlan0"
+2. ifconfig\_wlan0="WPA SYNCDHCP"
+
+享受你网上冲浪的美好吧。
+
+心得：看英文的手册吧。
+
+

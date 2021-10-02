@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <title>#:acid 'words: Displaying org-mode appointments in calendar</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link href="%23:acid%20'words:%20Displaying%20org-mode%20appointments%20in%20calendar_files/bootstrap.css" rel="stylesheet">
+    <!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet" />-->
+    <link href="%23:acid%20'words:%20Displaying%20org-mode%20appointments%20in%20calendar_files/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="%23:acid%20'words:%20Displaying%20org-mode%20appointments%20in%20calendar_files/default.css">
+    <link href="%23:acid%20'words:%20Displaying%20org-mode%20appointments%20in%20calendar_files/screen.css" rel="stylesheet" type="text/css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+  <style>
+.vimvixen-console-frame {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2147483647;
+  border: none;
+  background-color: unset;
+  pointer-events:none;
+}
+
+.vimvixen-hint {
+  background-color: yellow;
+  border: 1px solid gold;
+  font-weight: bold;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  font-size: 12px;
+  color: black;
+}
+</style></head>
+  <body id="index" class="archive">
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://acidwords.com/index.html">#:acid 'words</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-right">
+          <ul class="nav navbar-nav">
+            <li><a href="https://acidwords.com/archives.html">archives</a></li>
+            
+            <li><a href="https://acidwords.com/tags.html">tags</a></li>
+            
+            
+            <li>
+              <a href="https://acidwords.com/pages/about.html">about</a>
+            </li>
+            
+            <li>
+              <a href="https://acidwords.com/pages/gallery.html">gallery</a>
+            </li>
+            
+            <li><a href="https://acidwords.com/feed.xml">rss</a></li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+      </div>
+    </nav>
+    <div class="container">
+    
+    <section id="content" class="article content">
+      <header>
+        <h2 class="entry-title">
+          Displaying org-mode appointments in calendar
+        </h2>
+        <div class="text-muted">February 16, 2017</div>
+      </header>
+      <div class="entry-content">
+        
+        <p>One neat feature of <a href="http://orgmode.org/manual/Agenda-Views.html">org-mode agenda</a>
+ is ability to display appointments in Emacs calendar. Sadly, this isn't
+ obvious nor enabled by default - I discovered it accidentally by 
+browsing through Emacs themes screenshots.</p><p>In screenshot below, you can see highlighted days with planned meetings and scheduled work in my calendar.</p><p><img src="%23:acid%20'words:%20Displaying%20org-mode%20appointments%20in%20calendar_files/32109271913_31d143b549.jpg" alt="emacs-calendar"></p><p>Setup is very easy. First, set <em>calendar-mark-diary-entries-flag</em> with:</p><pre><code class="elisp hljs clojure">(<span class="hljs-name">setq</span> calendar-mark-diary-entries-flag t)
+</code></pre><p>Then create <em>$HOME/diary</em> file, if not present, and add this line:</p><pre><code class="elisp hljs">%%(org-diary)
+</code></pre><p>Now in Emacs, open agenda view with <em>(org-agenda)</em> and open calendar with <code>c</code>; you will get highlighted all important dates. Alternatively, calling</p><pre><code class="elisp hljs">M-x calendar
+</code></pre><p>will essentially do the same (open calendar) with fewer strokes.</p><p>Reverse
+ action will also work - to see what is scheduled for particular 
+highlighted day, just point cursor to that day and hit key <code>c</code> - Emacs will open <em>org-mode</em> agenda view and place cursor under correct entry.</p><h3 id="using_with_appointments_(appt)">Using with appointments (appt)</h3><p>In case you use <em>org-mode</em> with <a href="http://sachachua.com/blog/2007/11/setting-up-appointment-reminders-in-org/">appointments</a> to get visual reminders, be aware that calling <code>(appt-activate 1)</code>
+ will run diary and making this call in your Emacs configuration will 
+display diary window at Emacs startup, which I didn't like. To 
+circumvent this behavior, <em>appt-display-diary</em> variable should be used.</p><p>In short, my appointments setup looks like this:</p><pre><code class="elisp hljs clojure">(<span class="hljs-name">add-hook</span> 'org-finalize-agenda-hook
+  (<span class="hljs-name">lambda</span> ()
+    (<span class="hljs-name">setq</span> appt-message-warning-time <span class="hljs-number">10</span>        <span class="hljs-comment">;; warn 10 min in advance</span>
+          appt-display-diary <span class="hljs-literal">nil</span>              <span class="hljs-comment">;; do not display diary when (appt-activate) is called</span>
+          appt-display-mode-line t            <span class="hljs-comment">;; show in the modeline</span>
+          appt-display-format 'window         <span class="hljs-comment">;; display notification in window</span>
+          calendar-mark-diary-entries-flag t) <span class="hljs-comment">;; mark diary entries in calendar</span>
+    (<span class="hljs-name">org-agenda-to-appt</span>)                      <span class="hljs-comment">;; copy all agenda schedule to appointments</span>
+    (<span class="hljs-name">appt-activate</span> <span class="hljs-number">1</span>)))                       <span class="hljs-comment">;; active appt (appointment notification)</span>
+</code></pre>
+      </div>
+      <footer class="post-info text-muted">
+        
+        
+        <button type="button" class="btn btn-default">
+          <a href="https://acidwords.com/tags/emacs.html"><div class="fa fa-lg fa-tag"></div> emacs</a>
+        </button>
+        
+        
+      </footer>
+
+      
+    </section>
+    
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p class="footer-text">© 2019 Sanel Z. - powered by <a href="http://cryogenweb.org/">Cryogen</a></p>
+      </div>
+    </footer>
+    <script src="%23:acid%20'words:%20Displaying%20org-mode%20appointments%20in%20calendar_files/jquery.js"></script>
+    <script src="%23:acid%20'words:%20Displaying%20org-mode%20appointments%20in%20calendar_files/bootstrap.js"></script>
+    <script src="%23:acid%20'words:%20Displaying%20org-mode%20appointments%20in%20calendar_files/highlight.js" type="text/javascript"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+	
+  
+
+<iframe src="%23:acid%20'words:%20Displaying%20org-mode%20appointments%20in%20calendar_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe><div id="SL_balloon_obj" alt="0" style="display: block;"><div id="SL_button" class="SL_ImTranslatorLogo" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/imtranslator-s.png&quot;) repeat scroll 0% 0%; display: none; opacity: 1;"></div><div id="SL_shadow_translation_result2" style="display: none;"></div><div id="SL_shadow_translator" style="left: -10000px; top: -10000px; display: none;"><div id="SL_planshet"><div id="SL_arrow_up" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/up.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_Bproviders"></div><div id="SL_alert_bbl" style="display: none;"><div id="SLHKclose" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/delete.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_alert_cont"></div></div><div id="SL_TB"><table id="SL_tables" cellspacing="1"><tr><td class="SL_td" align="right" width="10%"><input id="SL_locer" title="锁定语言" type="checkbox"></td><td class="SL_td" align="left" width="20%"><select id="SL_lng_from" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="auto" selected="selected">检测语言</option><option value="eo">世界语</option><option value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" align="center" width="3"><div id="SL_switch_b" title="切换语言" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/switchb.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="left" width="20%"><select id="SL_lng_to" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="eo">世界语</option><option value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" align="center" width="8%"><div id="SL_TTS_voice" title="undefined" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/ttsvoice.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="8%"><div id="SL_copy" title="复制译文" class="SL_copy" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/copy.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="8%"><div id="SL_bbl_font_patch"></div><div id="SL_bbl_font" title="字体大小" class="SL_bbl_font" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/font.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="8%"><div id="SL_bbl_help" title="帮助" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bhelp.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="right" width="15%"><div id="SL_pin" class="SL_pin_off" title="固定弹出窗口" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/pin-on.png&quot;) repeat scroll 0% 0%;"></div></td></tr></table></div></div><div id="SL_shadow_translation_result" style="visibility: visible;"></div><div id="SL_loading" class="SL_loading" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/loading.gif&quot;) repeat scroll 0% 0%;"></div><div id="SL_player2"></div><div id="SL_alert100">文本转语音功能仅限200个字符</div><div id="SL_Balloon_options" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bg3.png&quot;) repeat scroll 0% 0%;"><div id="SL_arrow_down" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/down.png&quot;) repeat scroll 0% 0%;"></div><table id="SL_tbl_opt" width="100%"><tr><td class="SL_td" align="center" width="5%"><input id="SL_BBL_locer" checked="checked" title="显示翻译器的按钮 3 秒" type="checkbox"></td><td class="SL_td" align="left" width="5%"><div id="SL_BBL_IMG" title="显示翻译器的按钮 3 秒" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bbl-logo.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="70%"><a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?bbl" target="_blank" class="SL_options" id="SL_opt1" title="显示选项">选项</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?hist" target="_blank" class="SL_options" id="SL_opt2" title="翻译历史记录">历史</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?feed" target="_blank" class="SL_options" id="SL_opt3" title="反馈">反馈</a> : <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GD9D8CPW8HFA2" target="_blank" class="SL_options" id="SL_opt4" title="作出一点点贡献">Donate</a></td><td class="SL_td" align="right" width="15%"><span id="SL_Balloon_Close" class="SL_options" title="关闭">关闭</span></td></tr></table></div></div></div></body></html>

@@ -1,0 +1,5 @@
+1Q when running linux app with compat, show FATAL: kernel too old
+
+1A sysctl compat.linux.osrelease=2.6.18
+
+you may change 2.6.18 more bigger

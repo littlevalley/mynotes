@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Install Debian to USB Drive - Will Haley</title>
+
+  <meta name="author" content="will">
+  <meta name="description" content="These instructions are not for a live install, but rather an installation of Debian to USB flash media. An added bonus here is that we’re going to first p...">
+
+  <link rel="stylesheet" href="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/main.css">
+  <link rel="stylesheet" href="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/custom.css">
+  <link rel="canonical" href="http://willhaley.com/blog/install-debian-usb/">
+
+  
+  <link rel="manifest" href="https://willhaley.com/manifest.json?version=1.1.6">
+
+  <link rel="shortcut icon" href="https://willhaley.com/favicon.ico?version=1.1.6">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://willhaley.com/favicon/apple-touch-icon.png?version=1.1.6">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://willhaley.com/favicon/favicon-32x32.png?version=1.1.6">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://willhaley.com/favicon/favicon-16x16.png?version=1.1.6">
+  <link rel="mask-icon" href="https://willhaley.com/favicon/safari-pinned-tab.svg?version=1.1.6">
+  <meta name="msapplication-config" content="/browserconfig.xml?version=1.1.6">
+  <meta name="theme-color" content="#ffffff">
+<script async="" src="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/analytics.js"></script><script async="" src="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/embed.js" data-timestamp="1573655315200"></script><style>
+.vimvixen-console-frame {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2147483647;
+  border: none;
+  background-color: unset;
+  pointer-events:none;
+}
+
+.vimvixen-hint {
+  background-color: yellow;
+  border: 1px solid gold;
+  font-weight: bold;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  font-size: 12px;
+  color: black;
+}
+</style><link rel="prefetch" as="style" href="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/a_data/lounge.css"><link rel="prefetch" as="script" href="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/a_data/common.js"><link rel="prefetch" as="script" href="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/a_data/lounge.js"><link rel="prefetch" as="script" href="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/a_data/config.js"><script src="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/alfalfalfa.js" async="" charset="UTF-8"></script></head>
+
+<body>
+  <header class="site-header" role="banner">
+    <div class="wrapper" id="app">
+
+      <a class="site-title" href="https://willhaley.com/">Will Haley</a>
+
+      <nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger">
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path fill="#424242" d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.031C17.335,0,18,0.665,18,1.484L18,1.484z"></path>
+              <path fill="#424242" d="M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0c0-0.82,0.665-1.484,1.484-1.484 h15.031C17.335,6.031,18,6.696,18,7.516L18,7.516z"></path>
+              <path fill="#424242" d="M18,13.516C18,14.335,17.335,15,16.516,15H1.484C0.665,15,0,14.335,0,13.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.031C17.335,12.031,18,12.696,18,13.516L18,13.516z"></path>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+          <a class="page-link" href="https://willhaley.com/about/">About</a>
+          <a class="page-link" href="https://willhaley.com/clippings/">Clippings</a>
+          <a class="page-link" href="https://willhaley.com/favorites/">Favorites</a>
+          <a class="page-link" href="https://willhaley.com/cv/">CV</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">Install Debian to USB Drive</h1>
+    <p class="post-meta"><time datetime="2017-06-10T00:00:00+00:00" itemprop="datePublished">Jun 10, 2017</time></p>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    
+
+<p><span class="warning">These instructions are <strong>not</strong> for a live install, but rather an installation of Debian to USB flash media.</span></p>
+
+<p>An added bonus here is that we’re going to first prepare our Debian chroot inside an <code>img</code> file that we mount as a loopback device.</p>
+
+<p>We can then use that <code>img</code> file as a generic base image that we can deploy to a large number of USB drives.</p>
+
+<p>Why would you want to do this? Well, for one, the <code>img</code> 
+file helps reduce some mess and gives you an easy to manage file that 
+can be re-deployed again and again. This may also be ideal for creating a
+ generic image that will be reused on multiple machines. Like you might 
+do at a cybercafe where Debian is re-installed at each boot, or maybe 
+for a classroom.</p>
+
+<p>Thanks to Mike McCabe for the idea and for most of the steps detailed below.</p>
+
+<p>See other related articles here:</p>
+
+<ul>
+<li><a href="https://willhaley.com/blog/custom-debian-live-environment/">Create a Custom Debian Live Environment (CD or USB)</a></li>
+<li><a href="https://willhaley.com/blog/custom-debian-hard-drive-install/">Perform a Custom Debian Hard Drive Install</a>
+<!-- * [Install Debian to USB Drive](/blog/install-debian-usb/) --></li>
+</ul>
+
+<!-- more -->
+
+<p><strong><span class="warning">Warning</span></strong>: I have <strong><span class="warning">highlighted</span></strong>
+ all the places you should be in the chroot environment.&nbsp;Be 
+careful! Running some of these commands on your local environment 
+instead of in the chroot can cause issues.</p>
+
+<pre><code>sudo apt-get install \
+    debootstrap
+</code></pre>
+
+<p>Create the image file and format it.</p>
+
+<pre><code>fallocate -l 2G debian.img
+echo -e "o\nn\np\n1\n\n\nw" | sudo fdisk debian.img
+echo -e "a\nw\n" | sudo fdisk debian.img
+</code></pre>
+
+<p><strong>Take note of what is returned by the following command.</strong> For me, the loopback device is <code>/dev/loop0</code>, but it may vary for you. Update the instructions below accordingly if your loopback device address differs.</p>
+
+<pre><code>sudo losetup --partscan --show --find debian.img
+</code></pre>
+
+<p>Format the linux partition of our loopback device, much like we would do for a real physical device.</p>
+
+<pre><code>sudo mkfs.ext4 /dev/loop0p1
+</code></pre>
+
+<p>Mount the partition.</p>
+
+<pre><code>sudo mkdir -p /mnt/debian
+sudo mount /dev/loop0p1 /mnt/debian
+</code></pre>
+
+<p>Bootstrap the chroot.</p>
+
+<pre><code>sudo debootstrap \
+    --arch=i386 \
+    --variant=minbase \
+    stretch /mnt/debian <a class="vglnk" href="http://ftp.us.debian.org/debian/" rel="nofollow"><span>http</span><span>://</span><span>ftp</span><span>.</span><span>us</span><span>.</span><span>debian</span><span>.</span><span>org</span><span>/</span><span>debian</span><span>/</span></a>
+</code></pre>
+
+<p>Mount special devices to the chroot. This will be important for installing grub later.</p>
+
+<pre><code>sudo mount -t proc /proc /mnt/debian/proc
+</code></pre>
+
+<pre><code>sudo mount -t sysfs /sys /mnt/debian/sys
+</code></pre>
+
+<pre><code>sudo mount -o bind /dev /mnt/debian/dev
+</code></pre>
+
+<p>Change root to the chroot environment.</p>
+
+<pre><code>sudo chroot /mnt/debian
+</code></pre>
+
+<p><strong><span class="warning">chroot</span></strong></p>
+
+<p>These packages are required at a minimum, but add more as needed.</p>
+
+<p><strong>When prompted to install grub to a device, do NOT install it. Simply hit “Enter” and choose not to install it to any devices.</strong></p>
+
+<pre><code>apt-get update &amp;&amp; \
+apt-get install --no-install-recommends \
+    linux-image-586 systemd-sysv \
+	grub2-common grub-pc
+</code></pre>
+
+<p><strong><span class="warning">chroot</span></strong></p>
+
+<p>We want <code>fstab</code> to mount <code>/</code> based on the disk label, and not a UUID or named disk like <code>/dev/sda</code>. That’s because, depending on the machine, the USB drive <em>may not be /dev/sda</em>, and also because the UUID will vary depending on where the <code>img</code> file is deployed.</p>
+
+<pre><code>echo "LABEL=DEBUSB / ext4 defaults 0 1" &gt; /etc/fstab
+</code></pre>
+
+<p><strong><span class="warning">chroot</span></strong></p>
+
+<pre><code>passwd root
+</code></pre>
+
+<p><strong><span class="warning">chroot</span></strong></p>
+
+<pre><code>grub-install \
+    --target=i386-pc \
+    --boot-directory=/boot \
+    --force-file-id \
+    --skip-fs-probe \
+    --recheck /dev/loop0
+</code></pre>
+
+<p><strong><span class="warning">chroot</span></strong></p>
+
+<pre><code>exit
+</code></pre>
+
+<p>Edit the <code>grub.cfg</code> file in the <code>img</code>.</p>
+
+<pre><code>sudo nano /mnt/debian/boot/grub/grub.cfg
+</code></pre>
+
+<p>Paste this content into the <code>grub.cfg</code> file.</p>
+
+<pre><code># grub.cfg
+set default="0"
+set timeout=10
+
+menuentry "Debian" {
+    linux /vmlinuz root=/dev/disk/by-label/DEBUSB quiet
+    initrd /initrd.img
+}
+</code></pre>
+
+<p>Label the image partition with the same name we used for <code>fstab</code> above.</p>
+
+<pre><code>sudo e2label /dev/loop0p1 DEBUSB
+</code></pre>
+
+<p>Set the hostname for the <code>img</code>.</p>
+
+<pre><code>echo "debian-usb" | sudo tee /mnt/debian/etc/hostname
+</code></pre>
+
+<p>Clean up special devices.</p>
+
+<pre><code>sudo umount /mnt/debian/{dev,sys,proc}
+</code></pre>
+
+<p>Unmount the loop device.</p>
+
+<pre><code>sudo umount /mnt/debian
+</code></pre>
+
+<p>Unmount the <code>img</code>.</p>
+
+<pre><code>sudo losetup -d /dev/loop0
+</code></pre>
+
+<p>Now you have a generic Debian installation that you can deploy to multiple devices like so.</p>
+
+<pre><code>dd if=debian.img of=/dev/sdz
+</code></pre>
+
+<h1 id="citations">Citations</h1>
+
+<ul>
+<li><a href="https://wiki.archlinux.org/index.php/Installing_Arch_Linux_on_a_USB_key">Installing Arch Linux on a USB key</a></li>
+<li><a href="http://www.wyae.de/docs/boot-usb3/">Boot from USB 3</a></li>
+<li><a href="https://www.cyberciti.biz/faq/linux-partition-howto-set-labels/">Label a Linux Partition</a></li>
+<li><a href="https://ubuntuforums.org/showthread.php?t=1529777">How to generate a grub.cfg that uses LABELs not UUID’s?</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/GRUB">GRUB</a></li>
+<li><a href="https://www.gnu.org/software/grub/manual/html_node/Multi_002dboot-manual-config.html">6.3 Multi-boot manual config</a></li>
+<li><a href="https://unix.stackexchange.com/questions/10010/safe-to-delete-system-map-files-in-boot">Safe to delete System.map-* files in /boot?</a></li>
+<li><a href="https://ubuntuforums.org/showthread.php?t=1530532">GRUB2 booting with labels (no UUID)</a></li>
+<li><a href="https://www.gnu.org/software/grub/manual/grub.html#search">16.3.64 search</a></li>
+<li><a href="https://ubuntuforums.org/showthread.php?t=1854142">error: no such device: grub rescue&gt;</a></li>
+<li><a href="https://askubuntu.com/questions/491604/grub-rescue-no-such-partition">grub rescue -&gt; no such partition [duplicate]</a></li>
+<li><a href="https://superuser.com/questions/130955/how-to-install-grub-into-an-img-file">How to install grub into an .img file?</a></li>
+<li><a href="https://unix.stackexchange.com/questions/120198/how-to-fix-boot-into-initramfs-prompt-and-mount-cant-read-etc-fstab-no-su">How to fix boot into initramfs prompt and “mount: can’t read ‘/etc/fstab’: No such file or directory” and “No init found”?</a></li>
+<li><a href="https://serverfault.com/questions/540492/sudo-echo-bla-etc-sysctl-conf-permission-denied"><code>sudo echo “bla” &gt;&gt; /etc/sysctl.conf</code> permission denied</a></li>
+<li><a href="https://superuser.com/questions/165116/mount-dev-proc-sys-in-a-chroot-environment">mount dev, proc, sys in a chroot environment?</a></li>
+</ul>
+
+  </div>
+
+  <div class="feedback">Feel free to <a target="_blank" href="https://twitter.com/messages/compose?recipient_id=142425885&amp;text=Regarding%20article%20http%3a%2f%2fwillhaley.com%2fblog%2finstall-debian-usb%2f%0a%0a">contact me</a> with questions or feedback regarding this article.</div>
+  <div id="disqus_thread"><iframe id="dsq-app9447" name="dsq-app9447" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 1px !important; min-width: 100% !important; border: medium none !important; overflow: hidden !important; height: 2247px !important;" src="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/a.html" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "willhaley" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</article>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrapper">
+      <h2 class="footer-heading">Will Haley</h2>
+
+      <div class="footer-col-wrapper">
+        <div class="footer-col footer-col-1">
+          <ul class="contact-list">
+            <li>Will Haley</li>
+            <li><a href="mailto:"></a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col footer-col-2">
+          <ul class="social-media-list">
+
+            <li>
+              <a href="https://github.com/williamhaley"><span class="icon icon--github"><svg viewBox="0 0 16 16" width="16px" height="16px"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"></path></svg>
+  </span><span class="username">williamhaley</span></a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer-col footer-col-3">
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-16792239-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  <script src="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/custom.js"></script>
+
+<iframe src="Install%20Debian%20to%20USB%20Drive%20-%20Will%20Haley_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe><iframe style="display: none;"></iframe><div id="SL_balloon_obj" alt="0" style="display: block;"><div id="SL_button" class="SL_ImTranslatorLogo" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/imtranslator-s.png&quot;) repeat scroll 0% 0%; display: none; opacity: 1;"></div><div id="SL_shadow_translation_result2" style="display: none;"></div><div id="SL_shadow_translator" style="left: -10000px; top: -10000px; display: none;"><div id="SL_planshet"><div id="SL_arrow_up" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/up.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_Bproviders"><div class="SL_BL_LABLE_ON" title="Google" id="SL_P0"><div id="SL_PN0">G</div></div><div class="SL_BL_LABLE_ON" title="Microsoft" id="SL_P1"><div id="SL_PN1">M</div></div><div class="SL_BL_LABLE_ON" title="Translator" id="SL_P2"><div id="SL_PN2">T</div></div><div class="SL_BL_LABLE_ON" title="Yandex" id="SL_P3"><div id="SL_PN3">Y</div></div></div><div id="SL_alert_bbl" style="display: none;"><div id="SLHKclose" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/delete.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_alert_cont"></div></div><div id="SL_TB"><table id="SL_tables" cellspacing="1"><tr><td class="SL_td" width="10%" align="right"><input id="SL_locer" type="checkbox" title="锁定语言"></td><td class="SL_td" width="20%" align="left"><select id="SL_lng_from" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="auto" selected="selected">检测语言</option><option value="eo">世界语</option><option value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" width="3" align="center"><div id="SL_switch_b" title="切换语言" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/switchb.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="20%" align="left"><select id="SL_lng_to" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="eo">世界语</option><option selected="selected" value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" width="8%" align="center"><div id="SL_TTS_voice" title="undefined" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/ttsvoice.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="8%" align="center"><div id="SL_copy" title="复制译文" class="SL_copy" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/copy.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="8%" align="center"><div id="SL_bbl_font_patch"></div><div id="SL_bbl_font" title="字体大小" class="SL_bbl_font" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/font.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="8%" align="center"><div id="SL_bbl_help" title="帮助" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bhelp.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="15%" align="right"><div id="SL_pin" class="SL_pin_off" title="固定弹出窗口" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/pin-on.png&quot;) repeat scroll 0% 0%;"></div></td></tr></table></div></div><div id="SL_shadow_translation_result" style="visibility: visible;"></div><div id="SL_loading" class="SL_loading" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/loading.gif&quot;) repeat scroll 0% 0%;"></div><div id="SL_player2"></div><div id="SL_alert100">文本转语音功能仅限200个字符</div><div id="SL_Balloon_options" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bg3.png&quot;) repeat scroll 0% 0%;"><div id="SL_arrow_down" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/down.png&quot;) repeat scroll 0% 0%;"></div><table id="SL_tbl_opt" width="100%"><tr><td class="SL_td" width="5%" align="center"><input id="SL_BBL_locer" type="checkbox" checked="checked" title="显示翻译器的按钮 3 秒"></td><td class="SL_td" width="5%" align="left"><div id="SL_BBL_IMG" title="显示翻译器的按钮 3 秒" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bbl-logo.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="70%" align="center"><a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?bbl" target="_blank" class="SL_options" id="SL_opt1" title="显示选项">选项</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?hist" target="_blank" class="SL_options" id="SL_opt2" title="翻译历史记录">历史</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?feed" target="_blank" class="SL_options" id="SL_opt3" title="反馈">反馈</a> : <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GD9D8CPW8HFA2" target="_blank" class="SL_options" id="SL_opt4" title="作出一点点贡献">Donate</a></td><td class="SL_td" width="15%" align="right"><span id="SL_Balloon_Close" class="SL_options" title="关闭">关闭</span></td></tr></table></div></div></div></body></html>

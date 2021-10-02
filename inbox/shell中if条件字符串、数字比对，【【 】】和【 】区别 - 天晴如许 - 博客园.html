@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <meta property="og:description" content="引用：http://www.51testing.com/?uid-7701-action-viewspace-itemid-13731http://blog.csdn.net/sunboy_2050/">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>shell中if条件字符串、数字比对，[[ ]]和[ ]区别 - 天晴如许 - 博客园</title>
+    
+    <link rel="stylesheet" href="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+    <link id="MainCss" rel="stylesheet" href="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-marvin2-brown.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-marvin2-brown-mobile.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/include/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/include/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/include/wlwmanifest.xml">
+    <script src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019091901.js"></script><script async="" src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js"></script>
+    <script>
+        var currentBlogId = 77227;
+        var currentBlogApp = 'include';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+    </script>
+    
+    
+    
+<link rel="preload" href="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019091901.js" async=""></script></head>
+<body>
+    <a name="top"></a>
+    
+    <div id="top">
+
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/include/">天晴如许</a>
+</h1>
+<p id="tagline">
+在网站数据采集和网站分析行业，让数据采集标准化和自动化；由海量日志基于hadoop分析到实时分析；提供Web Analytics工具发挥数据运营威力。
+</p>
+
+
+</div>
+<div id="leftmenu">
+
+	
+<h3>导航</h3>
+<ul>
+	<li>
+		<a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/include/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+		
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8">
+联系</a></li>
+	<li>
+		
+<a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/include/rss/">
+订阅</a>
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/include/rss/">
+    <img src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/xml.gif" alt="订阅">
+</a></li>
+	<li>
+		
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+	<div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2019/08/22'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2019年9月</td>
+                            <td class="CalNextPrev" align="right">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2019/10/22'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+                    <th class="CalDayHeader" abbr="日" scope="col" align="center">日</th>
+                    <th class="CalDayHeader" abbr="一" scope="col" align="center">一</th>
+                    <th class="CalDayHeader" abbr="二" scope="col" align="center">二</th>
+                    <th class="CalDayHeader" abbr="三" scope="col" align="center">三</th>
+                    <th class="CalDayHeader" abbr="四" scope="col" align="center">四</th>
+                    <th class="CalDayHeader" abbr="五" scope="col" align="center">五</th>
+                    <th class="CalDayHeader" abbr="六" scope="col" align="center">六</th>
+        </tr>
+            <tr>
+                        <td class="CalWeekendDay" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                        <td class="" align="center">
+                            5
+                        </td>
+                        <td class="" align="center">
+                            6
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        7
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            8
+                        </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            14
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            15
+                        </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            21
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalTodayDay" align="center">
+                            22
+                        </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            28
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            29
+                        </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            5
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            6
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                10
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                11
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            12
+                        </td>
+                </tr>
+    </tbody>
+</table></div></div>                
+                    <script>loadBlogDefaultCalendar();</script>
+	<h3>统计</h3>
+<ul>
+	<li>
+		随笔 -
+		
+53</li>
+	<li>
+		文章 -
+		
+1</li>
+	<li>
+		评论 -
+		
+18</li>
+	<li>
+		引用 -
+		
+0
+	</li>
+</ul>
+
+
+	
+<div id="sidebar_news" class="newsItem"><h3>公告</h3>
+	
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/include/">
+            天晴如许
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/include/" title="入园时间：2010-10-16">
+            8年11个月
+        </a>
+        <br>
+        粉丝：
+        <a href="https://home.cnblogs.com/u/include/followers/">
+            10
+        </a>
+        <br>
+        关注：
+        <a href="https://home.cnblogs.com/u/include/followees/">
+            1
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('7f48ae72-e0d8-df11-ac81-842b2b196315')">+加关注</a></div>
+        <script>getFollowStatus('7f48ae72-e0d8-df11-ac81-842b2b196315');</script>
+    </div>
+</div>
+
+</div>
+
+	<div id="blog-sidecolumn">
+
+<!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button">
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block">
+    
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+        <li>
+
+<a href="https://www.cnblogs.com/include/p/" title="我的博客的随笔列表">我的随笔</a>
+</li>
+        <li>
+
+<a href="https://www.cnblogs.com/include/MyComments.html" title="我的发表过的评论列表">我的评论</a>
+</li>
+        <li>
+
+<a href="https://www.cnblogs.com/include/OtherPosts.html" title="我评论过的随笔列表">我的参与</a>
+</li>
+        <li>
+
+<a href="https://www.cnblogs.com/include/RecentComments.html" title="我的博客的评论列表">最新评论</a>
+</li>
+        <li>
+
+<a href="https://www.cnblogs.com/include/tag/" title="我的博客的标签列表">我的标签</a>
+</li>
+</ul>
+
+<!-- TODO: 检查是否有使用这一部分的控件，如果没有则应该删除。 -->
+<div id="itemListLin_con" style="display:none">
+    <ul>
+
+    </ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block">
+    
+<h3>我的标签</h3>
+<div id="MyTag">
+    <ul>
+        
+        <li>
+            <a href="https://www.cnblogs.com/include/tag/life/">life</a>(2)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/include/tag/Other/">Other</a>(1)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/include/tag/work/">work</a>(1)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/include/tag/eclipse/">eclipse</a>(1)
+        </li>
+
+    </ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+    
+		<h3>
+
+随笔分类
+
+
+</h3>
+				<ul>
+			
+				<li>
+<a href="https://www.cnblogs.com/include/category/346539.html" rel="" target="">
+    Coding(4)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/category/346535.html" rel="" target="">
+    DB(8)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/category/346540.html" rel="" target="">
+    hadoop(1)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/category/346538.html" rel="" target="">
+    life
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/category/346536.html" rel="" target="">
+    linux(22)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/category/346534.html" rel="" target="">
+    Tool(13)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/category/346537.html" rel="" target="">
+    管理
+</a>
+ 
+</li>
+			
+				</ul>
+		<h3>
+
+随笔档案
+
+
+</h3>
+				<ul>
+			
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2011/12.html" rel="" target="">
+    2011年12月(12)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2011/11.html" rel="" target="">
+    2011年11月(10)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2011/10.html" rel="" target="">
+    2011年10月(4)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2011/08.html" rel="" target="">
+    2011年8月(5)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2011/07.html" rel="" target="">
+    2011年7月(4)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2011/06.html" rel="" target="">
+    2011年6月(1)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2011/03.html" rel="" target="">
+    2011年3月(1)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2011/02.html" rel="" target="">
+    2011年2月(6)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2010/11.html" rel="" target="">
+    2010年11月(9)
+</a>
+ 
+</li>
+				<li>
+<a href="https://www.cnblogs.com/include/archive/2010/10.html" rel="" target="">
+    2010年10月(1)
+</a>
+ 
+</li>
+			
+				</ul>
+
+
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block">
+    <div id="recent_comments_wrap" class="RecentComment">
+    <h3 class="catListTitle">最新评论</h3>
+    <div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/include/archive/2011/12/09/2307906.html#4289800">1. Re:shell中awk多变量赋值</a></li>
+                    <li class="recent_comment_body">用三个 &lt;&lt;&lt;</li>
+                    <li class="recent_comment_author">--yjd</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/include/archive/2011/12/09/2307906.html#4231010">2. Re:shell中awk多变量赋值</a></li>
+                    <li class="recent_comment_body">&lt;&lt;是输入文件重定向啊，你传递的不是文件肯定会报错</li>
+                    <li class="recent_comment_author">--小丑不丑</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/include/archive/2011/12/09/2307906.html#4198811">3. Re:shell中awk多变量赋值</a></li>
+                    <li class="recent_comment_body">read usr sys &lt; &lt;(vmstat |awk 'NR==3 {print $13,$14}') <br>注意一下&lt; &lt;空格问题。</li>
+                    <li class="recent_comment_author">--浊酒三杯</li>
+                    <li class="recent_comment_title"><a href="http://www.cnblogs.com/include/archive/2011/12/09/2307905.html#3785042">4. Re:shell中if条件字符串、数字比对，[[ ]]和[ ]区别</a></li>
+                    <li class="recent_comment_body">厉害</li>
+                    <li class="recent_comment_author">--splenday</li>
+                    <li class="recent_comment_title"><a href="http://www.cnblogs.com/include/archive/2011/12/09/2307905.html#3614011">5. Re:shell中if条件字符串、数字比对，[[ ]]和[ ]区别</a></li>
+                    <li class="recent_comment_body">确实总结的很好，豁然开朗，<br>shell加油~</li>
+                    <li class="recent_comment_author">--天行健·自强不息</li>
+        </ul>
+    </div>
+</div>
+</div>
+
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block">
+    
+<div id="topview_posts_wrap">
+    <h3 class="catListTitle">阅读排行榜</h3>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/12/09/2307905.html">
+                            1. shell中if条件字符串、数字比对，[[ ]]和[ ]区别(84054)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/12/30/2307889.html">
+                            2. shell调用sqlplus查询oracle(31879)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/02/25/1964703.html">
+                            3. Win7 专业版安装中文包、汉化处理(25984)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/12/09/2307906.html">
+                            4. shell中awk多变量赋值(15044)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/08/23/2150663.html">
+                            5. Oracle SQL 特殊字符 转义 嵌套单引号 双引号(14625)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block">
+    
+<div id="topfeedback_posts_wrap">
+    <h3 class="catListTitle">评论排行榜</h3>
+    <div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/12/09/2307905.html">
+                            1. shell中if条件字符串、数字比对，[[ ]]和[ ]区别(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/12/09/2307906.html">
+                            2. shell中awk多变量赋值(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/02/25/1964580.html">
+                            3. Win7 任务栏影藏、显示速度提升(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/10/08/2202051.html">
+                            4. 关于小说和娱乐的思考(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/include/archive/2011/02/25/1964784.html">
+                            5. 32位Win7使用4G内存(3)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block">
+    
+<div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/include/archive/2011/12/09/2307905.html">
+                                1. shell中if条件字符串、数字比对，[[ ]]和[ ]区别(9)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/include/archive/2011/08/23/2150594.html">
+                                2. Win7 高级搜索 AND OR NOT 正则(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/include/archive/2011/02/25/1964784.html">
+                                3. 32位Win7使用4G内存(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/include/archive/2010/11/17/1879465.html">
+                                4. outlook2007使用过程中故障处理(2)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/include/archive/2010/11/14/1877224.html">
+                                5. linux下私房工具箱(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div></div>
+                    <script>loadBlogSideColumn();</script>
+
+</div>
+<div id="main">
+	<div id="post_detail">
+	<div class="post">
+		<h2>
+			
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/include/archive/2011/12/09/2307905.html">shell中if条件字符串、数字比对，[[ ]]和[ ]区别</a>
+
+		</h2>
+		
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <p>引用：</p>
+<p><a href="http://www.51testing.com/?uid-7701-action-viewspace-itemid-13731"></a><a href="http://www.51testing.com/?uid-7701-action-viewspace-itemid-13731">http://www.51testing.com/?uid-7701-action-viewspace-itemid-13731</a></p>
+<p><a href="http://blog.csdn.net/sunboy_2050/article/details/6836382">http://blog.csdn.net/sunboy_2050/article/details/6836382</a></p>
+<p><a href="http://hi.baidu.com/masterfoo/blog/item/63f2c4f2f4be4dc87831aa30.html">shell 括号</a><br>
+</p>
+<p></p>
+<div id="blog_text" class="cnt">
+<div class="blog_content">
+<p>学习shell的时候总是被shell里的条件判断方式搞得头疼，经常不知道改 
+用[],[[]],(())还是test,let，而很少有书把它们的关系讲解的很清楚(应该是我悟性差或是看书太少)，今天总结一下，基础的东西如它们
+ 的使用方法不再赘述，重点说说它们的区别的使用时应该注意的地方。<br>
+<br>
+先说[]和test，两者是一样的，在命令行里test expr和[ expr ]的效果相同。test的三个基本作用是判断文件、判断字符串、判断整数。支持使用与或非将表达式连接起来。要注意的有：<br>
+<br>
+1.test中可用的比较运算符只有==和!=，两者都是用于字符串比较的，不可用于整数比较，整数比较只能使用-eq, 
+-gt这种形式。无论是字符串比较还是整数比较都千万不要使用大于号小于号。当然，如果你实在想用也是可以的，对于字符串比较可以使用尖括号的转义形式，
+ 如果比较"ab"和"bc"：[ ab \&lt; bc ]，结果为真，也就是返回状态为0.<br>
+<br>
+然后是[[ 
+]]，这是内置在shell中的一个命令，它就比刚才说的test强大的多了。支持字符串的模式匹配（使用=~操作符时甚至支持shell的正则表达 
+式）。简直强大的令人发指！逻辑组合可以不使用test的-a,-o而使用&amp;&amp;,||这样更亲切的形式(针对c、Java程序员)。当 
+然，也不用想的太复杂，基本只要记住<br>
+1.字符串比较时可以把右边的作为一个模式（这是右边的字符串不加双引号的情况下。如果右边的字符串加了双引号，则认为是一个文本字符串。），而不仅仅是一个字符串，比如[[ hello == hell? ]]，结果为真。</p>
+<p>另外要注意的是，使用[]和[[]]的时候不要吝啬空格，每一项两边都要有空格，[[ 1 == 2 ]]的结果为“假”，但[[ 1==2 ]]的结果为“真”！后一种显然是错的</p>
+<p><br>
+3.最后就是let和(())，两者也是一样的(或者说基本上是一样的，双括号比let稍弱一些)。主要进行算术运算(上面的两个都不行)，也比较适合进
+ 行整数比较，可以直接使用熟悉的&lt;,&gt;等比较运算符。可以直接使用变量名如var而不需要$var这样的形式。支持分号隔开的多个表达式</p>
+</div>
+</div>
+<p></p>
+<p>####################################################################################################################################<br>
+</p>
+<p>1. 首先，尽管很相似，但是从概念上讲，二者是不同层次的东西。<br>
+"[["，是关键字，许多shell(如ash bsh)并不支持这种方式。ksh, bash(据说从2.02起引入对[[的支持)等支持。<br>
+"["是一条命令， 与test等价，大多数shell都支持。在现代的大多数sh实现中，"["与"test"是内部(builtin)命令，换句话说执行"test"/"["时不会调用/some/path/to/test这样的外部命令(如果有这样的命令的话)。</p>
+<p><br>
+2.[[]]结构比Bash版本的[]更通用。在[[和]]之间的所有的字符都不会被文件扩展或是标记分割，但是会有参数引用和命令替换。</p>
+<p>用[[ ... ]]<a target="_self"><u><strong>测试</strong></u></a>结构比用[ ... ]更能防止脚本里的许多逻辑错误。比如说，&amp;&amp;,||,&lt;和&gt;操作符能在一个[[]]测试里通过，但在[]结构会发生错误。</p>
+<p>3.(( ))结构扩展并计算一个算术表达式的值。如果表达式值为0，会返回1或假作为退出状态码。一个非零值的表达式返回一个0或真作为退出状态码。这个结构和先前test命令及[]结构的讨论刚好相反。</p>
+<p>4.[ ... ]为shell命令，所以在其中的表达式应是它的命令行参数，所以串比较操作符"&gt;" 与"&lt;"必须转义，否则就变成IO改向操作符了(请参看上面2中的例子)。在[[中"&lt;"与"&gt;"不需转义；<br>
+由于"[["是关键字，不会做命令行扩展，因而相对的语法就稍严格些。例如<br>
+在[ ... ]中可以用引号括起操作符，因为在做命令行扩展时会去掉这些引号，而在[[ ... ]]则不允许这样做。</p>
+<p>5.[[ ... ]]进行算术扩展，而[ ... ]不做</p>
+<p><span style="color:#ff00; font-weight:bold">6.[[ ... &amp;&amp; ... &amp;&amp; ...&nbsp; ]] 和 [ ... -a ... -a ...] 不一样，[[ ]] 是逻辑短路操作，而 [ ] 不会进行逻辑短路</span><br>
+</p>
+<p>1）在ksh中的test<br>
+数字的运算可使用let、(( )) ，其中运算时不需要变量$符号，运算符为 +、-、*、/、% ，不建议使用expr<br>
+数字的比较使用 (( )) ，其运算符 &gt;、&gt;=、&lt;、&lt;=、==、!=<br>
+可以使用算术扩展，如：(( 99+1 &lt;= 101 ))<br>
+字符表达式的比较使用 [[ ]] ，其运算符 =、!=、-n、-z<br>
+文件表达式的测试使用 [[ ]] ，其运算符 -r、-l、-w、-x、-f、-d、-s、-nt、-ot<br>
+逻辑表达式的测试使用 [[ ]] ，其运算符 !、&amp;&amp;、||<br>
+数字比较、字符比较、逻辑测试可以组合，如$ [[ "a" != "b" &amp;&amp; 4 -gt 3 ]]<br>
+支持bash中的通配符扩展，如：[[ hest = h??t ]] 、[ hest = h*t ]]<br>
+使用 (( )) 时，不需要空格分隔各值和运算符，使用 [[ ]] 时需要用空格分隔各值和运算符。</p>
+<p>2）bash与ksh中的 [[ ]] 不同<br>
+在redhat9的bash中也可以使用 [[ ]] 符号。但是建议严格按照上面的原则使用。<br>
+在bash中，数字的比较最好使用 (( ))，虽说可以使用 [[ ]]，但若在其内使用运算符 
+&gt;、&gt;=、&lt;、&lt;=、==、!= 时，其结果经常是错误的，不过若在 [[ ]] 中使用 [ ] 
+中的运算符“-eq、-ne、-le、-lt、-gt、-ge”等，还尚未发现有错。因此诸如$ [[ " a" != “b” &amp;&amp; 4
+ &gt; 3 ]] 这类组合（见上）也不可以在bash中使用，其出错率很高。<br>
+例：[[ "a" != "b" &amp;&amp; 10 &gt; 2 ]] 判断结果就不正常。<br>
+诸如 [ 2 \&lt; 10 ]、[[ 2 &lt; 10 ]] 都是不要使用。使用算术扩展最好用 (( 99+1 == 100 )) ，而不要使用[[ 99+1 -eq 100 ]] 。<br>
+</p>
+<br>
+<p><a href="http://www.51testing.com/batch.download.php?aid=4440" target="_blank" title="点击查看大图片">####################################################################################################################################<img src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/7701_200706181431421.gif" alt="_______25341105520627" class="xspace-imgstyle"></a><br>
+</p>
+<p>####################################################################################################################################<br>
+</p>
+<p>
+</p><table style="table-layout:auto!important; line-height:22px; width:771px; height:693px" border="0" bgcolor="#eeeeee">
+<tbody style="line-height:normal">
+<tr style="line-height:normal" bgcolor="#0033c0">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="color:#ffffff; line-height:22px; font-size:14px">运算符</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="color:#ffffff; line-height:22px; font-size:14px">描述</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="color:#ffffff; line-height:22px; font-size:14px">示例</span></span></td>
+</tr>
+<tr style="line-height:normal" bgcolor="#888888">
+<td colspan="3" style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="color:#ffff0; line-height:22px; font-size:14px">文件比较运算符</span></span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">-e&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span><span style="line-height:normal; font-size:14px">&nbsp;存在，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ -e /var/log/syslog ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">-d&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span><span style="line-height:normal; font-size:14px">&nbsp;为目录，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ -d /tmp/mydir ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">-f&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span><span style="line-height:normal; font-size:14px">&nbsp;为常规文件，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ -f /usr/bin/grep ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">-L&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span><span style="line-height:normal; font-size:14px">&nbsp;为符号链接，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ -L /usr/bin/grep ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">-r&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span><span style="line-height:normal; font-size:14px">&nbsp;可读，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ -r /var/log/syslog ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">-w&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span><span style="line-height:normal; font-size:14px">&nbsp;可写，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ -w /var/mytmp.txt ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">-x&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename</span></span><span style="line-height:normal; font-size:14px">&nbsp;可执行，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ -L /usr/bin/grep ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename1</span></span><span style="line-height:normal; font-size:14px">&nbsp;-nt&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename1</span></span><span style="line-height:normal; font-size:14px">&nbsp;比&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename2</span></span><span style="line-height:normal; font-size:14px">&nbsp;新，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ /tmp/install/etc/services -nt /etc/services ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename1</span></span><span style="line-height:normal; font-size:14px">&nbsp;-ot&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename1</span></span><span style="line-height:normal; font-size:14px">&nbsp;比&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">filename2</span></span><span style="line-height:normal; font-size:14px">&nbsp;旧，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ /boot/bzImage -ot arch/i386/boot/bzImage ]</span></td>
+</tr>
+<tr style="line-height:normal" bgcolor="#888888">
+<td colspan="3" style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="color:#ffff0; line-height:22px; font-size:14px">字符串比较运算符</span></span><span style="color:#ffff0; line-height:normal; font-size:14px">&nbsp;</span><span style="color:#ffffff; line-height:20px; font-size:14px">（请注意引号的使用，这是防止空格扰乱代码的好方法）</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">-z&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string</span></span><span style="line-height:normal; font-size:14px">&nbsp;长度为零，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ -z "$myvar" ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">-n&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string</span></span><span style="line-height:normal; font-size:14px">&nbsp;长度非零，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ -n "$myvar" ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">string1</span></span><span style="line-height:normal; font-size:14px">&nbsp;=&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string1</span></span><span style="line-height:normal; font-size:14px">&nbsp;与&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string2</span></span><span style="line-height:normal; font-size:14px">&nbsp;相同，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ "$myvar" = "one two three" ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">string1</span></span><span style="line-height:normal; font-size:14px">&nbsp;!=&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">如果&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string1</span></span><span style="line-height:normal; font-size:14px">&nbsp;与&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">string2</span></span><span style="line-height:normal; font-size:14px">&nbsp;不同，则为真</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ "$myvar" != "one two three" ]</span></td>
+</tr>
+<tr style="line-height:normal" bgcolor="#888888">
+<td colspan="3" style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="color:#ffff0; line-height:22px; font-size:14px">算术比较运算符</span></span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">num1</span></span><span style="line-height:normal; font-size:14px">&nbsp;-eq&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">num2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">等于</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ 3 -eq $mynum ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">num1</span></span><span style="line-height:normal; font-size:14px">&nbsp;-ne&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">num2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">不等于</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ 3 -ne $mynum ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">num1</span></span><span style="line-height:normal; font-size:14px">&nbsp;-lt&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">num2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">小于</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ 3 -lt $mynum ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">num1</span></span><span style="line-height:normal; font-size:14px">&nbsp;-le&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">num2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">小于或等于</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ 3 -le $mynum ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">num1</span></span><span style="line-height:normal; font-size:14px">&nbsp;-gt&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">num2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">大于</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ 3 -gt $mynum ]</span></td>
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">num1</span></span><span style="line-height:normal; font-size:14px">&nbsp;-ge&nbsp;</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">num2</span></span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">大于或等于</span></td>
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px">
+<span style="line-height:normal; font-size:14px">[ 3 -ge $mynum ]</span><br style="line-height:normal">
+<br style="line-height:normal">
+</td>
+</tr>
+</tbody>
+</table>
+<span style="color:#4474bb; line-height:22px"><br style="line-height:normal">
+</span>
+<table style="table-layout:auto!important; line-height:22px" width="100%" cellspacing="3" cellpadding="3" border="0">
+<tbody style="line-height:normal">
+<tr style="line-height:normal">
+</tr>
+<tr style="line-height:normal">
+<td style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; line-height:22px" align="left">
+<span style="line-height:22px"><span style="line-height:normal; font-size:14px">测试命令</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　test命令用于检查某个条件是否成立，它可以进行数值、字符和文件3个方面的测试，其测试符和相应的功能分别如下。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">（1）数值测试：</span></span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-eq 等于则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-ne 不等于则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-gt 大于则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-ge 大于等于则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-lt 小于则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-le 小于等于则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">　　</span><span style="line-height:normal"><span style="line-height:normal; font-size:14px">（2）字串测试：</span></span></span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　= 等于则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　!= 不相等则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-z字串 字串长度伪则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-n字串 字串长度不伪则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">　　（3）文件测试：</span></span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-e文件名 如果文件存在则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-r文件名 如果文件存在且可读则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-w文件名 如果文件存在且可写则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-x文件名 如果文件存在且可执行则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-s文件名 如果文件存在且至少有一个字符则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-d文件名 如果文件存在且为目录则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-f文件名 如果文件存在且为普通文件则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-c文件名 如果文件存在且为字符型特殊文件则为真。</span><br style="line-height:normal">
+<br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">　　-b文件名 如果文件存在且为块特殊文件则为真</span></span></td>
+</tr>
+</tbody>
+</table>
+<br style="line-height:normal">
+<span style="line-height:22px"><br style="line-height:normal">
+<span style="line-height:normal"><span style="line-height:normal; font-size:14px">条件变量替换:&nbsp;</span></span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp; Bash Shell可以进行变量的条件替换,既只有某种条件发生时才进行替换,替换&nbsp;</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">条件放在{}中.&nbsp;</span><br style="line-height:normal">
+<span style="line-height:normal"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">(1) ${value:-word}&nbsp;</span></span></span><br style="line-height:normal">
+</span><p></p>
+<p style="line-height:normal"><span style="line-height:22px; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 当变量未定义或者值为空时,返回值为word的内容,否则返回变量的值.&nbsp;</span></p>
+<p style="line-height:normal"><span style="line-height:22px"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">(2) ${value:=word}&nbsp;</span></span></span></p>
+<span style="line-height:22px"><span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 与前者类似,只是若变量未定义或者值为空时,在返回word的值的同时将&nbsp;</span><br style="line-height:normal">
+</span>
+<p style="line-height:normal"><span style="line-height:22px; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; word赋值给value&nbsp;</span></p>
+<p style="line-height:normal"><span style="line-height:22px"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">(3) ${value:?message}&nbsp;</span></span></span></p>
+<span style="line-height:22px"><span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 若变量以赋值的话,正常替换.否则将消息message送到标准错误输出(若&nbsp;</span><br style="line-height:normal">
+</span>
+<p style="line-height:normal"><span style="line-height:22px; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 此替换出现在Shell程序中,那么该程序将终止运行)&nbsp;</span></p>
+<span style="line-height:22px"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">(4) ${value:+word}&nbsp;</span></span><br style="line-height:normal">
+</span>
+<p style="line-height:normal"><span style="line-height:22px; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 若变量以赋值的话,其值才用word替换,否则不进行任何替换&nbsp;</span></p>
+<span style="line-height:22px"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">(5) ${value:offset}&nbsp;</span></span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${value:offset:length}&nbsp;</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 从变量中提取子串,这里offset和length可以是算术表达式.&nbsp;</span><br style="line-height:normal">
+</span>
+<p style="line-height:normal"><span style="line-height:22px"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">(6) ${#value}&nbsp;</span></span></span></p>
+<p style="line-height:normal"><span style="line-height:22px; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 变量的字符个数&nbsp;</span></p>
+<span style="line-height:22px"><span style="line-height:normal"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">(7) ${value#pattern}&nbsp;</span></span></span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${value##pattern}&nbsp;</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 去掉value中与pattern相匹配的部分,条件是value的开头与pattern相匹配&nbsp;</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #与##的区别在于一个是最短匹配模式,一个是最长匹配模式.&nbsp;</span><br style="line-height:normal">
+</span>
+<p style="line-height:normal"><span style="line-height:22px"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">(8) ${value%pattern}&nbsp;</span></span></span></p>
+<span style="line-height:22px"><span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${value%%pattern}&nbsp;</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 于(7)类似,只是是从value的尾部于pattern相匹配,%与%%的区别与#与##一样&nbsp;</span><br style="line-height:normal">
+</span>
+<p style="line-height:normal"><span style="line-height:22px"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">(9) ${value/pattern/string}&nbsp;</span></span></span></p>
+<span style="line-height:22px"><span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${value//pattern/string}&nbsp;</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 进行变量内容的替换,把与pattern匹配的部分替换为string的内容,/与//的区</span><span style="line-height:normal; font-size:14px">别与上同&nbsp;</span><br style="line-height:normal">
+</span>
+<p style="line-height:normal"><span style="line-height:normal"><span style="line-height:22px; font-size:14px">注意:&nbsp;</span></span><span style="line-height:22px"><span style="line-height:normal; font-size:14px">上述条件变量替换中,除(2)外,其余均不影响变量本身的值</span><span style="line-height:normal; font-size:14px">&nbsp;</span></span></p>
+<br style="line-height:normal">
+<span style="line-height:21px"></span>
+<p style="line-height:normal"><span style="line-height:normal; font-size:14px">#!/bin/bash</span></p>
+<p style="line-height:normal"><span style="line-height:normal; font-size:14px">var1="1"</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">var2="2"</span></p>
+<p style="line-height:normal"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">下面是并且的运算符-a，另外注意，用一个test命令就可以了，还有if条件后面的分号</span></span></p>
+<p style="line-height:normal"><span style="line-height:normal; font-size:14px">if test $var1 = "1"<span style="line-height:normal"><span style="color:#ff00; line-height:normal; font-size:14px">-a</span></span>&nbsp;$var2 = "2" ; then</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp; echo "equal"</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">fi</span></p>
+<p style="line-height:normal"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">下面是或运算符 -o，有一个为真就可以</span></span></p>
+<p style="line-height:normal"><span style="line-height:normal; font-size:14px">if test $var1 != "1"&nbsp;<span style="line-height:normal"><span style="color:#ff00; line-height:normal; font-size:14px">-o</span></span>&nbsp;$var2 != "3" ; then</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp; echo "not equal"</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">fi</span></p>
+<p style="line-height:normal"><span style="line-height:normal"><span style="line-height:normal; font-size:14px">下面是非运算符 ！</span></span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">if条件是为真的时候执行，如果使用！运算符，那么原表达式必须为false</span></p>
+<p style="line-height:normal"><span style="line-height:normal; font-size:14px">if ! test $var1&nbsp;<span style="line-height:normal"><span style="color:#ff00; line-height:normal; font-size:14px">!=</span></span>&nbsp;"1"; then</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">&nbsp;&nbsp; echo "not 1"</span><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">fi</span></p>
+<p style="line-height:normal"><br style="line-height:normal">
+<span style="line-height:normal; font-size:14px">以上三个if都为真，所以三个echo都会打印</span></p>
+<p style="line-height:normal"><span style="line-height:normal; font-size:14px">在一个文档把这几个运算法说的一塌糊涂，于是自己动手实验了一下</span></p>
+<p style="line-height:normal"><span style="line-height:normal; font-size:14px">------------------------------------------------------------------------------------------------------</span></p>
+<p style="line-height:normal"><span style="line-height:normal; font-size:14px"></span></p>
+<div style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; font-size:12px; line-height:normal">
+<span style="color:#ff00; line-height:33px; word-wrap:normal; word-break:normal; font-size:22px">shell字符串比较、判断是否为数字</span></div>
+<div style="font-family:Arial; word-wrap:break-word; word-break:break-all; visibility:visible!important; zoom:1!important; font-size:12px; line-height:normal">
+&nbsp;</div>
+<p style="line-height:normal"><span style="color:#ff00; line-height:18px; word-wrap:normal; word-break:normal">二元比较操作符,比较变量或者比较数字.注意数字与字符串的区别.<br style="line-height:normal">
+<br style="line-height:normal">
+整数比较</span><br style="line-height:normal">
+<br style="line-height:normal">
+-eq&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;等于,如:if [ "$a" -eq "$b" ]<br style="line-height:normal">
+-ne&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不等于,如:if [ "$a" -ne "$b" ]<br style="line-height:normal">
+-gt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;大于,如:if [ "$a" -gt "$b" ]<br style="line-height:normal">
+-ge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;大于等于,如:if [ "$a" -ge "$b" ]<br style="line-height:normal">
+-lt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;小于,如:if [ "$a" -lt "$b" ]<br style="line-height:normal">
+-le&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;小于等于,如:if [ "$a" -le "$b" ]<br style="line-height:normal">
+&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;小于(需要双括号),如:(("$a" &lt; "$b"))<br style="line-height:normal">
+&lt;=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;小于等于(需要双括号),如:(("$a" &lt;= "$b"))<br style="line-height:normal">
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;大于(需要双括号),如:(("$a" &gt; "$b"))<br style="line-height:normal">
+&gt;=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;大于等于(需要双括号),如:(("$a" &gt;= "$b"))<br style="line-height:normal">
+<br style="line-height:normal">
+<span style="color:#ff00; line-height:18px; word-wrap:normal; word-break:normal"><span style="line-height:normal">字符串比较</span><br style="line-height:normal">
+</span>=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;等于,如:if [ "$a" = "$b" ]<br style="line-height:normal">
+==&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;等于,如:if [ "$a" == "$b" ],与=等价<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意:==的功能在[[]]和[]中的行为是不同的,如下:<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 [[ $a == z* ]]&nbsp;&nbsp;&nbsp;&nbsp;# 如果$a以"z"开头(模式匹配)那么将为true<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2 [[ $a == "z*" ]] # 如果$a等于z*(字符匹配),那么结果为true<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4 [ $a == z* ]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# File globbing 和word splitting将会发生<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5 [ "$a" == "z*" ] # 如果$a等于z*(字符匹配),那么结果为true<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;一点解释,关于File globbing是一种关于文件的速记法,比如"*.c"就是,再如~也是.<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但是file globbing并不是严格的正则表达式,虽然绝大多数情况下结构比较像.<br style="line-height:normal">
+!=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不等于,如:if [ "$a" != "$b" ]<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这个操作符将在[[]]结构中使用模式匹配.<br style="line-height:normal">
+&lt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;小于,在ASCII字母顺序下.如:<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if [[ "$a" &lt; "$b" ]]<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if [ "$a" \&lt; "$b" ]<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意:在[]结构中"&lt;"需要被转义.<br style="line-height:normal">
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;大于,在ASCII字母顺序下.如:<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if [[ "$a" &gt; "$b" ]]<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if [ "$a" \&gt; "$b" ]<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意:在[]结构中"&gt;"需要被转义.<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;具体参考Example 26-11来查看这个操作符应用的例子.<br style="line-height:normal">
+-z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字符串为"null".就是长度为0.<br style="line-height:normal">
+-n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;字符串不为"null"<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意:<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;使用-n在[]结构中测试必须要用""把变量引起来.使用一个未被""的字符串来使用! -z<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;或者就是未用""引用的字符串本身,放到[]结构中。虽然一般情况下可<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以工作,但这是不安全的.习惯于使用""来测试字符串是一种好习惯.</p>
+<br>
+<p><br>
+<a href="http://www.51testing.com/batch.download.php?aid=4440" target="_blank" title="点击查看大图片"></a></p>
+<br>
+</div>
+<div id="MySignature" style="display: block;">Yorking Alan</div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/include/category/346536.html" target="_blank">linux</a></div>
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(2307905,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('7f48ae72-e0d8-df11-ac81-842b2b196315');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/include/" target="_blank"><img src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/u168539.jpg" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/include/">天晴如许</a><br>
+            <a href="https://home.cnblogs.com/u/include/followees/">关注 - 1</a><br>
+            <a href="https://home.cnblogs.com/u/include/followers/">粉丝 - 10</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('7f48ae72-e0d8-df11-ac81-842b2b196315');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(2307905,'Digg')">
+        <span class="diggnum" id="digg_count">9</span>
+    </div>
+    <div class="buryit" onclick="votePost(2307905,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/include/archive/2011/12/09/2307906.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/include/archive/2011/12/09/2307906.html" title="发布于 2011-12-09 00:59">shell中awk多变量赋值</a>
+    <br>
+    <a href="https://www.cnblogs.com/include/archive/2011/12/09/2307904.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/include/archive/2011/12/09/2307904.html" title="发布于 2011-12-09 06:18">shell中容易混淆的各种括号语法辨析</a>
+
+</div>
+</div>
+		<p class="postfoot">
+			posted on 
+<span id="post-date">2011-12-09 05:42</span>&nbsp;<a href="https://www.cnblogs.com/include/">天晴如许</a> 阅读(<span id="post_view_count">84003</span>) 评论(<span id="post_comment_count">3</span>) <a href="https://i.cnblogs.com/EditPosts.aspx?postid=2307905" rel="nofollow"> 编辑</a> <a href="javascript:void(0)" onclick="AddToWz(2307905); return false;">收藏</a>
+
+		</p>
+	</div>
+	
+	
+<script src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/highlight.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 77227, cb_blogApp = 'include', cb_blogUserGuid = '7f48ae72-e0d8-df11-ac81-842b2b196315';
+    var cb_entryId = 2307905, cb_entryCreatedDate = '2011-12-09 05:42', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder">
+
+<div id="comment_pager_top">
+    
+</div>
+
+<a name="评论"></a>
+<div id="comments">
+<h3>评论</h3>
+	<div class="feedbackNoItems"></div>
+			<h4>
+				
+<a href="#3340149" class="layer">#1楼</a>
+<a name="3340149" id="comment_anchor_3340149"></a>
+
+
+					<span>
+						
+<span class="comment_date">2016-01-04 09:22</span>
+
+
+					</span>
+				
+
+            <a id="a_comment_author_3340149" href="https://www.cnblogs.com/yongqin/" target="_blank">Ethan16</a>
+
+			</h4>
+			<p>
+				
+</p><div id="comment_body_3340149" class="blog_comment_body">
+    好东西，收藏了！<br>跟楼主有同样的感受，这些东西好乱，感谢楼主理清分享~
+</div>
+        <div class="comment_vote">
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment('3340149', 'Digg', this);">
+                支持(2)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment('3340149', 'Bury', this);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3340149_avatar" style="display:none">
+            https://pic.cnblogs.com/face/313358/20150127083858.png
+        </span>
+
+				&nbsp;&nbsp;
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+			<p></p>
+			<h4>
+				
+<a href="#3614011" class="layer">#2楼</a>
+<a name="3614011" id="comment_anchor_3614011"></a>
+
+
+					<span>
+						
+<span class="comment_date">2017-02-08 10:38</span>
+
+
+					</span>
+				
+
+            <a id="a_comment_author_3614011" href="https://www.cnblogs.com/aiweixiao/" target="_blank">程序员的文娱情怀</a>
+
+			</h4>
+			<p>
+				
+</p><div id="comment_body_3614011" class="blog_comment_body">
+    确实总结的很好，豁然开朗，<br>shell加油~
+</div>
+        <div class="comment_vote">
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment('3614011', 'Digg', this);">
+                支持(1)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment('3614011', 'Bury', this);">
+                反对(0)
+            </a>
+        </div>
+        <span id="comment_3614011_avatar" style="display:none">
+            https://pic.cnblogs.com/face/676456/20161122190156.png
+        </span>
+
+				&nbsp;&nbsp;
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+			<p></p>
+			<h4>
+				
+<a href="#3785042" class="layer">#3楼</a>
+<a name="3785042" id="comment_anchor_3785042"></a>
+
+        <span id="comment-maxId" style="display:none">3785042</span>
+        <span id="comment-maxDate" style="display:none">2017/9/15 下午1:56:37</span>
+
+					<span>
+						
+<span class="comment_date">2017-09-15 13:56</span>
+
+
+					</span>
+				
+
+            <a id="a_comment_author_3785042" href="https://www.cnblogs.com/splenday/" target="_blank">splenday</a>
+
+			</h4>
+			<p>
+				
+</p><div id="comment_body_3785042" class="blog_comment_body">
+    厉害
+</div>
+        <div class="comment_vote">
+            <a href="javascript:void(0);" class="comment_digg" onclick="return voteComment('3785042', 'Digg', this);">
+                支持(0)
+            </a>
+            <a href="javascript:void(0);" class="comment_burry" onclick="return voteComment('3785042', 'Bury', this);">
+                反对(0)
+            </a>
+        </div>
+        
+
+				&nbsp;&nbsp;
+
+<span class="comment_actions">
+    
+    
+    
+    
+</span>
+
+
+			<p></p>
+</div>
+
+<div id="comment_pager_bottom">
+    
+</div>
+
+
+</div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"><div class="login_tips">
+    注册用户登录后才能发表评论，请 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a>
+     或 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页。
+</div></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jdcloud.com/cn/activity/newUser?utm_source=DMT_cnblogs&amp;utm_medium=CH&amp;utm_campaign=09vm&amp;utm_term=Virtual-Machines" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-京东云')">【活动】京东云限时优惠1.5折购云主机，最高返价值1000元礼品！</a><br><a href="http://clickc.admaster.com.cn/c/a131574,b3595115,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为云微认证')">【推荐】零基础轻松玩转华为云产品，获壕礼加返百元大礼</a><br><a href="https://www.ctyun.cn/activity/#/20190919?hmsr=%E5%8D%9A%E5%AE%A2%E5%9B%AD-0916-919%E6%B4%BB%E5%8A%A8&amp;hmpl=&amp;hmcu=&amp;hmkw=&amp;hmci=" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-天翼云')">【推荐】919 天翼云钜惠，全网低价，云主机9元轻松购</a><br><a href="http://clickc.admaster.com.cn/c/a131575,b3595121,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为文字')">【推荐】华为云文字识别资源包重磅上市，1元万次限时抢购</a><br><a href="https://cloud.tencent.com/act/pro/overseas?fromSource=gwzcw.2802159.2802159.2802159&amp;utm_medium=cpc&amp;utm_id=gwzcw.2802159.2802159.2802159" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-腾讯云')">【推荐】腾讯云海外云服务器1核2G19.8元/月</a><br><a href="https://www.cnblogs.com/cmt/p/11505603.html" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-华为云代金券')">【福利】git pull &amp;&amp; cherry-pick 博客园&amp;华为云百万代金券</a><br></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="shell%E4%B8%ADif%E6%9D%A1%E4%BB%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E6%95%B0%E5%AD%97%E6%AF%94%E5%AF%B9%EF%BC%8C[[%20]]%E5%92%8C[%20]%E5%8C%BA%E5%88%AB%20-%20%E5%A4%A9%E6%99%B4%E5%A6%82%E8%AE%B8%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CIOrw4ux4uQCFQXKvQodCRgOkQ"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a title="shell中if条件字符串、数字比对，[[ ]]和[ ]区别" href="https://www.cnblogs.com/myyan/p/4841460.html" target="_blank" onclick="clickRecomItmem(4841460)">shell中if条件字符串、数字比对，[[ ]]和[ ]区别</a><br>·  <a title="shell中if条件字符串、数字比对，[[ ]]和[ ]区别" href="https://www.cnblogs.com/jiang-Xin/p/8080870.html" target="_blank" onclick="clickRecomItmem(8080870)">shell中if条件字符串、数字比对，[[ ]]和[ ]区别</a><br>·  <a title="shell if [[ ]]和[ ]区别 || &amp;&amp;" href="https://www.cnblogs.com/aaron-agu/p/5700650.html" target="_blank" onclick="clickRecomItmem(5700650)">shell if [[ ]]和[ ]区别 || &amp;&amp;</a><br>·  <a title="shell脚本中的[]/[[]]区别" href="https://www.cnblogs.com/lit10050528/p/4915001.html" target="_blank" onclick="clickRecomItmem(4915001)">shell脚本中的[]/[[]]区别</a><br>·  <a title="数字，字符串，逻辑比较在IF语句中的判断应用" href="https://www.cnblogs.com/jinxf/p/10107613.html" target="_blank" onclick="clickRecomItmem(10107613)">数字，字符串，逻辑比较在IF语句中的判断应用</a><br></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CISrw4ux4uQCFQXKvQodCRgOkQ">
+            
+        <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br>
+ ·              <a href="https://news.cnblogs.com/n/640286/" target="_blank">能量10000倍于原子弹的火山爆发，发出的声音究竟有多大？</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/640285/" target="_blank">为什么小王子的那颗星球，是不适宜居住的？</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/640284/" target="_blank">5G无人矿山：可远程操作开采和运输，更安全</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/640283/" target="_blank">高通这个 Wi-Fi 黑科技，让我看到了无线网络的未来</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/640282/" target="_blank">腾讯副总裁姚晓光：我们为什么要做国产自研游戏？</a>
+            <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div></div>
+
+
+</div>
+<p id="footer">
+	Powered by: 
+	<br>
+	
+	
+<a href="https://www.cnblogs.com/" id="Footer1_Hyperlink3" style="font-size: 12px; font-family: Verdana">博客园</a>
+	<br>
+	Copyright © 2019 天晴如许
+<br><span id="poweredby">Powered by .NET Core 3.0.0-preview9-19423-09 on Linux</span>
+
+</p>
+
+
+
+
+    
+
+
+</body></html>

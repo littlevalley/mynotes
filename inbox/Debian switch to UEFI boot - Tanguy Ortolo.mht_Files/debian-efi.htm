@@ -1,0 +1,524 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta charset="UTF-8">
+
+
+
+	<title>Debian: switch to UEFI boot - Tanguy Ortolo</title>
+
+	
+	<meta name="description" content="Expert guide for switching a Debian system to UEFI boot">
+	<meta name="keywords" content="Debian, EFI, BIOS, boot, GRUB, motherboard">
+	<meta name="author" content="Tanguy">
+
+	<link rel="icon" href="http://tanguy.ortolo.eu/blog/themes/nostalgie/img/favicon.png">
+	<link rel="stylesheet" type="text/css" href="screen.css" media="screen">
+	
+	<link rel="alternate" type="application/rss+xml" title="Rss feeds articles" href="http://tanguy.ortolo.eu/blog/feed/rss">
+	<link rel="alternate" type="application/rss+xml" title="Rss feeds comments" href="http://tanguy.ortolo.eu/blog/feed/rss/commentaires">
+
+</head>
+
+<body id="top">
+
+	<div id="header">
+
+                <div id="title">
+			<h1><a class="maintitle" href="http://tanguy.ortolo.eu/blog/" title="Tanguy Ortolo">Tanguy Ortolo</a></h1>
+			<p>a blog about Debian and self-hosting</p>
+                </div>
+
+		<ul id="nav">
+			<li id="static-home"><a href="http://tanguy.ortolo.eu/blog/" class="noactive" title="Home">Home</a></li><li id="static-1"><a href="http://tanguy.ortolo.eu/blog/static1/apropos" class="noactive" title="À propos">À propos</a></li><li id="static-2"><a href="http://tanguy.ortolo.eu/blog/static2/about" class="noactive" title="About">About</a></li>						<li class="feed">
+				<ul>
+					<li><a href="http://tanguy.ortolo.eu/blog/feed/rss" title="Rss feeds articles">Articles</a></li>
+					<li><a href="http://tanguy.ortolo.eu/blog/feed/rss/commentaires" title="Rss feeds comments">Comments</a></li>
+				</ul>
+			</li>
+		</ul>
+
+	</div>
+
+	<div id="section">
+
+		<div id="content">
+                        <div class="article">
+                                <div class="art-date">
+                                    <span class="art-numday">25</span>
+                                    04 | 2012                                </div>
+				<h2 class="art-title">Debian: switch to UEFI boot</h2>
+                                <div class="art-topinfos">
+                                    <p class="art-author">Written by Tanguy</p>
+                                    <p class="art-cat">Classified in : <a class="active" href="http://tanguy.ortolo.eu/blog/" title="Homepage">Homepage</a>, <a class="noactive" href="http://tanguy.ortolo.eu/blog/categorie2/debian" title="Debian">Debian</a></p>
+                                </div>
+				<div class="art-content"><a href="http://commons.wikimedia.org/wiki/File:Uefi_logo.svg" title="From Wikimedia Commons, public domain"><img src="uefi.png.avi" alt="UEFI logo: a cube with u, e and fi written on each visible face" style="float: right; margin: .5em 0 0 1em;"></a>
+
+<p>For those interested, here is a way to install Debian and boot it with UEFI
+if you have an UEFI motherboard.
+Using UEFI with Debian requires expert knowledge so if you do not feel up to
+it, keep your BIOS system.</p>
+
+<h2>1&nbsp;&nbsp;Background</h2>
+
+<p>UEFI is a specification for motherboard's firmwares which is replacing the old
+BIOS. For now, UEFI motherboards still include a BIOS compatibility layer.</p>
+
+<p>The UEFI boot process is quite different from the BIOS one. It involves one
+specific piece of the motherboard's firmware, the UEFI Boot Manager, which is
+able to load boot loaders from FAT file systems on specially-typed partitions.
+It can offer a boot menu (boot: Debian from HDD, Windows from HDD, USB stick,
+DVD?), which can be configured <em>from a running operating system</em>.</p>
+
+<p>So, basically, to boot a system with UEFI, you need two things:</p>
+
+<ul>
+    <li>to install an UEFI boot loader on a FAT-formated EFI System
+    Partition;</li>
+    <li>to tell the UEFI Boot Manager to create an entry for that boot
+    loader.</li>
+</ul>
+<h2>2&nbsp;&nbsp;Installation or preparation</h2>
+
+<p>If you are installing a new Debian system, read the first part. If you
+already have a BIOS-bootable Debian system installed, read the second one.</p>
+
+<p>In both cases you will have to use Debian testing, because stable's GRUB has
+problems with UEFI. You can also use Debian stable while taking only GRUB from
+testing though.</p>
+
+<h3>2.1&nbsp;&nbsp;Installation of a new Debian system</h3>
+
+<p>There is no installer image for UEFI, so you can either:</p>
+
+<ul>
+    <li>make your own, by installing an UEFI boot loader to an USB stick, which
+    will load a regular installer kernel and initrd;</li>
+    <li>use a regular BIOS installer image, using the compatibility mode of your
+    motherboard.</li>
+</ul>
+
+<p>The installer does not provide a convenient way to install an UEFI boot
+loader, so you are going to install a regular BIOS boot loader at first, and
+switch to UEFI later.</p>
+
+<p>Use the expert mode and format your hard drive with a GUID Partition Table
+(GPT). Create a small partition (1 MiB would be far enough), type it as a BIOS
+Boot Partition (this is the untitled flag above the “bootable” one in Partman),
+do not format it and do not mount it: this will be needed for BIOS booting.
+Create another small partition (same kind of size), type it as an EFI System
+Partition (this is the“bootable” flag), format it as FAT and mount it on <em class="filename">/boot/efi</em>: this will be needed for UEFI booting.</p>
+
+<p>Finish the installation as usual, installing GRUB for BIOS, and boot your new
+system.</p>
+
+<h3>2.2&nbsp;&nbsp;Preparation of an existing Debian system for UEFI</h3>
+
+<p>You need to use a GUID Partition Table on your hard drive. If you used an
+MBR, you lost; you may try to convert it to GPT using a tool such as <a href="http://www.rodsbooks.com/gdisk/">gdisk</a>, but that means operating
+without a net, loosing your current boot loader in the process.</p>
+
+<p>If there is no space left on your hard drive, use <a href="http://live.debian.net/">Debian Live</a> to make some. Create a small
+partition (1 MiB would be far enough), type it as an EFI System Partition, format
+it as FAT and mount it (permanently, using the <em class="filename">fstab</em>)
+on <em class="filename">/boot/efi</em> (that directory will not exist, so create
+it first).</p>
+
+<h2>3&nbsp;&nbsp;Switch to GRUB UEFI</h2>
+
+<p>Install the package <em class="package">grub-efi-amd64</em>. Prepare it by
+running the command (assuming your hard drive is <em class="filename">/dev/sda</em>):</p>
+
+<pre class="cli"># grub-install /dev/sda</pre>
+
+<p>That will do three things:</p>
+
+<ol>
+    <li>generate a GRUB image;</li>
+    <li>install it to the EFI partition at <em class="filename">efi/debian/grubx64.efi</em> (relatively to this filesystem's root, which means <em class="filename">/boot/efi/efi/debian/grubx64.efi</em> in absolute);</li>
+    <li><em>try</em> to configure the UEFI Boot Manager (the motherboard's boot
+    menu) to load it on start-up</li>
+</ol>
+
+<p>That last step will fail. This is expected, because the UEFI Boot Manager can
+only be configured from an operating system that was started from UEFI. So if
+you stop here, you get an unbootable system.</p>
+
+<p>Now, copy (a symlink would be relevant here, but that cannot be done on a FAT
+file system!) the GRUB image to that other path on the EFI System Partition: <em class="filename">efi/boot/bootx64.efi</em> (again, relatively to the ESP filesystem's root, which means <em class="filename">/boot/efi/efi/boot/bootx64.efi</em> in absolute). This is where the UEFI firmware
+looks for a boot loader when it has not been configured for a specific path,
+typically on removable media. Reboot to check that…</p>
+
+<p>If that trick worked, you are now on UEFI-booted system. Run
+<code>grub-install</code> again, which should now succeed to configure the UEFI
+Boot Manager. Reboot to check that you get a “debian” entry on the motherboard's
+boot menu, and remove <em class="filename">efi/boot/bootx64.efi</em> which is
+no longer needed.</p>
+</div>
+                                <div class="art-infos">
+                                    <span class="art-tags">Tags : <a class="noactive" href="http://tanguy.ortolo.eu/blog/tag/debian" title="Debian">Debian</a>, <a class="noactive" href="http://tanguy.ortolo.eu/blog/tag/efi" title="EFI">EFI</a>, <a class="noactive" href="http://tanguy.ortolo.eu/blog/tag/bios" title="BIOS">BIOS</a>, <a class="noactive" href="http://tanguy.ortolo.eu/blog/tag/boot" title="boot">boot</a>, <a class="noactive" href="http://tanguy.ortolo.eu/blog/tag/grub" title="GRUB">GRUB</a>, <a class="noactive" href="http://tanguy.ortolo.eu/blog/tag/motherboard" title="motherboard">motherboard</a></span>
+                                </div>
+				<div class="author-infos"></div>
+                        </div>
+			
+			<div id="comments">
+			<h2>33 comments</h2>
+			                        <div id="c1335380072-1" class="comment type-normal">
+					<p class="info_comment">wednesday 25 april 2012 à 20:54 Simon said : <a class="num-com" href="debian-efi.htm#c1335380072-1" title="#1">#1</a></p>
+					<blockquote>
+						<p class="content_com">That would be nice to explain to readers why you think UEFI is interesting,</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335383653-1" class="comment type-admin">
+					<p class="info_comment">wednesday 25 april 2012 à 21:54 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1335383653-1" title="#2">#2</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1335380072-1">@Simon</a> : The UEFI specification itself is complicated, inspired by systems such as DOS which should have been forgotten rather than taken as models, it allows for evil stuff such as vendor locking, implementations are often quite buggy, but it is already replacing BIOS in new motherboards and there may be a time when we no longer have BIOS compatibility. This time has not come yet, but when it does, if Debian (the Universal Operating System) is not prepared, it will not be installable on PCs (the most common computer platform) anymore, so it is best to start testing it now.<br>
+<br>
+And for the boot process, I think it is far more clean and flexible than BIOS: instead of simply executing a hard-coded sector of the disk (which only allows to boot a single loader), it has a configured boot manager which can offer a choice between several operating systems and load regular files from a file system.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335385287-1" class="comment type-normal">
+					<p class="info_comment">wednesday 25 april 2012 à 22:21 pingouin said : <a class="num-com" href="debian-efi.htm#c1335385287-1" title="#3">#3</a></p>
+					<blockquote>
+						<p class="content_com">Hello operator...<br>
+I thought that the kernel have a new hack to boot on uefi.<br>
+Hope the next Debian will have everything to install/boot easily with uefi motherboard.<br>
+I'm afraid to upgrade my hardware because there is no more new motherboards with classic bios.<br>
+Best.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335386334-1" class="comment type-admin">
+					<p class="info_comment">wednesday 25 april 2012 à 22:38 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1335386334-1" title="#4">#4</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1335385287-1">@pingouin</a> : I did not know that, I guess that would be something to turn the kernel itself into an EFI boot loader, although it would be strange move since such a possibility once existed for BIOS and was dropped in favor of using a dedicated boot loader (LILO, at that time, then GRUB).<br>
+<br>
+For Debian, pieces are already here: Partman has a kind of support for EFI System Partitions, which is still perfectible, and GRUB does quite well with UEFI. What is missing is an integration with the Debian installer, I would say.<br>
+<br>
+About hardware upgrades, I do not think you should worry for now, because new motherboards still include BIOS compatibility as far as I know.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335440654-1" class="comment type-normal">
+					<p class="info_comment">thursday 26 april 2012 à 13:44 anonymouse said : <a class="num-com" href="debian-efi.htm#c1335440654-1" title="#5">#5</a></p>
+					<blockquote>
+						<p class="content_com">I've never seen a recommendation for an EFI System Partition to be soo small and I think it is a bit foolish to consider making it 1M.   The general consensus of advice is to make it something of the order of 200M.  If you will only ever use one Linux with one (nice) bootloader then you may get away with 1M for a long time to come, but if you dual boot or your bootloader changes you might well curse this decision.<br>
+<br>
+Also reading the comments it seems you forgot to mention the most important reason for moving to UEFI, the ability to boot from disks &gt;=2TiB (2TB disks are &lt; 2TiB so they are ok).</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335442127-1" class="comment type-admin">
+					<p class="info_comment">thursday 26 april 2012 à 14:08 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1335442127-1" title="#6">#6</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1335440654-1">@anonymouse</a> : 1 MiB is far enough for GRUB's core image, thanks to its modular design. Now, if you need to install other EFI stuff, such as monolithic boot loaders for other OSes, making it a bit larger would be a good idea indeed.<br>
+<br>
+Now, for disks &gt; 2 TiB, I think the only problem is that MBR cannot partition them beyont 2 TiB. But even with a BIOS, you can still use them normally as long as you partition them with GPT rather thant with MBR, can you not?</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335448876-1" class="comment type-normal">
+					<p class="info_comment">thursday 26 april 2012 à 16:01 Ben Hutchings said : <a class="num-com" href="debian-efi.htm#c1335448876-1" title="#7">#7</a></p>
+					<blockquote>
+						<p class="content_com">I've applied the EFI stub patches to Linux and they should be included in the next upload to sid (3.2.16-1).<br>
+<br>
+You'll need to add a kernel postinst hook script to make this useful (copy the kernel and initrd to the EFI partition; update the boot variables).  The linux-version command can help with this.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335449742-1" class="comment type-admin">
+					<p class="info_comment">thursday 26 april 2012 à 16:15 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1335449742-1" title="#8">#8</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1335448876-1">@Ben Hutchings</a> : Interesting, I am eager to see the documentation of that (for questions such as: where will it expect to find its initrd?) even if I think a flexible boot loader is preferable. So this is to load Linux directly from the UEFI without an intermediate boot loader, just as it used to be with BIOS and floppy disks in the old times, is it not? I wonder why this idea is reappearing years after it was dropped for BIOS, I guess UEFI makes it easier…</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335455453-1" class="comment type-normal">
+					<p class="info_comment">thursday 26 april 2012 à 17:50 <a href="http://www.rodsbooks.com/" title="Roderick Smith">Roderick Smith</a> said : <a class="num-com" href="debian-efi.htm#c1335455453-1" title="#9">#9</a></p>
+					<blockquote>
+						<p class="content_com">I agree with anonymouse that 1 MiB is *WAY* too small for the ESP. Even if it's big enough now, there's too much chance that you'll need a bigger one in the future -- say, because you want to use another boot loader that requires storing the kernels on the ESP, or because you want to load EFI drivers, or because you want to dual-boot and the new OS requires more space than this. Also, the EFI specification requires that the ESP be FAT32, and IIRC, 1 MiB is too small for FAT32. (In practice, any FAT variety usually works, but the Windows 7 installer misbehaves badly if it finds anything but a FAT32 ESP. Other utilities might conceivably do the same.)<br>
+<br>
+FWIW, I've done test installs of Debian in EFI mode by using an EFI boot loader to launch the installer's kernel and initial RAM disk. The process works, but it's got bugs similar to those in Ubuntu's EFI installer. The worst of these is (or was when I tested, several months ago) that it *always* erases the ESP. This means that it wipes out any existing boot loaders you might have for other OSes. The Ubuntu people claim this will be fixed with Ubuntu 12.04, but I don't know the status of this on Debian. Since Debian doesn't officially support EFI boots of its installer on x86-64 hardware, it's not really fair to call this a bug, IMHO.<br>
+<br>
+One more point: In my experience, GRUB 2 is the *LEAST* reliable of the available EFI boot loaders. It's tricky to get working, on some systems it boots only some of the time, it can break at a moment's notice, and it often fails to detect other OSes. If it works in a default installation, then great; you might as well stick with it. If you have problems, though, my first advice (before even attempting to fix GRUB 2) is to switch to something else. The best is the kernel's EFI stub loader, but that's so new that it's not yet a practical choice for most people. (To be practical, it also requires either a good boot manager in the firmware, which most lack, or an ancillary boot manager like rEFInd.) ELILO was my favorite before the kernel's stub loader became available, but on some systems Fedora's patched GRUB Legacy works as well or better. You can get elilo in the Debian repositories, but not Fedora's patched GRUB Legacy. I've got a Web page with further details on all of these: http://www.rodsbooks.com/efi-bootloaders/.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335504392-1" class="comment type-normal">
+					<p class="info_comment">friday 27 april 2012 à 07:26 Coudy said : <a class="num-com" href="debian-efi.htm#c1335504392-1" title="#10">#10</a></p>
+					<blockquote>
+						<p class="content_com">Hi, <br>
+and when I use SW raid10 created with mdadm ? Can I boot with EFI ?</p>
+					</blockquote>
+				</div>
+			                        <div id="c1335509144-1" class="comment type-admin">
+					<p class="info_comment">friday 27 april 2012 à 08:45 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1335509144-1" title="#11">#11</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1335455453-1">@Roderick Smith</a> : Nice website about UEFI, good work!<br>
+<br>
+<a href="debian-efi.htm#c1335504392-1">@Coudy</a> : Sure you can, just like you can with BIOS. In that perspective, BIOS uses a fixed sector to boot, while UEFI uses a specially-typed partition, but these approaches have no fundamental differences when it comes to using software RAID.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1345646648-1" class="comment type-normal">
+					<p class="info_comment">wednesday 22 august 2012 à 16:44 <a href="http://blog.einval.com/" title="Steve McIntyre">Steve McIntyre</a> said : <a class="num-com" href="debian-efi.htm#c1345646648-1" title="#12">#12</a></p>
+					<blockquote>
+						<p class="content_com">I'm working on creating Debian EFI CDs now. Test builds at<br>
+<br>
+http://cdimage.debian.org/cdimage/unofficial/efi-development/<br>
+<br>
+Testing and feedback welcome!</p>
+					</blockquote>
+				</div>
+			                        <div id="c1346780905-1" class="comment type-normal">
+					<p class="info_comment">tuesday 04 september 2012 à 19:48 alexey said : <a class="num-com" href="debian-efi.htm#c1346780905-1" title="#13">#13</a></p>
+					<blockquote>
+						<p class="content_com">it seems to me you forgot "update-grub" somewhere along the way, without it I don't have .efi files - only .mod ones<br>
+not tested yet, though</p>
+					</blockquote>
+				</div>
+			                        <div id="c1350140055-1" class="comment type-normal">
+					<p class="info_comment">saturday 13 october 2012 à 16:54 scottnyc said : <a class="num-com" href="debian-efi.htm#c1350140055-1" title="#14">#14</a></p>
+					<blockquote>
+						<p class="content_com">hey steve mcintyre thx for this, installing it now</p>
+					</blockquote>
+				</div>
+			                        <div id="c1353598498-1" class="comment type-normal">
+					<p class="info_comment">thursday 22 november 2012 à 16:34 r.ductor said : <a class="num-com" href="debian-efi.htm#c1353598498-1" title="#15">#15</a></p>
+					<blockquote>
+						<p class="content_com">@Tanguy<br>
+<br>
+Hi, thanks for this enlightening post.<br>
+I'm confused about one point:<br>
+in section 2 you write<br>
+" ... FAT and mount it on /boot/efi",<br>
+while in section 3 you mention the relative paths:<br>
+efi/boot/bootx64.efi<br>
+efi/debian/grubx64.efi<br>
+<br>
+Please, could you check, and maybe give absolute paths for efi/...<br>
+<br>
+Thanks</p>
+					</blockquote>
+				</div>
+			                        <div id="c1353600087-1" class="comment type-admin">
+					<p class="info_comment">thursday 22 november 2012 à 17:01 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1353600087-1" title="#16">#16</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1353598498-1">@r.ductor</a> : There is an ambiguity here, indeed. These paths are relative to the root of the EFI System Partition filesystem, which means /boot/efi/efi/{boot,debian}/… in absolute. I indicated it in my article too.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1353600705-1" class="comment type-normal">
+					<p class="info_comment">thursday 22 november 2012 à 17:11 r.ductor said : <a class="num-com" href="debian-efi.htm#c1353600705-1" title="#17">#17</a></p>
+					<blockquote>
+						<p class="content_com">Thanks! Another point: some docs mention the path where efi autodetects a boot loader efi/boot/... in capital letters, take e.g. wikipedia<br>
+"The default location for the OS loader is \EFI\BOOT\boot[architecture name].efi, where the architecture name can be e.g. IA32, X64 or IA64."<br>
+according to your post this is not mandatory, can you comment on this?</p>
+					</blockquote>
+				</div>
+			                        <div id="c1353601973-1" class="comment type-admin">
+					<p class="info_comment">thursday 22 november 2012 à 17:32 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1353601973-1" title="#18">#18</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1353600705-1">@r.ductor</a> : Well, I cannot really. I think FAT is supposed to be case insensitive, so since I hate uppercase paths, I simply use lowercase ones…</p>
+					</blockquote>
+				</div>
+			                        <div id="c1353983629-1" class="comment type-normal">
+					<p class="info_comment">tuesday 27 november 2012 à 03:33 ebeck said : <a class="num-com" href="debian-efi.htm#c1353983629-1" title="#19">#19</a></p>
+					<blockquote>
+						<p class="content_com">I installed Grub 2 to my MBR, my bad. I don't want the pain and anguish. I will just switch the boot order in the BIOS, put the Windows Boot Manager at #1, and Win 7 boots without Grub loading at all. Screw it!!!</p>
+					</blockquote>
+				</div>
+			                        <div id="c1360149207-1" class="comment type-normal">
+					<p class="info_comment">wednesday 06 february 2013 à 12:13 Florent said : <a class="num-com" href="debian-efi.htm#c1360149207-1" title="#20">#20</a></p>
+					<blockquote>
+						<p class="content_com">Hello,<br>
+<br>
+Thx for this howto, but I have a problem at the end :<br>
+<br>
+I have copy grubx64.efi on /boot/efi/EFI/boot/bootx64.efi<br>
+<br>
+The motherboard's system have the entry and start grub. but when I select the kernel to load I have this error : <br>
+<br>
+error couldn't terminate EFI services.<br>
+Chargement de Linux 3.2.0-4'amd64<br>
+<br>
+And I need to hardreboot...<br>
+<br>
+Any Idea ?</p>
+					</blockquote>
+				</div>
+			                        <div id="c1360151439-1" class="comment type-normal">
+					<p class="info_comment">wednesday 06 february 2013 à 12:50 Florent said : <a class="num-com" href="debian-efi.htm#c1360151439-1" title="#21">#21</a></p>
+					<blockquote>
+						<p class="content_com">I have installed grub via SID and it's OK now. (Testing = NOK for me)</p>
+					</blockquote>
+				</div>
+			                        <div id="c1364494776-1" class="comment type-normal">
+					<p class="info_comment">thursday 28 march 2013 à 19:19 Endy said : <a class="num-com" href="debian-efi.htm#c1364494776-1" title="#22">#22</a></p>
+					<blockquote>
+						<p class="content_com">Thanx Tanguy :) I was precisely trying to do that.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1366439059-1" class="comment type-normal">
+					<p class="info_comment">saturday 20 april 2013 à 08:24 Giovanni said : <a class="num-com" href="debian-efi.htm#c1366439059-1" title="#23">#23</a></p>
+					<blockquote>
+						<p class="content_com">I have a problem that seems related to this discussion but my knowledge of linux is not so deep. I would like advice.<br>
+I've installed Debian Wheezy in a SSD on a new PC with Asus P9X79 mb. I followed the automated path for partition, and I ended up with 3 partitions, swap root and probably boot. So far so good.<br>
+<br>
+I removed the SSD with Debian and I inserted a HD where I installed Windows 7 from scratch. When I tried to switch back the Windows 7 HD with the Debian SSD the mb sees it but does not recognize it as bootable. Somebody tells this could happen because the MB removes from its memory the references to boots that are not found at boot time, so swapping disks can be bad.<br>
+Do you confirm ? is there a workaround (apart reinstalling all and crossing my fingers)? <br>
+Thanks, g.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1366616992-1" class="comment type-admin">
+					<p class="info_comment">monday 22 april 2013 à 09:49 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1366616992-1" title="#24">#24</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1366439059-1">@Giovanni</a> : Your lead to this problem is probably correct. With UEFI, the boot entries are defined in the motherboard's flash memory during the OS installation. So, when you installed Debian, it was the only operating system available so it defined only a boot entry for itself. Then when you installed Windows to another hard disk the same thing occurred, and the (now invalid) Debian boot entry was removed. You may want to install everything to a single drive, or have both drives connected at the same time.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1389691076-1" class="comment type-normal">
+					<p class="info_comment">tuesday 14 january 2014 à 10:17 <a href="http://olivier.mehani.name/" title="Olivier Mehani">Olivier Mehani</a> said : <a class="num-com" href="debian-efi.htm#c1389691076-1" title="#25">#25</a></p>
+					<blockquote>
+						<p class="content_com">1 MiB for /boot/efi is too small for a FAT32 system and, seemingly for a FAT16 one too. It appears that the minimum for a FAT32 system is 32MiB, but that didn't quite work for me (probably rounding to cylinder boundaries or something like that).<br>
+<br>
+I ended up with a 30 MiB BIOS boot partition, and a 34.5 MiB FAT32 partition. This satisfies, at least, the partition manager.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1403171359-1" class="comment type-normal">
+					<p class="info_comment">thursday 19 june 2014 à 11:49 Milton said : <a class="num-com" href="debian-efi.htm#c1403171359-1" title="#26">#26</a></p>
+					<blockquote>
+						<p class="content_com">This helped me so much! I have bookmarked and come back to this article several times. Thank you! Thank you! Thank you!</p>
+					</blockquote>
+				</div>
+			                        <div id="c1410379824-1" class="comment type-normal">
+					<p class="info_comment">wednesday 10 september 2014 à 22:10 Chavoux said : <a class="num-com" href="debian-efi.htm#c1410379824-1" title="#27">#27</a></p>
+					<blockquote>
+						<p class="content_com">Just one question: I already have a Debian system booting fine in legacy mode. If I change it to boot from the UEFI partition, will my legacy boot (MBR) stop working? I know I cannot boot Windows 8 when booting in legacy mode. Will this also be true for Debian afterwards? (I still have some other OS's that I will probably boot in legacy mode, so will like not to have to switch to UEFI mode everytime I want to boot Debian).</p>
+					</blockquote>
+				</div>
+			                        <div id="c1410381180-1" class="comment type-admin">
+					<p class="info_comment">wednesday 10 september 2014 à 22:33 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1410381180-1" title="#28">#28</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1410379824-1">@Chavoux</a> : There is no theoretical incompatibilities between an UEFI system partition and a functional MBR boot code on the same device, actually I am already using that combination on live USB sticks. Using them requires a motherboard firmware able to let you choose between them, and able to boot both. Now about Windows, I really have no idea, but for Debian, I know that it can be booted either in BIOS or UEFI mode, and that GRUB 2 is currently designed so it is possible to install it for BIOS and for UEFI on the same operating system and storage device, although the corresponding Debian packages are still declared to be in conflict.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1410430914-1" class="comment type-normal">
+					<p class="info_comment">thursday 11 september 2014 à 12:21 Chavoux said : <a class="num-com" href="debian-efi.htm#c1410430914-1" title="#29">#29</a></p>
+					<blockquote>
+						<p class="content_com">@Tanguy : Thanks a lot! I have one more (theoretical) question: I see in GParted that my first partition (NTFS recovery)starts on sector 2048. So I assume that the MBR is still on the first part of the hard-drive like normal (old style) disks (and will be used in legacy mode)?  The second partition is then my ESP partition (fat32) marked as bootable and what UEFI boot normally use? So the two should not interfere with each other at all? Can I chainload +1 from the MBR to the ESP drive? Or do I have to switch between the two modes every time in the firmware?<br>
+<br>
+I installed the MBR with the default GRUB2 that came with Kali Linux (Debian based) and then changed GRUB2 to the UEFI version as described in your article. I just wanted to be sure that if I stuff up anything during the installation of the UEFI bootloader, I could fall back to legacy mode (and I might still need legacy mode for some of my older non-UEFI-enabled distros). But since Debian is my main OS and Windows my gaming OS, it would be nice to have them both booting in UEFI mode without needing to enter the firmware settings every time.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1410439504-1" class="comment type-admin">
+					<p class="info_comment">thursday 11 september 2014 à 14:45 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1410439504-1" title="#30">#30</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1410430914-1">@Chavoux</a> : With a GPT, you get a protective or a compatibility MBR. But remember that GRUB cannot fit in the 512 byte-long space that is dedicated to boot code in MBR, where it only places a small code that jumps to another place where it has stored its core image. In pure MBR, that would be the space left between the end of the MBR and the first cylinder, but in GPT there may not be such a space, so you should create a (very small, as will onl hold GRUB's core image, so 1MB would be sufficient) unformatted partition dedicated for that, that you will tag as “bios_grub” (this is in fact a specific partition GUID) so GRUB knows it can put its core image on it.<br>
+<br>
+You cannot chainload an EFI system partition, what you can chainload is some code the current firmware (BIOS or UEFI) can run. In the UEFI case, that would be an EFI program, which would be some file.efi located on the EFI system partition.<br>
+<br>
+“Normal” UEFI implementations should offer a boot-time menu, called the boot manager, to let the user choose the operating system he wants to run; in your case it would offer you a choice between Windows and Debian, but it may not since many UEFI implementations are just crap.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1410719814-1" class="comment type-normal">
+					<p class="info_comment">sunday 14 september 2014 à 20:36 Chavoux said : <a class="num-com" href="debian-efi.htm#c1410719814-1" title="#31">#31</a></p>
+					<blockquote>
+						<p class="content_com">Thanks for all the info. At the end of the day I got it working with all my distros installed in a round-about way. First off, to install some of the distro's I had to boot in legacy mode since booting in UEFI mode did not even pick up the DVD/CD (even though the boot order was set to start from DVD drive before the hard-drive). So I installed all my distros (including Debian) in legacy mode. I did install the grub-efi-amd64 package. Then I installed Ubuntu (the only DVD that I could start from UEFI mode) and set it to install GRUB to the /dev/sda drive. Somehow it automatically installed to the ESP partition and added all the distros installed in legacy mode as well. All of them except for one, now boots in UEFI mode and all of them (except Windows8.1) can boot in legacy mode as well. So I never had to do the last step from the article... :-) In my case the UEFI firmware allowed me to choose either UEFI mode or legacy mode, the harddrive already had an ESP FAT32 partition (with the Windows boot loader) as well as a small (1 MB) unformatted space in the beginning (where I assume the legacy MBR is stored). Maybe this could be useful for somebody else.</p>
+					</blockquote>
+				</div>
+			                        <div id="c1410765286-1" class="comment type-admin">
+					<p class="info_comment">monday 15 september 2014 à 09:14 <a href="http://tanguy.ortolo.eu/blog/" title="Tanguy">Tanguy</a> said : <a class="num-com" href="debian-efi.htm#c1410765286-1" title="#32">#32</a></p>
+					<blockquote>
+						<p class="content_com"><a href="debian-efi.htm#c1410719814-1">@Chavoux</a> : In UEFI mode, you should be able to boot from optical discs that have an ElTorito boot code for UEFI and not for BIOS.<br>
+<br>
+Now for Ubuntu, as for Debian, the fact that it installs GRUB to the EFI System Partition (mind that “ESP Partition” is a case of RAS Syndrom, the redundant acronym syndrome syndrome) is the expected behaviour if you start the installer in UEFI. Also, the fact that GRUB detects and offers you to boot the other operating systems if finds is the expected behaviour, only it cannot cross the BIOS/UEFI barrier (i.e. GRUB for UEFI cannot offer you to boot a BIOS-based OS).</p>
+					</blockquote>
+				</div>
+			                        <div id="c1426505265-1" class="comment type-normal">
+					<p class="info_comment">monday 16 march 2015 à 12:27 3ronco said : <a class="num-com" href="debian-efi.htm#c1426505265-1" title="#33">#33</a></p>
+					<blockquote>
+						<p class="content_com">Unfortunately it didn't work for me. First i installed rEFInd BootManager onto a SD Card and disabled CSM Boot in the BIOS. rEFInd boots and i can select my Debian Jessie Installation from a MBR Disk. '/sys/firmware/efi' returns useful values so i'm definitely booted in EFI mode.<br>
+ On a (new) GPT-based Disk (protective MBR) i've created the EFI-System partition (FAT-32 formated) and mounted on '/boot/efi'.<br>
+I've checked the Boot Flag via Gparted. I removed 'grub-pc-*' and installed 'grub-efi-*' packages.<br>
+I used grub-install on my boot disk (same new disk that contains EFI-SP) and efibootmgr to create the NVRAM boot entry. <br>
+ I've tried it with and without an extra BIOS boot partition. It just doesn't work although rEFInd on my SD card boots fine but no grub boot at all. Without the rEFInd-SD card I just get a message from the BIOS to reboot and to select a proper boot device ... like there is no start partition at all although i can see my NVRAM boot entry in the BIOS.<br>
+My Gigabyte UEFI BIOS doesn't offer disabling secure boot but i can't tell anyway if it's used. The only difference i see is the rEFInd efi executable is signed while debian's grubx64.efi isn't?<br>
+Switched back to MBR for now ... Any other hints?<br>
+<br>
+(PS@UEFI: "Now ... let's use a boot procedure so error prone that a single cough breaks it and so complicated like explaining a three-year-old the theory of relativity is easy.")</p>
+					</blockquote>
+				</div>
+			
+			<div class="feed-art-com"><a href="http://tanguy.ortolo.eu/blog/feed/rss/commentaires/article51" title="Rss feed of the article's comments">Rss feed of the article's comments</a></div>
+		</div>
+	
+			<div id="form">
+			<h2>Write a comment</h2>
+                        <p class="com-alert"></p>
+			<form action="debian-efi.htm#form" method="post">
+				<fieldset>
+                                    <div class="form_left">
+					<label for="id_name">Name&nbsp;:</label>
+					<input id="id_name" name="name" type="text" size="20" value="" maxlength="30">
+					<label for="id_site">Site (optional)&nbsp;:</label>
+					<input id="id_site" name="site" type="text" size="20" value="">
+					<label for="id_mail">E-mail (optional)&nbsp;:</label>
+					<input id="id_mail" name="mail" type="text" size="20" value="">
+                                    </div>
+
+                                    <div class="form_right">
+        			        <label for="id_content" class="lab_com">Comment&nbsp;:</label>
+				        <textarea id="id_content" name="content" cols="35" rows="6"></textarea>
+                                    </div>
+
+                                    <div class="form_foot">
+										<p class="captcha form_left">What is the <span class="capcha-letter">first</span> letter of the word <span class="capcha-word">zxgymr</span>?&nbsp;:&nbsp;<input id="id_rep" name="rep" type="text" size="10"></p>
+					<input name="rep2" type="hidden" value="395df8f7c51f007019cb30201c49e884b46b92fa">
+					
+                                        <input type="submit" class="button form_right" value="Send">
+                                    </div>
+				</fieldset>
+			</form>
+		</div>
+			</div>
+
+		
+	<div id="aside">
+
+            <div id="side-categories" class="side-1">
+		<h3>Categories</h3>
+		<ul>
+			<li id="cat-1" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie1/divers" title="Divers">Divers</a> (31)</li><li id="cat-2" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie2/debian" title="Debian">Debian</a> (77)</li><li id="cat-3" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie3/auto-hebergement" title="Auto-hébergement">Auto-hébergement</a> (22)</li><li id="cat-4" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie4/ce-blog" title="Ce blog">Ce blog</a> (1)</li><li id="cat-5" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie5/this-blog" title="This blog">This blog</a> (1)</li><li id="cat-6" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie6/test" title="Tests">Tests</a> (1)</li><li id="cat-7" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie7/debian-fr" title="Debian-FR">Debian-FR</a> (55)</li><li id="cat-8" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie8/jabber" title="Jabber">Jabber</a> (1)</li><li id="cat-10" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie10/command-line" title="Command line">Command line</a> (32)</li><li id="cat-11" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie11/libre" title="Libre">Libre</a> (35)</li><li id="cat-12" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie12/misc" title="Miscellaneous">Miscellaneous</a> (16)</li><li id="cat-13" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie13/grumble" title="Grumble">Grumble</a> (19)</li><li id="cat-14" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie14/april" title="April">April</a> (49)</li><li id="cat-15" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie15/lazyweb" title="Lazyweb">Lazyweb</a> (4)</li><li id="cat-16" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie16/pirate-fr" title="Pirate-FR">Pirate-FR</a> (31)</li><li id="cat-17" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie17/catho-fr" title="Catho-FR">Catho-FR</a> (2)</li><li id="cat-18" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie18/ralerie" title="Râlerie">Râlerie</a> (11)</li><li id="cat-19" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie19/reponses" title="Réponses">Réponses</a> (1)</li><li id="cat-20" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie20/remember" title="To remember">To remember</a> (23)</li><li id="cat-21" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie21/retenir" title="À retenir">À retenir</a> (8)</li><li id="cat-22" class="noactive"><a href="http://tanguy.ortolo.eu/blog/categorie22/replies" title="Replies">Replies</a> (1)</li>		</ul>
+            </div>
+
+            <div id="side-archives" class="side-2">
+		<h3>Archives</h3>
+                <ul>
+                    <li id="archives-201510" class="noactive"><a href="http://tanguy.ortolo.eu/blog/archives/2015/10" title="october 2015">october 2015</a> (1)</li><li id="archives-201505" class="noactive"><a href="http://tanguy.ortolo.eu/blog/archives/2015/05" title="may 2015">may 2015</a> (1)</li><li id="archives-201504" class="noactive"><a href="http://tanguy.ortolo.eu/blog/archives/2015/04" title="april 2015">april 2015</a> (1)</li><li id="archives-201503" class="noactive"><a href="http://tanguy.ortolo.eu/blog/archives/2015/03" title="march 2015">march 2015</a> (1)</li><li id="archives-201501" class="noactive"><a href="http://tanguy.ortolo.eu/blog/archives/2015/01" title="january 2015">january 2015</a> (3)</li><li id="archives-2014" class="noactive"><a href="http://tanguy.ortolo.eu/blog/archives/2014" title="2014">2014</a> (15)</li><li id="archives-2013" class="noactive"><a href="http://tanguy.ortolo.eu/blog/archives/2013" title="2013">2013</a> (33)</li><li id="archives-2012" class="noactive"><a href="http://tanguy.ortolo.eu/blog/archives/2012" title="2012">2012</a> (49)</li><li id="archives-2011" class="noactive"><a href="http://tanguy.ortolo.eu/blog/archives/2011" title="2011">2011</a> (36)</li>                </ul>
+            </div>
+
+            <div id="side-tags" class="side-3">
+                <h3>Tags</h3>
+		<ul>
+			<li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/3" title="3">3</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/15" title="15">15</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/2012" title="2012">2012</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/2024" title="2024">2024</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/4g" title="4G">4G</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/acsm" title="ACSM">ACSM</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/acta" title="ACTA">ACTA</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/agpl" title="AGPL">AGPL</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/alsa" title="ALSA">ALSA</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/anssi" title="ANSSI">ANSSI</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/api" title="API">API</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/arm" title="ARM">ARM</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/ascii-art" title="ASCII Art">ASCII Art</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/asrock" title="ASRock">ASRock</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/atom" title="ATOM">ATOM</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/adblock" title="Adblock">Adblock</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/amazon" title="Amazon">Amazon</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/apache" title="Apache">Apache</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/apple" title="Apple">Apple</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/tag/april" title="April">April</a></li>		</ul>
+            </div>
+
+            <div id="side-articles" class="side-4">
+		<h3>Last articles</h3>
+		<ul>
+			<li class="noactive"><a href="http://tanguy.ortolo.eu/blog/article141/republique-numerique-drm" title="Consultation République numérique : article anti-DRM">Consultation République numérique : article anti-DRM</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/article140/stationnement-piste-cyclable" title="Le stationnement sur piste cyclable tue">Le stationnement sur piste cyclable tue</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/article139/vote-obligatoire-deputes" title="Vote obligatoire&nbsp;? Messieurs les députés, passez les premiers.">Vote obligatoire&nbsp;? Messieurs les députés, passez les premiers.</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/article138/ce-nest-pas-un-livre" title="Un vrai livre n'est pas verrouillé : #thatisnotabook">Un vrai livre n'est pas verrouillé : #thatisnotabook</a></li><li class="noactive"><a href="http://tanguy.ortolo.eu/blog/article137/scale-manufacturers" title="Scale manufacturers…">Scale manufacturers…</a></li>		</ul>
+            </div>
+
+            <div id="side-comments" class="side-5">
+		<h3>Last comments</h3>
+		<ul>
+			<li><a href="http://tanguy.ortolo.eu/blog/article18/gamepad-gnu-linux#c1446414975-1">Julian Kallenborn said : Thank you very much my friend!</a></li><li><a href="http://tanguy.ortolo.eu/blog/article109/google-ipv6-smtp-restrictions#c1446169509-1">Waltman said : Thanks for this writeup! For so...</a></li><li><a href="http://tanguy.ortolo.eu/blog/article109/google-ipv6-smtp-restrictions#c1445856715-1">Huub Knops said : Seems that google has changed i...</a></li><li><a href="http://tanguy.ortolo.eu/blog/article140/stationnement-piste-cyclable#c1445029031-1">Jean-Baptiste said : L'amende est de 135 € désorm...</a></li><li><a href="http://tanguy.ortolo.eu/blog/article130/sudo-pm-suspend#c1444993170-1">Toni said : #Chris #15 works great</a></li>		</ul>
+            </div>
+
+	</div>
+
+	</div>
+
+
+	<div id="footer">
+
+		<p>© <a class="maintitle" href="http://tanguy.ortolo.eu/blog/" title="Tanguy Ortolo">Tanguy Ortolo</a> -
+			Powered by <a href="http://pluxml.org/" title="Blog or Cms without database">PluXml</a>
+			in 0.188s			Compression GZIP activated                    </p>
+                    <div id="foot-links">
+                            <a id="foot-admin" rel="nofollow" href="http://tanguy.ortolo.eu/blog/core/admin/" title="Administration">Administration</a>
+                            <a id="foot-top" href="debian-efi.htm#top" title="Goto top">Top</a></div>
+	</div>
+
+
+
+
+</body></html>

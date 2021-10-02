@@ -1,0 +1,2929 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 10:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs lisp 手册 Modes 翻译</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<h1 class="title">Emacs lisp 手册 Modes 翻译</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgeade381">1. 主模式和附模式</a></li>
+<li><a href="#orgb1958e9">2. 缓冲局部变量</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgeade381" class="outline-2">
+<h2 id="orgeade381"><span class="section-number-2">1</span> 主模式和附模式</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+模式是自定义Emacs 行为的一套非常有用的定义。这有两种不同的模式：“附模式”，主要
+提供用户可以在编辑过程中开启和关闭的一些特性；“主模式”，主要用于与某种特定的文
+本编辑和操作的模式。每个缓冲只能绑定一个主模式。
+</p>
+
+<p>
+这章阐述如何写主模式和子模式，怎样将他们加入模式行中，他们是如何运行用户添加的钩
+子的。对于涉及的键盘映射和语法表请看相关章节。
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgb82879c"></a>钩子<br />
+<div class="outline-text-3" id="text-1-1">
+<p>
+钩子是一个可以存储函数的变量，存储的函数会被已存在的程序在某种特定情况下进行调用。
+Emacs 是为了增加用户自由才提供的钩子机制。通常情况下，钩子在初始化文件中进行设置，
+但 Lisp 程序同样可以设置他们。请查看 Standard Hooks ，了解标准钩子变量的列表。
+</p>
+
+<p>
+Emacs 中的大多数钩子都是 "normal hooks"。这些变量存储的函数在调用时不需要参数。
+经约定，钩子函数的名字以 "-hook" 结尾，这告诉你它是一个常规钩子。我们尽量将钩子
+做成常规钩子，这样的话你可以按统一的方式来使用他们。
+</p>
+
+<p>
+每一个主模式命令都会以最后一个初始化步骤中调用 "mode hook" 来运行常规钩子函数。
+这让用户可以通过重新绑定模式定义的缓冲区变量的值，很简单地来自定义模式的行为方式。
+大多数的子模式同样会在最后运行模式钩子。但钩子同样可能会被用于其他上下文中。比如，
+"suspend-hook" 在 Emacs 暂停时运行（请看 Suspending Emacs）。
+</p>
+
+<p>
+推荐的添加钩子的方式是使用 "add-hook" 函数（请看 Setting Hooks）。钩子函数是
+"funcall" 函数可以接收的任何合法格式的函数（请看 What Is a Function）。 大多数普
+通钩子变量在初始化时其值为空； "add-hook" 知道如何来应对这种情况，你可以使用他为
+添加全局或者局部的钩子。
+</p>
+
+<p>
+如果钩子变量的名字不是由 "-hook" 结尾，那就表示他是一个非常规的钩子，绑定在他上面
+的钩子函数要使用参数来进行调用，或者他们的返回值还会被使用。 Hook 的文档说了这些
+函数会被怎么调用。你同样可以使用 "add-hook" 来将函数加入到非常规的钩子中，但你必须
+在写钩子时遵循调用约定。经约定，非常规的钩子名字由 "-functions" 结尾。
+</p>
+
+<p>
+如果一个变量的名字以 "-function" 结尾，那他的值只有一个变量，而不是一个函数的列
+表。 "add-hook" 不能用来修改这样一个单个值的函数钩子，你不得不使用
+"add-function" (请看 Advising Functions)
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org47de780"></a>运行钩子<br />
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+这节我们讨论用于运行常规钩子的 "run-hooks" 函数，以及运行非常规钩子的其他函数。
+</p>
+
+<p>
+&#x2013; 函数： run-hooks &amp;rest hookvars
+</p>
+
+<p>
+这个函数接受 1 个或者多个常规钩子变量名作为参数，并依次运行每个钩子。每个参数应
+该是一个常规钩子变量的符号。
+</p>
+
+<p>
+如果一个钩子变量的值不是空的话，他应该是一个函数列表。 "run-hooks" 依次调用每个
+函数，不传入参数。
+</p>
+
+<p>
+钩子变量的值同样可以是单个函数，或者 lambda 表达式，或者一个绑定有函数定义的符号。
+但这种用法已经被废弃了。
+</p>
+
+<p>
+如果钩子变量是局部的，则调用时将使用局部变量而不是全局变量。但是，如果局部变量包
+含有元素 "t"，则全局钩子变量会被执行。
+</p>
+
+<p>
+&#x2013; 函数： run-hook-with-args hook &amp;rest args
+</p>
+
+<p>
+这个函数用来调用存储在HOOK中的非常规钩子，将参数 ARGS 传入到每一个钩子中。
+</p>
+
+<p>
+&#x2013; 函数： run-hook-with-args-until-failure hook &amp;rest args
+</p>
+
+<p>
+这个函数依次调用每个一非常规钩子函数，直到其中一个返回 nil 。参数 ARGS 会在调用
+中传入每个钩子函数。如果这个函数因为其中一个函数失败，则返囘值为 "nil"，否则他的
+返回值是一个 non-`nil' 值。
+</p>
+
+<p>
+&#x2013; 函数： run-hook-with-args-until-success hook &amp;rest args
+</p>
+
+<p>
+这个函数调用每个非常规钩子，直到其中一个返回值是 non-`nil' 。参数 ARGS 会被传入
+每一个钩子函数。如果这个函数因为其中一个钩子返回 non-`nil' 而结束，他的返回值就
+是这个值，否则，他的返回值为 `nil'。
+</p>
+</div>
+</li>
+
+<li><a id="org504915a"></a>设置钩子<br />
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+这有一个使用模式钩子在 Lisp 交互模式中来打开 Auto Fill 模式的的例子：
+</p>
+
+<p>
+(add-hook 'lisp-interaction-mode-hook 'auto-fill-mode)
+</p>
+
+<p>
+&#x2013; 函数： add-hook hook function &amp;optional append local
+</p>
+
+<p>
+这个函数是将函数 FUNCTION 添加到钩子变量 HOOK 中的便捷方式。你可以使用它来像添加
+常规钩子一样添加非常规钩子。FUNCTION 可以是任何可以接受恰当个数参数的钩子函数。
+比如：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>add-hook 'text-mode-hook 'my-text-hook-function<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+<p>
+将 `my-text-hook-function' 添加到 `text-mode-hook'。
+</p>
+
+<p>
+如果 FUNCTION 已经在 HOOK 中了（使用 `equal' 比较），“add-hook”不会再次将这个
+函数加入钩子中。
+</p>
+
+<p>
+对于常规钩子，钩子函数应该被设计成执行的先后顺序不影响期望结果。任何对于顺序的信
+赖都会造成一些麻烦。但是被执行的顺序是可以知道的：通常情况下， FUNCTION 会被添加
+到钩子列表的头部，所以它会被第一个执行（不包含其他的 'add-hook' 调用）。 如果可
+选参数 APPEND 不是 'nil'，新钩子会被添加取列表的尾部，并且最后被执行。
+</p>
+
+<p>
+"add-hook" 可以处理那种 HOOK 是的值是 void 或者他的值是单个函数的情况，他会设
+置或修改其值为一个函数列表。
+</p>
+
+<p>
+如果 LOCAL 不是 'nil'，这会要求其将 FUNCTION 添加到缓冲区局部的而不是全局的钩子
+列表。这会使钩子变成缓冲局部的，并会添加 't' 到 buffer-local 。这会设置一个标志，
+默认情况下像在局部变量中一样运行钩子函数。
+</p>
+
+<p>
+&#x2013; 函数： remove-hook hook function &amp;optional local
+</p>
+
+<p>
+这个函数会将 FUNCTION 从钩子变量 HOOK 中移除。他会使用 'equal' 来比较 FUNCTION
+和 HOOK 中的元素，所以这对于符号和 lambda 表达式一样的效果。
+</p>
+
+<p>
+如果 LOCAL 的值不是 'nil'，意思是说从缓冲局部的钩子列表而不是全局的钩子列表中移
+除 FUNCTION。
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="orgecda349"></a>主模式<br />
+<div class="outline-text-3" id="text-1-2">
+<p>
+主模式设置 Emacs 用来编辑或者处理特定种类的文本。每个缓冲同时只有一个主模式。每
+个主模式与一个主模式命令绑定，命令的名字应该以 "-mode" 结尾，这个命令会设置缓冲
+局部的变量，比如局部键盘映射，来处理模式切换。请看 Major Mode Convention 。注意
+的是，不像子模式，没有办法关闭一个主模式，除非将缓冲切换到其他不同的主模式上。
+</p>
+
+<p>
+最基本的主模式是 "Fundamental mode"，其实没有模式的特别定义和变量设置。
+</p>
+
+<p>
+&#x2013; 命令： fundamental-modesto
+</p>
+
+<p>
+这是 Fundamental 模式的主模式命令。与其他模式命令不同的是，它不执行任何钩子，因
+为你不能在这个模式中自定义行为。
+</p>
+
+<p>
+写一个主模式的最简单的方式是使用宏 "define-derived-mode"，它会将新模式设置为一个
+已经存在的模式的变体，即使新模式并不明显从其他模式派生，这个宏会自动强制你使用许
+多编程约定。请看 Basic Major Modes，了解通常的模式从哪派生。
+</p>
+
+<p>
+标准的 GNU Emacs Lisp 目录树中包含了许多主模式的代码，比如
+'text-mode.el'，'texinfo.el’，'lisp-mode.el’和'rmail.el' 这些文件中。你可以从
+这些文件中学习怎样写一个模式。
+</p>
+
+<p>
+&#x2013; 用户设置： major-mode
+</p>
+
+<p>
+这个变量的缓冲区局部值存有当前主模式的符号。它的默认值是新缓冲的默认主模式，标准
+的默认值是 'fundamental-mode'。
+</p>
+
+<p>
+如果默认值是 'nil'，不论 Emacs 什么时候通过‘C-x b’ ('switch-to-buffer')这样的
+命令创建一个新的缓冲时，新缓冲都会被设置成之前缓冲的主模式。有一个例个是，如果之
+前缓冲的主模式有一个 'mode-class' 符号属性，并且其値是 'special'，那么新缓冲会被
+设置为 Fundamental 模式（请看 Major Mode Conventions）。
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgc83388f"></a>主模式约定<br />
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+每个主模式的代码应当遵循不同的编码约定，包括局部键盘映射和语法表初始化、函数和变
+量名，以及钩子的约定。
+</p>
+
+<p>
+如果你使用 "define-derived-mode" 宏，它会自动处理大部分约定。请看 Derived Modes。
+注意的是 Fundamental 模式是对其中的许多约定是一个例外，因为它代表了Emacs 的默认
+状态。
+</p>
+
+<p>
+下面这些约定是其中的一部分。每个主模式都要将与其他主模式保持一致作为主要目标，因
+为这样才会使 Emacs 更加紧凑。不可能列出问题可能出出的所有的点，如果 Emacs 的开发
+都指出你的主模式没有遵循通常的约定，那么请你修改它保持兼容。
+</p>
+
+<ul class="org-ul">
+<li>使用‘-mode’ 作为主模式命令的结尾。当不使用参数调用时，这个命令应该通过设置当
+前缓冲的键盘映射、语法表和缓冲局部变量来切换到新的模式。不要修改缓冲中的内容。</li>
+
+<li>为模式命令写一个说明字符串来描述在这个模式下哪些特殊命令可以使用。请看 Mode
+Help。</li>
+</ul>
+
+<p>
+说明字符串可以包含特殊文档子串，`\[COMMAND]'， `\{KEYMAP}'， 和 `\&lt;KEYMAP&gt;'，这
+样的话帮助工具可以自动适应这用户的按键绑定。请看 Keys in Documentation。
+</p>
+
+<ul class="org-ul">
+<li>主模式命令应该以调用 `kill-all-local-variables' 开始，这会调用常规钩子</li>
+</ul>
+<p>
+`change-major-mode-hook'，然后丢弃之前的主模式的缓冲局部变量。请看 Creating
+  Buffer-Local。
+</p>
+
+<ul class="org-ul">
+<li>主模式命令应该设置变量 'major-mode' 的值为新模式命令的符号。这样
+'describe-mode’ 命令才知道显示哪个文档。</li>
+
+<li>主模式命令应当设置变量 'mode-name' 的值为新模式的 "pretty" 名字，通常是一个字
+符串（但请看 Mode Line Data，了解其他可能的格式)。这个名字会显示在模式行上。</li>
+
+<li>当连续调用主模式命令两次时不应该退出，而应该像调用一次一样做相同的事。换句话说，
+主模式命令应该是幂等的。</li>
+
+<li>因为所有的全局名字都在相同的命名空间中，模式中使用的所有的全局变量，常量和函数
+应该使用以模式名打头的名字（或者在模式名较长时使用其缩写）。请看 Coding
+Conventins。</li>
+
+<li>当在主模式中编辑某种结构化的文本时，比如程序语言，按结构缩进文本会比较有用。所
+以模式应该设置 `indent-line-function' 为一个合适的函数，并且恰当地设置其他与缩
+进有关的变量的值。请看 Auto-Indentation。</li>
+
+<li>主模式通常应该有其自己的键盘映射，它会在所有起用了这个模式的缓冲当作局部键盘映
+射来使用。在主模式命令中应该应该调用 'use-local-map' 来安装这个局部的映射。请
+看 Active Keymaps，了解更多信息。</li>
+</ul>
+
+<p>
+这个键盘映射应该被长久地存储在一个名叫‘MODENAME-mode-map’的全局变量中。通常情
+况下，定义这个模式的库设置这个变量。
+</p>
+
+<p>
+请看 Tips for defining，查看设置模式键盘映射变量的编程建议。
+</p>
+
+<ul class="org-ul">
+<li>绑定到主模式上的按键映射上的按鍵映射通常应当以 'C-c' 开始，接着是控制字符，数
+字或者 '{'，'}'， '&lt;'， '&gt;'， ':' 或者 ';'。其他的标点符号被保留用于子模式，普
+通的字符被用户保留。</li>
+</ul>
+
+<p>
+主模式同样可能重新绑定 'M-n'，‘M-p’和‘M-s’。对‘M-n’和‘M-p’的绑定应该是某
+种向前和向后移动，但这不一定是光标移动。
+</p>
+
+<p>
+对于在主模式中因需要重新绑定标准按键序列来提供更好方法做同样的事也是合法的。例如：
+用于编辑程序语言的主模式可能会重新定义 'C-M-a' 来跳转到函数定义的开头。推荐的方
+式来修改 'C-M-a' 以满足主模式需要的方法是设置 'beginning-of-defun-function' (请
+看 List Motion)来调用特定模式的函数。
+</p>
+
+<p>
+同样，重新绑定在模式中很少用到的标准按键序列也是合法的。比如， minibuffer 模式重
+新绑定 'M-r' ，这个按键的标准定义在迷你缓冲中很少用到。像 Dired 或者 Rmail 这些
+主模式不允许插入文本的可以重新绑定字母和其他可打印字符到特殊命令。
+</p>
+
+<ul class="org-ul">
+<li>用来编辑文本的主模式不应该定义 &lt;RET&gt; 来干插入新行以外的其他事情。但是，对于那
+些不直接编辑文本的模式，比如 Dired 和 Info 模式中则可以重新定义 &lt;RET&gt; 来干其他
+完全不同的事。</li>
+
+<li>主模式不应该修改影响用户偏爱的设置，比如 Auto-Fill 模式是事开启。应该让用户来
+决定。但是，当用户决定使用它时，主模式应该设置好其他变量让 Auto-Fill 模式可以有用的工作。</li>
+
+<li>主模式可以有自己的语法表或者与其他关联的模式共享语法表。如果有自己的语法表，则
+应当将其存储在名为 'MODENAME-mode-syntax-table' 中。请看 Syntax Tables。</li>
+
+<li>如果处理程序语言的模式有用于注释的语法表，则应该设置用于定注释语法的变量。请看
+Options Controlling Comments(emacs)。</li>
+
+<li>模式可能有臫的缩写表或者与其他关联模式共享。如果有臫的缩写表，则应当将其存储在
+名为 'MODENAME-mode-abbrev-table' 的变量中。如果主模式命令自行定义其他缩写，则
+应该在 'define-abbrev' 的SYSTEM-FLAG 中传入 't'。 请看 Define Abbrevs。</li>
+
+<li>模式应该说明 Font Lock 模式中怎样处理高亮，这需要设置缓冲局部变量
+'font-lock-defaults' 的值（请看 Font Lock Mode）。</li>
+
+<li>如果可能的话，每一个显示主题都应该从已经存在的Emacs 主题中进行派生。请看 Basic
+Faces 和 Faces for Font Lock。</li>
+
+<li>模式中应该说明 Imenu 怎样找缓冲的节定义，这需要设置缓冲局部变量
+'imenu-generic-expression'，'imenu-pre-index-position-function’和
+'imenu-extract-index-name-function' 或者 'imenu-create-index-function' 的值
+（请看 Imenu）。</li>
+
+<li>模式可以为 `eldoc-documentation-function' 设置一个局部的值，告诉 ElDoc 模式怎
+样处理这个模式。</li>
+
+<li>模式可以通过为 `completion-at-point-functions' 添加一个或者多个缓冲局部条目来
+说明如何补全各种各样的关键字。请看 Completion in Buffers。</li>
+
+<li>要为Emacs 自定义变量绑定一个缓冲局部值，在主模式命令中使用
+`make-local-variable' ，不要用 `make-variable-buffer-local' ，后者会将变量变成
+对在其后设置的所有缓冲局部有效，这会影响那些不再使用这个模式的缓冲。模式的这种
+全局的影响是不受欢迎的。请看 Buffer-Local Variables。</li>
+</ul>
+
+<p>
+有很少的例外，在Lisp 包中唯一使用 `make-variable-buffer-local' 的地方是对于只在
+那个包中使用的变量。在一个可能被其他包使用的变量上应用这种方法，会造成相互冲突。
+</p>
+
+<ul class="org-ul">
+<li>每一个主模式应该有一个常规的 "mode hook"，钩子的名字是 `MODENAME-mode-hook'。
+主模式命令最后应该干的事情就是调用 `run-mode-hooks'。这会调用常规钩子
+`change-major-mode-after-body-hook'，还有模式钩子和函数
+`hack-local-variables' (当缓冲正在浏览一个文件时)，然后是常规钩子
+`after-change-major-mode-hook'。请看 Mode Hooks。</li>
+
+<li>主模式命令可能在其他主模式命令执行时被调用（称为 "父模式"）并会修改他的一些设
+置。像这样的一个模式被称为 "派生模式"。定义这样一个模式的推荐的方法是使用
+`define-derived-mode' 宏，但这也不是必须的。这样的一个模式应该在
+`delay-mode-hooks' 语句中调用父模式命令（当使用 `define-derived-mode' 时则会自
+动完成）。请看 Derived Modes 和 Mode Hooks。</li>
+
+<li>如果用户将缓冲的主模式切换到另一个时想做点特别的设置，这个模式可以为
+`change-major-mode-hook' 设置一个缓冲局部值（请看 Creating Buffer-Local）。</li>
+
+<li>如果这个模式主要是针对由模式提前处理做好特定准备的文本（不是通过用户人工录入或
+通过一个外部文件），那么这个模式命令符号应该有一个叫作 `mode-class' 的属性，其
+值设置为 `special' ，像下面这样：</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>put 'funny-mode 'mode-class 'special<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+<p>
+这会告诉 Emacs ，当前缓冲是 Funny 模式时创建的新模式不要设置为 Funny 模式，即使
+`major-mode' 的默认值是 `nil' 时也不行。默认情况下，当 `major-mode' 的值为 `nil'
+时意思是当创建新缓冲时使用当前缓冲的主模式（请看 Auto Major Mode），但针对这样一
+个 `special' 模式，则会使用 Fundamental 模式。Dired 模式、Rmail 模式和缓冲列表使
+用这个特性。
+</p>
+
+<p>
+如果一个缓冲的 mode-class 属性是 special 的话，那么 `view-buffer' 函数不会开启
+View 模式，因为这样一个模式通常提供他们自己的可视化绑定。
+</p>
+
+<p>
+如果父模式是 special，那么`define-derived-mode' 宏自动将派生的模式标记为 special。
+Special 模式是为在派生中保持这种特性的一个方便的父模式，请看 Basic Major Modes。
+</p>
+
+<ul class="org-ul">
+<li>如果你想默认为某些带有可识别特殊名字的文件应用某种模式的话，为
+`auto-mode-alist' 添加元素来根据文件名选择模式（请看 Auto Major Mode）。如果你
+将模式命令定义为自动加载，则需要将叫 `autoload' 的元素添加到相同的文件。如果你
+为模式命令使用自动加载的 cookie ，你同样可以使用一个自动加载的 cookie ，来添加
+这样一个元素（请看 autoload cookie）。如果你不要自动加载模式命令，则将元素添加
+到定义模式的文件中就可以了。</li>
+
+<li>在定义模式的文件中应该使用顶层语句，这样的话当他们多次求值时也不会造成不良影响。
+比如，使用 `defvar' 和 `defcustom' 来设置模式相关的变量时，当其已经有一个值时，
+则不会被重新初始化（请看 Define Variables）。</li>
+</ul>
+</div>
+</li>
+
+<li><a id="org73c2eb0"></a>Emacs 是如何选择一个主模式的<br />
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+当Emacs 查看一个文件时，他会根据文件名或者文件中的信息自动地为缓冲选择一个主模式。
+他也会处理包含在文件内容中的局部变量。
+</p>
+
+<p>
+&#x2013; 命令： normal-mode &amp;optional find-file
+</p>
+
+<p>
+这个函数为当前缓冲建立恰当的主模式和缓冲局部变量绑定。它会调用 `set-auto-mode'。
+Emacs 26.1 ，它不再运行 `hack-local-variables'，而会在模式初始化时在
+`run-mode-hooks' 进行。
+</p>
+
+<p>
+如果 FIND-FILE 参数不是 `nil'， `normal-mode` 会假定 `find-file' 在其内部调用。
+在这种情况下，它可能会处理 `-*-' 行包含的或者在文件尾部的局部变量。
+`enable-local-variables' 控制采取哪种方式。请看 Local Variable in Files 了解文件
+中定义局部变量的语法。
+</p>
+
+<p>
+如果你采取交互方式运行 `normal-mode'，则 FIND-FILE 参数通常是 `nil'。在这种情况
+下， `normal-mode' 无条件地处理各种在文件中的局部变量。
+</p>
+
+<p>
+这个函数会调用 `set-auto-mode' 来选择并设置一个主模式。如果不能指定一个主模式，
+缓冲会切换到由 `major-mode' 指定的主模式中（请看下文）。
+</p>
+
+<p>
+`normal-mode' 会使用在 `condition-case' 中来运行主模式命令，所以出现的错误会被捕
+捉并在 `File mode specification error' 中报告，其后是原来的错误消息。
+</p>
+
+<p>
+&#x2013; 函数： set-auto-mode &amp;optional keep-mode-if-same
+</p>
+
+<p>
+这个函数为当前缓冲选择并设置一个合适的主模式。它根据文件中出的 `-*-' 行，或者
+文件末尾的`mode:'局部变量，或者`#!'行（使用 `interpreter-mode-alist'），或者缓冲
+头部的文本（使用 `auto-mode-alist'），先后顺序决定使用哪个模式。请看 How Major
+Modes are Chosen(emacs)。 如果 `enable-local-variables' 是 `nil'，
+`set-auto-mode' 不会检查 `-*-' 行或者文件末尾的模式标签。
+</p>
+
+<p>
+有些文件类型不适合扫描文件内容来查找模式说明。例如，压缩文件的末尾恰巧有一个文件
+有对某一个特定模式的说明。这个说明的模式不应该作用在这个压缩文件上。同样的，
+tiff 图片可能在首行刚好匹配 `-*-' 模式。 由于这些原因，这两种文件的后缀名都包含
+在 `inhibit-local-variables-regexps' 变量中。为了阻止 Emacs 在文件中搜索各种局部
+变量（不限于模式说明），请将文件名模式添加到这个列表中。
+</p>
+
+<p>
+如果 KEEP-MODE-IF-SAME 不是 `nil'，在当前缓冲区已经在恰当主模式的情况下，这个函
+数不会再调用模式命令。例如， `set-visited-file-name' 会将其设置成 `t' 以避免将用
+户设置的局部变量给清除掉。
+</p>
+
+<p>
+&#x2013; 函数： set-buffer-major-mode buffer
+</p>
+
+<p>
+这个函数将 BUFFRE 的模式设置成 `major-mode' 中定义的主模式。如果 `major-mode' 的
+值是 `nil'
+，则会使用当前缓冲区的主模式。有一个例外是，如果 BUFFER 的名字是 `*scratch*'，则
+会将其模式设置为 `initial-major-mode'。
+</p>
+
+<p>
+底层的创建缓冲的方法不使用这个函数，但中间层的命令，比如 `switch-to-buffer' 和
+`find-file-noselect' 在创建缓冲的时候会使用这个函数。
+</p>
+
+<p>
+&#x2013; 用户设置： initial-major-mode
+</p>
+
+<p>
+这个变量的值决定了初始化 `*scratch*' 缓冲时使用哪个主模式。其值应该是一个某一个
+主模式的符号。默认值是 `lisp-interaction-mode'。
+</p>
+
+<p>
+&#x2013; 变量： interpreter-mode-alist
+</p>
+
+<p>
+这个变量根据脚本文件 `#!' 行中命令行解释器指定脚本文件的主模式。他的值是一个由
+`(REGEXP . MODE)'这种形式的元素组成的列表，这个意思是指如果文件中指定的解释器与
+`\\`REGEXP\\'' 这个模式的话，则会设置成模式 MODE。例如，默认列表中有一个的元素是
+`("python[0-9.]*" . python-mode)。
+</p>
+
+<p>
+&#x2013; 变量： magic-mode-alist
+</p>
+
+<p>
+这个变量的值是一个具有 `(REGEXP . FUNCTION)' 这种形式元素的列表，其中 REGEXP 是
+一个正则表达式， FUNCTION 是一个函数或者 `nil' 。 在浏览一个文件的时候，如果文本
+的开头与 REGEXP 配置，并且 FUNCTION 不是 `nil' 的话，
+`set-auto-mode'  调用 FUNCTION 。 如果 FUNCTION 是空的话则通过 `auto-mode-alist'
+来决定使用哪个模式。
+</p>
+
+<p>
+&#x2013; 变量： magic-fallback-mode-alist
+</p>
+
+<p>
+这个变量就像 `magic-mode-alist'，但它只在 `auto-mode-alist' 没有指定当前文件的模
+式时才起作用。
+</p>
+
+<p>
+&#x2013; 变量： auto-mode-alist 
+</p>
+
+<p>
+这个变量是一个由文件名正则表达式和相应的主模式命令组成的关联表。通常情况下，文
+件名正则表达式主要测试后缀名，比如 `.el' 和 `.c' ，但不是唯一。 普通的列表元素像
+`(REGEXP . MODE-FUNCTION)' 这个样子。例如：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"\\`/tmp/fol/"</span> . text-mode<span class="org-rainbow-delimiters-depth-2">)</span>
+ <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"\\.texinfo\\'"</span> . texinfo-mode<span class="org-rainbow-delimiters-depth-2">)</span>
+ <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"\\.texi\\'"</span> . texinfo-mode<span class="org-rainbow-delimiters-depth-2">)</span>
+ <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"\\.el\\'"</span> . emacs-lisp-mode<span class="org-rainbow-delimiters-depth-2">)</span>
+ <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"\\.c\\'"</span> . c-mode<span class="org-rainbow-delimiters-depth-2">)</span>
+ <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"\\.h\\'"</span> . c-mode<span class="org-rainbow-delimiters-depth-2">)</span>
+ ...<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+当你浏览一个文件时，他的版本号和备份后缀经过 `file-name-sans-versions' 去掉后，
+其扩展名与 REGEXP 配置， `set-auto-mode' 会调用相应的 MODE-FUNCTION 。这个特性使
+Emacs 可以为大多数的文件选择恰当的主模式。
+</p>
+
+<p>
+如果 `auto-mode-alist' 的元素具有 `(REGEXP FUNCTION t)' 这种形式，在 FUNCTION 被
+调用后， Emacs 会再次搜索 `auto-mode-alist' ,根据之前没有匹配的部分文件名来查找
+新的匹配。这个特性在解压缩时非常有用， `("\\.gz\\'" FUNCTION t)' 这样一个表达式
+可以解压一个文件，然后将解压后的没有 `.gz' 后缀的文件设置成正确的主模式。
+</p>
+
+<p>
+这有一个将多个模式对加到 `auto-mode-alist' 中的例子。（你可将下面这样的语句加到
+你的初始化文件中。）
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> auto-mode-alist
+  <span class="org-rainbow-delimiters-depth-2">(</span>append
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">File name (within directory) starts with a dot.</span>
+   '<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"/\\.[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">/]*\\'"</span> . fundamental-mode<span class="org-rainbow-delimiters-depth-4">)</span>
+     <span class="org-comment-delimiter">;; </span><span class="org-comment">File name has no dot.</span>
+     <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"/[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">\\./]*\\'"</span> . fundamental-mode<span class="org-rainbow-delimiters-depth-4">)</span>
+     <span class="org-comment-delimiter">;; </span><span class="org-comment">File name ends in &#8216;</span><span class="org-comment"><span class="org-constant">.C</span></span><span class="org-comment">&#8217;.</span>
+     <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">"\\.C\\'"</span> . c++-mode<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+   auto-mode-alist<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org6dca79e"></a>获取主模式的帮助<br />
+<div class="outline-text-4" id="text-1-2-3">
+<p>
+`describe-mode' 函数会提供主模式的一些信息。它一般会绑定到按键 `C-h m' 上面。它
+通过查找 `major-mode' 变量的值来襀，这是为什么每个主模式命令都需要设置这个变量。
+</p>
+
+<p>
+&#x2013; 命令： describe-mode &amp;optional buffer
+</p>
+
+<p>
+这个命令会显示当前缓冲的主模式和附模式的相关信息。它调用 `documentation' 函数来
+从主模式和子模式命令中抽取文档。
+</p>
+
+<p>
+如果从 Lisp 中以 BUFFER 作为参数调用它，它则会显示指定缓冲的主模式和子模式的相关
+信息，而不是当前缓冲。
+</p>
+</div>
+</li>
+
+<li><a id="org245bfcf"></a>定义派生模式<br />
+<div class="outline-text-4" id="text-1-2-4">
+<p>
+推荐的作法是使用 `define-derived-mode' 来从一个已经存在的主模式派生一个新的主模
+式。如果没有一个相近的模式，你应该从 `text-mode' 或者 `special-mode' 或者
+`prog-mode' 来进行派生。请看 Basic Major Modes。 如果这些中都没有一个是合适的，
+你应该从 `fundamental-mode' (请看Major Modes)来派生。
+</p>
+
+<p>
+&#x2013; 宏： define-derived-mode variant parent name docstring keywords-args &#x2026; body
+   &#x2026;
+</p>
+
+<p>
+这个宏定义 VARIANT 为一个主模式命令，使用 NAME 作为模式的名字。 VARIANT 和
+PARENT 应该是反引用的符号。
+</p>
+
+<p>
+新命令 VARIANT 调用函数 PARENT ，然后重写父模式中的一些内容。
+</p>
+
+<ul class="org-ul">
+<li>新模式有它自己的稀疏键盘映射，命名为 `VARIANT-map'。 `define-derived-mode' 会
+把父模式的键盘映射设置成新模式键盘映射的父节点，除非 `VARIANT-map' 已经设置并
+且有一个父节点。</li>
+
+<li>新模式有臫的语法表，保存在 `VARIANT-syntax-table' 变量中，除非你使用</li>
+</ul>
+<p>
+`:syntax-table' 关键定重新定义（请看下面）。 如果 `VARIANT-syntax-table' 没有设
+置或没有一个与标准主法表不一样的父节点，`define-derived-mode' 会将父模式的语法表
+设置成 `VARIANT-syntax-table' 的父节点。
+</p>
+
+<ul class="org-ul">
+<li>新模式有自己的模式钩子 `VARIANT-hook'。 在 `run-mode-hooks' 调用完他的祖先模式的钩子后，这个钩子
+会作为最后一件事执行，除非有 `:after-hook' 语句。请看 Mode Hooks。</li>
+</ul>
+
+<p>
+另外，你可以通过 BODY 来设置如何重载 PARENT 的其他方面。 VARIANT 命令会在执行了
+通常的设置后，在运行模式钩子之前执行 BODY 中的表达式。
+</p>
+
+<p>
+如果 PARENT 非 `nil' 的 `mode-class' 符号属性， `define-derived-mode' 会设置
+VARIANT 的 `mode-class' 属性为一样的值。这保证了，比如，PARENT 是一个特殊模式，
+VARIANT 也是一个特殊模式（请看 Major Mode Conventions）。
+</p>
+
+<p>
+你当然也可以为 PARENT 设置为 `nil'。 这样新模式就没有父节点。
+`define-derived-mode' 会像上面描述的那样工作，但是会忽略掉与 PARENT 有关联的所有
+动作。
+</p>
+
+<p>
+DOCSTRING 参数设置了新模式的说明。 `define-derived-mode' 会在模式的说明后添加一些关于模式钩子
+的一般信息，然后是模式的按键映射。如果你忽略 DOCSTRING， `define-derived-mode'
+会生成一个说明。
+</p>
+
+<p>
+KEYWORDS-ARGS 是键值对列表。除了 `:after-hook' 的值都会先求值。下面的关键字是当
+前支持的：
+</p>
+
+<p>
+`:syntax-table'
+</p>
+
+<p>
+你可以使用这个来为新模式设置一个语法表。如果你设置为 `nil'，新模式会使用与
+PARENT 相同的语法表，或者在 PARENT 为 `nil' 时使用标准的语法表。（注意，这没有遵
+循 非关键定参数的 `nil' 值 等价于没有设置这个参数的约定。）
+</p>
+
+<p>
+`:abbrev-table's
+</p>
+
+<p>
+你可以通过这个为新模式设置一个缩写表。如果你设置为 `nil'，新模式使用 PARENT 相同
+的缩写表，在 PARENT 为 `nil' 时则使用 `fundamental-mode-abbrev-table'。（同样，
+`nil' 值与不设置这个关键字不等价。）
+</p>
+
+
+<p>
+`:group'
+</p>
+
+<p>
+如果这个关键字被设置，其值应该是这个模式的个性化设置分组。（不是每个主模式都有。）
+`customize-mode' 命令使用这个分组。 `define-derived-mode' 不会自动定义个性化设置
+分组。
+</p>
+
+<p>
+`:after-hook'
+</p>
+
+<p>
+这个可选的关键字设置一个 Lisp 语句，对其运算是作为模式函数的最后的操作，在模式
+钩子运行之后执行。它不应该被引用。因为这个语句可能在模式函数已经结束之后才求值，
+它不应该访问模式函数的内部局部变量。 `:after-hook' 语句对于设置哪些依赖于用户设
+置的内容时非常有用，因为用户设置可能在模式钩子中被改变。
+</p>
+
+<p>
+这里有一个假设的例子：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">hypertext-mode-map</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>map <span class="org-rainbow-delimiters-depth-5">(</span>make-sparse-keymap<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-rainbow-delimiters-depth-4">[</span>down-mouse-3<span class="org-rainbow-delimiters-depth-4">]</span> 'do-hyper-link<span class="org-rainbow-delimiters-depth-3">)</span>
+    map<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">define-derived-mode</span> <span class="org-function-name">hypertext-mode</span>
+  text-mode <span class="org-string">"Hypertext"</span>
+  <span class="org-doc">"Major mode for hypertext."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">setq-local</span> case-fold-search nil<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+不要在定义中写一个 `interactive' 说明， `define-derived-mode' 会自动加上的。
+</p>
+
+<p>
+&#x2013; 函数： derived-mode-p &amp;rest modes
+</p>
+
+<p>
+这个函数在当前主模式是派生自 MODES 时会返回非 `nil' 值。
+</p>
+</div>
+</li>
+
+<li><a id="org01f0efe"></a>基本主模式<br />
+<div class="outline-text-4" id="text-1-2-5">
+<p>
+不管 Fundamental 模式，这有三种主模式是其他主模式通常继承的： Text 模式、Prog 模
+式和 Special 模式。Text 模式有他自己存在的权利（比如，编辑以 `.txt' 结尾的文件），
+而 Prog 模式和 Special 模式存在的主要价值在于由其他模式继承。
+</p>
+
+<p>
+只要有可能，一个新的主模式应该是派生模式，不论是直接还是间接的从这三个模式中派生。
+有一个原因是这会允许用户设置一个模式钩子（比如 `prog-mode-hook'）达到为整个家族
+（比如，所有的程序语言）相关的模式设置钩子的效果。
+</p>
+
+<p>
+&#x2013; 命令： text-mode
+</p>
+
+<p>
+Text 模式是一个编辑可读语言的主模式。它定义 `"' 和 `\' 字符具有标点语义（请看
+Syntax Class Table），并绑定 `M-&lt;TAB&gt;' 到 `ispell-complete-word' （请看
+(emacs)Spelling）。
+</p>
+
+<p>
+继承自 Text 模式的例子有 HTML 模式。请看 SGML and HTML Modes(emacs)。
+</p>
+
+<p>
+&#x2013; 命令： prog-mode
+</p>
+
+<p>
+prog 模式是一个为包含程序语言的缓冲准备的主械。大多数的程序语言主模式都派生自它。
+</p>
+
+<p>
+Prog 模式绑定 `parse-sexp-ignore-comments' 到 `t'(请看 Motion via Parsing)，绑定 
+`bidi-paragraph-direction' 到 `left-to-right' (请看 Bidirectional Display)。
+</p>
+
+<p>
+&#x2013; 命令： special-mode
+</p>
+
+<p>
+Special 模式是为包含有为 Emacs 特别生成的文本准备的主模式，而不是直接从一个文件
+产生的。从 Special 模式派生的主模式会设置一个 `mode-class' 属性，其值为
+'special' (请看 Major Mode Conventions)
+</p>
+
+<p>
+Special 模式设置缓冲为只读。它的按键映射定义了许多常规绑定，但是 `q' 是
+`quit-window'， `g' 是 `revert-buffer' (请看 Reverting)。
+</p>
+
+<p>
+有一个派生自 Special 模式的主模式的例子是 Buffer Menu 模式，但由 `*Buffer List*'
+缓冲使用。请看 Listing Existing Buffers (emacs)。
+</p>
+
+<p>
+另个，处理表格数据的主模式可以从 Tabulated List 模式派生，它是从 Special 模式派
+生出来的。请看 Tabulated List Mode。
+</p>
+</div>
+</li>
+
+
+<li><a id="orgc6e8b2a"></a>模式钩子<br />
+<div class="outline-text-4" id="text-1-2-6">
+<p>
+每一个主模式命令都应该以执行一个模式无关的常规钩子
+`change-major-mode-after-body-hook' ，他自己的模式钩子以及常规钩子
+`after-change-major-mode-hook' 结束。它通过 `run-mode-hooks' 来执行。 如果主模式
+是一个派生模式，并在其内部执行了其他主模式（他的父模式），则他应该通过
+`delay-mode-hooks' 来执行这几个钩子，防止他的父模式执行钩子。派生出来的主模式使
+用 `run-mode-hooks' 调用他的父新的模式钩子。请看 Major Mode Conventions。
+</p>
+
+<p>
+Emacs 22 以前的版本没有 `delay-mode-hooks'。 在 Emacs 24 之前的版本没有
+`change-major-mode-after-body-hook'。 当用户自已实现的主模式没有使用
+`run-mode-hooks' 以及没有使用这些新特性，那么他不会完全遵循这个约定：他们可能过
+早执行其父模式的钩子，或者不能使用 `after-change-major-mode-hook'。 如果你遇到这
+样一个主模式，请修改他以遵循这些约定。
+</p>
+
+<p>
+当你使用 `define-derived-mode' 来定义一个主模式时， 它会自动确保这些约定被遵守。
+如果你手动地定义一个主模式，而不使用 `define-derived-mode' ，则请使用下面这些函
+数来自动应对这些约定。
+</p>
+
+<p>
+&#x2013; 函数： run-mode-hooks &amp;rest hookvars
+</p>
+
+<p>
+主模式应该使用这个函数来运行他们臫的模式钩子。它与 `run-hooks' 有点像（请看
+Hooks ），但这个还会运行 `change-major-mode-after-body-hook'，
+`hack-local-variables'(当缓冲正在查看一个文件时)， 和
+`after-change-major-mode-hook'。 这最后他干的事是对 父模式声明的 `:after-hook'
+表达式进行求值（请看 Derived Modes）。 
+</p>
+
+<p>
+当这个函数是在 `delay-mode-hooks' 表达式中被调用时，他不会立即执行这些钩子或者
+`hack-local-variables' 或者对那些表达式求值。相反，会在下一次调用
+`run-mode-hooks' 时执行它们。
+</p>
+
+<p>
+&#x2013; 宏： delay-mode-hooks  body &#x2026;
+</p>
+
+<p>
+当主模式中调用另一个主模式命令时，应该在 `delay-mode-hooks' 中来调用。
+</p>
+
+<p>
+这个宏执行 BODY ，但是会告诉所有在 BODY 运行中遇到的 `run-mode-hooks' 推迟运行他
+们的钩子。而这些钩子会在 `delay-mode-hooks' 结构结尾的下次调用 `run-mode-hooks'
+时被执行。
+</p>
+
+<p>
+&#x2013; 变量： change-major-mode-after-body-hook 
+</p>
+
+<p>
+这是一个由 `run-mode-hooks' 执行的常规钩子。它会在模式钩子执行前执行。
+</p>
+
+<p>
+&#x2013; 变量： after-change-major-mode-hook
+</p>
+
+<p>
+这是一个由 `run-mode-hooks' 执行的常规钩子。它会在每个正确书写的主模式命令的最最
+后执行。
+</p>
+</div>
+</li>
+
+<li><a id="org78312b5"></a>制表模式<br />
+<div class="outline-text-4" id="text-1-2-7">
+<p>
+制表模式是一个为显示表格数据的主模式，比如由条目组成的数据，每个条目包含一行文本，
+每行文本内容分成许多列。制表模式为较好地显示行和列，根据每列的值对列进行排序提供
+工具。它从 Special 模式派生（请看 Basic Major Modes）。
+</p>
+
+<p>
+制表模式是被期望用作一个更加专业化的主模式的父模式的。例如，Process Menu 模式
+（请看 Process Information）和 Package Menu 模式（请看 (emacs)Paceage Menu）。
+</p>
+
+<p>
+这样一个派生模式应该使用 `define-derived-mode' 来定义，设置
+`tabulated-list-mode' 作为第二个参数（请看Derived Modes）。
+`define-derived-mode' 语句的主体则应该设置表格化数据的模式，通过对下文将要提到的
+变量进行赋值。可选的是，还可以调用 `tabulated-list-init-header' 函数，通过列名产
+生一个表头。
+</p>
+
+<p>
+由此派生的模式还应该定义一个 "listing command"。这不是模式命令，而是由用户调用的
+（比如 `M-x list-processes'）。这个列表命令应该创建并切换到那个缓冲，打开派生的
+模式，指定表格数据，最后调用 `tabulated-list-print'。
+</p>
+
+<p>
+&#x2013; 变量： tabulated-list-format
+</p>
+
+<p>
+这个缓冲局部变量设置了表格数据的格式。它的值一是个向量。每一个元素代表着一个数据
+列，并且应该是 `(NAME WIDTH SORT)' 这样的列表，此处：
+</p>
+
+<ul class="org-ul">
+<li>NAME 是列的名字，一个字符串。</li>
+
+<li>WIDTH 是为列保留的宽度，一个整数。这对最后一列是没有意义的，它会扩展到行末。</li>
+
+<li>SORT 设置怎样通过列来进行排序。如果是 `nil'， 这个列不能进行排序，如果是 `t'
+，这个列则会通过字符串比较来进行排序。否则，这应该是一个 `sort' 判定函数（请看
+Rearrangement），它接受两个相同形式的参数。</li>
+</ul>
+
+<p>
+&#x2013; 变量： tabulated-list-entries
+</p>
+
+<p>
+这是一个缓冲局部变量，设置在 Tabulated List 缓冲中显示的条目。它的值应该是一个纯
+粹的列表，或者一个函数。
+</p>
+
+<p>
+如果它的值是一个列表，条目的每个元素应该是这 `(ID CONTENTS)' 这种样式的。这里：
+</p>
+
+<ul class="org-ul">
+<li>ID 是 `nil' 或者是识别条目的 Lisp 对象。如果是后者，在重新排序时，光标会保留在
+原条目上。比较是通过 `equal' 进行的。</li>
+
+<li>CONTENTS 是一个包含 `tabulated-list-format' 相同格式元素的向量。每个向量元素是
+字符串或者像 `(LABEL . PROPERTIES)' 这样的列表，后者是说通过使用 LABEL 和 PROPERTIES 调用
+`insert-text-button' 插入一个文本按钮（请看 Making Buttons）。</li>
+</ul>
+
+<p>
+在字符串中不应该包含换行符。
+</p>
+
+<p>
+否则，其值应该是一个函数，在不使用参数调用时返回一个如上所述格式的列表。
+</p>
+
+<p>
+&#x2013; 变量： tabulated-list-revert-hook
+</p>
+
+<p>
+这个常规钩子较早运行，用来重新生成一个 Tabulated List 缓冲。一个派生模式可以在这
+个钩子中添加一个函数来重新计算 `tabulated-list-entries'。
+</p>
+
+<p>
+&#x2013; 变量： tabulated-list-printer
+</p>
+
+<p>
+这个变量的值是一个用来在当前位置插入一个条目的函数，包含他的终止换行符。这个函数
+应该接受两个参数， ID 和 CONTENTS，这参数的含义与 `tabulated-list-entries' 中的
+一样。 变量的默认值是一个使用直接方式插入条目的函数；对于一个以其他更复杂方式使
+用 Tabulated List 模式的可以设置一个其他的函数。
+</p>
+
+<p>
+&#x2013;  变量： tabulated-list-sort-key
+</p>
+
+<p>
+这个变量的值设置了 Tabulated List 缓冲的当前排序的键。如果是 `nil'，则不进行排序。
+否则，它应该是形如 `(NAME . FLIP)' 这样的语句， NAME 是一个
+`tabulated-list-format' 中存在的列名， FLIP 如果不是 `nil' ，意思是反转排序。
+</p>
+
+<p>
+&#x2013; 函数： tabulated-list-init-header
+</p>
+
+<p>
+这个函数计算并设置Tabulated List 缓冲的 `header-line-format' (请看 Header
+Lines)，并为标题行设置一个键盘映射以允许通过点击列头来进行排序。
+</p>
+
+<p>
+从 Tabulated List 模式派生出来的模式应该在设置了之前的变量后调用这个函数（准确地
+讲仅仅是在设置了 `tabulated-list-format' 后）。
+</p>
+
+<p>
+&#x2013; 函数： tabulated-list-print &amp;optional remember-pos update
+</p>
+
+<p>
+这个函数使用条目生成当前缓冲。它应该在列表命令中被调用。它会擦除当前缓冲，按
+`tabulated-list-sort-key' 对 `tabulated-list-entries' 进行排序，然后调用
+`tabulated-list-printer' 中设置的函数来插入每一个条目。
+</p>
+
+<p>
+如果可选的参数 REMEMBER-POS 不是 `nil' ，这个函数会从当前行去搜寻 ID 元素，如果
+有，就尝试在所有数据插入后移动到那条数据。
+</p>
+
+<p>
+如果可选参数 UPDATE 不是 `nil'，这个函数会只重写在上次打印后改变了的条目。这在上
+次调用这个函数后许多条目没有改变的情况下会快上几倍。结果的唯一区别是通过
+`tabulated-list-put-tag' 插入的标签不会从没有修改过的条目中移除（通常情况下所有
+的都会被移除）。
+</p>
+
+<p>
+&#x2013; 函数： tabulated-list-delete-entry
+</p>
+
+<p>
+这个函数删除光标所在位置的条目。
+</p>
+
+<p>
+它会返回一个列表 `(ID COLS)'， ID 是删除条目的 ID ，COLS 是它的各列组成的向量。
+它将光标移动到当前行的行首。如果光标处没有条目则返回 `nil'。
+</p>
+
+<p>
+注意的是这个函数只会改变缓冲区内容，不会修改 `tabulated-list-entries'。
+</p>
+
+<p>
+&#x2013; 函数： tabulated-list-get-id &amp;optional poseidon
+</p>
+
+<p>
+这个 `defsubst' 从 `tabulated-list-entries' 中返回一个 ID 对象，当
+`tabulated-list-entries' 是个函数是则从其返回的列表中得到 ID 对象。如果忽略 POS
+或者设置成 `nil' ，默认是当前光标位置。
+</p>
+
+
+<p>
+&#x2013; 函数： tabulated-list-get-entry &amp;optional poseidon
+</p>
+
+<p>
+这个 `defsubst' 从 `tabulated-list-entries' 中返回条目，当其值是一个函数时，则从
+返回的列表中取得。返回值是一个POS位置ID 条目向量。如果 POS 位置没有条目，这个函
+数会返回 `nil'。
+</p>
+
+<p>
+&#x2013; 函数： tabulated-list-header-overlay-p &amp;optional POSeidon
+</p>
+
+<p>
+这个 `defsubst' 在POS 位置有一个假的头的时候返回 non-`nil'。假的头用在
+`tabulated-list-use-header-line' 为 `nil' 时，将列名放到缓冲的开始位置。如果忽略
+POS 或者设置其值为 `nil'， 默认值为 `point-min'。
+</p>
+
+<p>
+&#x2013; 函数： tabulated-list-put-tag tag &amp;optional advance
+</p>
+
+<p>
+这个函数在当前行的页边区加上 TAG。页边区可以是行首的空白部分，它的宽度由
+`tabulated-list-padding'  来设置。 TAG 应该是一个字符串，其长度应该等于或小于
+`tabulated-list-padding'。 如果 ADVANCE 不是 `nil'，这个函数会将光标前移一行。
+</p>
+
+<p>
+&#x2013; 函数： tabulated-list-set-col col desc &amp;optional change-entry-data
+</p>
+
+<p>
+这个函数改变当前位置条目，修改 COL 为 DESC 。 COL 是要要修改的列序号，或者是列
+名。 DESC 新的列描述符，通过 `tabulated-list-print-col' 插入。
+</p>
+
+<p>
+如果 CHANGE-ENTRY-DATA 不是 `nil' ，这个函数通过设置列描述符为 `desc' 来修改数据（通常是
+`tabulated-list-entries' 中的列）。
+</p>
+</div>
+</li>
+
+
+<li><a id="orgb52e6b8"></a>一般模式<br />
+<div class="outline-text-4" id="text-1-2-8">
+<p>
+“一般模式" 是一个带有注释语法和 Font Lock 模式的简单主模式。使用
+`define-generic-mode' 来定义一个一般模式。请查看 `generic-x.el' 了解
+`define-generic-mode' 的一些使用例子。
+</p>
+
+<p>
+&#x2013; 宏： define-generic-mode mode comment-list keyword-list font-lock-list
+   auto-mode-list function-list &amp;optional docstring
+</p>
+
+<p>
+这个宏定义了一个名叫 MODE(一个符号，不是引用) 的一般模式。 可选的参数 DOCSTRING
+是模式命令的说明。如果你不设置它，则 `define-generic-mode' 会生成一个默认说明。
+</p>
+
+<p>
+参数 COMMENT-LIST 是一个列表，他的元素可能是一个字符、或者是带有一个或者两个字符
+的字符串，或者是一个 cons 列表。字符或者字符串会被在模式的语法表中设置作为一个注
+释引导符。如果是一个 cons 列表，则 CAR 被设置成注释引导符，CDR 被设置成注释终止
+符。（当你想注释在行尾结束时，则将 CDR 设置成 `nil'。）要注意的是语法表机制对于
+什么字符可以作用注释引导符和终止符有一些限制。请看 Syntax Tables。
+</p>
+
+<p>
+参数 KEYWORD-LIST 是一个需要使用 `font-lock-keyword-face' 进行高亮的关键字的列表。
+每个关键定应该是一个字符串。同时，FONT_LOCK-LIST 是一个附加的用于高亮的语句。每
+个元素的形式应该与 `font-lock-keywords' 中的元素的形式是一样的。请看
+Search-based Fontification。
+</p>
+
+<p>
+参数 AUTO-MODE-LIST 是一个要加入变量 `auto-mode-list' 的正则表达式。它们通过执行
+`define-generic-mode' 语句来加入，而不是通过展开宏来加入。
+</p>
+
+<p>
+最后，FUNCTION-LIST 是一个由模式命令要调用来进行额外设置的函数的列表。它在正要调
+用模式钩子变量 `MODE-hook' 之前来调用这些函数。
+</p>
+</div>
+</li>
+
+<li><a id="org05b2052"></a>主模式示例<br />
+<div class="outline-text-4" id="text-1-2-9">
+<p>
+Text 模式可能是除 Fundamental 模式之外最简单的主模式了。这是从 `text-mode.el' 中
+的一些摘录，阐述了许多前面讲到的约定：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Create the syntax table for this mode.</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">text-mode-syntax-table</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>st <span class="org-rainbow-delimiters-depth-5">(</span>make-syntax-table<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>modify-syntax-entry ?\" <span class="org-string">".   "</span> st<span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>modify-syntax-entry ?\\ <span class="org-string">".   "</span> st<span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Add 'p' so M-c on 'hello' leads to 'Hello', not 'hello'.</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>modify-syntax-entry ?' <span class="org-string">"w p"</span> st<span class="org-rainbow-delimiters-depth-3">)</span>
+    ...
+    st<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Syntax table used while in `</span><span class="org-doc"><span class="org-constant">text-mode</span></span><span class="org-doc">'."</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Create the keymap for this mode.</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">text-mode-map</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>map <span class="org-rainbow-delimiters-depth-5">(</span>make-sparse-keymap<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-string">"\e\t"</span> 'ispell-complete-word<span class="org-rainbow-delimiters-depth-3">)</span>
+    ...
+    map<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Keymap for `</span><span class="org-doc"><span class="org-constant">text-mode</span></span><span class="org-doc">'.</span>
+<span class="org-doc">Many other modes, such as `</span><span class="org-doc"><span class="org-constant">mail-mode</span></span><span class="org-doc">', `</span><span class="org-doc"><span class="org-constant">outline-mode</span></span><span class="org-doc">' and</span>
+<span class="org-doc">`</span><span class="org-doc"><span class="org-constant">indented-text-mode</span></span><span class="org-doc">', inherit all the commands defined in this map."</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+这是实际的模式命令是怎样定义的：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">define-derived-mode</span> <span class="org-function-name">text-mode</span> nil <span class="org-string">"Text"</span>
+  <span class="org-doc">"Major mode for editing text written for humans to read.</span>
+<span class="org-doc">In this mode, paragraphs are delimited only by blank or white lines.</span>
+<span class="org-doc">You can thus get the full benefit of adaptive filling</span>
+<span class="org-doc"> (see the variable `</span><span class="org-doc"><span class="org-constant">adaptive-fill-mode</span></span><span class="org-doc">').</span>
+<span class="org-doc">\\{text-mode-map}</span>
+<span class="org-doc">Turning on Text mode runs the normal hook `</span><span class="org-doc"><span class="org-constant">text-mode-hook</span></span><span class="org-doc">'."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>set <span class="org-rainbow-delimiters-depth-3">(</span>make-local-variable 'text-mode-variant<span class="org-rainbow-delimiters-depth-3">)</span> t<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>set <span class="org-rainbow-delimiters-depth-3">(</span>make-local-variable 'require-final-newline<span class="org-rainbow-delimiters-depth-3">)</span>
+       mode-require-final-newline<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>set <span class="org-rainbow-delimiters-depth-3">(</span>make-local-variable 'indent-line-function<span class="org-rainbow-delimiters-depth-3">)</span> 'indent-relative<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+(最后一行现在是多余的了，因为 `indent-relative' 是默认值，我们会在下一个版本中删
+除他。)
+</p>
+
+<p>
+三个 Lisp 模式（Lisp 模式、Emacs Lisp 模式和 Lisp Interaction 模式） 比 Text 模
+式拥有的特性要多一些，所以代码相应的要复杂一些。这儿是一些从 `lisp-mode.el' 中的
+摘录，说明了这些模式是怎么写的：
+</p>
+
+<p>
+下面是Lisp 模式语法和缩写表的如何定义的：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Create mode-specific table variables.</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>define-abbrev-table 'lisp-mode-abbrev-table <span class="org-rainbow-delimiters-depth-2">()</span>
+  <span class="org-doc">"Abbrev table for Lisp mode."</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">lisp-mode-syntax-table</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>table <span class="org-rainbow-delimiters-depth-5">(</span>make-syntax-table lisp--mode-syntax-table<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>modify-syntax-entry ?\[ <span class="org-string">"_   "</span> table<span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>modify-syntax-entry ?\] <span class="org-string">"_   "</span> table<span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>modify-syntax-entry ?# <span class="org-string">"' 14"</span> table<span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>modify-syntax-entry ?| <span class="org-string">"\" 23bn"</span> table<span class="org-rainbow-delimiters-depth-3">)</span>
+    table<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Syntax table used in `</span><span class="org-doc"><span class="org-constant">lisp-mode</span></span><span class="org-doc">'."</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+这三个针对Lisp 模式共享了他们的许多代码。例如，每个都调用了下面这个函数来设置不
+同的变量：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">lisp-mode-variables</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;optional</span> syntax keywords-case-insensitive elisp<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">when</span> syntax
+    <span class="org-rainbow-delimiters-depth-3">(</span>set-syntax-table lisp-mode-syntax-table<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+  ...
+
+</pre>
+</div>
+
+<p>
+在其他事情中，这个函数设置 `comment-start' 变量来处理 Lisp 注释：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq-local</span> comment-start <span class="org-string">";"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+...
+
+</pre>
+</div>
+
+<p>
+每一个Lisp 模式在按键绑定中都有点不同。比如，Lisp 模式绑定 `C-c C-z' 到
+`run-lisp'，但其他 Lisp 模式没有。不管怎么样，所有的 Lisp 模式都有些共同的命令。
+下面的代码设置共同的命令：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">lisp-mode-shared-map</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>map <span class="org-rainbow-delimiters-depth-5">(</span>make-sparse-keymap<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>set-keymap-parent map prog-mode-map<span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-string">"\e\C-q"</span> 'indent-sexp<span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-string">"\177"</span> 'backward-delete-char-untabify<span class="org-rainbow-delimiters-depth-3">)</span>
+    map<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Keymap for commands shared by all sorts of Lisp modes."</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+下面是用来为 Lisp 模式设置按键绑定的代码：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">lisp-mode-map</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>map <span class="org-rainbow-delimiters-depth-5">(</span>make-sparse-keymap<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span>
+        <span class="org-rainbow-delimiters-depth-4">(</span>menu-map <span class="org-rainbow-delimiters-depth-5">(</span>make-sparse-keymap <span class="org-string">"Lisp"</span><span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>set-keymap-parent map lisp-mode-shared-map<span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-string">"\e\C-x"</span> 'lisp-eval-defun<span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>define-key map <span class="org-string">"\C-c\C-z"</span> 'run-lisp<span class="org-rainbow-delimiters-depth-3">)</span>
+    ...
+    map<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Keymap for ordinary Lisp mode.</span>
+<span class="org-doc">All commands in `</span><span class="org-doc"><span class="org-constant">lisp-mode-shared-map</span></span><span class="org-doc">' are inherited by this map."</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+最后，是 Lisp 模式的主模式命令：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">define-derived-mode</span> <span class="org-function-name">lisp-mode</span> prog-mode <span class="org-string">"Lisp"</span>
+  <span class="org-doc">"Major mode for editing Lisp code for Lisps other than GNU Emacs Lisp.</span>
+<span class="org-doc">Commands:</span>
+<span class="org-doc">Delete converts tabs to spaces as it moves back.</span>
+<span class="org-doc">Blank lines separate paragraphs.  Semicolons start comments.</span>
+
+<span class="org-doc">\\{lisp-mode-map}</span>
+<span class="org-doc">Note that `</span><span class="org-doc"><span class="org-constant">run-lisp</span></span><span class="org-doc">' may be used either to start an inferior Lisp job</span>
+<span class="org-doc">or to switch back to an existing one."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>lisp-mode-variables nil t<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">setq-local</span> find-tag-default-function 'lisp-find-tag-default<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">setq-local</span> comment-start-skip
+              <span class="org-string">"</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">^</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">\\\\\n]</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">\\\\\\\\</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">*</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">;+</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">|</span></span><span class="org-string">#|</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string"> *"</span><span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">setq</span> imenu-case-fold-search t<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org84e2572"></a>子模式<br />
+<div class="outline-text-3" id="text-1-3">
+<p>
+一个子模式提供一个可选的特性，用户可以根据主模式的选择独立地开启或者关闭。子模式
+可以单独开启或者作为附加开启。
+</p>
+
+<p>
+许多子模式都是实现与主模式相对独立的功能，所以可以与许多主模式共同使用。例如，
+Auto Fill 模式可以与所有允许文本插入的模式一起工作。有一些子模式，是针对某个特定
+的主模式的，比如，Diff Auto Refine 模式是一个专门针对 Diff 模式的子模式。
+</p>
+
+<p>
+理想的状态是，子模式应该实现所期望的效果而不能受到其他子模式的影响。而且能够以任
+何顺序开启或者关闭子模式。
+</p>
+
+<p>
+&#x2013; 变量： minor-mode-list
+</p>
+
+<p>
+这个变量的值是一个所有的子模式命令的列表。
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org5ca44eb"></a>写一个子模式的约定<br />
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+就像主模式一样，这有一些写子模式的约定。这些约定在下文阐述。遵循这些约定的最简单
+的方式是使用 `define-minor-mode' 宏。请看 Defining Minor Modes。
+</p>
+</div>
+</li>
+
+
+<li><a id="org2e224ee"></a>按键映射和子模式<br />
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+每一个子模式可以有自己的按键映射，当这个模式开启时起作用。通过为
+`minor-mode-map-alist' 添加元素来为子模式设置一个按键映射。请看 Definitions of
+minor-mode-map-alist。
+</p>
+
+<p>
+在子模式中使用按键映射的一个场景是修改某些自插入字符的行为，这样的话在插入自身的
+同时还可以干点其他事情。（另一种自定义 `self-insert-command' 的方式是通过
+`post-self-insert-hook' ，请看 Commands for Insertion。除开这种方式，自定义
+`self-insert-command' 的工具只有特殊的需要才被允许在缩写和自动折行模式中使用。不
+要试图将 `self-insert-command' 中的标准定义替换成你自定义的内容。编辑器的命令循
+环处理器会采取特殊方式处理其中的函数。）
+</p>
+
+<p>
+子模式可能将命令绑定到由 `C-c' 加标点符号组成的按键序列上。但是，由 `C-c' 加
+`{}&lt;&gt;:;' 中的一个，或者一个控制字符或者一个数字这样的按键序列是保留给主模式的。
+同样 `C-c LETTER' 是保留给用户的。请看 Key Binding Convertions。
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="orgea87a32"></a>模式行格式<br />
+<div class="outline-text-3" id="text-1-4">
+<p>
+每个Emacs窗口（除了 minibuffer 的窗口）的底部都有一个模式行，用来显示其中
+buffer的状态信息，比如名字，与 其关联的文件，递归编辑的深度，主模式和附模式。
+一个窗口还可以有头部行（header line），它和模式行很像，只是显示在窗口的上方。
+这节讲怎样控制模式行和头部行中的内容。之所以在模式这章中讲，是因为模式行显示
+的内容大多数与模式相关。
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org98730a4"></a>模式行概要<br />
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+每个模式行显示的内容都是通过局部变量`mode-line-format'来控制的。该变量中包含
+一个模式行结构：用于控制在模式行中显示内容的模板。而`header-line-format'的值
+则同样决定了在头行中显示的内容。同一个缓冲的所有窗口使用相同的
+`mode-line-format' 和 `header-line-format' ，除非专门针对那个窗口修改了
+`mode-line-format' 和 `header-line-format' 参数（请看 Window Parameters）。 
+</p>
+
+<p>
+为了效率，Emacs不会一直重新计算每个窗口的模式行和头行的内容。只在有显式地调
+用才计算，比如，如果你改变了窗口的配置，调换了缓冲，拉宽或者缩窄缓冲，亦
+或是滚动内容，修改缓冲等。如果你修改了`mode-line-format'或者
+`header-line-format' 中引用的任何变量（请看 Mode Line Variables）,或者其他的
+影响文字显示的结构（请看 Display），你应该调用
+`force-mode-line-update'来更新模式行和头行的显示。
+</p>
+
+<p>
+&#x2013; 函数： force-mode-line-update &amp;optional all
+</p>
+
+<p>
+该函数在模式行的下一个显示刷新周期中使用所有相关变量的最新的值来更新模式行和头行
+    的显示。如果可选参数 ALL 的值不是 `nil' ，则强制更新所有的模式行和头行。
+</p>
+
+<p>
+这个函数同样强制更新菜单条的窗口 (frame) 标题。
+</p>
+
+<p>
+选中的窗口的模式行通常使用 `mode-line' 样式显示成不同的颜色。而其他的窗口则使用
+  `mode-line-inactive' 样式进行显示。请看 Faces。
+</p>
+</div>
+</li>
+
+<li><a id="org033ea49"></a>模式行的数据结构<br />
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+模式行显示内容由称作模式行构造(`mode line construct')的数据结构控制，它由列
+表、字符串、符号和存储在缓冲局部变量中的数字组成。每种数据类型对模式行的显示
+都有特定的作用，下文会详细解释。Frame 的标题（请看 Frame Titles）和窗口的头
+行（请看 Header Lines）显示也使用相同的数据结构。
+</p>
+
+<p>
+模式行构造可以仅仅是一个固定文本字符串，但是通常是设置如何将固定的字符串和变
+量结合起来构造显示文本。这些变量是定义好了的，将模式行控制结构作为他们的值。
+</p>
+
+<p>
+下面这些是模式行构造结构中不同类型数据的意义：
+</p>
+
+
+<p>
+`STRING' 
+</p>
+
+<p>
+在模式行中的字符串通常是逐字显示的，但如果其中包含"`%'-构造符"，则表示对其进行替
+    换，请看 %-Constructs。
+</p>
+
+<p>
+如果字串中的一部分有 `face' 属性，则会像在缓冲区中一样应用样式进行显示。没有
+`face' 属性的字符则以默认的 `mode-line' 或者 `mode-line-inactive' 样式进行显
+示（请看 (emacs)Standard Faces）。STRING 的`help-echo'和`local-map' 属性的意
+义很特殊，请看 Properties in Mode。
+</p>
+
+<p>
+`SYMBOL'
+</p>
+
+<p>
+模式行结构中的符号代表使用它的值。但是，`t' 和 `nil' 这两个符号会被忽略，就像其
+他的值是 void 的符号一样。
+</p>
+
+<p>
+有一个例外是，如果符号的值是字串，则逐字显示：字串中的 `%'-构造符不作特殊处理。
+</p>
+
+<p>
+除非符号被标记为"risky" (比如：它的 `risky-local-variable' 的值不是 `nil' )，
+否则设置在 SYMBOL 中的所有的属性均被忽略，包括符号值中字符串的 text 属性以及
+符号中的 `:eval' 和 `:propertize' 语句。（主要是为了安全：不带风险的变量将不
+会提示用户，自动通过文件变量进行设置。）
+</p>
+
+<p>
+`(STRING REST&#x2026;)'
+`(LIST REST&#x2026;)'
+    列表的第一个元素是字串或者列表，意思是将所有元素进行递归运算后，再连接起来形成结果。这是模式行构造中最常见的形式。
+</p>
+
+<p>
+`(:eval FORM)'
+    列表的第一个元素是符号 `:eval' ，意思是说对其后的FORM 求值，并将运算结果作为显示内容。注意的是在FORM中不能加载任何文件，否则会造成无限循环。
+</p>
+
+<p>
+`(:propertize ELT PROPS&#x2026;)'
+    列表的第一个元素是符号 `:propertie' 的，意思是说先递归处理模式行构造体 ELT
+    ，然后将文本显示属性PROPS添加到处理后的结果上。PROPS由零个或者多个属性及其值
+    （TEXT-PROPERTY VALUE）组成。如果 ELT 是一个带有文本样式属性的字符串或者产生
+    这样一个字符串，则字符串中的所有的字符都应该具有一样的属性，否则其中的一些字
+    符的属性通过 `:propertize' 移除。
+</p>
+
+<p>
+`(SYMBOL THEN ELSE)'
+</p>
+
+<p>
+列表的第一个元素是一个符号，但符号并非关键字，仅仅指定了一个条件判断，意思是说最
+后结果由 SYMBOL 的值决定。如果符号的值不是nil，第二个元素THEN被递归处理，结果显
+示在模式行上；如果其值为nil，则第三个元素ELSE被递归处理。如果ELSE被忽略，在
+SYMBOL的值为nil或者为空时，模式行什么都不会显示。
+</p>
+
+<p>
+`(WIDTH REST&#x2026;)'
+    列表的第一个元素是整数时，则设置了截除或者填充REST的长度。REST 剩下的部
+    分将被递归处理后连接在一起形成一个字串用于模式行显示。当WIDTH是正数时，如果
+    字串的长度小于WIDTH，在其右侧用空格补至WIDTH；当WIDTH是负数时，如果字串的长
+    度大于 -WIDTH，则在其右侧截断至 -WIDTH。
+</p>
+
+<p>
+例如，显示缓冲区的百分比时使用的列表是：`(-3 "%p")。
+</p>
+</div>
+</li>
+
+<li><a id="org99abeb6"></a>模式行的上层控制<br />
+<div class="outline-text-4" id="text-1-4-3">
+<p>
+模式行的总控变量是`mode-line-format'。
+</p>
+
+<p>
+&#x2013; 用户设置： mode-line-format
+    这个变量的值是控制模式行显示内容的的模式行数据结构。它在所有的缓冲区中总是一
+    个缓冲局部的变量。
+</p>
+
+<p>
+如果将其值设置为 `nil' ，则缓冲区没有模式行。（只有一行高的窗口也不显示模式行。）
+</p>
+
+<p>
+其默认值设计是使用其他变量的值，如`mode-line-position'和`mode-line-modes'
+(这个变量依次将 `mode-name' 和 `minor-mode-alist' 的值合并起来。)。只有极个
+别的模式需要修改`mode-line-format'。对于大多数情况，修改`mode-line-format'直
+接或者间接引用的变量就能满足要求。
+</p>
+
+<p>
+如果你确实自己修改`mode-line-format'，新的值应该使用默认值中相同的变量（请看
+Mode Line Variables），而不是复制它们的内容或者用其他样式来显示信息。这样的
+话，用户或者 Lisp 程序（比如 `display-time' 和主模式）通过个修改那些变量来实
+现的自定义设置才会有效果。
+</p>
+
+<p>
+这里是一个假设的为 Shell 模式设置的 `mode-line-format' 的可能有用的例子（实际上，
+Shell 模式并没有设置 `mode-line-format'）：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> mode-line-format
+  <span class="org-rainbow-delimiters-depth-2">(</span>list <span class="org-string">"-"</span>
+   'mode-line-mule-info
+   'mode-line-modified
+   'mode-line-frame-identification
+   <span class="org-string">"%b--"</span>
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">Note that this is evaluated while making the list.</span>
+   <span class="org-comment-delimiter">;; </span><span class="org-comment">It makes a mode line construct which is just a string.</span>
+   <span class="org-rainbow-delimiters-depth-3">(</span>getenv <span class="org-string">"HOST"</span><span class="org-rainbow-delimiters-depth-3">)</span>
+   <span class="org-string">":"</span>
+   'default-directory
+   <span class="org-string">"   "</span>
+   'global-mode-string
+   <span class="org-string">"   %[("</span>
+   '<span class="org-rainbow-delimiters-depth-3">(</span><span class="org-builtin">:eval</span> <span class="org-rainbow-delimiters-depth-4">(</span>mode-line-mode-name<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+   'mode-line-process
+   'minor-mode-alist
+   <span class="org-string">"%n"</span>
+   <span class="org-string">")%]--"</span>
+   '<span class="org-rainbow-delimiters-depth-3">(</span>which-func-mode <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-string">""</span> which-func-format <span class="org-string">"--"</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+   '<span class="org-rainbow-delimiters-depth-3">(</span>line-number-mode <span class="org-string">"L%l--"</span><span class="org-rainbow-delimiters-depth-3">)</span>
+   '<span class="org-rainbow-delimiters-depth-3">(</span>column-number-mode <span class="org-string">"C%c--"</span><span class="org-rainbow-delimiters-depth-3">)</span>
+   '<span class="org-rainbow-delimiters-depth-3">(</span>-3 <span class="org-string">"%p"</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+(变量 `line-number-mode'， `column-number-mode' 和 `which-func-mode' 开启了特定
+的子模式；通常情况下，这些变量名也同样是子模式的模式命令名。)
+</p>
+</div>
+</li>
+
+<li><a id="orge0d0a61"></a>模式行中使用的变量<br />
+<div class="outline-text-4" id="text-1-4-4">
+<p>
+这节描述了 `mode-line-format' 变量标准值中使用的一些变量。  模式行中使用的变量没
+有什么固有的不一样的地方，其他变量，只要 `mode-line-format' 的值使用它们，效果都
+是一样的。尽管如此，Emacs 在基于这些变量要控制模式行显示的共识上在各个地方设置这
+些变量，因此，事实上，这些变量对模式行很重要。请看 (emacs)Optional Mode Line。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-mule-info
+</p>
+
+<p>
+这个变量的值是模式行构造结构中关于语言环境、缓冲区编码系统和当前输入法信息的部
+   分。请看 Non-ASCII Characters。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-modified
+</p>
+
+<p>
+这个变量的值是模式行构造结构中关于 缓冲是否已被修改的信息。默认情况下，如果缓冲
+被修改了则显示`**'，没有修改则显示`&#x2013;'；`%%‘表示缓冲区是只读的，`%*'则表示只读
+缓冲区被修改了。
+</p>
+
+<p>
+修改这个变量不会强制更新模式行。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-frame-identification
+</p>
+
+<p>
+这个变量标识当前 Frame 。当你使用可以显示多个 Frame 的窗口操作系统时，默认值显示
+    `" "' ，当你使用一次只可以显示一个 Frame 的普通终端时，则显示 `"-%F"'。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-buffer-identification
+</p>
+
+<p>
+这个变量标识显示在窗口中的缓冲区。默认值是缓冲区的名字，以空格补齐为最少 12 列。
+</p>
+
+<p>
+&#x2013; 变量：mode-line-position
+</p>
+
+<p>
+这个变量指示缓冲区中的位置。默认值显示缓冲区百分比，可选设置有缓冲区大小，行号和
+    列号。
+</p>
+
+<p>
+&#x2013; 用户设置： mode-line-percent-position
+</p>
+
+<p>
+这个设置用在 `mode-line-position' 中。它的值设置了缓冲区百分比（`nil' ，
+    `"%o"'，`"%p"'，`"%P"' 或者 `"%q"'，请看 %-Constructs） 和填充空格或者截断的
+    宽度。推荐使用 `customize-variable' 工具来设置这个变量。
+</p>
+
+<p>
+&#x2013; 变量： vc-mode
+</p>
+
+<p>
+这个变量在每个缓冲中是缓冲局部的，记录缓冲中编辑的文件是否是由版本控制系统进行管
+理，如果是，那么是什么系统。默认值是一个显示在模式行中的字符串，如果没有版本控制
+系统，其值是 `nil'。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-modes
+</p>
+
+<p>
+这个变量显示缓冲区的主模式和子模式。默认值同时显示递归编辑的层数，处理状态信息，
+    和是否 Narrowing 处于打开状态。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-remote
+</p>
+
+<p>
+这个变量用于显示当前缓冲区的 `default-directory' 是否在远程主机上。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-client
+</p>
+
+<p>
+这个变量用于标识 `emacsclient' 窗口（ frame ）。
+</p>
+
+<p>
+下面的三个变量在 `mode-line-modes' 中使用：
+</p>
+
+<p>
+&#x2013; 变量： mode-name
+</p>
+
+<p>
+这个缓冲局部变量存储了当前缓冲区主模式的短名字。每个主模式应该设置这个变量，用于
+在模式行中显示。它的值不一定非得是个字符串，可以使用模式行结构中允许的所有的数据
+类型（请看 Mode Line Data）。要生成一个用于模式行中标识模式名的字符串，请使用
+`format-mode-line' (请看 Emulating Mode Line)。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-process
+</p>
+
+<p>
+这个缓冲局部的变量包含了在模式行中显示的模式中与子进程通信的进程状态信息。紧接在
+主模式名后显示，没有空格间隙。例如，在 `*shell*' 缓冲区中的值是 `(":%s")'，这允
+许 shell 将他的状态和主模式显示为： `(<a href="run">run</a>)'。通常情况下，这个变量的值是 `nil'。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-front-space
+</p>
+
+<p>
+这个变量显示在模式行的最前端。默认情况下，除非有一个内存已满的消息，这个构造会显
+示在模式行的最前端，内存已满的信息会首先显示。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-end-spaces
+</p>
+
+<p>
+这个变量显示在模式行的末尾。
+</p>
+
+<p>
+&#x2013; 变量： mode-line-misc-info
+</p>
+
+<p>
+模式行中的其他各种各样的信息。默认情况下，这显示 `global-mode-string' 中指定的信
+息。
+</p>
+
+<p>
+&#x2013; 变量： minor-mode-alist
+</p>
+
+<p>
+这个变量的值是一个关联表，它的元素设置了模式行如何标识子模式的激活状态。
+`minor-mode-alist' 中的每个元素应该是一个两个元素的列表：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>MINOR-MODE-VARIABLE MODE-LINE-STRING<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+<p>
+更通用的是，MODE-LINE-STRING 可以是任何模式行构造体。当 MINOR-MODE-VARIABLE 的值
+不是 `nil' 时，它会显示在模式行中，否则就不会显示。这些字符串应该以空格打头，这
+样的话它们不会粘在一起。约定，当某个模式的子模式打开时， MINOR-MODE-VARIABLE 应
+该设置成 non-`nil'。
+</p>
+
+<p>
+`minor-mode-alist' 不是缓冲局部的变量，但该变量中的每个变量，当它的子模式可以在
+    每个缓冲中单独打开时，则应该是缓冲局部的。
+</p>
+
+<p>
+&#x2013; 变量： global-mode-string
+</p>
+
+<p>
+这个变量存有一个模式行构造体，默认情况下，当 `which-func-mode' 子模式被设置时，
+则在其后显示，否则在 `mode-line-modes' 后显示。`display-time' 将
+`global-mode-string' 指向 `display-time-string' 变量，这个变量中包含了时间和加载
+信息。
+</p>
+
+<p>
+`%M' 构造符替换了 `global-mode-string' 的值，但这种方式被废弃了，因为这个变量是通过
+`mode-line-format' 包含到模式行中来的。
+</p>
+
+<p>
+这有一个 `mode-line-format' 默认值的简单版本。真实的默认值还设置了一些文本属性。
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-string">"-"</span>
+ mode-line-mule-info
+ mode-line-modified
+ mode-line-frame-identification
+ mode-line-buffer-identification
+ <span class="org-string">"   "</span>
+ mode-line-position
+ <span class="org-rainbow-delimiters-depth-2">(</span>vc-mode vc-mode<span class="org-rainbow-delimiters-depth-2">)</span>
+ <span class="org-string">"   "</span>
+ mode-line-modes
+ <span class="org-rainbow-delimiters-depth-2">(</span>which-func-mode <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-string">""</span> which-func-format <span class="org-string">"--"</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+ <span class="org-rainbow-delimiters-depth-2">(</span>global-mode-string <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-string">"--"</span> global-mode-string<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+ <span class="org-string">"-%-"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgdf3c32e"></a>模式行中的`%'-Constructs<br />
+<div class="outline-text-4" id="text-1-4-5">
+<p>
+用于模式行构造体的字符串可以使用某种 ‘%’-构造符来替换各种类型的数据。下面是可
+用的 `%'-构造符及他们的意思。
+</p>
+
+<p>
+在所有构造符，除开 `%%'，你可以在 `%' 后添加一个十进制整数来指定区域的最小宽度。
+   如果宽度小了，则会添加空格到指定的宽度。纯数字的构造符（ `c',`i',`I' 和 `l'）
+   在左侧添加空格，其他的在右侧添加空格。
+</p>
+
+<p>
+‘%b’
+</p>
+
+<p>
+当前缓冲区的名字，通过 `buffer-name' 函数获取。
+</p>
+
+<p>
+*注意缓冲区名字::.
+</p>
+
+<p>
+‘%c’
+</p>
+
+<p>
+光标的当前列号，从窗口左侧边界开始，从0开始计算。
+</p>
+
+<p>
+‘%C’
+</p>
+
+<p>
+光标的当前列号，从窗口左侧边界开始，从1开始计算。
+</p>
+
+<p>
+‘%e’
+     When Emacs is nearly out of memory for Lisp objects, a brief
+     message saying so.  Otherwise, this is empty.
+</p>
+
+<p>
+‘%f’
+     The visited file name, obtained with the ‘buffer-file-name’
+     function.  *Note Buffer File Name::.
+</p>
+
+<p>
+‘%F’
+     The title (only on a window system) or the name of the selected
+     frame.  *Note Basic Parameters::.
+</p>
+
+<p>
+‘%i’
+     The size of the accessible part of the current buffer; basically
+     ‘(- (point-max) (point-min))’.
+</p>
+
+<p>
+‘%I’
+     Like ‘%i’, but the size is printed in a more readable way by using
+     ‘k’ for 10^3, ‘M’ for 10^6, ‘G’ for 10^9, etc., to abbreviate.
+</p>
+
+<p>
+‘%l’
+     The current line number of point, counting within the accessible
+     portion of the buffer.
+</p>
+
+<p>
+‘%n’
+     ‘Narrow’ when narrowing is in effect; nothing otherwise (see
+     ‘narrow-to-region’ in *note Narrowing::).
+</p>
+
+<p>
+‘%o’
+     The degree of “travel” of the window through (the visible portion
+     of) the buffer, i.e.  the size of the text above the top of the
+     window expressed as a percentage of all the text outside the
+     window, or ‘Top’, ‘Bottom’ or ‘All’.
+</p>
+
+<p>
+‘%p’
+     The percentage of the buffer text above the <b>top</b> of window, or
+     ‘Top’, ‘Bottom’ or ‘All’.  Note that the default mode line
+     construct truncates this to three characters.
+</p>
+
+<p>
+‘%P’
+     The percentage of the buffer text that is above the <b>bottom</b> of the
+     window (which includes the text visible in the window, as well as
+     the text above the top), plus ‘Top’ if the top of the buffer is
+     visible on screen; or ‘Bottom’ or ‘All’.
+</p>
+
+<p>
+‘%q’
+     The percentages of text above both the <b>top</b> and the <b>bottom</b> of
+     the window, separated by ‘-’, or ‘All’.
+</p>
+
+<p>
+‘%s’
+     The status of the subprocess belonging to the current buffer,
+     obtained with ‘process-status’.  *Note Process Information::.
+</p>
+
+<p>
+‘%z’
+     The mnemonics of keyboard, terminal, and buffer coding systems.
+</p>
+
+<p>
+‘%Z’
+     Like ‘%z’, but including the end-of-line format.
+</p>
+
+<p>
+‘%*’
+     ‘%’ if the buffer is read only (see ‘buffer-read-only’);
+     ‘*’ if the buffer is modified (see ‘buffer-modified-p’);
+     ‘-’ otherwise.  *Note Buffer Modification::.
+</p>
+
+<p>
+‘%+’
+     ‘*’ if the buffer is modified (see ‘buffer-modified-p’);
+     ‘%’ if the buffer is read only (see ‘buffer-read-only’);
+     ‘-’ otherwise.  This differs from ‘%*’ only for a modified
+     read-only buffer.  *Note Buffer Modification::.
+</p>
+
+<p>
+‘%&amp;’
+     ‘*’ if the buffer is modified, and ‘-’ otherwise.
+</p>
+
+<p>
+‘%[’
+     An indication of the depth of recursive editing levels (not
+     counting minibuffer levels): one ‘[’ for each editing level.  *Note
+     Recursive Editing::.
+</p>
+
+<p>
+‘%]’
+     One ‘]’ for each recursive editing level (not counting minibuffer
+     levels).
+</p>
+
+<p>
+‘%-’
+     Dashes sufficient to fill the remainder of the mode line.
+</p>
+
+<p>
+‘%%’
+     The character ‘%’—this is how to include a literal ‘%’ in a string
+     in which ‘%’-constructs are allowed.
+</p>
+
+<p>
+   The following two ‘%’-constructs are still supported, but they are
+obsolete, since you can get the same results with the variables
+‘mode-name’ and ‘global-mode-string’.
+</p>
+
+<p>
+‘%m’
+     The value of ‘mode-name’.
+</p>
+
+<p>
+‘%M’
+     The value of ‘global-mode-string’.
+</p>
+
+
+<p>
+`%b' 当前buffer名字。
+`%c' 光标所在的列。
+`%e' 当Emacs的内存要耗尽时显示。
+`%f' 被查看的文件的名字。
+`%F' 被选中的Frame的名字。
+</p>
+</div>
+</li>
+
+<li><a id="org5b36bde"></a>模式行中的属性<br />
+<div class="outline-text-4" id="text-1-4-6">
+<p>
+一些文本属性对于模式行中很有意义。 `face' 属性影响文本的显示效果； `help-echo'
+属性将帮助说明与文本绑定在一起； `keymap' 可以使文本响应鼠标。
+</p>
+
+<p>
+有四种方式为模式行中的文本添加文本属性：
+</p>
+
+<ul class="org-ul">
+<li>直接将带有文本属性的字符串添加到模式行数据构造体。</li>
+<li>将文本属性添加到模式行 %-构造符上，比如 `%12b' ，当其展开后的文本也将具有一样
+的文本属性。</li>
+<li>使用 `(:propertize ELT PROPS&#x2026;)' 结构为 ELT 添加 PROPS 属性。</li>
+<li>在模式行数据结构中使用一个包含 `:eval FORM' 的列表，并且通过 FORM 产生一个包含
+文本属性的字符串。</li>
+</ul>
+
+<p>
+你可以使用 `keymap' 属性设置一个按键映射。这个按键映射只会对鼠标点击产生实际效
+果；为其绑定字符按键和功能按键是没有效果的，因为不可能将光标移动到模式行内部。
+</p>
+
+<p>
+当模式行引用了一个变量，但变量的 `risky-local-variable' 属性没有 non-`nil' 值，
+与这个变量相关的文本属性都将被忽略。这是因为这样的属性可能会设置一个函数，而函数
+又可能来源于文件局部变量。
+</p>
+</div>
+</li>
+
+<li><a id="org55f3a8a"></a>窗口的头行<br />
+<div class="outline-text-4" id="text-1-4-7">
+<p>
+一个窗口的顶部可以有一个头行，就像其底部的模式行一样。  头行的工作方式和模式行一
+样，只是它的控制结构是`header-line-format'。
+</p>
+
+<p>
+&#x2013; 变量： header-line-format
+</p>
+
+<p>
+这个变量是每个缓冲区的局部变量，指定了显示缓冲的窗口如何显示头行。变量的值的格式
+同 `mode-line-format' 一样（请看 Mode Line Data）。通常情况下其值是 `nil'，所以
+普通的缓冲是没有窗口头行的。
+</p>
+
+<p>
+&#x2013; 函数： window-header-line-height &amp;optional windows
+</p>
+
+<p>
+这个函数以像素为单位返回 WINDOW 的头行高度。
+</p>
+
+<p>
+WINDOW 必须是一个活动的窗口，默认情况下是当前选中的窗口。
+</p>
+
+<p>
+只有一行高的窗口不会显示头行。只有两行高的窗口不能同时显示窗口头行的模式行，如果
+它有一个模式行，则不会显示头行。
+</p>
+</div>
+</li>
+
+<li><a id="org5e133d0"></a>仿真模式行格式<br />
+<div class="outline-text-4" id="text-1-4-8">
+<p>
+你可以使用 `format-mode-line' 函数和模式行构造体来计算出要显示在模式行或者窗口头行中的文本。
+</p>
+
+<p>
+&#x2013; 函数： format-mode-line format-mode-line &amp;optional face window buffer
+</p>
+
+<p>
+这个函数根据 FORMAT 计算返回一行文本，就像在给 WINDOW 产生模式行一样，但这会将结
+果作为一个字符串返回。参数 WINDOW 默认是被选中的窗口。如果 BUFFER 不是 `nil' ，
+所有使用的信息都来自于 BUFFER，默认情况下，来自于 WINDOW 中的缓冲区。
+</p>
+
+<p>
+返回的字符串中通常包含与模式行中样式、按键映射等相应的文本属性。 FORMAT 中的任何
+字符如果没有 `face' 属性的话则使用 FACE 作为其默认值。如果 FACE 的值是 `t'，则在
+窗口被选中时使用 `mode-line' 样式，否则使用 `mode-line-inactive' 样式。 如果
+FACE 的值是 `nil' 或者忽略，则表示使用默认的样式。如果 FACE 是一个整数，这个函数
+返回的值将不包含文本属性。
+</p>
+
+<p>
+你还可以设置其他合法的样式作为 FACE 的值。如果设置了，FORMAT 中没有设置 `face'
+属性的文本将使用这个样式。
+</p>
+
+<p>
+要注意的是使用 `mode-line' 、 `mode-line-inactive' 或者 `header-line' 作为 FACE
+的话，除了返回格式化字符串，还将使用相应样式的当前定义刷新模式行和头行（其他样式
+不会造成刷新）。
+</p>
+
+<p>
+例如： `(format-mode-line header-line-format)' 返回将在选中窗口头行中显示的文本
+（如果没有头行则返回 `""'）。 `(format-mode-line header-line-format
+'header-line)' 返回相同的文本，但每个字符附带有将在头行中显示的样式，同时会重新
+刷新头行。
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li><a id="org2fd471d"></a>Font Lock 模式<br />
+<div class="outline-text-3" id="text-1-5">
+<p>
+“Font Lock 模式" 是一个缓冲局部的子模式，它会根据缓冲中某部分内容的语法角色自动为其
+添加 `face' 属性。如何分析缓冲内容，要看使用的什么主模式，大多数的主模式定义了上
+下文中显示样式的主法条件。这一节解释了如何针对某个主模式个性化设置字体锁定样式。
+</p>
+
+<p>
+字体锁定模式通过两种方式来选择要高亮的文本：其一是通过语法表进行语法分析；其二是
+通过搜索正则表达式。首先使用语法表修改显示字体，查找注释和字符串常量并高亮；然后
+通过搜索特定模式来高亮。
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgcaac121"></a>字体锁定基本概念<br />
+<div class="outline-text-4" id="text-1-5-1">
+<p>
+字体锁定功能由许多基本函数的支撑。每一个函数是否被调用与相应的变量有关。这种非直
+接调用的方式允许主模式和子模式修改那个模式所在的缓冲中的文字的样式，甚至使用字体
+锁定机制来实现那些与文字样式无关的功能。（这就是为什么下文中在描述函数功能时使用
+"应当" 这个词：模式可以通过自定义相应变量的值来干一些其他完全不同的事情。）在下
+文中提到的变量在 Other Font Lock Variables 中有详细介绍。
+</p>
+
+<ul class="org-ul">
+<li>`font-lock-fontify-buffer'</li>
+</ul>
+
+<p>
+这个函数应该设置当前缓冲中的可使用的部分文本，通过调用
+`font-lock-fontify-buffer-function' 中设置的函数。
+</p>
+
+<ul class="org-ul">
+<li>`font-lock-unfontify-buffer'</li>
+</ul>
+
+<p>
+当通过关闭字体锁定模式来移除讲究卫生样式时使用，通过调用设置在
+`font-lock-unfontify-buffer-function' 中的函数。
+</p>
+
+<ul class="org-ul">
+<li>`font-lock-fontify-region beg end &amp;optional loudly'</li>
+</ul>
+
+<p>
+应当用于设置位于 BEG 和 END 选区中的文字的样式。如果 LOUDLY 不是 `nil'， 则应该
+在修改文字样式的时候显示状态消息。它通过调用绑定在
+`font-lock-fontify-region-function' 上的函数起作用。
+</p>
+
+<ul class="org-ul">
+<li>`font-lock-unfontify-region beg end'</li>
+</ul>
+
+<p>
+应当用于移除位于 BEG 和 END 中选区的文字样式。通过调用绑定在
+`font-lock-unfontify-region-function' 上的函数起作用。
+</p>
+
+<ul class="org-ul">
+<li>`font-lock-flush &amp;optional beg end'</li>
+</ul>
+
+<p>
+这个函数应该将位于 BEG 和 END 选区中的文字样式标记为过期的。如果 BEG 或者 END 的
+值是 `nil' 或者设有设置，默认值是缓冲中的可使用的部分。它通过调用绑定在
+`font-lock-flush-function' 上的函数起作用。
+</p>
+
+<ul class="org-ul">
+<li>`font-lock-ensure &amp;optional beg end'</li>
+</ul>
+
+<p>
+这个函数应该确保位于 BEG 和 END 中的文本使用文本样式。可选的参数 BEG 和 END 默认
+是缓冲中的可使用的部分的开始和结束位置。它通过调用绑定在
+`font-lock-ensure-function' 上的函数起作用。
+</p>
+
+<p>
+这还有许多变量控制字体锁定模式如何高亮文本。但是主模式不应该直接设置这些变量，而
+应该将 `font-lock-defaults' 作为一个缓冲局部的变量进行设置。当字体锁定模式启用后，
+绑定在这个变量上的值被用于设置其他变量。
+</p>
+
+<p>
+&#x2013; 变量： font-lock-defaults
+</p>
+
+<p>
+这个变量被主模式设置用于决定这个模式中的文本如何应用文本样式。当其被设置时，它自
+动变成缓冲局部变量。 如果它的值是 `nil' ，字体锁定模式不进行高亮，你可以使用
+`Faces' 菜单（在 `Edit' 下，然后是 `Text Properties' 属性菜单条） 来为缓冲中的文
+本直接设置样式。如果变量的值不是 `nil'，那么它的值看起来应该是这样：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span>KEYWORDS <span class="org-rainbow-delimiters-depth-2">[</span>KEYWORDS-ONLY <span class="org-rainbow-delimiters-depth-3">[</span>CASE-FOLD
+ <span class="org-rainbow-delimiters-depth-4">[</span>SYNTAX-ALIST OTHER-VARS...<span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">]</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+第一个元素 KEYWORDS ，通过非直接的方式设置 `font-lock-keywords' 的值，而后者直接
+作用于基于搜索的样式设置。它可以是一个符号或者是一个变量或者是一个返回可用于
+`font-lock-keywords' 的值的函数，也可以是一个由多个符号组成的列表，每个符号针对
+一个可能的文字样式层次。第一个符号设置 `mode default' 的文字样式，第二个是第二层
+的文字样式，第三个是第三层，依此类推。 `mode default' 层通常情况下是第一层，当
+`font-lock-maximum-decoration' 的值不是 `nil' 时使用。请看 Levels of Font Lock。
+</p>
+
+<p>
+第二个元素 KEYWORDS-ONLY，设置 `font-lock-keywords-only' 变量的值。如果忽略不写
+或者设置其值为 `nil' ，基于语法的高亮（字符串和注释中）会起作用。如果它的值不是
+`nil' ，语法基于语法的高亮不起作用。请看 Syntactic Font Lock。
+</p>
+
+<p>
+第三个元素 CASE-FOLD，指定了 `font-lock-keywords-case-fold-search' 的值。如果不
+是 `nil' ，字体锁定模式在搜索需要应用样式的文本时不管大小写。
+</p>
+
+<p>
+如果第四个元素 SYNTAX-ALIST 的值不是 `nil' ，那么它的值应该是一个由
+`(CHAR-OR-STRING . STRING)' 这种形式的点列表组成的列表。这个列表用于设置语法表，
+影响基于语法的样式设置。生成的语法表存储在 `font-lock-syntax-table' 中。如果
+SYNTAX-ALIST 被忽略或者其值为 `nil'， 基于语法的样式设置使用 `syntax-table' 函数
+返回的语法表。请看 Syntax Table Functions。
+</p>
+
+<p>
+其他的元素（如果有的话）合起来被称作 OTHER-VARS。每个元素应该是 `(VARIABLE
+. VALUE)' 这种形式，意思是将 VARIABLE 设置成缓冲局部的变量并将其值设置为 VALUE。
+你可以通过 OTHER-VARS 来设置除开前面提到有5个变量外的其他影响文本样式的变量。请
+看 Other Font Lock Variables。
+</p>
+
+<p>
+如果你的模式直接通过添加 `font-lock-face' 属性来设置文本样式，则可以设置
+`font-lock-defaults' 的值为 `(nil t)' 来关闭所有自动的文本样式设置。但是这不是必
+须的，因为可以通过 `font-lock-face' 属性来设置一部分文本，同时使用自动样式设置管
+理其他文本。
+</p>
+</div>
+</li>
+
+<li><a id="orge7d0aac"></a>基于搜索的文本样式<br />
+<div class="outline-text-4" id="text-1-5-2">
+<p>
+直接控制基于搜索的文本样式设置的变量是 `font-lock-keywords'，一般情况下这个变量
+是通过 `font-lock-defaults' 中的 KEYWORDS 元素来设置的。
+</p>
+
+<p>
+&#x2013; 变量： font-lock-keywords
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+
+<div id="outline-container-orgb1958e9" class="outline-2">
+<h2 id="orgb1958e9"><span class="section-number-2">2</span> 缓冲局部变量</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+在大多数的编程语言中都可以找到全局和局部变量绑定的概念。Emacs 也支持各种另外的各
+种类型的变量绑定，比如：缓冲局部绑定，只对一个缓冲有效。变量在不同的缓冲区中有不
+同的值是一个非常重要的个性化设置的方法。（变量还可以针对每个终端进行绑定。请看
+Multiple Terminals。）
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="org6818124"></a>缓冲局部变量的介绍<br />
+<div class="outline-text-3" id="text-2-1">
+<p>
+缓冲局部变量针对特定缓冲有一个缓冲局部绑定。当那个缓冲处于激活状态时，此绑定才会
+产生效果，否则不会。如果你在变量的缓冲局部绑定激活时为变量设置值的话，新的值会进入这个
+绑定，所以其他绑定不会改变。意思是说这个改变只对你设置它的缓冲可见。
+</p>
+
+<p>
+变量的普通绑定不与任何特定缓冲关联，被称作默认绑定。在大多数情况下，这是变量的全
+局绑定。
+</p>
+
+<p>
+变量的局部绑定可以只针对部分缓冲区。默认绑定可以由那些没有缓冲局部绑定的缓冲区访
+问。（包括所有新建的缓冲区。）如果你在没有缓冲局部绑定的缓冲区中为变量设置值的话，
+修改的是默认绑定，新的值对于地可以见到默认绑定的缓冲区都是有效的。
+</p>
+
+<p>
+缓冲局部绑定的最常用的地方是主模式改变变量的值来控制命令的行为。例如，C 模式和
+Lisp 模式都设置 `paragraph-start' 变量来指定只有空白行表示分段。它们通过在进入 C
+模式和 Lisp 模式的缓冲区中将这个变量变成缓冲局部的，并且为这个模式设置了一个新的
+值为达到这个效果。请看 Major Modes。
+</p>
+
+<p>
+创建一个缓冲局部绑定的通常的方法是使用 `make-local-variable' ，这也是主模式中使
+用的方式。这只会影响当前缓冲区，其他缓冲区（包括将要被创建的缓冲区）将继续使用默
+认值，除非他们有自己的缓冲局部绑定。
+</p>
+
+<p>
+一个更加强大的操作是通过 `make-variable-buffer-local' 将变量标记为自动缓冲局部。
+你可以想像成将这个变量设置成针对所有缓冲区是局部变量，即使那些新建的也是。更加准
+确地讲，如果变量在当前缓冲区中的没有局部绑定的话，则自动创建一个。所有的缓冲最开
+始像通常一样使用变量的默认值，但设置这个变量进则会创建一个局部绑定。新的值存储在
+局部绑定中，默认绑定不受影响。这个意思是说，在任何缓冲区中都不能通过 `setq' 修改
+变量的默认值。只有一种方法是 `setq-default'。
+</p>
+
+<p>
+<b>警告：</b> 当一个变量在一个或者多个缓冲区中有局部绑定时， `let' 会对在用的变量的绑
+ 定重新进行绑定。举个例子，如果当前缓冲区中有一个局部值， `let' 会临时重新绑定他。
+ 如果没有缓冲局部绑定起作用， `let' 会重新绑定默认值。如果在 `let' 内部你切换到
+ 了另一个缓冲区，而其中另一个绑定在起作用的话，你将看不到 `let' 的绑定了。如果你
+ 退出 `let'，即使是仍在其他的缓冲区中，也看不到绑定的取消（虽然他会正确的取消绑
+ 定）。这有一个解释这个的例子：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> foo 'g<span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>set-buffer <span class="org-string">"a"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>make-local-variable 'foo<span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> foo 'a<span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>foo 'temp<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">foo &#8658; 'temp  ; let binding in buffer &#8216;a&#8217;</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>set-buffer <span class="org-string">"b"</span><span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">foo &#8658; 'g     ; the global value since foo is not local in &#8216;b&#8217;</span>
+  BODY...<span class="org-rainbow-delimiters-depth-1">)</span>
+foo &#8658; 'g        <span class="org-comment-delimiter">; </span><span class="org-comment">exiting restored the local value in buffer &#8216;a&#8217;,</span>
+                 <span class="org-comment-delimiter">; </span><span class="org-comment">but we don&#8217;t see that in buffer &#8216;b&#8217;</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>set-buffer <span class="org-string">"a"</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-comment-delimiter">; </span><span class="org-comment">verify the local value was restored</span>
+foo &#8658; 'a
+
+</pre>
+</div>
+
+<p>
+注意 BODY 中 `foo' 访问 `b' 缓冲区中局部绑定的指向。
+</p>
+
+<p>
+当文件中设置了局部变量的值些会在你浏览这个文件是变成缓冲区局部变量。请看
+(emacs)File Variables。
+</p>
+
+<p>
+缓冲区局部变量不能改为终端局部变量（请看 Multiple Terminals）。
+</p>
+</div>
+</li>
+
+<li><a id="org68d7667"></a>创建和删除缓冲局部绑定<br />
+<div class="outline-text-3" id="text-2-2">
+<p>
+&#x2013; 命令： make-local-variable variable
+</p>
+
+<p>
+这个命令为 VARIABLE (符号) 在当前缓冲区中创建一个局部绑定。其他缓冲区不受影响。
+返回值是 VARIABLE。
+</p>
+
+<p>
+缓冲局部绑定的初始值与 VARIABLE 之前的一样。如果 VARIABLE 是 void ，则同样保持
+void。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-comment-delimiter">;; </span><span class="org-comment">In buffer &#8216;</span><span class="org-comment"><span class="org-constant">b1</span></span><span class="org-comment">&#8217;:</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> foo 5<span class="org-rainbow-delimiters-depth-1">)</span>                <span class="org-comment-delimiter">; </span><span class="org-comment">Affects all buffers.</span>
+     &#8658; 5
+<span class="org-rainbow-delimiters-depth-1">(</span>make-local-variable 'foo<span class="org-rainbow-delimiters-depth-1">)</span>  <span class="org-comment-delimiter">; </span><span class="org-comment">Now it is local in &#8216;</span><span class="org-comment"><span class="org-constant">b1</span></span><span class="org-comment">&#8217;.</span>
+     &#8658; foo
+foo                         <span class="org-comment-delimiter">; </span><span class="org-comment">That did not change</span>
+     &#8658; 5                   <span class="org-comment-delimiter">;   </span><span class="org-comment">the value.</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> foo 6<span class="org-rainbow-delimiters-depth-1">)</span>                <span class="org-comment-delimiter">; </span><span class="org-comment">Change the value</span>
+     &#8658; 6                   <span class="org-comment-delimiter">;   </span><span class="org-comment">in &#8216;</span><span class="org-comment"><span class="org-constant">b1</span></span><span class="org-comment">&#8217;.</span>
+foo
+     &#8658; 6
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">In buffer &#8216;</span><span class="org-comment"><span class="org-constant">b2</span></span><span class="org-comment">&#8217;, the value hasn&#8217;t changed.</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">with-current-buffer</span> <span class="org-string">"b2"</span>
+  foo<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; 5
+
+</pre>
+</div>
+
+<p>
+在一个 `let' 绑定中将变量改为缓冲局部的有点不可靠，除非缓冲区既不是进入又不是退
+出 `let' 的缓冲区。这是因为 `let' 分辩不出绑定的区别，它只知道绑定是针对叧个变量
+的。
+</p>
+
+<p>
+创建一个常量或者一个只读的局部缓冲变量是错误的。请看 Constant Variables。
+</p>
+
+<p>
+如果变量是终端局部的（请看 Multiple Terminals），这个函数会抛出一个错误。这样的
+变量也不能有缓冲局部绑定。
+</p>
+
+<p>
+<b>警告：</b> 不要使用 `make-local-variable' 创建钩子变量。当你使用 LOCAL 参数调用
+ `add-hook' 或者 `remove-hook' 时，钩子变量自动转换为缓冲局部变量。
+</p>
+
+<p>
+&#x2013; 宏： setq-local variable value
+</p>
+
+<p>
+这个宏在当前缓冲区中为 VARIABLE 创建一个缓冲局部绑定，并设置局部值为 VALUE。等价
+于在调用 `make-local-variable' 后使用 `setq'。 VARIABLE 应该是一个不被引用的符号。
+</p>
+
+<p>
+&#x2013; 命令： make-variable-buffer-local variable
+</p>
+
+<p>
+这个函数将 VARIABLE (符号) 标记为自动缓冲局部的，因此其后的试图设置其值的操作将
+为其创建局部绑定。不像 `make-local-variable' 那样容易造成混乱，这个命令不能撤销，
+并且影响变量在所有缓冲中的行为。
+</p>
+
+<p>
+有一个特别的地方是，绑定变量（使用 `let' 或者其他绑定结构）不会为其缓冲局部绑定。
+只有在这个变量没有 `let' 风格的绑定时设置这个变量（使用 `set' 或者 `setq'）才会
+在当前缓冲中创建局部绑定。
+</p>
+
+<p>
+如果 VARIABLE 没有默认値，在调用这个命令时将会给其设置一个默认值 `nil'。如果
+VARIABLE 已经有一个默认值，其値保持不变。之后在 VARIABLE 上调用 `makunbound' 将
+得到一个空的缓冲局部的值，同时原来的值不受影响。
+</p>
+
+<p>
+返回值是 VARIABLE。
+</p>
+
+<p>
+创建常量的或者只读的缓冲局部变量是错误的做法。请看 Constant Variable。
+</p>
+
+<p>
+<b>警告：</b> 不要假设你应该使用 `make-variable-buffer-local' 来标记用词设置变量，因
+ 为用户只是可能想为不同的缓冲区应用不同的设置。用户可以在他需要的时候将任何变量
+设置成在缓冲局部的。最好是将选择交给他们。
+</p>
+
+<p>
+使用 `make-variable-buffer-local' 的时间是缓冲区之间决不使用相同的绑定时。例如，
+当在 Lisp 程序中一个变量由于内部目的需要不同的缓冲区中不同的值，使用
+`make-variable-buffer-local' 可以是最后的解决办法。
+</p>
+
+<p>
+&#x2013; 宏： defvar-local variable value &amp;optional docstring
+</p>
+
+<p>
+这个宏将 VARIABLE 定义成初始值是 VALUE 和 DOCSTRING 的变量，同时将其标记成自动缓
+冲局部变量。这等价于调用 `defvar' 后紧接着使用 `make-variable-buffer-local'。
+VARIABLE 应当是一个未被引用的符号。
+</p>
+
+<p>
+&#x2013; 函数： local-variable-p variable &amp;optional buffer
+</p>
+
+<p>
+这在 VARIABLE 是 BUFFER 的一个缓冲局部变量时返回 `t' (BUFFER 默认是当前缓冲区)；
+否则返回 `nil'。
+</p>
+
+<p>
+&#x2013; 函数： local-variable-if-set-p variable &amp;optional buffer
+</p>
+
+<p>
+如果 VARIABLE 在 BUFFER 中有一个缓冲局部的值或者它是一个自动缓冲局部变量，则返回
+ `t'，否则返回 `nil'。 如果 BUFFER 的值是 `nil' 或者忽略 BUFFER，默认使用当前缓
+ 冲区。
+</p>
+
+<p>
+&#x2013; 函数： buffer-local-value variable buffer
+</p>
+
+<p>
+这个函数返回缓冲区 BUFFER 中 VARIABLE (符号) 的局部绑定值。如果没有，则返回变量
+的默认值（请看 Default Value）。
+</p>
+
+<p>
+&#x2013; 函数： buffer-local-variables &amp;optional buffer
+</p>
+
+<p>
+这个函数缓冲区 BUFFER 中所有缓冲局部变量的列表。（如果忽略 BUFFER ,则使用当前缓
+冲区）通常，返回列表中的元素是 `(SYM . VAL)' 这中样子的，SYM 是变量（符号）而
+VAL 是变量的缓冲局部值。但当变量在 BUFFER 中的局部值是 void 时，列表元素只有 SYM。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>make-local-variable 'foobar<span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>makunbound 'foobar<span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>make-local-variable 'bind-me<span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> bind-me 69<span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> lcl <span class="org-rainbow-delimiters-depth-2">(</span>buffer-local-variables<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">First, built-in variables local in all buffers:</span>
+&#8658; <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-rainbow-delimiters-depth-2">(</span>mark-active . nil<span class="org-rainbow-delimiters-depth-2">)</span>
+    <span class="org-rainbow-delimiters-depth-2">(</span>buffer-undo-list . nil<span class="org-rainbow-delimiters-depth-2">)</span>
+    <span class="org-rainbow-delimiters-depth-2">(</span>mode-name . <span class="org-string">"Fundamental"</span><span class="org-rainbow-delimiters-depth-2">)</span>
+    ...
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">Next, non-built-in buffer-local variables.</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">This one is buffer-local and void:</span>
+    foobar
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">This one is buffer-local and nonvoid:</span>
+    <span class="org-rainbow-delimiters-depth-2">(</span>bind-me . 69<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+</pre>
+</div>
+
+<p>
+注意的是将新的值存到元素的 CDRS 不会改变变量的缓冲区局部值。
+</p>
+
+<p>
+&#x2013; 命令： kill-local-variable variable
+</p>
+
+<p>
+这个函数在 VARIABLE(符号) 有当前缓冲区的局部绑定时删除绑定。结果是，变量的默认值
+对这个缓冲区可见。这往往会造成 VARIABLE 值的改变，因为默认值通常与刚刚清除的局部
+值不一样。
+</p>
+
+<p>
+如果你删除自动局部缓冲变量的局部绑定，也将使默认值对当前缓冲可见。但是，如果你再
+次设置这个变量，将再为这个变量创建一个局部绑定。
+</p>
+
+<p>
+`kill-local-variable' 返回 VARIABLE。
+</p>
+
+<p>
+这个函数也是一个命令，因为有时候交互方式删除缓冲局部变量是很有用的，就像使用交互
+方式创建缓冲局部变量一样。
+</p>
+
+<p>
+&#x2013; 函数： kill-all-local-variables
+</p>
+
+<p>
+这个函数清除缓冲区中所有的缓冲局部变量绑定，除于那些标记为永久的和有 non-`nil'
+和 `permanent-local-hook' 属性的局部钩子函数（请看 Setting Hooks）。结果是，缓冲
+将会把大多数的变量设置成默认值。
+</p>
+
+<p>
+这个函数同是也会重设其他关于缓冲的信息：设置局部按键映射表为 `nil' ，设置语法表
+的值为 `(standard-syntax-table)' 的值，大写表为 `(standard-case-table)' ，缩写表
+为 `fundamental-mode-abbrev-table' 的值。
+</p>
+
+<p>
+这个函数最先运行的是 `change-major-mode-hook' 中的常规钩子。
+</p>
+
+<p>
+每个主模式命令以调用这个函数开始，与切换到 Fundamental 模式 并清除前一个模式的影
+响有一样的效果。为了保证函数起到作用，主模式中设置的变量不要标记为永久的。
+</p>
+
+<p>
+`kill-all-local-variables' 返回值是 `nil'。
+</p>
+
+<p>
+&#x2013; 变量： change-major-mode-hook
+</p>
+
+<p>
+函数 `kill-all-local-variables' 在干其他事之前会调用这个常规钩子。在用户切换到其
+他主模式时，当前主模式可以干点其他特别的事项。这对于用户切换主模式时关闭针对缓冲
+区的子模式也很有用。为了取得最好的效果，将这个变量设置成缓冲局部的，这样在其干完
+工作后就会消失，而不会影响后来的主模式。请看 Hooks。
+</p>
+
+<p>
+当一个变量名（符号）有一个 `permanent-local' 属性且其值不是 `nil' ，那么这个缓冲
+局部变量就是永久的。这种变量不会受 `kill-all-local-variables' 的影响，它们的缓冲
+区局部绑定不会因为主模式的切换而清除。永久的局部对于保存文件打开路径和存储方式数
+据是有用的，但对于如何编辑内容不好。
+</p>
+</div>
+</li>
+
+<li><a id="orgdfa81b5"></a>缓冲局部变量的默认值<br />
+<div class="outline-text-3" id="text-2-3">
+<p>
+具有缓冲区局部绑定的变量的全局值也叫默认值，因为在缓冲区和选中窗口都没有这个变量
+的局部绑定时，这个值会起作用。
+</p>
+
+<p>
+函数 `default-value' 和 `setq-default' 访问和修改这个变量的默认值而不管当前缓冲
+区是否有这个变量的局部绑定。例如，你可以使用 `setq-default' 来为大多数的缓冲区设置
+`paragraph-start' 的默认值，这对于你在 C 或者 Lisp 模式的缓冲区中，这个缓冲区中
+有这个变量的局部绑定时这个函数也会工作。
+</p>
+
+<p>
+`defvar' 和 `defconst' 这两种特殊语句同样设置默认值（如果它们设置的话），而不是
+设置任何的缓冲局部的値。
+</p>
+
+<p>
+&#x2013; 函数： default-value symbol
+</p>
+
+<p>
+这个函数返回 SYMBOL 的默认值。这个值是在没有这个变量局部绑定的缓冲区和窗口中看到
+的值。如果 SYMBOL 不是缓冲局部的，这等价于 `symbol-value' (请看 Accessing
+Variables)。
+</p>
+
+<p>
+&#x2013; 函数： default-boundp symbol
+</p>
+
+<p>
+这个函数告诉你 SYMBOL 的默认値是否不是 void。如果 `(default-boundp 'foo)' 返回
+`nil' ，那么 `(default-value 'foo)' 将返回一个错误。
+</p>
+
+<p>
+就像 `boundp' 是针对 `symbol-value' 一样， `default-boundp' 是针对
+`default-value' 的。
+</p>
+
+<p>
+&#x2013; 特殊语句： setq-default [symbol form]&#x2026;
+</p>
+
+<p>
+这个特殊语句为每个 SYMBOL 一个新的默认值，这个值是运行相应的 FORM 的结果。SYMBOL
+不会求值，只有 FORM 会被求值。 `setq-default' 的返回値是最后一个 FORM 的返回值。
+</p>
+
+<p>
+如果 SYMZBOL 对当前缓冲区不是局部绑定的，并且没有标记为自动缓冲局部变量，
+`setq-local' 与 `setq' 是等价的。如果 SYMBOL 对当前缓冲区是缓冲局部的，这修改后
+的值对其他缓冲区可见（只有在他们没有缓冲局部值时），但不会修改当前缓冲区可见的值。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-comment-delimiter">;; </span><span class="org-comment">In buffer &#8216;</span><span class="org-comment"><span class="org-constant">foo</span></span><span class="org-comment">&#8217;:</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>make-local-variable 'buffer-local<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; buffer-local
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> buffer-local 'value-in-foo<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; value-in-foo
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq-default</span> buffer-local 'new-default<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; new-default
+buffer-local
+     &#8658; value-in-foo
+<span class="org-rainbow-delimiters-depth-1">(</span>default-value 'buffer-local<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; new-default
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">In (the new) buffer &#8216;</span><span class="org-comment"><span class="org-constant">bar</span></span><span class="org-comment">&#8217;:</span>
+buffer-local
+     &#8658; new-default
+<span class="org-rainbow-delimiters-depth-1">(</span>default-value 'buffer-local<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; new-default
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">setq</span> buffer-local 'another-default<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; another-default
+<span class="org-rainbow-delimiters-depth-1">(</span>default-value 'buffer-local<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; another-default
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Back in buffer &#8216;</span><span class="org-comment"><span class="org-constant">foo</span></span><span class="org-comment">&#8217;:</span>
+buffer-local
+     &#8658; value-in-foo
+<span class="org-rainbow-delimiters-depth-1">(</span>default-value 'buffer-local<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; another-default
+
+</pre>
+</div>
+
+<p>
+&#x2013; 函数： set-default symbol value
+</p>
+
+<p>
+这个函数就像 `setq-default'，但 SYMBOL 是一个普通的求値的参数。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span>set-default <span class="org-rainbow-delimiters-depth-2">(</span>car '<span class="org-rainbow-delimiters-depth-3">(</span>a b c<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span> 23<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; 23
+<span class="org-rainbow-delimiters-depth-1">(</span>default-value 'a<span class="org-rainbow-delimiters-depth-1">)</span>
+     &#8658; 23
+
+</pre>
+</div>
+
+<p>
+变量可以由 `let' 绑定（请看 Local Variables）到一个值。这会是全局变量不可见。
+`default-value' 将从这个绑定返回值，而不是全局的值， `set-default' 将禁止设置全
+局的值（而只是修改 let 绑定的值）。下面这两个函数允许你即使变量被 let 绑定遮住的
+时候也指向全局值。
+</p>
+
+<p>
+&#x2013; 函数： default-toplevel-value symbol
+</p>
+
+<p>
+这个函数返回 SYMBOL 最上层的默认值，这是所有的 let 绑定之外的值。
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defvar</span> <span class="org-variable-name">variable</span> 'global-value<span class="org-rainbow-delimiters-depth-1">)</span>
+    &#8658; variable
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>variable 'let-binding<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>default-value 'variable<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+    &#8658; let-binding
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-rainbow-delimiters-depth-3">(</span>variable 'let-binding<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>default-toplevel-value 'variable<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+    &#8658; global-value
+
+</pre>
+</div>
+
+<p>
+&#x2013; 函数： set-default-toplevel-value symbol value
+</p>
+
+<p>
+这个函数设置 SYMBOL 的最外层的默认值为 VALUE。这在你想设置 SYMBOL 的全局的值而不
+管你的代码是在 SYMBOL 的 let 绑定上下文中非常方便。</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</body>
+</html>

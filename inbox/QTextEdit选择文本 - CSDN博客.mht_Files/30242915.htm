@@ -1,0 +1,132 @@
+<html><head><meta charset="UTF-8">
+
+
+
+<meta content="width=device-width,user-scalable=no" name="viewport">
+<meta name="apple-itunes-app" content="app-id=425349261">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>QTextEdit选择文本 - CSDN博客</title>
+<link rel="Stylesheet" type="text/css" href="wapall.css">
+
+</head>
+<body>
+<div id="wrap">
+<div id="header">
+<a class="home" href="http://www.csdn.net/"><img src="home.png.avi"></a> 
+<a class="logo" href="http://m.blog.csdn.net/">
+<img src="logo.jpg"></a>
+<a id="loginname" href="http://m.blog.csdn.net/blog/bienilz">bienilz</a>
+</div>
+<div id="nav">
+<a href="http://m.blog.csdn.net/" id="shouye1">首页</a>
+<a href="http://m.blog.csdn.net/column/index" id="zhuanlan1">专栏</a>
+<a href="http://m.blog.csdn.net/People/index" id="zhuanjia1">专家</a>
+<a href="http://m.blog.csdn.net/home/hot" id="rewen1">热文</a>
+</div>
+<div id="main">
+        <div id="top">
+        <div class="avatar">
+        <a href="http://m.blog.csdn.net/blog/huyisu" class="name">huyisu的专栏</a>
+        </div>
+        <div class="content">
+        <h1><a href="30242915.htm#">[转]QTextEdit选择文本</a></h1>
+        <p class="time"><span>2014-6-12</span><span>阅读1450</span> <a href="30242915.htm#comment">评论<span id="sp_cmt">0</span></a></p>
+        <div id="articlecontent">
+        
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+最近接触QTextEdit比较多，想让用户在单击QTextEdit的时候可以选择特定的文本。但查了一下文档没有发现有直接的函数可以用，后来知道跟光标相关和选择文本相关的是QTextCursor类。原本以为会有setSelectionText之类的函数，但只看到一个select函数，这个函数没有提供起始点和终止点的参数。后来才发现了怎么用的。具体方法如下：</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+1.创建一个光标。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+2.将光标移至选择的起始位置。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+3.将光标移至选择的结束位置。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+4.进行选择。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+5.设置新的光标。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+用代码来描述的话可以是这样的：</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+QTextCursor cur = edit-&gt;textCursor();//返回当前光标对象</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+cur.setPosition(2, QTextCursor::MoveAnchor);//移到起始位置</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+cur.movePosition(QTextCursor::NoMove, QTextCursor::keepAnchor, 3);//移动结束位置</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+cur.select(QTextCursor::WordUnderCursor);//选择</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+edit-&gt;setTextCursor(cur);</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+这样就选择了位置是2到4三个字符的文本了。</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; color:rgb(69,69,69); font-family:tahoma,helvetica,arial; font-size:14px; line-height:21px">
+</p>
+<div id="blog_content" class="blog_content" style="font-size:14px; line-height:1.8em; font-family:Helvetica,Tahoma,Arial,sans-serif">
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong><span style="font-size:12px"><span style="font-size:14px">1、向QTextEdit中当前光标位置添加一行字符串message</span></span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:12px"><span style="font-size:14px">ui.messageTextEdit-&gt;textCursor().insertText(message+"\n");</span></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+&nbsp;</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong><span style="font-size:12px"><span style="font-size:14px">2、</span></span><span style="font-size:12px"><span style="font-size:14px">向QTextEdit中末尾追加一行字符串message</span></span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:12px"><span style="font-size:14px">QString content = ui.contentTextEdit-&gt;append(</span></span><span style="font-size:14px">message+"\n"</span><span style="font-size:14px">);</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:12px"><br>
+</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<strong><span style="font-size:12px"><span style="font-size:14px">3、读取QTextEdit的值</span></span></strong></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:12px"><span style="font-size:14px">QString content = ui.contentTextEdit-&gt;toPlainText();</span></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+&nbsp;</p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:14px"><strong>4、光标移到末尾</strong></span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px">
+<span style="font-size:14px">ui.textBrowser_2-&gt;moveCursor(QTextCursor::End);</span></p>
+<div><span style="font-size:14px"><br>
+</span></div>
+</div>
+<div id="bottoms" class="clearfix" style="font-family:Helvetica,Tahoma,Arial,sans-serif; line-height:18px">
+</div>
+<br>
+<p></p>
+
+        </div>
+        </div>
+        <div class="next_page">
+            <a href="http://m.blog.csdn.net/blog/huyisu/30240785" class="next_btn">上一篇</a>
+            <a href="http://m.blog.csdn.net/blog/huyisu/30298211" class="next_btn">下一篇</a>
+        </div>
+        <div class="comment">
+        <p><a name="comment"></a>发表评论</p>
+        <p><textarea id="con" rows="4" style="width:99%;"></textarea></p>
+        <p><input type="button" class="login_sub1" value="提 交" style="margin-top:0;" onclick="subform()"></p>
+        </div>
+        <div class="comment_sub">
+        <span class="lf10">查看评论</span>
+        <ul id="cmt_ul">        </ul>
+        <a href="http://m.blog.csdn.net/comment/30242915" class="lf10">更多评论（0）</a>
+        </div>
+        </div>
+        
+        
+
+</div>
+
+<div class="back-top" id="ding1">
+<a href="30242915.htm#" onclick="document.body.scrollTop=0;return false;">
+<img src="back-top.jpg">回顶部</a>
+</div>
+<div id="footer">
+<p><a class="now" href="http://m.blog.csdn.net/">移动版</a>|<a href="http://blog.csdn.net/" onclick="document.cookie='wap-pc=1; domain=blog.csdn.net; path=/;';">桌面版</a></p>
+<p>©1999-2012, CSDN.NET, All Rights Reserved</p>
+</div>
+
+</div>
+
+
+
+
+</body></html>

@@ -1,0 +1,361 @@
+
+huliqing 
+沉淀...
+
+开源LGPL——如何宣告自己的程式为自由软件 
+
+这里使用LGPL协议为例简单说明一下如何将自己的程序宣告为开源软件
+首先确定自己要使用的开源协议，这里选择LGPL（关于其它协议及协议的详细内容，请参考其它资料）,
+然后确定并准备以下几部分内容:
+
+* 一份版权信息声明文件，一般命名为"NOTICE"
+* 一份所使用的协议的副本.
+* 如果程序为多个文件构成，则在每个文件中包含文件头信息，声明协议及版权信息
+
+一般来说主要就是由以上几部分组成,下面简单说明一下相关组成部分。
+
+1.首先，对于版权信息声明文件，我们可以写一份文本文档，一般命名为NOTICE, 其中包含版权声明及一些自己想要声明的信息，示例
+如：
+Copyright 1998, 1999 Terry Jones
+用于声明软件的发布年份及作者姓名，一般建议分别列出每个年份，不一定需要符号©， 最简单的NOTICE，包含这些内容就可以了。
+但是一般建议应该包含以下一些信息：
+a) 软件作者联系信息，用于在必要时联系作者
+
+b) 获取软件源码的地址，当发布为二进制时，可以告诉用户在那里可以获得软件的源码。
+
+c) 其它开源组件库的开源协议及源码地址，如果你所分发的软件使用了其它开源产品，则应该同时包含他们的开源协议以及相应的源码地
+址。
+
+2. 一份软件的使用协议，这里我们使用LGPL(GNU Lesser General Public License)为例说明.
+我们需要在（一般为软件所在的根目录下）包含这两个文件:
+
+a) 一份GPL的协议副本，一般命名为COPYING， 你可以从这里获得相关的协议副本 http://www.gnu.org/licenses/gpl.txt
+
+b) 一份LGPL协议副本，一般命名为COPYING.LESSER, 可以从这里获得相关的协议副本 http://www.gnu.org/licenses/lgpl.txt
+
+如果软件发布在GPL下，则只需要一份GPL协议副本就可以，如果为LGPL则应该同时包含GPL及LGPL两个协议副本。
+
+3.如果程序为多个文件源文件构成，则在每个文件中包含文件头信息，声明协议及版权信息.
+
+来自gnu.org的示例文本如下：
+    This file is part of Foobar.
+Foobar is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+Foobar is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+You should have received a copy of the GNU Lesser General Public License
+along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+
+
+上面是以LGPL为例说明的. 更详细的信息可以参考这里 http://www.gnu.org/licenses/gpl-howto.html
+
+
+下面是我的使用示例,以下信息仅供参考:
+
+ 
+
+
+NOTICE文件如下
+
+ 01 /*
+ 02  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ 03  *
+ 04  * Copyright 2010 huliqing, huliqing.cn@gmail.com
+ 05  *
+ 06  * 
+ 07  * QBlog is free software: you can redistribute it and/or modify
+ 08  * it under the terms of the GNU Lesser General Public License as published by
+ 09  * the Free Software Foundation, either version 3 of the License, or
+ 10  * (at your option) any later version.
+ 11  *
+ 12  * QBlog is distributed in the hope that it will be useful,
+ 13  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ 14  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ 15  * GNU Lesser General Public License for more details.
+ 16  *
+ 17  * You should have received a copy of the GNU Lesser General Public License
+ 18  * along with QBlog.  If not, see <http://www.gnu.org/licenses/>.
+ 19  *
+ 20  * QBlog是一个自由软件，您可以自由分发、修改其中的源代码或者重新发布它，
+ 21  * 新的任何修改后的重新发布版必须同样在遵守LGPL3或更后续的版本协议下发布.
+ 22  * 关于LGPL协议的细则请参考COPYING、COPYING.LESSER文件，
+ 23  * 您可以在QBlog的相关目录中获得LGPL协议的副本，
+ 24  * 如果没有找到，请连接到 http://www.gnu.org/licenses/ 查看。
+ 25  *
+ 26  * - Author: Huliqing
+ 27  * - Contact: huliqing.cn@gmail.com
+ 28  * - License: GNU Lesser General Public License (LGPL)
+ 29  * - Blog and source code availability: http://www.huliqing.name/
+ 30  */
+ 31 
+ 32 
+ 33 LICENSE INFORMATION REGARDING BUNDLED THIRD-PARTY SOFTWARE
+ 34 
+ 35 
+ 36 
+ 37 The following third party software is distributed with the QBlog and is provided
+ 38 under other 
+ 39 licenses and/or has source available from other locations. 
+ 40 
+ 41 * JSF Frameworker
+ 42     License: CDDLv.1.0 + GPL v.2.0
+ 43     Source code availability: https://javaserverfaces.dev.java.net/
+ 44     
+ 45     lib/jsf-api.jar
+ 46     lib/jsf-impl.jar
+ 47 
+ 48 * Jakarta Taglibs
+ 49     
+ 50     License: Apache License v. 2.0 
+ 51     
+ 52     Source code availability: http://jakarta.apache.org/taglibs/
+ 53     lib/standard-1.1.2.jar
+ 54     
+ 55     lib/jstl-1.1.2.jar
+ 56 
+ 57 * DataNucleus Access Platform
+ 58     
+ 59     License: Apache License v. 2.0
+ 60     
+ 61     Source code availability: http://www.datanucleus.org/
+ 62         
+ 63     lib/datanucleus-core-1.1.5.jar
+ 64     
+ 65     lib/datanucleus-jpa-1.1.5.jar
+ 66 
+ 67 
+ 68 * Xml
+ 69     License: Apache License v. 2.0
+ 70     
+ 71     Apache Software Foundation (http://xml.apache.org/commons)
+ 72     David Megginson, Simple API for XML (http://www.saxproject.org)
+ 73     World Wide Web Consortium, xml-commons for http://xml.apache.org/ subproject (http://www.w3c.org/DOM)
+ 74     Sun Microsystems Inc., JSR 206, Java API for XML Processing 1.3(http://java.sun.com/xml/jaxp.html)
+ 75     lib/xml-apis.jar
+ 76     lib/xalan.jar
+ 77     lib/xsltc.jar
+ 78     lib/serializer.jar
+ 79     lib/xercesImpl.jar
+ 80 
+ 81 * el
+ 82     JSP 2.1's EL API, as used by JSF 2.0
+ 83     SUN (http://java.sun.com/products/jsp)
+ 84     lib/el-api-1.1.jar
+ 85     lib/el-impl-1.1.jar
+ 86 
+ 87 * QFaces
+ 88     License: LGPL v. 3.0
+ 89     Source code availability: http://www.huliqing.name/
+ 90     lib/qfaces-2.0.2.jar
+ 91 
+ 92 * huliqing-common
+ 93     No license and no source code, free use.
+ 94     lib/huliqing-common-1.1.jar
+ 95 
+ 96     
+ 97     
+ 98 
+
+文件头信息参考如下：
+
+ 01 /*
+ 02  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+ 03  *
+ 04  * Copyright 2010 huliqing, huliqing.cn@gmail.com
+ 05  *
+ 06  * This file is part of QBlog.
+ 07  * QBlog is free software: you can redistribute it and/or modify
+ 08  * it under the terms of the GNU Lesser General Public License as published by
+ 09  * the Free Software Foundation, either version 3 of the License, or
+ 10  * (at your option) any later version.
+ 11  *
+ 12  * QBlog is distributed in the hope that it will be useful,
+ 13  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ 14  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ 15  * GNU Lesser General Public License for more details.
+ 16  *
+ 17  * You should have received a copy of the GNU Lesser General Public License
+ 18  * along with QBlog.  If not, see <http://www.gnu.org/licenses/>.
+ 19  *
+ 20  * 这个文件是QBlog的一部分。
+ 21  * 您可以单独使用或分发这个文件，但请不要移除这个头部声明信息.
+ 22  * QBlog是一个自由软件，您可以自由分发、修改其中的源代码或者重新发布它，
+ 23  * 新的任何修改后的重新发布版必须同样在遵守LGPL3或更后续的版本协议下发布.
+ 24  * 关于LGPL协议的细则请参考COPYING、COPYING.LESSER文件，
+ 25  * 您可以在QBlog的相关目录中获得LGPL协议的副本，
+ 26  * 如果没有找到，请连接到 http://www.gnu.org/licenses/ 查看。
+ 27  *
+ 28  * - Author: Huliqing
+ 29  * - Contact: huliqing.cn@gmail.com
+ 30  * - License: GNU Lesser General Public License (LGPL)
+ 31  * - Blog and source code availability: http://www.huliqing.name/
+ 32  */
+ 33 
+ 34 package name.huliqing.qblog;
+ 35 
+ 36 import java.text.SimpleDateFormat;
+ 37 import java.util.Date;
+ 38 import java.util.TimeZone;
+ 39 import java.util.logging.Logger;
+ 40 import javax.servlet.ServletContextEvent;
+ 41 import javax.servlet.ServletContextListener;
+ 42 import name.huliqing.qblog.service.MailSe;
+ 43 
+-44 public class ContextListener implements ServletContextListener {
+ 45     private final static Logger logger = Logger.getLogger(ContextListener.class.getName());
+ 46 
+-47     public void contextDestroyed(ServletContextEvent arg0) {
+ 48         logger.info("QBlog Shutdown");
+ 49         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+ 50         sdf.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+ 51         MailSe.sendToSelf("QBlog shutdown at:" + sdf.format(new Date()), "QBlog shutdown.");
+ 52     }
+ 53 
+-54     public void contextInitialized(ServletContextEvent arg0) {
+ 55         logger.info("QBlog Start...");
+ 56     }
+ 57 
+ 58 }
+ 59 
+
+- huliqing@huliqing.name
+- http://www.huliqing.name
+
+posted on 2010-09-29 14:44 huliqing 阅读(2862) 评论(0)  编辑  收藏 所属分类: QBlog 
+
+新用户注册  刷新评论列表  
+
+   
+ 只有注册用户登录后才能发表评论。  
+   
+   
+   
+   
+ 网站导航:  
+ 博客园   IT新闻   知识库   C++博客   博问   管理   
+ 相关文章:   
+   
+ * QBlog0.96更新内容及新模板qblog01   
+ * QBlog0.95更新   
+ * QFaces开源，基于JSF2.0的Ajax组件库   
+ * QBlog开篇第一章，闲谈AppEngine   
+    
+   
+   
+Powered by: 
+BlogJava 
+Copyright © huliqing 
+
+导航
+
+* BlogJava
+* 首页
+* 新随笔
+* 联系
+* 聚合
+ 
+* 管理
+
+统计
+
+* 随笔 - 33 
+* 文章 - 0 
+* 评论 - 282 
+* 引用 - 0 
+
+公告
+
+文章原创，欢迎转载
+——转载请注明出处及原文链接
+
+随笔分类(60)
+
+* 3D(4) (rss)
+* Android(4) (rss)
+* AppEngine(4) (rss)
+* Game(1) (rss)
+* Java(7) (rss)
+* JME3(4) (rss)
+* JMonkeyEngine(1) (rss)
+* JSF(21) (rss)
+* QBlog(5) (rss)
+* QFaces(3) (rss)
+* Swing(5) (rss)
+* 落樱之剑(1) (rss)
+
+随笔档案(33)
+
+* 2016年4月 (1) 
+* 2015年3月 (1) 
+* 2014年12月 (1) 
+* 2014年11月 (2) 
+* 2013年8月 (1) 
+* 2010年10月 (3) 
+* 2010年9月 (1) 
+* 2010年8月 (1) 
+* 2009年11月 (2) 
+* 2009年5月 (1) 
+* 2009年4月 (3) 
+* 2009年3月 (2) 
+* 2008年12月 (1) 
+* 2008年11月 (4) 
+* 2008年4月 (3) 
+* 2008年3月 (3) 
+* 2008年2月 (2) 
+* 2008年1月 (1) 
+
+最新评论 
+ 
+
+* 1. re: 3D游戏中角色的换装原理-落樱之剑实例图文详细剖析(JME3,JMonkeyEngine游戏开发)[未登录] 
+* 3D游戏换装 很实用 
+* --linda
+* 2. re: 一键搞定Java桌面应用安装部署 —— exe4j + Inno Setup 带着JRE, 8M起飞 
+* @xieke
+ 你怎么做到的？绑定了jre？ 
+* --zhaowweny
+* 3. re: Android3D游戏开发 － 落樱3D - v0.4 
+* @landon
+ 呵呵，代码写得丑，不好意思拿出来，很多东西还在边写边重构，等后续版本更新到一定程度会考虑开源。另外，关于3D引擎的问题，
+ 作为屌丝的第一选择还是开源、免费优先。 
+* --huliqing
+* 4. re: Android3D游戏开发 － 落樱3D - v0.4[未登录] 
+* 玩了一下，确实太粗糙了！ 
+ 个人建议还是用成熟的3D引擎做吧！ 
+* --landon
+* 5. re: Android3D游戏开发 － 落樱3D - v0.4[未登录] 
+* 兄台，可否开源一下，让大家学习一下jmonkey 
+ 本人正在用unity3d开发游戏，希望可以多交流 
+* --landon
+* 6. re: Android3D游戏开发 － 落樱3D - v0.4 
+* 写错 了 
+* --sjxifen
+* 7. re: Android3D游戏开发 － 落樱3D - v0.4 
+* 哈哈，有意思 
+* --xjxifen
+* 8. re: Android3D游戏开发 － 落樱3D - v0.4 
+* 期待博主更新 
+* --妞妞宝贝衣间
+* 9. re: Android3D游戏开发 － 落樱3D - v0.4 
+* 留言是一种美德 
+* --corplib
+* 10. re: Android3D游戏开发 － 落樱3D 
+* 画面感不错哦 
+* --暗疮
+
+评论排行榜
+
+* 1. 一键搞定Java桌面应用安装部署 —— exe4j + Inno Setup 带着JRE, 8M起飞(56) 
+* 2. 一键搞定JavaEE应用，JTM1.0（JRE+Tomcat+MySQL绿色运行环境）把Web变得像桌面应用一样简单(45) 
+* 3. 一键搞定JavaEE应用, JRE + Tomcat + Mysql - JaveEE绿色运行环境JTM0.9版,将web变得像桌面应用一样简单.(30) 
+* 4. Http多线程下载与断点续传分析(27) 
+* 5. Java桌面应用 -- mp3在线搜索工具(25) 
+* 6. 使用JSF为自己打造一个coco的组件包(8) 
+* 7. QFaces1.1 -- 二级,三级,四级联动...,好吧,来个超级联动! JSF 与 Ajax可以这样完美的结合(8) 
+* 8. QFaces 下载页面 -- 基于JSF的Ajax增强框架。(7) 
+* 9. Android3D游戏开发 － 落樱3D - v0.4(7) 
+* 10. Android3D游戏开发 － 落樱3D(7) 

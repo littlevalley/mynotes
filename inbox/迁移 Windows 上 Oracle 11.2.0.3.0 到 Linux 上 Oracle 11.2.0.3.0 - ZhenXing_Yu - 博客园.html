@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="origin">
+    <meta property="og:description" content="一、迁移前数据库基本信息统计 查看数据库版本 SELECT * FROM V$VERSION; /* Oracle Database 11g Enterprise Edition Release 11">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>迁移 Windows 上 Oracle 11.2.0.3.0 到 Linux 上 Oracle 11.2.0.3.0 - ZhenXing_Yu - 博客园</title>
+    
+    <link rel="stylesheet" href="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+    <link id="MainCss" rel="stylesheet" href="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-minyx2_lite.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-minyx2_lite-mobile.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/zhenxing/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/zhenxing/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/zhenxing/wlwmanifest.xml">
+    <script src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/amp4ads-host-v0.js"></script><script src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_2019121002.js"></script><script async="" src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js"></script>
+    <script>
+        var currentBlogId = 178226;
+        var currentBlogApp = 'zhenxing';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+    </script>
+    
+    
+    <script src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-minyx2_lite.js" type="text/javascript" language="javascript"></script>
+<style>
+.vimvixen-console-frame {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2147483647;
+  border: none;
+  background-color: unset;
+  pointer-events:none;
+}
+
+.vimvixen-hint {
+  background-color: yellow;
+  border: 1px solid gold;
+  font-weight: bold;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  font-size: 12px;
+  color: black;
+}
+</style><link rel="preload" href="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2019121002.js" async=""></script></head>
+<body>
+    <a name="top"></a>
+    
+    
+<div id="container">
+    <a class="minyx" href="https://www.cnblogs.com/">代码改变世界</a>
+    <ul id="topMnu">
+        <!-- 统计数据 -->
+        <li>
+            Posts - 
+45, 
+Articles - 
+0, 
+Comments - 
+4
+<!---->
+
+
+        </li>
+        <!-- 这边可以增加一些链接 -->
+        <!-- 博客园 -->
+        <li><a href="https://www.cnblogs.com/">Cnblogs</a></li>
+        <!-- 管理 -->
+        <li id="topMnu-dashboard">
+            <a id="lnkDashboard" href="https://i.cnblogs.com/">Dashboard</a>
+        </li>
+        <li>
+            
+    <a id="lnkLogin" href="https://account.cnblogs.com/signin?ReturnUrl=https://www.cnblogs.com/zhenxing/">Login</a>
+
+
+        </li>
+    </ul>
+
+    <script type="text/javascript">
+        var m = window.__blog.topMenuRendered;
+        if (m) { m(__$("topMnu")); }
+    </script>
+
+    <div id="header">
+        <ul id="menu">
+            <!-- 首页，当前section加上current类 -->
+            <li id="menu-home" class="current">
+                <a id="lnkHome" href="https://www.cnblogs.com/zhenxing/">Home</a></li>
+            <!-- 联系 -->
+            <li id="menu-contact">
+                <a id="lnkContact" href="https://msg.cnblogs.com/send/ZhenXing_Yu">Contact</a></li>
+            <!-- 相册 -->
+            <li id="menu-gallary">
+                <a id="lnkGallery" href="https://www.cnblogs.com/zhenxing/gallery.html">Gallery</a></li>
+            <!-- Rss订阅 -->
+            <li id="rss">
+                <a id="lnkRss" href="https://www.cnblogs.com/zhenxing/rss/">RSS</a></li>
+        </ul>
+        <div id="newmsg"></div>
+        <h1>
+            <!-- 主标题 -->
+            <a id="lnkBlogTitle" href="https://www.cnblogs.com/zhenxing/">ZhenXing_Yu</a>
+            <!-- 子标题 -->
+            <small>
+                邮箱地址：zhenxing1004@hotmail.com
+
+ | 做你害怕做的事。然后你会发现，不过如此
+            </small>
+        </h1>
+    </div>
+
+    <script type="text/javascript">
+        var m = window.__blog.headerRendered;
+        if (m) { m(__$("header")); }
+    </script>
+
+    <div id="wrapper">
+        <div id="content">
+            <script type="text/javascript">
+                var m = window.__blog.preRenderPosts;
+                if (m) { m(); }
+            </script>
+            <div id="post_detail">
+<div class="post" id="post">
+    <a name="top"></a>
+    <h2>
+<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/zhenxing/p/5169108.html">迁移 Windows 上 Oracle 11.2.0.3.0 到 Linux 上 Oracle 11.2.0.3.0</a>
+</h2>
+    <small>
+<span id="post-date">2016-01-29 15:18</span>&nbsp;
+<a href="https://www.cnblogs.com/zhenxing/">ZhenXing_Yu</a>&nbsp;
+阅读(<span id="post_view_count">571</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=5169108" rel="nofollow">
+    编辑
+</a>
+<a href="javascript:void(0)" onclick="AddToWz(5169108);return false;">收藏</a></small>
+    <div class="entry">
+        
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <h1>一、迁移前数据库基本信息统计</h1>
+<h2>查看数据库版本&nbsp;</h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">SELECT</span> <span style="color: #808080;">*</span> <span style="color: #0000ff;">FROM</span><span style="color: #000000;"> V$VERSION;
+</span><span style="color: #008080;">/*</span><span style="color: #008080;">
+Oracle Database 11g Enterprise Edition Release 11.2.0.3.0 - 64bit Production
+PL/SQL Release 11.2.0.3.0 - Production
+"CORE 11.2.0.3.0 Production"
+TNS for 64-bit Windows: Version 11.2.0.3.0 - Production
+NLSRTL Version 11.2.0.3.0 - Production</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">SELECT</span> INSTANCE_NAME, STATUS <span style="color: #0000ff;">FROM</span> V$INSTANCE;</pre>
+</div>
+<p>&nbsp;</p>
+<h2>查看所有数据文件</h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">SELECT</span> NAME <span style="color: #0000ff;">FROM</span><span style="color: #000000;"> V$DATAFILE;
+
+D:\APP\ORACLE\ORADATA\SIEBELDB\SYSTEM01.DBF
+D:\APP\ORACLE\ORADATA\SIEBELDB\SYSAUX01.DBF
+D:\APP\ORACLE\ORADATA\SIEBELDB\UNDOTBS01.DBF
+D:\APP\ORACLE\ORADATA\SIEBELDB\USERS01.DBF
+D:\APP\ORACLE\ORADATA\SIEBELDB\DATA01.DBF
+D:\APP\ORACLE\ORADATA\SIEBELDB\INDEX01.DBF
+D:\APP\ORACLE\ORADATA\SIEBELDB\SYSTEM02.DBF
+D:\APP\ORACLE\ORADATA\SIEBELDB\SYSAUX02.DBF
+D:\APP\ORACLE\ORADATA\SIEBELDB\EIM_IDX01.DBF</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<h2>查看所有控制文件</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">SELECT</span> NAME <span style="color: #0000ff;">FROM</span><span style="color: #000000;"> V$CONTROLFILE;
+
+D:\APP\ORACLE\ORADATA\SIEBELDB\CONTROL01.CTL
+D:\APP\ORACLE\ORADATA\SIEBELDB\CONTROL02.CTL</span></pre>
+</div>
+<p>&nbsp;</p>
+<h2>查看所有日志文件</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">SELECT</span> <span style="color: #0000ff;">GROUP</span>#, MEMBER <span style="color: #0000ff;">FROM</span><span style="color: #000000;"> V$LOGFILE;
+
+D:\APP\ORACLE\ORADATA\SIEBELDB\REDO01.</span><span style="color: #ff00ff;">LOG</span><span style="color: #000000;">
+D:\APP\ORACLE\ORADATA\SIEBELDB\REDO02.</span><span style="color: #ff00ff;">LOG</span><span style="color: #000000;">
+D:\APP\ORACLE\ORADATA\SIEBELDB\REDO03.</span><span style="color: #ff00ff;">LOG</span></pre>
+</div>
+<p>&nbsp;</p>
+<h2>查看所有临时文件</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">SELECT</span> NAME <span style="color: #0000ff;">FROM</span><span style="color: #000000;"> V$TEMPFILE;
+
+D:\APP\ORACLE\ORADATA\SIEBELDB\TEMP01.DBF</span></pre>
+</div>
+<p>&nbsp;</p>
+<h2>查看当前的操作系统平台</h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">SELECT</span><span style="color: #000000;"> D.PLATFORM_NAME, ENDIAN_FORMAT
+  </span><span style="color: #0000ff;">FROM</span> V$TRANSPORTABLE_PLATFORM TP, V$<span style="color: #0000ff;">DATABASE</span><span style="color: #000000;"> D
+ </span><span style="color: #0000ff;">WHERE</span> TP.PLATFORM_NAME <span style="color: #808080;">=</span> D.PLATFORM_NAME;<br><br>PLATFORM_NAME  　　　　　　　　　　ENDIAN_FORMAT<br>Microsoft Windows x86 64-bit &nbsp;  Little</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<h2>查看可以迁移的平台</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">SELECT</span> <span style="color: #808080;">*</span> <span style="color: #0000ff;">FROM</span> V$TRANSPORTABLE_PLATFORM <span style="color: #0000ff;">ORDER</span> <span style="color: #0000ff;">BY</span> <span style="color: #800000; font-weight: bold;">3</span><span style="color: #000000;">;
+
+PLATFORM_ID  PLATFORM_NAME                     ENDIAN_FORMAT
+</span><span style="color: #800000; font-weight: bold;">12</span>           Microsoft Windows x86 <span style="color: #800000; font-weight: bold;">64</span><span style="color: #808080;">-</span><span style="color: #0000ff;">bit</span><span style="color: #000000;">      Little
+</span><span style="color: #800000; font-weight: bold;">13</span>           Linux x86 <span style="color: #800000; font-weight: bold;">64</span><span style="color: #808080;">-</span><span style="color: #0000ff;">bit</span>                  Little</pre>
+</div>
+<p>&nbsp;</p>
+<h2>查看数据库字符集</h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #000000;">select * from nls_database_parameters;<br><br>PARAMETER    VALUE
+NLS_LANGUAGE    AMERICAN
+NLS_TERRITORY    AMERICA
+NLS_CURRENCY    $
+NLS_ISO_CURRENCY    AMERICA
+NLS_NUMERIC_CHARACTERS    .,
+<span style="color: #ff0000;">NLS_CHARACTERSET    AL32UTF8</span>
+NLS_CALENDAR    GREGORIAN
+NLS_DATE_FORMAT    DD</span><span style="color: #808080;">-</span>MON<span style="color: #808080;">-</span><span style="color: #000000;">RR
+NLS_DATE_LANGUAGE    AMERICAN
+NLS_SORT    </span><span style="color: #000000;">BINARY</span><span style="color: #000000;">
+NLS_TIME_FORMAT    HH.MI.SSXFF AM
+NLS_TIMESTAMP_FORMAT    DD</span><span style="color: #808080;">-</span>MON<span style="color: #808080;">-</span><span style="color: #000000;">RR HH.MI.SSXFF AM
+NLS_TIME_TZ_FORMAT    HH.MI.SSXFF AM TZR
+NLS_TIMESTAMP_TZ_FORMAT    DD</span><span style="color: #808080;">-</span>MON<span style="color: #808080;">-</span><span style="color: #000000;">RR HH.MI.SSXFF AM TZR
+NLS_DUAL_CURRENCY    $
+NLS_COMP    </span>BINARY<span style="color: #000000;">
+NLS_LENGTH_SEMANTICS    BYTE
+NLS_NCHAR_CONV_EXCP    FALSE
+<span style="color: #ff0000;">NLS_NCHAR_CHARACTERSET    UTF8</span>
+NLS_RDBMS_VERSION    </span><span style="color: #800000; font-weight: bold;">11.2</span>.<span style="color: #800000; font-weight: bold;">0.3</span>.<span style="color: #800000; font-weight: bold;">0</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<h2>将数据库开启到read only模式后运行校验包</h2>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">SHUTDOWN</span><span style="color: #000000;"> IMMEDIATE;
+STARTUP MOUNT
+</span><span style="color: #0000ff;">ALTER</span> <span style="color: #0000ff;">DATABASE</span> <span style="color: #0000ff;">OPEN</span> <span style="color: #0000ff;">READ</span> <span style="color: #0000ff;">ONLY</span>;</pre>
+</div>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">--</span><span style="color: #008080;">返回TRUE或成功运行(无报错,表示正常)</span><span style="color: #008080;">
+--</span><span style="color: #008080;">If no warnings appear, or if DBMS_TDB.CHECK_DB returns TRUE, then you can transport the database.</span>
+
+<span style="color: #0000ff;">SET</span> SERVEROUTPUT <span style="color: #0000ff;">ON</span>
+<span style="color: #0000ff;">DECLARE</span><span style="color: #000000;">
+  db_ready BOOLEAN;
+</span><span style="color: #0000ff;">BEGIN</span><span style="color: #000000;">
+  db_ready :</span><span style="color: #808080;">=</span>DBMS_TDB.CHECK_DB(<span style="color: #ff0000;">'</span><span style="color: #ff0000;">Microsoft Windows x86 64-bit</span><span style="color: #ff0000;">'</span><span style="color: #000000;">,DBMS_TDB.SKIP_READONLY);
+</span><span style="color: #0000ff;">END</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<h2>校验是否存在RMAN不能自动转换的文件</h2>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">--</span><span style="color: #008080;">使用DBMS_TDB.CHECK_EXTERNAL函数检查是否存在任何外部表、目录或BFILES数据,使用RMAN的方式不能传输这些文件,需要手动重建或手动拷贝到目标库.</span><span style="color: #008080;">
+--</span><span style="color: #008080;">Execute the DBMS_TDB.CHECK_EXTERNAL function to identify any external tables, directories, or BFILEs. RMAN cannot automate the transport of these</span><span style="color: #008080;">
+--</span><span style="color: #008080;">files, so you must copy the files manually and re-create the database directories</span>
+
+<span style="color: #0000ff;">DECLARE</span><span style="color: #000000;">
+external BOOLEAN;
+</span><span style="color: #0000ff;">BEGIN</span>
+<span style="color: #008080;">/*</span><span style="color: #008080;"> value of external is ignored, but with SERVEROUTPUT set to ON
+* dbms_tdb.check_external displays report of external objects
+* on console </span><span style="color: #008080;">*/</span><span style="color: #000000;">
+external :</span><span style="color: #808080;">=</span><span style="color: #000000;"> DBMS_TDB.CHECK_EXTERNAL;
+</span><span style="color: #0000ff;">END</span><span style="color: #000000;">;
+</span><span style="color: #808080;">/<br></span></pre>
+<p>The following directories exist in the database:<br>SYS.TRAN_TBS_DIR, SYS.TEST_DIR, SYS.XMLDIR, SYS.ORACLE_OCM_CONFIG_DIR2, SYS.ORACLE_OCM_CONFIG_DIR, SYS.DATA_PUMP_DIR</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<div class="cnblogs_code">
+<pre><span style="color: #008080;">--</span><span style="color: #008080;">查看不能转换的目录</span>
+COL OWNER <span style="color: #0000ff;">FOR</span><span style="color: #000000;"> A10
+COL DIRECTORY_NAME </span><span style="color: #0000ff;">FOR</span><span style="color: #000000;"> A40
+COL DIRECTORY_PATH </span><span style="color: #0000ff;">FOR</span><span style="color: #000000;"> A60
+</span><span style="color: #0000ff;">SELECT</span> <span style="color: #808080;">*</span> <span style="color: #0000ff;">FROM</span> DBA_DIRECTORIES;</pre>
+</div>
+<p>&nbsp;</p>
+<h1>二、使用RMAN生成迁移文件</h1>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">--</span><span style="color: #008080;">启动数据库到Read Only模式</span>
+<span style="color: #0000ff;">SHUTDOWN</span><span style="color: #000000;"> IMMEDIATE;
+STARTUP MOUNT;
+</span><span style="color: #0000ff;">ALTER</span> <span style="color: #0000ff;">DATABASE</span> <span style="color: #0000ff;">OPEN</span> <span style="color: #0000ff;">READ</span> <span style="color: #0000ff;">ONLY</span><span style="color: #000000;">;
+
+</span><span style="color: #008080;">--</span><span style="color: #008080;">启动RMAN</span>
+RMAN target <span style="color: #808080;">/</span>
+
+<span style="color: #ff00ff;">CONVERT</span> <span style="color: #0000ff;">DATABASE</span><span style="color: #000000;">
+NEW </span><span style="color: #0000ff;">DATABASE</span> <span style="color: #ff0000;">'</span><span style="color: #ff0000;">siebeldb</span><span style="color: #ff0000;">'</span><span style="color: #000000;">
+transport script </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">C:\trans_dir\trans.sql</span><span style="color: #ff0000;">'</span>
+<span style="color: #0000ff;">TO</span> platform <span style="color: #ff0000;">'</span><span style="color: #ff0000;">Linux x86 64-bit</span><span style="color: #ff0000;">'</span><span style="color: #000000;">
+db_file_name_convert </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">D:\APP\ORACLE\ORADATA\SIEBELDB</span><span style="color: #ff0000;">'</span> <span style="color: #ff0000;">'</span><span style="color: #ff0000;">C:\trans_dir</span><span style="color: #ff0000;">'</span>;</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<h1>三、修改对应转换文件参数</h1>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">在linux上设置ORACLE_BASE,ORACLE_HOME
+在源系统上会生成好转换好的数据库dbf文件和转换文件脚本trans.sql
+需要编辑trans.sql文件将其中数据文件参数文件等信息改为Linux相应的目录</span></pre>
+</div>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008080;">--</span><span style="color: #008080;"> The following commands will create a new control file and use it</span><span style="color: #008080;">
+--</span><span style="color: #008080;"> to open the database.</span><span style="color: #008080;">
+--</span><span style="color: #008080;"> Data used by Recovery Manager will be lost.</span><span style="color: #008080;">
+--</span><span style="color: #008080;"> The contents of online logs will be lost and all backups will</span><span style="color: #008080;">
+--</span><span style="color: #008080;"> be invalidated. Use this only if online logs are damaged.</span>
+
+<span style="color: #008080;">--</span><span style="color: #008080;"> After mounting the created controlfile, the following SQL</span><span style="color: #008080;">
+--</span><span style="color: #008080;"> statement will place the database in the appropriate</span><span style="color: #008080;">
+--</span><span style="color: #008080;"> protection mode:</span><span style="color: #008080;">
+--</span><span style="color: #008080;">  ALTER DATABASE SET STANDBY DATABASE TO MAXIMIZE PERFORMANCE</span>
+<span style="color: #000000;">
+STARTUP NOMOUNT PFILE</span><span style="color: #808080;">=</span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/app/database/11.2.0.3/dbhome_1/dbs/initsiebeldb.ora</span><span style="color: #ff0000;">'</span>
+<span style="color: #000000;">CREATE CONTROLFILE REUSE SET DATABASE</span><span style="color: #000000;"> "SIEBELDB" RESETLOGS  NOARCHIVELOG
+    MAXLOGFILES </span><span style="color: #800000; font-weight: bold;">16</span><span style="color: #000000;">
+    MAXLOGMEMBERS </span><span style="color: #800000; font-weight: bold;">3</span><span style="color: #000000;">
+    MAXDATAFILES </span><span style="color: #800000; font-weight: bold;">100</span><span style="color: #000000;">
+    MAXINSTANCES </span><span style="color: #800000; font-weight: bold;">8</span><span style="color: #000000;">
+    MAXLOGHISTORY </span><span style="color: #800000; font-weight: bold;">292</span><span style="color: #000000;">
+LOGFILE
+  </span><span style="color: #000000;">GROUP </span><span style="color: #800000; font-weight: bold;">1</span> <span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/redolog01.log</span><span style="color: #ff0000;">'</span>  SIZE 500M BLOCKSIZE <span style="color: #800000; font-weight: bold;">512</span><span style="color: #000000;">,
+  </span><span style="color: #000000;">GROUP </span><span style="color: #800000; font-weight: bold;">2</span> <span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/redolog02.log</span><span style="color: #ff0000;">'</span>  SIZE 500M BLOCKSIZE <span style="color: #800000; font-weight: bold;">512</span><span style="color: #000000;">,
+  </span><span style="color: #000000;">GROUP </span><span style="color: #800000; font-weight: bold;">3</span> <span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/redolog03.log</span><span style="color: #ff0000;">'</span>  SIZE 500M BLOCKSIZE <span style="color: #800000; font-weight: bold;">512</span><span style="color: #000000;">
+DATAFILE
+  </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/SYSTEM01.DBF</span><span style="color: #ff0000;">'</span><span style="color: #000000;">,
+  </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/SYSAUX01.DBF</span><span style="color: #ff0000;">'</span><span style="color: #000000;">,
+  </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/UNDOTBS01.DBF</span><span style="color: #ff0000;">'</span><span style="color: #000000;">,
+  </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/USERS01.DBF</span><span style="color: #ff0000;">'</span><span style="color: #000000;">,
+  </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/DATA01.DBF</span><span style="color: #ff0000;">'</span><span style="color: #000000;">,
+  </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/INDEX01.DBF</span><span style="color: #ff0000;">'</span><span style="color: #000000;">,
+  </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/SYSTEM02.DBF</span><span style="color: #ff0000;">'</span><span style="color: #000000;">,
+  </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/SYSAUX02.DBF</span><span style="color: #ff0000;">'</span><span style="color: #000000;">,
+  </span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/EIM_IDX01.DBF</span><span style="color: #ff0000;">'</span>
+<span style="color: #000000;">CHARACTER SET</span><span style="color: #000000;"> AL32UTF8
+;
+
+</span><span style="color: #008080;">--</span><span style="color: #008080;"> Database can now be opened zeroing the online logs.</span>
+<span style="color: #000000;">ALTER DATABASE OPEN</span><span style="color: #000000;"> RESETLOGS;
+
+</span><span style="color: #008080;">--</span><span style="color: #008080;"> Commands to add tempfiles to temporary tablespaces.</span><span style="color: #008080;">
+--</span><span style="color: #008080;"> Online tempfiles have complete space information.</span><span style="color: #008080;">
+--</span><span style="color: #008080;"> Other tempfiles may require adjustment.</span>
+<span style="color: #000000;">ALTER TABLESPACE TEMP ADD</span> TEMPFILE <span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/temp01.dbf</span><span style="color: #ff0000;">'</span>
+     SIZE 3167M AUTOEXTEND <span style="color: #0000ff;">ON</span> <span style="color: #0000ff;">NEXT</span> <span style="color: #800000; font-weight: bold;">655360</span><span style="color: #000000;">  MAXSIZE 32767M;
+</span><span style="color: #008080;">--</span><span style="color: #008080;"> End of tempfile additions.</span><span style="color: #008080;">
+--
+</span>
+<span style="color: #000000;">set echo off
+prompt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+prompt * Your database has been created successfully!
+prompt * There are many things to think about for the new database. Here
+prompt * is a checklist to help you stay on track:
+prompt * <span style="font-weight: bold;">1</span>. You may want to redefine the location of the directory objects.
+prompt * <span style="font-weight: bold;">2</span>. You may want to change the internal database identifier (DBID) 
+prompt *    or the global database name for this database. Use the 
+prompt *</span><span style="color: #000000;">    NEWDBID Utility (nid).
+prompt </span><span style="color: #808080;">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</span>
+
+<span style="color: #000000;">SHUTDOWN</span><span style="color: #000000;"> IMMEDIATE 
+STARTUP UPGRADE PFILE</span><span style="color: #808080;">=</span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/app/database/11.2.0.3/dbhome_1/dbs/initsiebeldb.ora</span><span style="color: #ff0000;">'</span><span style="color: #000000;">
+@@ ?</span><span style="color: #808080;">/</span>rdbms<span style="color: #808080;">/</span>admin<span style="color: #808080;">/</span><span style="color: #000000;">utlirp.sql 
+</span><span style="color: #000000;">SHUTDOWN</span><span style="color: #000000;"> IMMEDIATE 
+STARTUP PFILE</span><span style="color: #808080;">=</span><span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/app/database/11.2.0.3/dbhome_1/dbs/initsiebeldb.ora</span><span style="color: #ff0000;">'</span>
+<span style="color: #008080;">--</span><span style="color: #008080;"> The following step will recompile all PL/SQL modules.</span><span style="color: #008080;">
+--</span><span style="color: #008080;"> It may take serveral hours to complete.</span>
+<span style="color: #000000;">@@ ?/rdbms/admin/utlrp.sql 
+set feedback <span style="font-weight: bold;">6</span>;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<h1>四、修改生成的INIT参数文件</h1>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">在RMAN转换完后也会生成init的参数文件，在windows的 database目录下
+将转换用的init文件重命名为initSID.ora，并修改其中的参数路径对应到linux的路径下</span></pre>
+</div>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre># Please change the<span style="color: #000000;"> values of</span><span style="color: #000000;"> the following parameters:
+control_files            </span><span style="color: #808080;">=</span> <span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/oradata/siebeldb/control01.ctl</span><span style="color: #ff0000;">'</span><span style="color: #000000;">
+audit_file_dest          </span><span style="color: #808080;">=</span> <span style="color: #ff0000;">'</span><span style="color: #ff0000;">/data/oracle/admin/siebeldb/adump</span><span style="color: #ff0000;">'</span>
+<span style="color: #000000;">db_name                  = 'SIEBELDB'</span><span style="color: #000000;">
+
+# Please review the </span><span style="color: #000000;">values of</span><span style="color: #000000;"> the following parameters:
+# __oracle_base            </span><span style="color: #808080;">=</span><span style="color: #000000;"> "D:\app\oracle"
+__shared_pool_size       </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">788529152</span><span style="color: #000000;">
+__large_pool_size        </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">16777216</span><span style="color: #000000;">
+__java_pool_size         </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">16777216</span><span style="color: #000000;">
+__streams_pool_size      </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">16777216</span><span style="color: #000000;">
+__sga_target             </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">2634022912</span><span style="color: #000000;">
+__db_cache_size          </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">1761607680</span><span style="color: #000000;">
+__shared_io_pool_size    </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">0</span><span style="color: #000000;">
+remote_login_passwordfile</span><span style="color: #808080;">=</span><span style="color: #000000;"> "EXCLUSIVE"
+db_domain                </span><span style="color: #808080;">=</span><span style="color: #000000;"> ""
+dispatchers              </span><span style="color: #808080;">=</span> "(PROTOCOL<span style="color: #808080;">=</span>TCP) (SERVICE<span style="color: #808080;">=</span><span style="color: #000000;">siebeldbXDB)"
+__pga_aggregate_target   </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">536870912</span>
+
+# The <span style="color: #000000;">values of the following parameters are from source database:
+processes                = <span style="font-weight: bold;">1500</span></span><span style="color: #000000;">
+sessions                 </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">2272</span><span style="color: #000000;">
+sga_target               </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">2634022912</span><span style="color: #000000;">
+db_block_size            </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">8192</span><span style="color: #000000;">
+compatible               </span><span style="color: #808080;">=</span> "<span style="color: #800000; font-weight: bold;">11.2</span>.<span style="color: #800000; font-weight: bold;">0.0</span>.<span style="color: #800000; font-weight: bold;">0</span><span style="color: #000000;">"
+undo_tablespace          </span><span style="color: #808080;">=</span><span style="color: #000000;"> "UNDOTBS1"
+audit_trail              </span><span style="color: #808080;">=</span><span style="color: #000000;"> "OS"
+open_cursors             </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">300</span><span style="color: #000000;">
+optimizer_index_cost_adj </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">1</span><span style="color: #000000;">
+pga_aggregate_target     </span><span style="color: #808080;">=</span> <span style="color: #800000; font-weight: bold;">524288000</span><span style="color: #000000;">
+# diagnostic_dest          </span><span style="color: #808080;">=</span> "D:\APP\ORACLE"</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<h1>五、在目标系统使用DBCA建库</h1>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">1、建议使用DBCA建库,避免手动建库出现部分目录没创建的问题
+
+2、建库完毕后关闭数据库,并把所有的数据文件、日志文件、控制文件都删除(也就是/.../oradata/目录下都删除)</span></pre>
+</div>
+<p>&nbsp;</p>
+<h1>六、复制源系统的RMAN迁移文件到目标系统指定目录</h1>
+<div class="cnblogs_code">
+<pre>1、将Windows上RMAN生成的转换完成的数据文件等使用FTP工具传输到Linux上的$ORACLE_BASE/oradata/$SID目录下<br>2、将生成的init参数文件复制到Linux下$ORACLE_HOME/dbs目录下</pre>
+</div>
+<p>&nbsp;</p>
+<h1>七、执行迁移脚本</h1>
+<div class="cnblogs_code">
+<pre>sqlplus <span style="color: #808080;">/</span> <span style="color: #0000ff;">as</span><span style="color: #000000;"> sysdba
+@</span><span style="color: #808080;">/</span>data<span style="color: #808080;">/</span>oracle<span style="color: #808080;">/</span>oradata<span style="color: #808080;">/</span>siebeldb<span style="color: #808080;">/</span><span style="color: #000000;">trans.sql
+
+</span><span style="color: #008080;">--</span><span style="color: #008080;">脚本会跑一段时间，只需要等待完成即可</span></pre>
+</div>
+<p>&nbsp;</p>
+<h1>八、注意事项</h1>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">1、Oracle的版本在Windows上与Linux上要一样，不然会存在问题.
+2、建议用DBCA建库，防止人为错误.
+3、修改init和trans.sql转换文件时，对应的文件夹及路径不要写错.
+4、用RMAN的convert功能比较强大,不用担心其它问题,也是oracle的建议事项.</span></pre>
+</div>
+<p>&nbsp;</p>
+<h1>九、参考文档</h1>
+<p><a href="http://docs.oracle.com/cd/E11882_01/backup.112/e10642/rcmxplat.htm#BRADV89977" target="_blank">http://docs.oracle.com/cd/E11882_01/backup.112/e10642/rcmxplat.htm#BRADV89977</a></p>
+</div>
+<div id="MySignature" style="display: block;">转载请说明出处
+
+|QQ:327488733
+
+|Email:zhenxing1004@hotmail.com</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5169108,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow('80f7817c-3fa5-e311-8d02-90b11c0b17d6');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zhenxing/" target="_blank"><img src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20160128143817.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/zhenxing/">ZhenXing_Yu</a><br>
+            <a href="https://home.cnblogs.com/u/zhenxing/followees/">关注 - 5</a><br>
+            <a href="https://home.cnblogs.com/u/zhenxing/followers/">粉丝 - 4</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('80f7817c-3fa5-e311-8d02-90b11c0b17d6');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5169108,'Digg')">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(5169108,'Bury')">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/zhenxing/p/5167776.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/zhenxing/p/5167776.html" title="发布于 2016-01-28 23:38">Oracle 索引的失效和重建</a>
+    <br>
+    <a href="https://www.cnblogs.com/zhenxing/p/5211540.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/zhenxing/p/5211540.html" title="发布于 2016-02-23 23:07">第一章 Oracle10g数据库新特性</a>
+
+</div>
+</div>
+        <div class="clear"></div>
+        <div id="blog_post_info_block">
+        <div id="blog_post_info">
+        </div>
+        <div class="clear"></div>
+        <div id="post_next_prev"></div>
+    </div>
+</div>
+    <ul class="postmetadata">
+        
+<li class="icon_cat" id="BlogPostCategory">
+分类            <a href="https://www.cnblogs.com/zhenxing/category/784309.html" target="_blank">Oracle 实用语句</a>
+</li>
+<li class="icon_bullet" id="EntryTag">
+标签            <a href="https://www.cnblogs.com/zhenxing/tag/Oracle%2011g%20%E8%BF%81%E7%A7%BB%20%E8%B7%A8%E5%B9%B3%E5%8F%B0/">Oracle 11g 迁移 跨平台</a>
+</li>
+    </ul>
+</div>
+<script type="text/javascript">
+    var m = window.__blog.postRendered;
+    if (m) { m(__$("post")); }
+</script>
+<script type="text/javascript">
+    var m = window.__blog.postRenderPosts;
+    if (m) { m(); }
+</script>
+<script src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/highlight.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 178226, cb_blogApp = 'zhenxing', cb_blogUserGuid = '80f7817c-3fa5-e311-8d02-90b11c0b17d6';
+    var cb_entryId = 5169108, cb_entryCreatedDate = '2016-01-29 15:18', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container"><div class="login_tips">
+    注册用户登录后才能发表评论，请 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a>
+     或 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页。
+</div></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-工控')">【推荐】超50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://cloud.tencent.com/act/seckill?fromSource=gwzcw.3168381.3168381.3168381&amp;utm_medium=cpc&amp;utm_id=gwzcw.3168381.3168381.3168381" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-腾讯云')">【推荐】腾讯云热门云产品限时秒杀，爆款1核2G云服务器99元/年！</a><br><a href="http://click.aliyun.com/m/1000081987/" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-阿里云')">【推荐】阿里云双11返场来袭，热门产品低至一折等你来抢！</a><br><a href="https://www.jdcloud.com/cn/activity/year-end?utm_source=DMT_cnblogs&amp;utm_medium=CH&amp;utm_campaign=q4vm&amp;utm_term=Virtual-Machines" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-京东云')">【活动】京东云服务器_云主机低于1折，低价高性能产品备战双11</a><br><a href="https://www.huodongxing.com/event/1521928757400" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-七牛云')">【活动】ECUG For Future 技术者的年度盛会（杭州，1月4-5日）</a><br></div>
+    <div id="opt_under_post"></div>
+    <script async="async" src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+    <script>
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+    </script>
+    <script>
+        googletag.cmd.push(function () {
+            googletag.defineSlot("/1090369/C1", [300, 250], "div-gpt-ad-1546353474406-0").addService(googletag.pubads());
+            googletag.defineSlot("/1090369/C2", [468, 60], "div-gpt-ad-1539008685004-0").addService(googletag.pubads());
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1546353474406-0" style="height:250px; width:300px;" data-google-query-id="CNWwqKH0yOYCFQmCvQodT3oKqg"><div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+    </div>
+    <div id="under_post_news"><div class="recomm-block"><b>相关博文：</b><br>·  <a title="Oracle迁移:Linux-&gt;Windows" href="https://www.cnblogs.com/jyzhao/p/5189169.html" target="_blank" onclick="clickRecomItmem(5189169)">Oracle迁移:Linux-&gt;Windows</a><br>·  <a title="迁移mysql数据到oracle上" href="https://www.cnblogs.com/gmq-sh/p/5449120.html" target="_blank" onclick="clickRecomItmem(5449120)">迁移mysql数据到oracle上</a><br>·  <a title="迁移mysql数据到oracle上" href="https://www.cnblogs.com/Warmsunshine/p/4651283.html" target="_blank" onclick="clickRecomItmem(4651283)">迁移mysql数据到oracle上</a><br>·  <a title="Oracle在Windows和Linux上的备份方法" href="https://www.cnblogs.com/oldcat/archive/2011/09/17/2179886.html" target="_blank" onclick="clickRecomItmem(2179886)">Oracle在Windows和Linux上的备份方法</a><br>·  <a title="Linux同平台Oracle数据库整体物理迁移" href="https://www.cnblogs.com/lcword/p/5850635.html" target="_blank" onclick="clickRecomItmem(5850635)">Linux同平台Oracle数据库整体物理迁移</a><br>»  <a target="_blank" href="https://recomm.cnblogs.com/blogpost/5169108">更多推荐...</a><div id="cnblogs_t5"><a href="https://developer.aliyun.com/article/718649?utm_content=g_1000088936" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T5-阿里云开发者社区')">这6种编码方法，你掌握了几个？</a></div></div></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CNawqKH0yOYCFQmCvQodT3oKqg">
+            
+        <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br>
+ ·              <a href="https://news.cnblogs.com/n/652339/" target="_blank">百度投资"海鹚科技"，布局智能医疗领域</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/652338/" target="_blank">这一年，那些CEO和投资人，坐不了飞机高铁</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/652337/" target="_blank">华为投资控股有限公司注册资本新增至约294亿</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/652336/" target="_blank">一站式航运科技服务提供商大掌柜获亿元级B轮融资，拙朴投资领投</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/652335/" target="_blank">Windows 7 退休后杀毒软件还将生效？</a>
+            <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block"></div>
+    <script type="text/javascript">
+        fixPostBody();
+        setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div></div>
+
+
+        </div>
+
+        <script type="text/javascript">
+            var m = window.__blog.contentRendered;
+            if (m) { m(__$("content")); }
+        </script>
+
+        <div id="sidebar">
+            <div id="about">
+                <div>
+                    <h2 id="about_title">About</h2>
+                    <div id="about_body">
+                        <div id="sidebar_news">
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/zhenxing/">
+            ZhenXing_Yu
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/zhenxing/" title="入园时间：2014-03-06">
+            5年9个月
+        </a>
+        <br>
+        粉丝：
+        <a href="https://home.cnblogs.com/u/zhenxing/followers/">
+            4
+        </a>
+        <br>
+        关注：
+        <a href="https://home.cnblogs.com/u/zhenxing/followees/">
+            5
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow('80f7817c-3fa5-e311-8d02-90b11c0b17d6')">+加关注</a></div>
+        <script>getFollowStatus('80f7817c-3fa5-e311-8d02-90b11c0b17d6');</script>
+    </div>
+</div>
+
+</div>
+                        <script type="text/javascript">loadBlogNews();</script>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var m = window.__blog.aboutRendered;
+                if (m) { m(__$("about")); }
+            </script>
+            <div id="mySearchWrapper">
+                <div id="mySearch">
+                    <input type="image" src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/btnsearch.gif" id="btnZzk" class="submit" onclick="zzk_go();return false;">
+                    <label class="lb_search"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="keyword"></label>
+                </div>
+            </div>
+            <script type="text/javascript">
+                var m = window.__blog.searchFormRendered;
+                if (m) { m(__$("searchform")); }
+            </script>
+            <div id="sideMain">
+            <div id="side-recent-posts">
+    
+
+<h2>最新随笔</h2>
+<ul class="bullet">
+        <li><a href="https://www.cnblogs.com/zhenxing/p/11050823.html">MySQL 插件之 连接控制插件(Connection-Control)</a></li>
+        <li><a href="https://www.cnblogs.com/zhenxing/p/5697223.html">MySQL 实用技巧</a></li>
+        <li><a href="https://www.cnblogs.com/zhenxing/p/5469434.html">sysbench工具使用</a></li>
+        <li><a href="https://www.cnblogs.com/zhenxing/p/5460062.html">故障分析--主从复制故障1</a></li>
+        <li><a href="https://www.cnblogs.com/zhenxing/p/5456660.html">MySQL性能指标计算方式</a></li>
+        <li><a href="https://www.cnblogs.com/zhenxing/p/5447579.html">Percona 工具 pt-query-digest的使用</a></li>
+        <li><a href="https://www.cnblogs.com/zhenxing/p/5425936.html">搭建简单Samba服务器</a></li>
+        <li><a href="https://www.cnblogs.com/zhenxing/p/5416296.html">Percona Xtrabackup 安装</a></li>
+        <li><a href="https://www.cnblogs.com/zhenxing/p/5416244.html">使用Percona Xtrabackup创建MySQL slave库</a></li>
+        <li><a href="https://www.cnblogs.com/zhenxing/p/5387228.html">MySQL 5.6.30 升级到5.7.10</a></li>
+</ul>
+</div><div id="side-recent-comments">
+    
+
+<h2>最新评论</h2>
+<ul class="voice">
+        <li>
+            <a href="http://www.cnblogs.com/zhenxing/p/5260693.html#3377784">Re:使用Oracle 11g新特性 Active Database Duplication 搭建Dataguard环境</a>
+            <br>
+            <a class="child" href="http://www.cnblogs.com/zhenxing/p/5260693.html#3377784">
+                @ mark_ran文章中了部分修改，主要在duplicate时使用一个参数文件做控制用来控制当主库与备库服务器及参数配置不同的情况。这种情形在生产环境中可能更加常见，也是更加保险的做法。...
+                -- ZhenXing_Yu
+            </a>
+        </li>
+        <li>
+            <a href="http://www.cnblogs.com/zhenxing/p/5260693.html#3377144">Re:使用Oracle 11g新特性 Active Database Duplication 搭建Dataguard环境</a>
+            <br>
+            <a class="child" href="http://www.cnblogs.com/zhenxing/p/5260693.html#3377144">
+                很适用的文章
+                -- mark_ran
+            </a>
+        </li>
+        <li>
+            <a href="http://www.cnblogs.com/zhenxing/p/5164968.html#3356518">Re:Oracle回收站 使用</a>
+            <br>
+            <a class="child" href="http://www.cnblogs.com/zhenxing/p/5164968.html#3356518">
+                不错~
+                -- 雷厉*风行
+            </a>
+        </li>
+        <li>
+            <a href="http://www.cnblogs.com/zhenxing/p/3905047.html#3005569">Re:Oracle Exadata体系笔记</a>
+            <br>
+            <a class="child" href="http://www.cnblogs.com/zhenxing/p/3905047.html#3005569">
+                牛
+                -- 桦仔
+            </a>
+        </li>
+</ul>
+
+</div></div>
+            <div id="sideRight">
+            <div id="side-archives">
+            <h2>随笔档案</h2>
+            <ul class="date">
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2019/06.html">2019年6月(1)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2016/07.html">2016年7月(1)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2016/05.html">2016年5月(3)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2016/04.html">2016年4月(5)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2016/03.html">2016年3月(5)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2016/02.html">2016年2月(1)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2016/01.html">2016年1月(3)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2014/12.html">2014年12月(2)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2014/11.html">2014年11月(1)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2014/08.html">2014年8月(8)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2014/06.html">2014年6月(1)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2014/04.html">2014年4月(7)</a></li>
+                    <li><a href="https://www.cnblogs.com/zhenxing/archive/2014/03.html">2014年3月(7)</a></li>
+            </ul>
+        </div>
+
+
+
+
+
+
+
+
+        
+
+        
+
+        
+
+
+
+
+    
+
+
+    
+
+<div id="side-link-741622">
+            <h2>认证</h2>
+            <ul class="chain">
+                        <li>
+                            <a href="https://www.youracclaim.com/badges/f2753190-d80c-4330-9bf2-9a3cb627c75a" target="_self">Oracle OCP 11g</a>
+                        </li>
+            </ul>
+        </div><div id="topdigg_posts_wrap">
+<div id="side-top-posts-custom">
+        <h2>推荐排行榜</h2>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break:break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/zhenxing/p/3905047.html">
+                                1. Oracle Exadata体系笔记(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/zhenxing/p/5260693.html">
+                                2. 使用Oracle 11g新特性 Active Database Duplication 搭建Dataguard环境(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/zhenxing/p/5324138.html">
+                                3. MySQL Day1(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/zhenxing/p/5336624.html">
+                                4. MySQL FEDERATED 存储引擎的使用(1)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/zhenxing/p/5340592.html">
+                                5. MySQL INFORMATION_SCHEMA 使用(1)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div>
+            <div id="sideLeft">
+            <div id="side-calendar">
+    <h2>日历</h2>
+    <div id="blog-calendar">
+
+<table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2019/11/22'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2019年12月</td>
+                            <td class="CalNextPrev" align="right">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2020/01/22'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+                    <th class="CalDayHeader" abbr="日" scope="col" align="center">日</th>
+                    <th class="CalDayHeader" abbr="一" scope="col" align="center">一</th>
+                    <th class="CalDayHeader" abbr="二" scope="col" align="center">二</th>
+                    <th class="CalDayHeader" abbr="三" scope="col" align="center">三</th>
+                    <th class="CalDayHeader" abbr="四" scope="col" align="center">四</th>
+                    <th class="CalDayHeader" abbr="五" scope="col" align="center">五</th>
+                    <th class="CalDayHeader" abbr="六" scope="col" align="center">六</th>
+        </tr>
+            <tr>
+                        <td class="CalWeekendDay" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                        <td class="" align="center">
+                            5
+                        </td>
+                        <td class="" align="center">
+                            6
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        7
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            8
+                        </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            14
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            15
+                        </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            21
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalTodayDay" align="center">
+                            22
+                        </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            28
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            29
+                        </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            4
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            5
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                10
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            11
+                        </td>
+                </tr>
+    </tbody>
+</table></div>
+    <script>loadBlogDefaultCalendar();</script>
+</div><div id="side-hottags">
+    
+<h2>我的标签</h2>
+<ul class="folder">
+    
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/mysql/">mysql</a>(4)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/oracle/">oracle</a>(2)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/Oracle%2011g%20%E8%BF%81%E7%A7%BB%20%E8%B7%A8%E5%B9%B3%E5%8F%B0/">Oracle 11g 迁移 跨平台</a>(1)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/oracle%20control/">oracle control</a>(1)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/oracle%20Exadata/">oracle Exadata</a>(1)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/Oracle%20Index%20%E5%A4%B1%E6%95%88%20%E9%87%8D%E5%BB%BA%20%E5%B9%B6%E8%A1%8C%E5%BA%A6/">Oracle Index 失效 重建 并行度</a>(1)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/oracle%20recyclebin/">oracle recyclebin</a>(1)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/Oracle10g%E6%A6%82%E8%BF%B0%20Oracle10g%20%E6%A6%82%E8%BF%B0%20%E9%AB%98%E5%8F%AF%E7%94%A8%20%E6%96%B0%E7%89%B9%E6%80%A7/">Oracle10g概述 Oracle10g 概述 高可用 新特性</a>(1)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/oracle%E5%B8%B8%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7/">oracle常用小技巧</a>(1)
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/zhenxing/tag/oracle%E6%8A%80%E5%B7%A7/">oracle技巧</a>(1)
+        </li>
+            <li>
+                <a href="https://www.cnblogs.com/zhenxing/tag/">更多</a>
+            </li>
+
+</ul>
+
+
+</div><div id="side-categories">
+            <h2>随笔分类</h2>
+            <ul class="folder">
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/605923.html">AIX(8)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/560460.html">Linux(3)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/798397.html">MySQL Fundamental(10)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/1484969.html">MySQL 插件(1)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/784032.html">Oracle DataGuard(2)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/560137.html">Oracle Fundamental(6)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/784309.html">Oracle 实用语句(4)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/790564.html">Oracle10g 数据库系统管理(1)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/560136.html">Oracle-RAC(3)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/category/784311.html">零零碎碎的(1)</a>
+                    </li>
+            </ul>
+        </div><div id="side-top-posts">
+    <h2>阅读排行榜</h2>
+    <div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/p/5167776.html">
+                            1. Oracle 索引的失效和重建(10738)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/p/3599662.html">
+                            2. NTP时间服务器配置与解析(10471)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/p/5340592.html">
+                            3. MySQL INFORMATION_SCHEMA 使用(7196)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/p/5336624.html">
+                            4. MySQL FEDERATED 存储引擎的使用(4555)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/zhenxing/p/3905047.html">
+                            5. Oracle Exadata体系笔记(3508)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div></div>            
+                <div id="sideContainer"></div>
+                <script type="text/javascript">
+                    $.ajax({
+                        url: '/' + currentBlogApp + '/ajax/Minyx2_Lite_SideColumn.aspx',
+                        data: '{}',
+                        type: 'post',
+                        dataType: 'text',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            if (data) {
+                                $("#sideContainer").html(data);
+                                $.ajax({
+                                    url: getAjaxBaseUrl() + 'TopLists.aspx',
+                                    type: 'get',
+                                    dataType: 'text',
+                                    success: function (topLists) {
+                                        if (topLists) {
+                                            $("#sideContainer").append(topLists);
+                                        }
+                                        var m = window.__blog.sideContainerRendered;
+                                        if (m) { m(__$("sideContainer")); }
+                                        window.__blog.sidebar.__layout();
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+                </script>
+        </div>
+
+        <script type="text/javascript">
+            var m = window.__blog.sidebarRendered;
+            if (m) { m(__$("sidebar")); }
+        </script>
+
+        <div id="footer">
+            <p id="logoFoot">
+    <a href="http://www.spiga.com.mx/" title="Agencia Interactiva Spiga">www.spiga.com.mx</a>
+</p>
+<div class="footText">
+<p>
+Copyright © 2019 ZhenXing_Yu
+<br><span id="poweredby">Powered by .NET Core 3.1.0 on Linux</span>
+
+</p>
+<p>
+<a href="http://www.cnblogs.com/">博客园</a>
+</p>
+</div>
+
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var m = window.__blog.wrapperRendered;
+        if (m) { m(__$("wrapper")); }
+    </script>
+
+</div>
+<script type="text/javascript">
+    var m = window.__blog.containerRendered;
+    if (m) { m(__$("container")); }
+</script>
+
+
+    <div id="page_end_html">
+        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="f2753190-d80c-4330-9bf2-9a3cb627c75a"></div>
+    </div>
+
+<iframe src="%E8%BF%81%E7%A7%BB%20Windows%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20%E5%88%B0%20Linux%20%E4%B8%8A%20Oracle%2011.2.0.3.0%20-%20ZhenXing_Yu%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe></body></html>

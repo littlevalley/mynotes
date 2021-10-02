@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en-us"><head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Emacs 的 Python3 开发环境配置 · ZMonster's Blog
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/naringu.css">
+  <link rel="stylesheet" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/syntax.css">
+  <link rel="stylesheet" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/form.css">
+  <link rel="stylesheet" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/css.css">
+
+  <!-- Icons -->
+  <link rel="shortcut icon" href="http://www.zmonster.me/assets/img/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/atom+xml" title="RSS" href="http://www.zmonster.me/2017/09/16/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="RSS" href="http://52.196.229.157:3000/users/1/web_requests/106/a-secret-key.xml">
+
+  <!-- JS -->
+  <script src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/osd.js"></script><script src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/show_ads_impl.js" id="google_shimpl"></script><script async="" src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/analytics.js"></script><script type="text/x-mathjax-config;executed=true">
+   MathJax.Hub.Config({
+       displayAlign: "center",
+       displayIndent: "0em",
+
+       CommonHTML: { linebreaks: { automatic: true } },
+
+       "HTML-CSS": { scale: 90,
+                     linebreaks: { automatic: "true" },
+                     webFont: "TeX"
+       },
+       SVG: {scale: 100,
+             linebreaks: { automatic: "true" },
+             font: "TeX"},
+       NativeMML: {scale: 100},
+       TeX: { equationNumbers: {autoNumber: "AMS"},
+              MultLineWidth: "85%",
+              TagSide: "right",
+              TagIndent: ".8em"
+       }
+   });
+  </script>
+  <script src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/MathJax.js" id=""></script>
+
+  <script async="" src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-3314212667922027",
+        enable_page_level_ads: true
+    });
+  </script>
+
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-44461305-1', 'linusp.github.io');
+  ga('send', 'pageview');
+
+</script>
+
+
+  <script src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/embed.js" data-timestamp="1570208463779"></script><style>
+.vimvixen-console-frame {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2147483647;
+  border: none;
+  background-color: unset;
+  pointer-events:none;
+}
+
+.vimvixen-hint {
+  background-color: yellow;
+  border: 1px solid gold;
+  font-weight: bold;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  font-size: 12px;
+  color: black;
+}
+</style><link rel="preload" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/integrator.js" as="script"><script type="text/javascript" src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/integrator.js"></script><link rel="preload" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/show_ads_impl.js" as="script"><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><link rel="prefetch" as="style" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/a_data/lounge.css"><link rel="prefetch" as="script" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/a_data/common.js"><link rel="prefetch" as="script" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/a_data/lounge_002.js"><link rel="prefetch" as="script" href="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/a_data/config.js"></head>
+
+
+<body class="theme-6dd"><div id="MathJax_Message" style="display: none;"></div>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input class="sidebar-checkbox" id="sidebar-checkbox" type="checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+      <img alt="A photo of ariestiyansyah" src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/head.png" width="125" height="125">
+    <p>计算机科学|自然语言处理|程序设计</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="http://www.zmonster.me/">Home</a>
+
+    
+
+    
+    <a class="sidebar-nav-item" href="http://www.zmonster.me/categories.html">分类</a>
+    
+    <a class="sidebar-nav-item" href="http://www.zmonster.me/tags.html">标签</a>
+    
+    <a class="sidebar-nav-item" href="http://www.zmonster.me/archive.html">归档</a>
+    
+    <a class="sidebar-nav-item" href="http://www.zmonster.me/link.html">链接</a>
+    
+    <a class="sidebar-nav-item" href="http://www.zmonster.me/about.html">关于</a>
+    
+    <a class="sidebar-nav-item" href="http://www.zmonster.me/feed.html">Feed</a>
+    
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      © 2019. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <div class="wrap" style="height: auto !important;">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="http://www.zmonster.me/" title="Home">ZMonster's Blog</a>
+            <small>巧者劳而智者忧，无能者无所求，饱食而遨游，泛若不系之舟</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content" style="height: auto !important;">
+        <div class="post">
+  <h1 class="post-title">Emacs 的 Python3 开发环境配置</h1>
+  <span class="post-date">2017-09-16</span>
+  <div id="table-of-contents">
+<h2>目录</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org17ae8b4">基础配置</a></li>
+<li><a href="#orgdee9213">Emacs + Python3 的问题</a></li>
+<li><a href="#org56179ba">company + jedi-core 的 Python3 配置</a></li>
+<li><a href="#org10dd21d">结合 virtualenv 来使用 flycheck</a></li>
+<li><a href="#org27ebd7d">PEP8 的支持</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org17ae8b4" class="outline-2">
+<h2 id="org17ae8b4">基础配置</h2>
+<div class="outline-text-2" id="text-org17ae8b4">
+<p>
+基础配置就没啥好说的了，就是缩进宽度啦，各种 minor-mode 的添加啦之类的，直接上配置
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">defun</span> <span style="color: #f99157; background-color: #2d2d2d; font-weight: bold;">my-python-mode-config</span> ()
+  (<span style="color: #99cc99; font-weight: bold;">setq</span> python-indent-offset 4
+        python-indent 4
+        indent-tabs-mode nil
+        default-tab-width 4
+
+        <span style="color: #999999; font-style: italic;">;; </span><span style="color: #999999; font-style: italic;">设置 run-python 的参数</span>
+        python-shell-interpreter <span style="color: #66cccc;">"ipython"</span>
+        python-shell-interpreter-args <span style="color: #66cccc;">"-i"</span>
+        python-shell-prompt-regexp <span style="color: #66cccc;">"In \\[[0-9]+\\]: "</span>
+        python-shell-prompt-output-regexp <span style="color: #66cccc;">"Out\\[[0-9]+\\]: "</span>
+        python-shell-completion-setup-code <span style="color: #66cccc;">"from IPython.core.completerlib import module_completion"</span>
+        python-shell-completion-module-string-code <span style="color: #66cccc;">"';'.join(module_completion('''%s'''))\n"</span>
+        python-shell-completion-string-code <span style="color: #66cccc;">"';'.join(get_ipython().Completer.all_completions('''%s'''))\n"</span>)
+
+  (add-to-list 'auto-mode-alist '(<span style="color: #66cccc;">"\\.py\\'"</span> . python-mode))
+  (hs-minor-mode t)                     <span style="color: #999999; font-style: italic;">;</span><span style="color: #999999; font-style: italic;">开启 hs-minor-mode 以支持代码折叠</span>
+  (auto-fill-mode 0)                    <span style="color: #999999; font-style: italic;">;</span><span style="color: #999999; font-style: italic;">关闭 auto-fill-mode，拒绝自动折行</span>
+  (whitespace-mode t)                   <span style="color: #999999; font-style: italic;">;</span><span style="color: #999999; font-style: italic;">开启 whitespace-mode 对制表符和行为空格高亮</span>
+  (hl-line-mode t)                      <span style="color: #999999; font-style: italic;">;</span><span style="color: #999999; font-style: italic;">开启 hl-line-mode 对当前行进行高亮</span>
+  (pretty-symbols-mode t)               <span style="color: #999999; font-style: italic;">;</span><span style="color: #999999; font-style: italic;">开启 pretty-symbols-mode 将 lambda 显示成希腊字符 λ</span>
+  (set (make-local-variable 'electric-indent-mode) nil)) <span style="color: #999999; font-style: italic;">;</span><span style="color: #999999; font-style: italic;">关闭自动缩进</span>
+
+(add-hook 'python-mode-hook 'my-python-mode-config)
+</pre>
+</div>
+
+<p>
+另外如果是 Emacs 25.1 的话，有一个已知 <a href="https://lists.gnu.org/archive/html/bug-gnu-emacs/2016-08/msg00230.html">bug</a>，会导致执行 <b>run-python</b> 的时候，python shell 里显示一堆乱码，下面的方法能够解决
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(setenv <span style="color: #66cccc;">"IPY_TEST_SIMPLE_PROMPT"</span> <span style="color: #66cccc;">"1"</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdee9213" class="outline-2">
+<h2 id="orgdee9213">Emacs + Python3 的问题</h2>
+<div class="outline-text-2" id="text-orgdee9213">
+<p>
+从去年开始，因为工作的原因，日常的开发环境从 Python2 切换成了 Python3，一开始还是有一点不太习惯的，其中 Python 
+本身的语法差异倒真没有带来太多的不适应，一开始的抗拒主要还是因为不少 Python 的库在对 Python3 的支持上多少有点问题。
+</p>
+
+<p>
+当然，因为公司是用 Python3 的，碰到上述问题的时候就会去找替代方案了，加上主流的一些库也有了对 Python3 
+的支持，所以现在已经习惯了用 Python3，而且本身是从事 NLP 相关的工作，读写文本的时候不用每次都 
+encode/decode，还是挺舒服的。
+</p>
+
+<p>
+Python2 还是 Python3 这个就不想讨论了，网上相关的讨论也不少了。我这边的问题主要是，切换成 Python3 后，原来 
+Python 的配置多少都有点问题，比如语法检查、自动补全等默认都是用系统的 Python 环境的，要处理 Python3 
+的代码就需要额外做点事情，我这个人实在是懒于是去掉了语法检查、自动补全这些功能，将就着用着最基础的一些功能，倒也不是不能过日子。
+</p>
+
+<p>
+有时候也有考虑重新配置一下 Python 环境，但是一看到 elpy 啊 projectile 这些稍微复杂点的 package 
+就犯懒，倒是这阵子用一些更小的 package 
+一点一点地加新功能，貌似倒是已经解决了自己的需求了，加上有些时间没写东西了，想着写点东西，顺便分享下踩到的坑吧。
+</p>
+</div>
+</div>
+
+<div id="outline-container-org56179ba" class="outline-2">
+<h2 id="org56179ba">company + jedi-core 的 Python3 配置</h2>
+<div class="outline-text-2" id="text-org56179ba">
+<p>
+首先是自动补全了，一开始是用 <b>auto-complete</b> 的，不过被 auto-complete 坑过太多次了， <b>company</b> 算是后起之秀，配置起来也挺方便的。
+</p>
+
+<p>
+把 company 装上
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">when</span> (not (<span style="color: #99cc99; font-weight: bold;">require</span> '<span style="color: #6699cc;">company</span> nil <span style="color: #cc99cc; background-color: #2d2d2d;">:noerror</span>))
+  (message <span style="color: #66cccc;">"install company now..."</span>)
+  (<span style="color: #99cc99; font-weight: bold;">setq</span> url-http-attempt-keepalives nil)
+  (package-refresh-contents)
+  (package-install 'company))
+</pre>
+</div>
+
+<p>
+然后在启动 Emacs 的时候开启全局的 company-mode
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'after-init-hook 'global-company-mode)
+</pre>
+</div>
+
+<p>
+company-mode 默认已经配置好了多个语言的 backends，基本上是开箱即用的，查看变量 company-backends 可以看它当前使用的 backends，默认是
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(company-bbdb
+ company-nxml
+ company-css
+ company-eclim
+ company-semantic
+ company-clang
+ company-xcode
+ company-cmake
+ company-capf
+ company-files
+ (company-dabbrev-code company-gtags company-etags company-keywords)
+ company-oddmuse company-dabbrev)
+</pre>
+</div>
+
+<p>
+这些应付一些简单的场景足够用了。
+</p>
+
+<p>
+然后是安装 <b>company-jedi</b>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">when</span> (not (<span style="color: #99cc99; font-weight: bold;">require</span> '<span style="color: #6699cc;">company-jedi</span> nil <span style="color: #cc99cc; background-color: #2d2d2d;">:noerror</span>))
+  (message <span style="color: #66cccc;">"install company-jedi now..."</span>)
+  (<span style="color: #99cc99; font-weight: bold;">setq</span> url-http-attempt-keepalives nil)
+  (package-refresh-contents)
+  (package-install 'company-jedi))
+</pre>
+</div>
+
+<p>
+company-jedi 是 company 的一个 backend，使用 jedi 这个 Python 的自动补全和静态分析工具。需要注意的是，使用 package-install 安装 company-jedi 就好了，它会安装 <b>jedi-core</b>
+ 这个 package，里面有对 jedi 的封装。说这个是因为用户如果没有看 company-jedi 的说明，有可能会去安装 jedi 这个
+ Emacs package，但实际上这个 package 是一个 auto-complete 的后端，完全不用。
+</p>
+
+<p>
+到目前为止的操作都是通用的，和 Python2/Python3 都没有关系，但要知道，jedi 的工作原理是根据一个 Python 
+环境里的标准库及安装的非标准库来进行补全的，也就是说，它需要依赖一个外部的 Python 环境，如果去看 emacs-jedi 
+的文档，会看到要求用户执行 jedi:install-server 来建立一个 Python 环境，而这个命令实际上会在 
+~/.emacs.d/.python-environments 这个目录下建立一个 virtualenv 环境，默认用的是 Python2.7。
+</p>
+
+<p>
+所以如果想为 Python3 配置 jedi，请注意 <b>不要使用 jedi:install-server 这种方式</b> 。
+</p>
+
+<p>
+既然知道了 emacs-jedi 的工作原理，那就好办了，那我就自己在 ~/.emacs.d/.python-environments 这个目录下建立一个 Python3 的 virtualenv 环境呗。
+</p>
+
+<p>
+首先建立 ~/.emacs.d/.python-environments/ 这个目录
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">mkdir -p ~/.emacs.d/.python-environments/
+</pre>
+</div>
+
+<p>
+然后在其中创建 virtualenv 环境，下面的示例中为这个 virtualenv 环境命名为 jedi，取别的名字都可以的
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #cc99cc; background-color: #2d2d2d;">cd</span> ~/.emacs.d/.python-environments/
+virtualenv -p /usr/bin/python3  --prompt=<span style="color: #66cccc;">"&lt;venv:jedi&gt;"</span> jedi
+</pre>
+</div>
+
+<p>
+然后在这个 virtualenv 环境中安装需要的 Python 依赖，依赖分两部分，一部分是 jedi 相关的几个 Python 
+包，是自动补全必须的，这些东西都在 jedi-core 这个 Emacs package 里的 setup.py 里写好了，其内容如下
+</p>
+<div class="org-src-container">
+<pre class="src src-python">setup(
+    name=<span style="color: #66cccc;">'jediepcserver'</span>,
+    version=<span style="color: #66cccc;">'0.2.7'</span>,
+    py_modules=[<span style="color: #66cccc;">'jediepcserver'</span>],
+    install_requires=[
+        <span style="color: #66cccc;">"jedi&gt;=0.8.1"</span>,
+        <span style="color: #66cccc;">"epc&gt;=0.0.4"</span>,
+        <span style="color: #66cccc;">"argparse"</span>,
+    ],
+    entry_points={
+        <span style="color: #66cccc;">'console_scripts'</span>: [<span style="color: #66cccc;">'jediepcserver = jediepcserver:main'</span>],
+    },
+    **args
+)
+</pre>
+</div>
+
+<p>
+可以看到，依赖的是 jedi 和 epc 两个 Python 包，我们可以手动安装它们
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">~/.emacs.d/.python-environments/jedi/bin/pip install jedi&gt;=0.8.1 epc&gt;=0.0.4 argparse
+</pre>
+</div>
+
+<p>
+也可以直接使用这个 setup.py 来安装
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">~/.emacs.d/.python-environments/jedi/bin/pip install --upgrade ~/.emacs.d/elpa/jedi-core-20170319.2107/
+</pre>
+</div>
+
+<p>
+其次是需要用于补全的 Python 的非标准库，比如说我经常用 sklearn、tensorflow 之类的工具，我想在写相关的代码的时候能补全，那么要在我们刚才建立好的 virtualenv 环境里安装好这些 Python 包。
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">~/.emacs.d/.python-environments/jedi/bin/pip install <span style="color: #ffcc66;">tensorflow</span>==1.3.0 <span style="color: #ffcc66;">scipy</span>==0.19.1 <span style="color: #ffcc66;">numy</span>==1.13.1 scikit-learn==0.19.0
+</pre>
+</div>
+
+<p>
+至此外部的设置都已经好了，然后就是要在 Emacs 里设置来使用我们刚才建立好的这个 virtualenv 环境
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">setq</span> jedi:environment-root <span style="color: #66cccc;">"jedi"</span>)
+(<span style="color: #99cc99; font-weight: bold;">setq</span> jedi:server-command (jedi:-env-server-command))
+</pre>
+</div>
+
+<p>
+然后设置当打开 Python 代码文件的时候，启动 jedi
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">defun</span> <span style="color: #f99157; background-color: #2d2d2d; font-weight: bold;">config/enable-jedi</span> ()
+  (add-to-list 'company-backends 'company-jedi))
+(add-hook 'python-mode-hook 'jedi:setup)
+(add-hook 'python-mode-hook 'config/enable-jedi)
+</pre>
+</div>
+
+<p>
+还有一些补全的细节可以设置，如
+</p>
+<ul class="org-ul">
+<li><p>
+输入句点符号 "." 的时候自动弹出补全列表，这个主要是方便用来选择 Python package 的子模块或者方法
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">setq</span> jedi:complete-on-dot t)
+</pre>
+</div></li>
+
+<li><p>
+补全时能识别简写，这个是说如果我写了 "import tensorflow as tf" ，那么我再输入 "tf." 的时候能自动补全
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">setq</span> jedi:use-shortcuts t)
+</pre>
+</div></li>
+
+<li><p>
+设置补全时需要的最小字数(默认就是 3)
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">setq</span> compandy-minimum-prefix-length 3)
+</pre>
+</div></li>
+
+<li><p>
+设置弹出的补全列表的外观
+</p>
+
+<p>
+让补全列表里的各项左右对齐
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">setq</span> company-tooltip-align-annotations t)
+</pre>
+</div>
+
+<p>
+如果开启这个，那么补全列表会是下面这个样子
+</p>
+
+
+<div class="figure">
+<p><img src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/company-aligned-tooltip.png" alt="company-aligned-tooltip.png">
+</p>
+</div>
+
+<p>
+默认是这个样子
+</p>
+
+
+<div class="figure">
+<p><img src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/company-default-tooltip.png" alt="company-default-tooltip.png">
+</p>
+</div>
+
+<p>
+补全列表里的项按照使用的频次排序，这样经常使用到的会放在前面，减少按键次数
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">setq</span> company-transformers '(company-sort-by-occurrence))
+</pre>
+</div>
+
+<p>
+在弹出的补全列表里移动时可以前后循环，默认如果移动到了最后一个是没有办法再往下移动的
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">setq</span> company-selection-wrap-around t)
+</pre>
+</div></li>
+
+<li><p>
+对默认快捷键做一些修改
+</p>
+
+<p>
+默认使用 M-n 和 M-p 来在补全列表里移动，改成 C-n 和 C-p
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key company-active-map (kbd <span style="color: #66cccc;">"M-n"</span>) nil)
+(define-key company-active-map (kbd <span style="color: #66cccc;">"M-p"</span>) nil)
+(define-key company-active-map (kbd <span style="color: #66cccc;">"C-n"</span>) 'company-select-next)
+(define-key company-active-map (kbd <span style="color: #66cccc;">"C-p"</span>) 'company-select-previous)
+</pre>
+</div>
+
+<p>
+设置让 TAB 也具备相同的功能
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(define-key company-active-map (kbd <span style="color: #66cccc;">"TAB"</span>) 'company-complete-common-or-cycle)
+(define-key company-active-map (kbd <span style="color: #66cccc;">"&lt;tab&gt;"</span>) 'company-complete-common-or-cycle)
+(define-key company-active-map (kbd <span style="color: #66cccc;">"S-TAB"</span>) 'company-select-previous)
+(define-key company-active-map (kbd <span style="color: #66cccc;">"&lt;backtab&gt;"</span>) 'company-select-previous)
+</pre>
+</div></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org10dd21d" class="outline-2">
+<h2 id="org10dd21d">结合 virtualenv 来使用 flycheck</h2>
+<div class="outline-text-2" id="text-org10dd21d">
+<p>
+首先我们要安装 <b>flycheck</b> 这个实时语法检查工具
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">when</span> (not (<span style="color: #99cc99; font-weight: bold;">require</span> '<span style="color: #6699cc;">flycheck</span> nil <span style="color: #cc99cc; background-color: #2d2d2d;">:noerror</span>))
+  (message <span style="color: #66cccc;">"install flycheck now..."</span>)
+  (<span style="color: #99cc99; font-weight: bold;">setq</span> url-http-attempt-keepalives nil)
+  (package-refresh-contents)
+  (package-install 'flycheck))
+</pre>
+</div>
+
+<p>
+在 python-mode 里启用也很简单
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">defun</span> <span style="color: #f99157; background-color: #2d2d2d; font-weight: bold;">config/enable-flycheck</span> ()
+  (flycheck-mode t))
+(add-hook 'python-mode-hook 'config/enable-flycheck)
+</pre>
+</div>
+
+<p>
+flycheck 使用 pylint 来对代码进行语法和代码规范的检查，实际上会使用 <b>executable-find</b> 这个方法来确定使用的 pylint
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">defcustom</span> <span style="color: #ffcc66;">flycheck-executable-find</span> #'executable-find
+  <span style="color: #cc99cc;">"Function to search for executables.</span>
+
+<span style="color: #cc99cc;">The value of this option is a function which is given the name or</span>
+<span style="color: #cc99cc;">path of an executable and shall return the full path to the</span>
+<span style="color: #cc99cc;">executable, or nil if the executable does not exit.</span>
+
+<span style="color: #cc99cc;">The default is the standard `</span><span style="color: #6699cc;">executable-find</span><span style="color: #cc99cc;">' function which</span>
+<span style="color: #cc99cc;">searches `</span><span style="color: #6699cc;">exec-path</span><span style="color: #cc99cc;">'.  You can customize this option to search</span>
+<span style="color: #cc99cc;">for checkers in other environments such as bundle or NixOS</span>
+<span style="color: #cc99cc;">sandboxes."</span>
+  <span style="color: #cc99cc; background-color: #2d2d2d;">:group</span> 'flycheck
+  <span style="color: #cc99cc; background-color: #2d2d2d;">:type</span> '(choice (const <span style="color: #cc99cc; background-color: #2d2d2d;">:tag</span> <span style="color: #66cccc;">"Search executables in `</span><span style="color: #6699cc;">exec-path</span><span style="color: #66cccc;">'"</span> executable-find)
+                 (<span style="color: #99cc99; font-weight: bold;">function</span> <span style="color: #cc99cc; background-color: #2d2d2d;">:tag</span> <span style="color: #66cccc;">"Search executables with a custom function"</span>))
+  <span style="color: #cc99cc; background-color: #2d2d2d;">:package-version</span> '(flycheck . <span style="color: #66cccc;">"0.25"</span>)
+  <span style="color: #cc99cc; background-color: #2d2d2d;">:risky</span> t)
+</pre>
+</div>
+
+<p>
+而 executable-find 的工作原理是从 exec-path 这个变量里包含的的路径下寻找对应的可执行程序
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">defun</span> <span style="color: #f99157; background-color: #2d2d2d; font-weight: bold;">executable-find</span> (command)
+  <span style="color: #cc99cc;">"Search for COMMAND in `</span><span style="color: #6699cc;">exec-path</span><span style="color: #cc99cc;">' and return the absolute file name.</span>
+<span style="color: #cc99cc;">Return nil if COMMAND is not found anywhere in `</span><span style="color: #6699cc;">exec-path</span><span style="color: #cc99cc;">'."</span>
+  <span style="color: #999999; font-style: italic;">;; </span><span style="color: #999999; font-style: italic;">Use 1 rather than file-executable-p to better match the behavior of</span>
+  <span style="color: #999999; font-style: italic;">;; </span><span style="color: #999999; font-style: italic;">call-process.</span>
+  (locate-file command exec-path exec-suffixes 1))
+</pre>
+</div>
+
+<p>
+如果只是为了支持 Python3，那么我们可以自己建立一个 Python3 的 virtualenv，然后将其路径加到 exec-path 的最前面
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">push</span> <span style="color: #66cccc;">"&lt;YOUR PYTHON3 VENV&gt;/bin/"</span> exec-path)
+</pre>
+</div>
+
+<p>
+当然记得在里面安装 pylint，不然还是会用系统环境也就是 Python2 环境里的 pylint。
+</p>
+
+<p>
+这种方法可以 work，但是会有不方便的地方，比如说我有时候也有可能会写 Python2 代码，遇到 Python3 
+已经不兼容的语法，上述方法会导致 flycheck 认为是语法错误。另外一个就是，比较良好的开发习惯，是用 virtualenv 
+隔离开每个项目的依赖，不同项目的同一个依赖可能会版本不一样，这样的话 flycheck 如果只使用静态的环境就没有办法应付。
+</p>
+
+<p>
+当然，上一节的自动补全用的是一个统一的 virtualenv 环境，也会有类似的问题，不过要改起来会麻烦一些，所以先略过。
+</p>
+
+<p>
+flycheck 的这个问题倒是好解决，既然我每个项目都会有一个独立的 virtualenv，那么能不能做到我打开对应项目的代码的时候就使用对应的 virtualenv 环境呢，比如说将对应的路径添加到 exec-path 这个列表的前面？
+</p>
+
+<p>
+答案是可以的，方法是使用 <b>auto-virtualenvwrapper</b>,这个 package 可以根据当前的文件寻找当前目录或者上级目录中的 virtualenv 环境，然后启用。
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">when</span> (not (<span style="color: #99cc99; font-weight: bold;">require</span> '<span style="color: #6699cc;">auto-virtualenvwrapper</span> nil <span style="color: #cc99cc; background-color: #2d2d2d;">:noerror</span>))
+  (message <span style="color: #66cccc;">"install auto-virtualenvwrapper now..."</span>)
+  (<span style="color: #99cc99; font-weight: bold;">setq</span> url-http-attempt-keepalives nil)
+  (package-refresh-contents)
+  (package-install 'auto-virtualenvwrapper))
+</pre>
+</div>
+
+<p>
+然后设置一下在 python-mode 里启用它
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'python-mode-hook #'auto-virtualenvwrapper-activate)
+</pre>
+</div>
+
+<p>
+可以做到切换 buffer 的时候自动切换对应的 virtualenv 环境
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'window-configuration-change-hook #'auto-virtualenvwrapper-activate)
+</pre>
+</div>
+
+<p>
+然后我们要保证 flycheck 会在这个 virtualenv 环境里去寻找 pylint，也就是说，我们要临时修改一下 exec-path 的值
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">declare-function</span> python-shell-calculate-exec-path <span style="color: #66cccc;">"python"</span>)
+
+(<span style="color: #99cc99; font-weight: bold;">defun</span> <span style="color: #f99157; background-color: #2d2d2d; font-weight: bold;">flycheck-virtualenv-executable-find</span> (executable)
+  <span style="color: #cc99cc;">"Find an EXECUTABLE in the current virtualenv if any."</span>
+  (<span style="color: #99cc99; font-weight: bold;">if</span> (<span style="color: #99cc99; font-weight: bold;">bound-and-true-p</span> python-shell-virtualenv-root)
+      (<span style="color: #99cc99; font-weight: bold;">let</span> ((exec-path (python-shell-calculate-exec-path)))
+        (executable-find executable))
+    (executable-find executable)))
+
+(<span style="color: #99cc99; font-weight: bold;">defun</span> <span style="color: #f99157; background-color: #2d2d2d; font-weight: bold;">flycheck-virtualenv-setup</span> ()
+  <span style="color: #cc99cc;">"Setup Flycheck for the current virtualenv."</span>
+  (<span style="color: #99cc99; font-weight: bold;">setq-local</span> flycheck-executable-find #'flycheck-virtualenv-executable-find))
+</pre>
+</div>
+
+<p>
+注：上述代码来自<a href="https://github.com/lunaryorn/old-emacs-configuration/blob/master/lisp/flycheck-virtualenv.el">lunaryorn 的配置</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org27ebd7d" class="outline-2">
+<h2 id="org27ebd7d">PEP8 的支持</h2>
+<div class="outline-text-2" id="text-org27ebd7d">
+<p>
+上面配置好的 flycheck 所做的语法检查和静态分析，对于不符合 PEP8 规范的语句已经会做一些提示了，不过说实话，一些东西我们可能并不想在上面化太多精力，运算符前后一个空格啦、函数之间空两行啦、类内方法之间空一行啦之类的，其实可以靠 <b>py-autopep8</b> 来格式化代码自动完成。
+</p>
+
+<p>
+安装相应的 Emacs package
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">when</span> (not (<span style="color: #99cc99; font-weight: bold;">require</span> '<span style="color: #6699cc;">py-autopep8</span> nil <span style="color: #cc99cc; background-color: #2d2d2d;">:noerror</span>))
+  (message <span style="color: #66cccc;">"install autopep8 now..."</span>)
+  (<span style="color: #99cc99; font-weight: bold;">setq</span> url-http-attempt-keepalives nil)
+  (package-refresh-contents)
+  (package-install 'py-autopep8))
+</pre>
+</div>
+
+<p>
+当然它其实是使用的 Python 的 autopep8 这个外部工具，所以也需要安装它
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">pip install autopep8
+</pre>
+</div>
+
+<p>
+然后在 python-mode 里启用就好了，下面的配置会让 Emacs 每次在保存 Python 文件的时候自动调用 autopep8 进行格式化
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+</pre>
+</div>
+
+<p>
+当然我们也可以额外设置一些参数，比如默认的一个标准是每行最大字符数为 80，如果超过了，格式化的时候会将该行折行。下面的配置可以设置为 100
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #99cc99; font-weight: bold;">setq</span> py-autopep8-options '(<span style="color: #66cccc;">"--max-line-length=100"</span>))
+</pre>
+</div>
+</div>
+</div>
+
+</div>
+
+<script async="" src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/adsbygoogle.js"></script>
+<!-- inarticle_ad -->
+<ins class="adsbygoogle" style="display: block; height: 0px;" data-ad-client="ca-pub-3314212667922027" data-ad-slot="2633937124" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done" data-overlap-observer-io="false"><ins id="aswift_1_expand" style="display: inline-table; border: medium none; height: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 848px; background-color: transparent;"><ins id="aswift_1_anchor" style="display: block; border: medium none; height: 0px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 848px; background-color: transparent; overflow: hidden; opacity: 0;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left: 0px; position: absolute; top: 0px; border: 0px none; width: 848px; height: 280px; overflow: visible;" width="848" height="280" frameborder="0"></iframe></ins></ins></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<div id="disqus_thread"><iframe id="dsq-app4980" name="dsq-app4980" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" style="width: 1px !important; min-width: 100% !important; border: medium none !important; overflow: hidden !important; height: 749px !important;" src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/a.html" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+var disqus_config = function () {
+this.page.url = 'http://www.zmonster.me/2017/09/16/emacs-python-configuration.html';  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = '/2017/09/16/emacs-python-configuration.html'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://linuspb.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+
+    <div class="footer" align="center">
+        <a href="https://github.com/ariestiyansyah/naringu" target="_blank" title="naringu">Naringu</a>  is designed by Rizky Ariestiyansyah<br>Copyright © 2019 <br>
+    </div>
+  
+
+
+<iframe src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe><ins class="adsbygoogle adsbygoogle-noablate" style="display: none !important;" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><ins id="aswift_0_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:0px;height:0px;" frameborder="0"></iframe></ins></ins></ins><iframe id="google_osd_static_frame_97431944209" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe><iframe style="display: none;"></iframe><div id="SL_balloon_obj" alt="0" style="display: block;"><div id="SL_button" class="SL_ImTranslatorLogo" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/imtranslator-s.png&quot;) repeat scroll 0% 0%; display: block; opacity: 0; left: 1139px; top: 8619px; transition: visibility 2s ease 0s, opacity 2s linear 0s;"></div><div id="SL_shadow_translation_result2" style="display: none;"></div><div id="SL_shadow_translator" style="left: -10000px; top: -10000px; display: none;"><div id="SL_planshet"><div id="SL_arrow_up" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/up.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_Bproviders"></div><div id="SL_alert_bbl" style="display: none;"><div id="SLHKclose" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/delete.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_alert_cont"></div></div><div id="SL_TB"><table id="SL_tables" cellspacing="1"><tr><td class="SL_td" align="right" width="10%"><input id="SL_locer" title="锁定语言" type="checkbox"></td><td class="SL_td" align="left" width="20%"><select id="SL_lng_from" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="auto" selected="selected">检测语言</option><option value="eo">世界语</option><option value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" align="center" width="3"><div id="SL_switch_b" title="切换语言" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/switchb.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="left" width="20%"><select id="SL_lng_to" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="eo">世界语</option><option value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" align="center" width="8%"><div id="SL_TTS_voice" title="undefined" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/ttsvoice.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="8%"><div id="SL_copy" title="复制译文" class="SL_copy" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/copy.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="8%"><div id="SL_bbl_font_patch"></div><div id="SL_bbl_font" title="字体大小" class="SL_bbl_font" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/font.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="8%"><div id="SL_bbl_help" title="帮助" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bhelp.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="right" width="15%"><div id="SL_pin" class="SL_pin_off" title="固定弹出窗口" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/pin-on.png&quot;) repeat scroll 0% 0%;"></div></td></tr></table></div></div><div id="SL_shadow_translation_result" style="visibility: visible;"></div><div id="SL_loading" class="SL_loading" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/loading.gif&quot;) repeat scroll 0% 0%;"></div><div id="SL_player2"></div><div id="SL_alert100">文本转语音功能仅限200个字符</div><div id="SL_Balloon_options" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bg3.png&quot;) repeat scroll 0% 0%;"><div id="SL_arrow_down" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/down.png&quot;) repeat scroll 0% 0%;"></div><table id="SL_tbl_opt" width="100%"><tr><td class="SL_td" align="center" width="5%"><input id="SL_BBL_locer" checked="checked" title="显示翻译器的按钮 3 秒" type="checkbox"></td><td class="SL_td" align="left" width="5%"><div id="SL_BBL_IMG" title="显示翻译器的按钮 3 秒" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bbl-logo.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" align="center" width="70%"><a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?bbl" target="_blank" class="SL_options" id="SL_opt1" title="显示选项">选项</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?hist" target="_blank" class="SL_options" id="SL_opt2" title="翻译历史记录">历史</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?feed" target="_blank" class="SL_options" id="SL_opt3" title="反馈">反馈</a> : <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=GD9D8CPW8HFA2" target="_blank" class="SL_options" id="SL_opt4" title="作出一点点贡献">Donate</a></td><td class="SL_td" align="right" width="15%"><span id="SL_Balloon_Close" class="SL_options" title="关闭">关闭</span></td></tr></table></div></div></div></body><iframe id="google_esf" name="google_esf" src="Emacs%20%E7%9A%84%20Python3%20%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%20%C2%B7%20ZMonster's%20Blog_files/zrt_lookup.html" style="display: none;" data-ad-client="ca-pub-3314212667922027"></iframe></html>

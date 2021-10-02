@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, p, blockquote, th, td { margin: 0px; padding: 0px; }
+
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+
+ol, ul { list-style: none; }
+
+address, caption, cite, code, dfn, em, strong, th, var { font-style: normal; font-weight: normal; }
+
+table { border-collapse: collapse; border-spacing: 0px; }
+
+fieldset, img, abbr { border: 0px; }
+
+caption, th { text-align: left; }
+
+q::before, q::after { content: ""; }
+
+a { text-decoration: none; cursor: pointer; color: rgb(0, 0, 0); }
+
+a:focus, input:focus { outline: none; }
+
+img { border-width: 0px; }
+
+table.altrowstable { font-family: verdana, arial, sans-serif; font-size: 11px; color: rgb(51, 51, 51); border: 1px rgb(255, 255, 255); border-collapse: collapse; }
+
+table.altrowstable th { border-width: 1px; border-style: solid; text-align: center; border-color: rgb(243, 243, 243); }
+
+table.altrowstable td { border-width: 1px; border-style: solid; border-color: rgb(243, 243, 243); height: 25px; }
+
+.oddrowcolor { background-color: rgb(255, 255, 255); }
+
+.evenrowcolor { background-color: rgb(217, 233, 242); }
+
+.trover { background-color: rgb(177, 196, 236); }
+
+.trclick { background-color: rgb(129, 182, 236); }
+
+table.gridtable { font-family: verdana, arial, sans-serif; font-size: 11px; color: rgb(51, 51, 51); border-width: 1px; border-color: rgb(102, 102, 102); border-collapse: collapse; }
+
+table.gridtable th { border-width: 1px; padding: 8px; border-style: solid; border-color: rgb(102, 102, 102); background-color: rgb(222, 222, 222); }
+
+table.gridtable td { border-width: 1px; padding: 8px; border-style: solid; border-color: rgb(102, 102, 102); background-color: rgb(255, 255, 255); height: 25px; }
+
+table.normaltable { font-family: verdana, arial, sans-serif; font-size: 11px; color: rgb(51, 51, 51); border-width: 1px; border-color: rgb(102, 102, 102); border-collapse: collapse; }
+
+table.normaltable th { border-width: 1px; border-style: solid; border-color: rgb(102, 102, 102); background-color: rgb(222, 222, 222); }
+
+table.normaltable td { border-width: 1px; border-style: solid; border-color: rgb(102, 102, 102); background-color: rgb(255, 255, 255); }
+
+table.outtable { font-family: verdana, arial, sans-serif; font-size: 11px; color: rgb(51, 51, 51); border-width: 1px; border-color: rgb(102, 102, 102); border-collapse: collapse; }
+
+table.outtable th { border-width: 1px; border-style: solid; border-color: rgb(102, 102, 102); background-color: rgb(222, 222, 222); }
+
+table.outtable td { border-width: 1px; border-style: solid; border-color: rgb(102, 102, 102); background-color: rgb(255, 255, 255); font-size: 15px; height: 30px; }
+
+.lbdrtopdiv { height: 30px; margin-top: 10px; border: 1px dashed rgb(255, 255, 255); }
+
+.lbdrtopdiv input { margin-right: 15px; }
+
+.addgbd { margin-top: 20px; }

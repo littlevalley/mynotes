@@ -1,0 +1,667 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script src="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/js_daily_1.htm" async=""></script><script src="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js" type="text/javascript" async=""></script><script src="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/ga.js" async="" type="text/javascript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GDB 进行调试 使用心得 - shipfi - 博客园</title>
+<link type="text/css" rel="stylesheet" href="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/style.css">
+<link type="text/css" rel="stylesheet" href="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/7854.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/shipfi/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/shipfi/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/shipfi/wlwmanifest.xml">
+<script src="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'shipfi';</script>
+<script src="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<script src="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_28.js" type="text/javascript" async=""></script><script src="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/osd.js" type="text/javascript"></script></head>
+<body>
+<a name="top"></a>
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/shipfi/">Shipfi (http://www.devdiv.net/bbs/?fromuser=shipfi)</a></div>
+<div class="subtitle">刹那风波翻过,
+一转眼从前便已难复再</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/shipfi/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://www.cnblogs.com/shipfi/admin/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="MyLinks1_ContactLink" class="menu" rel="nofollow" href="http://space.cnblogs.com/msg/send/shipfi">联系</a></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/shipfi/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/shipfi/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://www.cnblogs.com/shipfi/admin/EditPosts.aspx">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-252&nbsp;
+文章-79&nbsp;
+评论-90&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/shipfi/archive/2008/08/04/1260293.html">GDB 进行调试 使用心得</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body">1: 对于在应用程序中加入参数进行调试的方法：<br>&nbsp;&nbsp; 直接用 gdb app -p1 -p2 这样进行调试是不行的。<br>&nbsp;&nbsp; 需要像以下这样使用：<br>&nbsp;&nbsp;&nbsp; #gdb app<br>&nbsp;&nbsp;&nbsp; (gdb) r -p1 -p2<br>&nbsp;&nbsp;&nbsp; 或者在运行run命令前使用set args命令：<br>&nbsp;&nbsp;&nbsp; （gdb） set args p1 p2<br>&nbsp;&nbsp;&nbsp; 可以用show args 命令来查看<br><br>2. 加入断点：<br>&nbsp;&nbsp; break &lt;linenumber&gt;<br>&nbsp;&nbsp; break &lt;funcName&gt;<br>&nbsp;&nbsp; break +offset<br>&nbsp;&nbsp; break -offset<br>&nbsp;&nbsp; (在当前行号的前面或后面的offset行停住。)<br><br>&nbsp;&nbsp; break filename:linenum<br>&nbsp;&nbsp; 在源文件filename的linenum行处停住。<br><br>&nbsp;&nbsp; break filename:function<br>&nbsp;&nbsp; 在源文件filename的function函数的入口处停住。<br><br>&nbsp; break ... if<br>&nbsp; ...可以是上述的参数，condition表示条件，在条件成立时停住。比如在循环境体中，可以设置&nbsp;&nbsp;&nbsp;&nbsp; break if i=100，表示当i为100时停住程序。<br><br><br>3. 查看运行时的堆栈：<br>&nbsp;&nbsp; 使用bt命令<br><br>4. 打印某个变量的值：<br>&nbsp;&nbsp; print val<br><br>5. 单步： n<br>&nbsp;&nbsp; 继续运行：　c<br>　　step<br>　　单步跟踪，如果有函数调用，他会进入该函数。<br>　　next<br>　　同样单步跟踪，如果有函数调用，他不会进入该函数。很像VC等工具中的step over。后面可以加count也可以不加，不加表示一条条地执行，加表示执行后面的count条指令，然后再停住。<br>　　set step-mode<br>　　set step-mode on<br>　　打开step-mode模式，于是，在进行单步跟踪时，程序不会因为没有debug信息而不停住。这个参数有很利于查看机器码。<br>　　set step-mod off<br>　　关闭step-mode模式。<br>　　finish<br>　　运行程序，直到当前函数完成返回。并打印函数返回时的堆栈地址和返回值及参数值等信息。<br>　　until 或 u<br>　　当你厌倦了在一个循环体内单步跟踪时，这个命令可以运行程序直到退出循环体。<br>&nbsp; <br>6.在ＧＤＢ中执行shell命令：<br>　在gdb环境中，你可以执行UNIX的shell的命令，使用gdb的shell命令来完成：<br>　eg. shell make<br>&nbsp;<br>7. 运行环境<br>&nbsp;可设定程序的运行路径。<br>&nbsp; show paths 查看程序的运行路径。<br>&nbsp; set environment varname [=value] 设置环境变量。如：set env USER=hchen<br>&nbsp; show environment [varname] 查看环境变量。<br><br>8.观察点（WatchPoint）<br>&nbsp; 观察点一般来观察某个表达式（变量也是一种表达式）的值是否有变化了，如果有变化，马上停住程 序。我们有下面的几种方法来设置观察点：<br>&nbsp; watch<br>&nbsp;&nbsp; 为表达式（变量）expr设置一个观察点。一量表达式值有变化时，马上停住程序。<br>&nbsp; rwatch<br>&nbsp;&nbsp; 当表达式（变量）expr被读时，停住程序。<br>&nbsp; awatch<br>&nbsp;&nbsp; 当表达式（变量）的值被读或被写时，停住程序。<br>&nbsp; info watchpoints<br>&nbsp;&nbsp; 列出当前所设置了的所有观察点。<br><br>9. 维护breakpoint<br>&nbsp;&nbsp; clear<br>&nbsp;&nbsp;&nbsp; 清除所有的已定义的停止点。<br>&nbsp;&nbsp; clear func<br>&nbsp;&nbsp;&nbsp; 清除所有设置在函数上的停止点。<br>&nbsp; delete [breakpoints] [range...]<br>&nbsp; 删除指定的断点，breakpoints为断点号。如果不指定断点号，则表示删除所有的断点。range 表示断点号的范围（如：3-7）。其简写命令为d。<br>&nbsp; 比删除更好的一种方法是disable停止点，disable了的停止点，GDB不会删除，当你还需要时，enable即可，就好像回收站一样。<br>&nbsp; disable [breakpoints] [range...]<br>&nbsp;&nbsp; disable所指定的停止点，breakpoints为停止点号。如果什么都不指定，表示disable所有的停止 点。简写命令是dis.<br>&nbsp; enable [breakpoints] [range...]<br>&nbsp;&nbsp; enable所指定的停止点，breakpoints为停止点号。<br><br><br>10、程序变量<br>查看文件中某变量的值：<br>file::variable<br>function::variable<br>可以通过这种形式指定你所想查看的变量，是哪个文件中的或是哪个函数中的。例如，查看文件f2.c中的全局变量x的值：<br>gdb) p 'f2.c'::x<br><br>查看数组的值<br>有时候，你需要查看一段连续的内存空间的值。比如数组的一段，或是动态分配的数据的大小。你可以使用GDB的“@”操作符，“@”的左边是第一个内存的地址的值，“@”的右边则你你想查看内存的长度。例如，你的程序中有这样的语句：<br>int *array = (int *) malloc (len * sizeof (int));<br>于是，在GDB调试过程中，你可以以如下命令显示出这个动态数组的取值：<br>p *array@len<br>如果是静态数组的话，可以直接用print数组名，就可以显示数组中所有数据的内容了。<br><br><br><br>11.输出格式<br>一般来说，GDB会根据变量的类型输出变量的值。但你也可以自定义GDB的输出的格式。例如，你想输出一个整数的十六进制，或是二进制来查看这个整型变量的中的位的情况。要做到这样，你可以使用GDB的数据显示格式：<br><br>x 按十六进制格式显示变量。<br>d 按十进制格式显示变量。<br>u 按十六进制格式显示无符号整型。<br>o 按八进制格式显示变量。<br>t 按二进制格式显示变量。<br>a 按十六进制格式显示变量。<br>c 按字符格式显示变量。<br>f 按浮点数格式显示变量。<br>(gdb) p i<br>$21 = 101<br>(gdb) p/a i<br>$22 = 0x65<br>(gdb) p/c i<br>$23 = 101 'e'<br>(gdb) p/f i<br>$24 = 1.41531145e-43<br>(gdb) p/x i<br>$25 = 0x65<br>(gdb) p/t i<br>$26 = 1100101<br><br>11.查看内存<br>使用examine命令（简写是x）来查看内存地址中的值。x命令的语法如下所示：<br>x/<br>n、f、u是可选的参数。<br>n 是一个正整数，表示显示内存的长度，也就是说从当前地址向后显示几个地址的内容。<br>f 表示显示的格式，参见上面。如果地址所指的是字符串，那么格式可以是s，如果地十是指令地址，那么格式可以是i。<br>u
+ 
+表示从当前地址往后请求的字节数，如果不指定的话，GDB默认是4个bytes。u参数可以用下面的字符来代替，b表示单字节，h表示双字节，w表示四字
+节，g表示八字节。当我们指定了字节长度后，GDB会从指内存定的内存地址开始，读写指定字节，并把其当作一个值取出来。<br><br>n/f/u三个参数可以一起使用。例如：<br>命令：x/3uh 0x54320 表示，从内存地址0x54320读取内容，h表示以双字节为一个单位，3表示三个单位，u表示按十六进制显示。<br><br>12.自动显示<br><br>你可以设置一些自动显示的变量，当程序停住时，或是在你单步跟踪时，这些变量会自动显示。相关的GDB命令是display。<br>display<br>display/<br>display/ expr<br>expr是一个表达式，fmt表示显示的格式，addr表示内存地址，当你用display设定好了一个或多个表达式后，只要你的程序被停下来，GDB会自动显示你所设置的这些表达式的值。<br><br>格式i和s同样被display支持，一个非常有用的命令是：<br>display/i $pc<br><br>undisplay<br>delete display<br>删除自动显示，dnums意为所设置好了的自动显式的编号。<br><br>disable display<br>enable display<br>disable和enalbe不删除自动显示的设置，而只是让其失效和恢复。<br><br>info display<br>查看display设置的自动显示的信息。GDB会打出一张表格，向你报告当然调试中设置了多少个自动显示设置，其中包括，设置的编号，表达式，是否enable。<br><br>13. 设置显示选项<br>set print address<br>set print address on<br>打开地址输出，当程序显示函数信息时，GDB会显出函数的参数地址。系统默认为打开的，<br>show print address<br>查看当前地址显示选项是否打开。<br><br>set print array<br>set print array on<br>打开数组显示，打开后当数组显示时，每个元素占一行，如果不打开的话，每个元素则以逗号分隔。这个选项默认是关闭的。与之相关的两个命令如下，我就不再多说了。<br><br>set print array off<br>show print array<br><br>set print elements<br>这个选项主要是设置数组的，如果你的数组太大了，那么就可以指定一个来指定数据显示的最大长度，当到达这个长度时，GDB就不再往下显示了。如果设置为0，则表示不限制。<br><br>show print elements<br>查看print elements的选项信息。<br><br>set print null-stop<br>如果打开了这个选项，那么当显示字符串时，遇到结束符则停止显示。这个选项默认为off。<br><br>set print pretty on<br>如果打开printf pretty这个选项，那么当GDB显示结构体时会比较漂亮。<br><br>14.关于显示源码list<br><br><p>以下是list命令的說明。</p>
+
+  <table border="2" cellpadding="0" cellspacing="0" width="100%"><tbody><tr bordercolor="#FFFFFF">
+    <td>參數</td>
+    <td>說明</td>
+  </tr>
+  <tr bordercolor="#FFFFFF">
+    <td>list filename:number</td>
+    <td>列出某檔案的第幾行，檔案是可省略的。</td>
+  </tr>
+  <tr bordercolor="#FFFFFF">
+    <td>list [function]</td>
+    <td>列出某函數的程式碼</td>
+  </tr>
+  <tr bordercolor="#FFFFFF">
+    <td>list</td>
+    <td>繼續印出程式碼</td>
+  </tr>
+  <tr bordercolor="#FFFFFF">
+    <td>list -</td>
+    <td>印出上一次list的程式碼的前一段程式碼(類似向上翻動)</td>
+  </tr>
+  <tr bordercolor="#FFFFFF">
+    <td>show listsize</td>
+    <td>顯示現在一次印出幾行</td>
+  </tr>
+  <tr bordercolor="#FFFFFF">
+    <td>set listsize</td>
+    <td>設定一次印出幾行</td></tr></tbody></table><br><br><br>备常用命令：<br>&nbsp; １.常看源码：ｌｉｓｔ（ｌ）　<br>　　ｌｉｓｔ　＜ｌｉｎｅｎｕｍｂｅｒ＞　行号<br>　　ｌｉｓｔ　＜＋ｏｆｆｓｅｔ＞　当前行号的正偏移<br>　　ｌｉｓｔ　＜－ｏｆｆｓｅｔ＞　当前行号的负偏移<br>　　ｌｉｓｔ　＜ｆｉｌｅｎａｍｅ：ｌｉｎｅｎｕｍｂｅｒ＞　哪个文件的哪一行<br>　　ｌｉｓｔ　＜ｆｕｎｃｔｉｏｎ＞　函数名<br>　　ｌｉｓｔ　＜ｆｉｌｅｎａｍｅ：ｆｕｎｃｔｉｏｎ＞　文件的哪个函数<br>　　ｌｉｓｔ　＜＊ａｄｄｒｅｓｓ＞　程序运行时语句在内存中的地址<br><br>　２．设置断点：ｂｒｅａｋ（ｂ）<br>　　ｂｒｅａｋ　＜ｆｕｎｃｔｉｏn＞　指定函数断点<br>　　ｂｒｅａｋ　＜ｌｉｎｅｎｕｍｂｅｒ＞　指定行号断点<br>　　ｂｒｅａｋ　＜＋ｏｆｆｓｅｔ／－ｏｆｆｓｅｔ＞　当前行号的正／负偏移<br>　　ｂｒｅａｋ　＜ｆｉｌｅｎａｍｅ：ｌｉｎｅｎｕｍｂｅｒ＞　哪个文件的哪一行<br>　　ｂｒｅａｋ　＜＊ａｄｄｒｅｓｓ＞　运行中的内存地址<br>　　ｂｒｅａｋ　不带参数，下一条指令停止处<br>　　ｂｒｅａｋ ...　ｉｆ　＜ｃｏｎｄｉｔｉｏｎ＞　在运行中，当ｃｏｎｄｉｔｉｏｎ条件满足时停止。<br>　　　　ｅｇ．　ｂｒｅａｋ　ｉｆ　ｉ＝１００ //当i=100时，立即停止<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ break foo if i=100&nbsp;&nbsp; //断点设置在foo中，断点条件是i-100, 
+一点在函数foo中，i的值等于100,被停止。<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br><br>　３．查看信息：ｉｎｆｏ<br>　　ｉｎｆｏ　ｂｒｅａｋ　查看断点信息<br>&nbsp;&nbsp;&nbsp; info locals 打印出当前函数中所有局部变量及其值<br>　　ｉｎｆｏ　ｓｔａｃｋ　查看栈中信息<br>&nbsp;&nbsp;&nbsp; info frame 更详细的栈层地址信息<br>　　ｉｎｆｏ　ａｒｇｓ　查看参数信息<br>　　ｉｎｆｏ　ｒｅｇｉｓｔｅｒｓ／ｉｎｆｏ　ａｌｌ－ｒｅｇｉｓｔｅｒｓ　查看（所有）寄存器信息<br>　　ｉｎｆｏ　ｓｏｕｒｃｅｓ　查看项目的源代码信息<br><br>４．维护breakpoint：ｄｉｓａｂｌｅ/enable/clear/delete<br>&nbsp;&nbsp;&nbsp;&nbsp; disable(dis) 【breakpoints】 【range...】<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 如果没有参数，则停止所有的断点，<br>&nbsp;&nbsp;&nbsp;&nbsp; enable 【breakpoints】【range】<br>&nbsp;&nbsp;&nbsp;&nbsp; clear &lt;function&gt;/&lt;filename:function&gt;/&lt;linenum&gt;/&lt;filename:linenum&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 清楚已定义的停止点<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; delete [breakpoints] [ranga...]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 删除指定的断点<br><br>５．恢复程序运行：ｃｏｎｔｉｎｕｅ（ｃ）<br>　　<br>　　<br>6.until和finish<br>&nbsp; until 跳出循环比较有用<br>&nbsp;&nbsp;&nbsp; help finish<br>&nbsp;&nbsp;&nbsp;&nbsp; Execute until selected stack frame returns.<br>&nbsp;&nbsp;&nbsp;&nbsp; Upon return, the value returned is printed and put in the value history.<br>&nbsp; finish 用来跳出函数比较有用。<br>&nbsp;&nbsp;&nbsp; help until <br>&nbsp;&nbsp;&nbsp;&nbsp; Execute until the program reaches a source line greater than the current<br>&nbsp;&nbsp;&nbsp;&nbsp; or a specified location (same args as break command) within the current frame<br><br></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="blog_post_info"><div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/shipfi/category/25812.html">技术文章</a></div>
+<div id="EntryTag"></div>
+<div id="green_channel">
+绿色通道：
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(cb_entryId,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://space.cnblogs.com/msg/send/shipfi" target="_blank">与我联系</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+</div>
+<div id="digg_block">
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/shipfi/">shipfi</a><br>
+<a href="http://home.cnblogs.com/u/shipfi/followees">关注 - 0</a><br>
+<a href="http://home.cnblogs.com/u/shipfi/followers">粉丝 - 23</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+<a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+	<div class="diggit" onclick="votePost(cb_entryId,'Digg')"> 
+		<span class="diggnum" id="digg_count">1</span>
+	</div>
+	<div class="buryit" onclick="votePost(cb_entryId,'Bury')"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/shipfi/archive/2008/07/28/1255129.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/shipfi/archive/2008/07/28/1255129.html" title="发布于2008-07-28 23:00">又十几天没更新了</a><br><a href="http://www.cnblogs.com/shipfi/archive/2008/10/12/1309158.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/shipfi/archive/2008/10/12/1309158.html" title="发布于2008-10-12 14:22">vsFTPd 服务器初学者指南 [转载]</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2008-08-04 17:38</span> <a href="http://www.cnblogs.com/shipfi/">shipfi</a> 阅读(<span id="post_view_count">6629</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://www.cnblogs.com/shipfi/admin/EditPosts.aspx?postid=1260293" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(1260293);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=7854,cb_entryId=1260293,cb_blogApp=currentBlogApp,cb_blogUserGuid='538f310b-63cf-dd11-9e4d-001cf0cd104b',cb_entryCreatedDate='2008/8/4 17:38:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+<a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" id="lnk_RefreshComments" onclick="return RefreshCommentList();">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="site_nav_under"><a href="http://www.cnblogs.com/" target="_blank" title="程序员的网上家园">博客园首页</a><a href="http://q.cnblogs.com/" target="_blank" title="程序员问答社区">博问</a><a href="http://news.cnblogs.com/" target="_blank" title="IT新闻">新闻</a><a href="http://home.cnblogs.com/ing/" target="_blank">闪存</a><a href="http://job.cnblogs.com/" target="_blank">程序员招聘</a><a href="http://kb.cnblogs.com/" target="_blank">知识库</a></div>
+<div id="ad_under_post_holder">
+
+<div id="google_ad_c1" class="c_ad_block">
+    <!-- cnblogs_blogpost_C1_sitehome -->
+    <div id="div-gpt-ad-1346480159711-0" style="width: 300px; height: 250px;">
+    
+    <div style="border: 0pt none;" id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0__container__"><iframe src="javascript:&quot;<html><body style='background:transparent'></body></html>&quot;" style="border: 0px none; vertical-align: bottom;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0" id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0" frameborder="0" height="250" scrolling="no" width="300"></iframe></div><iframe src="javascript:&quot;<html><body style='background:transparent'></body></html>&quot;" style="border: 0px none; vertical-align: bottom; visibility: hidden; display: none;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0__hidden__" id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_sitehome_0__hidden__" frameborder="0" height="0" scrolling="no" width="0"></iframe></div>
+</div>
+<div id="blog_news_kb"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/191443/" target="_blank">Zynga高管解读财报：把三大游戏打造成常青树</a><br> ·  <a href="http://news.cnblogs.com/n/191442/" target="_blank">Power Dumbbell：电子陀螺哑铃</a><br> ·  <a href="http://news.cnblogs.com/n/191441/" target="_blank">大众点评为什么要卖？</a><br> ·  <a href="http://news.cnblogs.com/n/191440/" target="_blank">网秦宣布将执行3500万美元回购计划</a><br> ·  <a href="http://news.cnblogs.com/n/191439/" target="_blank">组图：实拍中国“人造太阳”核聚变实验装置</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/190541/" target="_blank">软件开发启示录——迟到的领悟</a><br> ·  <a href="http://kb.cnblogs.com/page/190791/" target="_blank">《黑客帝国》里的锡安是不是虚拟世界</a><br> ·  <a href="http://kb.cnblogs.com/page/180830/" target="_blank">深入理解Linux中内存管理</a><br> ·  <a href="http://kb.cnblogs.com/page/190331/" target="_blank">工程师文化引出的组织行为话题</a><br> ·  <a href="http://kb.cnblogs.com/page/190321/" target="_blank">如何用美剧真正提升你的英语水平</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div></div>
+<script type="text/javascript">
+var enableGoogleAd = true;
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+loadAdUnderPost();
+</script>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+loadBlogSignature();
+LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+</script>
+<script type="text/javascript">
+    $.ajax({ url: 'http://counter.cnblogs.com/blog/post/' + cb_entryId, type: 'get', dataType: 'script', cache: true });
+</script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><!-- 每日一句JS引用 开始 -->
+<span id="hjdict_daily">
+<a href="http://dict.hjenglish.com/" target="_blank" title="沪江小D, 在线词典, 英语学习, 查单词">跟小D每日学口语</a>
+</span>
+<div style="display: none" id="__document_write_ajax_div-1"></div>
+<!-- 每日一句JS引用 结束 --><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/shipfi/">shipfi</a><br>园龄：<a href="http://home.cnblogs.com/u/shipfi/" title="入园时间：2004-11-24">8年11个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/shipfi/followers/">23</a><br>关注：<a href="http://home.cnblogs.com/u/shipfi/followees/">0</a><div id="p_b_follow"></div><div style="display: none" id="__document_write_ajax_div-2"></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="displya:none"><table id="blogCalendar" class="Cal" title="日历" cellpadding="0" cellspacing="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2008/07/01');return false;">&lt;</a></td><td align="center">2008年8月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2008/09/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center"><a href="http://www.cnblogs.com/shipfi/archive/2008/08/04.html"><u>4</u></a></td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn">
+
+<div class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+
+
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_0" href="http://www.cnblogs.com/shipfi/MyPosts.html">我的随笔</a></li>
+	
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_1" href="http://www.cnblogs.com/shipfi/MyComments.html">我的评论</a></li>
+	
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_2" title="我发表过评论的随笔" href="http://www.cnblogs.com/shipfi/OtherPosts.html">我的参与</a></li>
+	
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_3" href="http://www.cnblogs.com/shipfi/RecentComments.html">最新评论</a></li>
+	
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_4" href="http://www.cnblogs.com/shipfi/tag/">我的标签</a></li>
+	
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div>
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/shipfi/category/214084.html">.net Framework(3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/shipfi/category/214056.html">asp.net(27)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/shipfi/category/213497.html">C# language(3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/shipfi/category/95784.html">C++ &amp;&amp; VC++(2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/shipfi/category/212327.html">Javascript(9)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/shipfi/category/220394.html">Linux OS</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/shipfi/category/95785.html">Linux Shell(2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/shipfi/category/220395.html">SIP&amp;&amp;VoIP</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/shipfi/category/213663.html">SQL &amp;&amp; SQL Server(7)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/shipfi/category/34156.html">Study English(6)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/shipfi/category/25813.html">非技术(53)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/shipfi/category/25812.html">技术文章(113)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/shipfi/category/25811.html">项目日志(21)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/shipfi/archive/2012/11.html">2012年11月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/shipfi/archive/2010/11.html">2010年11月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/shipfi/archive/2009/10.html">2009年10月 (29)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/shipfi/archive/2009/09.html">2009年9月 (5)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/shipfi/archive/2009/04.html">2009年4月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/shipfi/archive/2009/01.html">2009年1月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/shipfi/archive/2008/12.html">2008年12月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/shipfi/archive/2008/10.html">2008年10月 (4)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/shipfi/archive/2008/08.html">2008年8月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/shipfi/archive/2008/07.html">2008年7月 (2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/shipfi/archive/2008/06.html">2008年6月 (2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/shipfi/archive/2008/05.html">2008年5月 (7)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/shipfi/archive/2008/04.html">2008年4月 (12)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/shipfi/archive/2008/02.html">2008年2月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/shipfi/archive/2008/01.html">2008年1月 (7)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/shipfi/archive/2007/12.html">2007年12月 (7)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/shipfi/archive/2007/06.html">2007年6月 (3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/shipfi/archive/2007/05.html">2007年5月 (6)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/shipfi/archive/2007/04.html">2007年4月 (6)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/shipfi/archive/2007/03.html">2007年3月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/shipfi/archive/2007/02.html">2007年2月 (10)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/shipfi/archive/2007/01.html">2007年1月 (5)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/shipfi/archive/2006/12.html">2006年12月 (3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/shipfi/archive/2006/07.html">2006年7月 (2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/shipfi/archive/2006/06.html">2006年6月 (5)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/shipfi/archive/2006/05.html">2006年5月 (18)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/shipfi/archive/2006/04.html">2006年4月 (11)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_27" href="http://www.cnblogs.com/shipfi/archive/2006/03.html">2006年3月 (8)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_28" href="http://www.cnblogs.com/shipfi/archive/2006/02.html">2006年2月 (7)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_29" href="http://www.cnblogs.com/shipfi/archive/2005/12.html">2005年12月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_30" href="http://www.cnblogs.com/shipfi/archive/2005/11.html">2005年11月 (3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_31" href="http://www.cnblogs.com/shipfi/archive/2005/09.html">2005年9月 (14)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_32" href="http://www.cnblogs.com/shipfi/archive/2005/08.html">2005年8月 (15)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_33" href="http://www.cnblogs.com/shipfi/archive/2005/07.html">2005年7月 (3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_34" href="http://www.cnblogs.com/shipfi/archive/2005/06.html">2005年6月 (12)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_35" href="http://www.cnblogs.com/shipfi/archive/2005/05.html">2005年5月 (15)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_36" href="http://www.cnblogs.com/shipfi/archive/2005/04.html">2005年4月 (4)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_37" href="http://www.cnblogs.com/shipfi/archive/2005/03.html">2005年3月 (18)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListArticleCategory">
+<h3 class="catListTitle">文章分类</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_0" href="http://www.cnblogs.com/shipfi/category/13805.html">.net历程(14)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_1" href="http://www.cnblogs.com/shipfi/category/214446.html">asp.net技巧</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_2" href="http://www.cnblogs.com/shipfi/category/36246.html">Linux - Unix - 开源(12)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_3" href="http://www.cnblogs.com/shipfi/category/15347.html">Python(2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_4" href="http://www.cnblogs.com/shipfi/category/118693.html">STB(2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_5" href="http://www.cnblogs.com/shipfi/category/172566.html">VIM(2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_6" href="http://www.cnblogs.com/shipfi/category/219716.html">VoIP &amp;&amp; SIP(1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_7" href="http://www.cnblogs.com/shipfi/category/34076.html">Web 标准(12)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_8" href="http://www.cnblogs.com/shipfi/category/53856.html">工作相关(5)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_9" href="http://www.cnblogs.com/shipfi/category/13809.html">技术，思想(9)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_10" href="http://www.cnblogs.com/shipfi/category/35389.html">人物(3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_11" href="http://www.cnblogs.com/shipfi/category/36159.html">软件工程(6)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_12" href="http://www.cnblogs.com/shipfi/category/13944.html">数据库技术(2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_13" href="http://www.cnblogs.com/shipfi/category/34666.html">图像处理</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_14" href="http://www.cnblogs.com/shipfi/category/13807.html">学习总结(1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_15" href="http://www.cnblogs.com/shipfi/category/13808.html">杂七杂八(8)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListImageCategory">
+<h3 class="catListTitle">相册</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_3_Link_0" rel="nofollow" href="http://www.cnblogs.com/shipfi/gallery/28488.html">My Pic</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">BBS</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_4_Link_0" rel="nofollow" href="http://bbs.chinaunix.net/forum/" target="_blank">China Unix</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_4_Link_1" rel="nofollow" href="http://www.itpub.net/" target="_blank">IT PUB</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">BLOG</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_0" rel="nofollow" href="http://www.qsdn.net/" target="_blank">QSdNet Blog</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_1" rel="nofollow" href="http://www.cnblogs.com/sonicit/" target="_blank">Sonic</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_2" rel="nofollow" href="http://thbird.blogbus.com/">thbird</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_3" rel="nofollow" href="http://blog.csdn.net/younther" target="_blank">younther的专栏</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_4" rel="nofollow" href="http://oldswallow.cnblogs.com/" target="_blank">老燕Blog</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_5" rel="nofollow" href="http://blog.donews.com/liuren">刘韧Blog</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_6" rel="nofollow" href="http://www.cnblogs.com/zhenyulu/" target="_blank">吕震宇</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_7" rel="nofollow" href="http://blog.joycode.com/saucer/" target="_blank">思归</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_8" rel="nofollow" href="http://idior.cnblogs.com/" target="_blank">享受代码 享受人生</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_9" rel="nofollow" href="http://www.blogcn.com/u/72/85/yzisland/index.html?filelist=1##md" target="_blank">小鱼儿</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_5_Link_10" rel="nofollow" href="http://blog.joycode.com/qqchen/" target="_blank">知秋一叶</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">Dot Net</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_6_Link_0" rel="nofollow" href="http://www.chinaaspx.com/comm/dotnetbbs/default.aspx" target="_blank">.Net论坛</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_6_Link_1" rel="nofollow" href="http://www.chinacs.net/" target="_blank">C#技术站</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_6_Link_2" rel="nofollow" href="http://move-to.net/" target="_blank">Move To .Net</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_6_Link_3" rel="nofollow" href="http://www.ftponline.com/china/default.aspx" target="_blank">发赛特技术站</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_6_Link_4" rel="nofollow" href="http://www.microsoft.com/china/net/">微软.net主页</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_6_Link_5" rel="nofollow" href="http://www.chinaaspx.com/comm/dotnetbbs/default.aspx" target="_blank">中国Dot Net论坛</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListEnglish Technology WebSite">
+<h3 class="catListTitle">English</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_0" rel="nofollow" href="http://www.aspfaqs.com%20/" target="_blank">ASP FAQS</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_1" rel="nofollow" href="http://www.csharphelp.com/" target="_blank">C# Help</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_2" rel="nofollow" href="http://www.codeguru.com/" target="_blank">Codeguru</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_3" rel="nofollow" href="http://www.codeproject.com/" target="_blank">CoderProject</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_4" rel="nofollow" href="http://www.devexpress.com/">Developer Express</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_5" rel="nofollow" href="http://dotnetjunkies.com/WebLog/" target="_blank">DotNet Junkies Blog</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_6" rel="nofollow" href="http://www.programmersheaven.com/" target="_blank">ProgrammersHeaven</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_7" rel="nofollow" href="http://www.sourceforge.net/" target="_blank">Sourceforge</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_8" rel="nofollow" href="http://www.52en.com/voa_se/" target="_blank">VOA English</a> </li>
+<li class="c_b_p_link_desc">VOA 慢速英语</li>
+<li><a id="ctl03_CatList_LinkList_7_Link_9" rel="nofollow" href="http://www.wikipedia.com/">Wikipedia</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_10" rel="nofollow" href="http://windowsforms.com/" target="_blank">WindowForms</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_11" rel="nofollow" href="http://www.dotnet247.com/" target="_blank">按照类及命名空间的索引</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_7_Link_12" rel="nofollow" href="http://www.en8848.com.cn/">原版英语网</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListThe Technology  about JAVA">
+<h3 class="catListTitle">JAVA</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_8_Link_0" rel="nofollow" href="http://www.javaeye.com/" target="_blank">Java视线</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_8_Link_1" rel="nofollow" href="http://www.jdon.com/" target="_blank">J道</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">MSDN</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_9_Link_0" rel="nofollow" href="http://www.microsoft.com/china/msdn/Archives/catalog/" target="_blank">MSDN归档技术</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_9_Link_1" rel="nofollow" href="http://www.microsoft.com/china/MSDN/library/default.mspx" target="_blank">MSDN技术资源库</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_9_Link_2" rel="nofollow" href="http://msdn.microsoft.com/library/chs/" target="_blank">MSDN中文Library</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_9_Link_3" rel="nofollow" href="http://www.microsoft.com/china/msdn/default.aspx" target="_blank">MSDN中文网站</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListAbout MFC,API,COM etc.">
+<h3 class="catListTitle">VC</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_10_Link_0" rel="nofollow" href="http://www.vckbase.com/document/" target="_blank">VC知识库文档中心</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">非技术</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_11_Link_0" rel="nofollow" href="http://www.51music.org/">51Music</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_11_Link_1" rel="nofollow" href="http://www.icxo.com/" target="_blank">世界经理人</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_11_Link_2" rel="nofollow" href="http://www.shiandci.net/index1.htm" target="_blank">唐诗宋词</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_11_Link_3" rel="nofollow" href="http://www.infoxa.com/" target="_blank">西安资源信息网</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_11_Link_4" rel="nofollow" href="http://www.zisi.net/" target="_blank">智识学术网</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">其它技术站点</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_12_Link_0" rel="nofollow" href="http://www.51testing.com/" target="_blank">51Testing</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_12_Link_1" rel="nofollow" href="http://blog.devep.net/geniusleft/" target="_blank">Geniusleft's Space </a> </li>
+
+<li><a id="ctl03_CatList_LinkList_12_Link_2" rel="nofollow" href="http://www.taoran.net/linux/program/">Linux编程</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_12_Link_3" rel="nofollow" href="http://www.nabble.com/">Nabble</a> </li>
+<li class="c_b_p_link_desc">Nabble offers free forum hosting and mailing list archiving</li>
+<li><a id="ctl03_CatList_LinkList_12_Link_4" rel="nofollow" href="http://www.chinaunix.net/" target="_blank">Unix技术社区</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_12_Link_5" rel="nofollow" href="http://www.linuxdiyf.com/" target="_blank">红联门户</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_12_Link_6" rel="nofollow" href="http://www.pediy.com/">看雪学院</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_12_Link_7" rel="nofollow" href="http://dotnet.aspx.cc/" target="_blank">孟子E章</a> </li>
+
+</ul>
+
+</div>
+
+
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	134938
+	</li>
+	<li class="liRank">
+		排名 -	854
+	</li>
+</ul>
+</div>
+
+
+
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/shipfi/archive/2007/02/13/649196.html#2682564">1. Re:COM组件的类厂（COM技术内幕笔记之四）</a></li>
+    <li class="recent_comment_body"><a href="#1234619" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,1234619);">@</a><br>可能已经晚了, 也许你已经解决了问题.<br>可能的原因是: 你没有在 vs 中设置 Linker -&gt; Input -&gt; Module Definition File 导致的.</li>
+    <li class="recent_comment_author">--walfud</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/shipfi/archive/2009/10/15/1584093.html#2634158">2. Re:asp.net学习之SqlDataSource</a></li>
+    <li class="recent_comment_body">写的通俗详细，全部读完了！！</li>
+    <li class="recent_comment_author">--小丸</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/shipfi/archive/2009/10/19/1585705.html#2633327">3. Re:asp.net学习之DataList控件</a></li>
+    <li class="recent_comment_body">太棒了</li>
+    <li class="recent_comment_author">--Quietly elegant</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/shipfi/archive/2009/10/19/1585703.html#2633277">4. Re:asp.net学习之Repeater控件</a></li>
+    <li class="recent_comment_body">太谢谢你了</li>
+    <li class="recent_comment_author">--Quietly elegant</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/shipfi/archive/2009/10/15/1584093.html#2632383">5. Re:asp.net学习之SqlDataSource</a></li>
+    <li class="recent_comment_body">好东西， 要顶的！！</li>
+    <li class="recent_comment_author">--goto13</li>
+</ul>
+</div>
+</div>
+
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/shipfi/archive/2009/10/15/1584093.html">1. asp.net学习之SqlDataSource(8073)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2008/04/21/1164146.html">2. Cscope 的使用(7864)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2008/08/04/1260293.html">3. GDB 进行调试 使用心得(6630)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2005/08/31/227228.html">4. 《Windows核心编程》之五 --线程的同步(4409)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2006/03/27/360229.html">5. Python中的内置函数(4399)</a></li></ul></div>
+</div>
+
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/shipfi/archive/2005/03/19/121702.html">1. 继续看《COM技术内幕》(17)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2009/10/15/1584093.html">2. asp.net学习之SqlDataSource(4)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2006/05/16/401589.html">3. VC中类型的相互转化(3)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2007/05/10/742148.html">4. SIP包的分析(3)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2005/03/19/121629.html">5. 以前看书时记得一些笔记（二），很早了，现在再看都有些看不懂了(3)</a></li></ul></div>
+</div>
+
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/shipfi/archive/2009/10/18/1585453.html">1. asp.net学习之GridView事件、GridViewRow对象(4)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2009/10/15/1584093.html">2. asp.net学习之SqlDataSource(4)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2008/08/04/1260293.html">3. GDB 进行调试 使用心得(1)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2009/10/17/1585219.html">4. asp.net学习之GridView七种字段(1)</a></li><li><a href="http://www.cnblogs.com/shipfi/archive/2009/10/16/1584247.html">5. asp.net学习之再论sqlDataSource(1)</a></li></ul></div>
+</div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2013 shipfi
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+<script type="text/javascript" src="GDB%20%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95%20%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97%20-%20shipfi%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/google-analytics.js"></script>
+
+
+<iframe style="display: none; width: 0px; height: 0px;" name="google_osd_static_frame" id="google_osd_static_frame_4782044705853"></iframe></body></html>

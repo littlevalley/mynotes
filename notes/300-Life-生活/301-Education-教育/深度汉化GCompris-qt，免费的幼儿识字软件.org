@@ -1,0 +1,259 @@
+** Table of Contents
+   :PROPERTIES:
+   :CUSTOM_ID: table-of-contents
+   :END:
+
+-  [[#org71420ca][1. 需求]]
+-  [[#orgc354aff][2. 准备]]
+
+   -  [[#orgd83bb20][2.1. 准备源码]]
+   -  [[#org70503bc][2.2. 准备开发环境]]
+   -  [[#org550cf39][2.3. 准备图片和声音]]
+
+      -  [[#org911295c][2.3.1. 图片的处理]]
+      -  [[#orgb08f275][2.3.2. 声音的处理]]
+      -  [[#org61858fc][2.3.3. 资源编译]]
+
+-  [[#org338ea6d][3. 集成]]
+
+   -  [[#org8cbca23][3.1. 修改两个JSON文件]]
+   -  [[#orgb4b82d3][3.2. 修改一个QML文件]]
+
+-  [[#org95de4a2][4. 编译测试]]
+-  [[#orgdaee62e][5. 后续]]
+
+   -  [[#org1e0489a][5.1. 删除部队应用]]
+   -  [[#org1ddc94b][5.2. 解决声音卡顿的问题]]
+   -  [[#org56b8794][5.3. 解决部分应用不能正常工作的问题]]
+   -  [[#org0b13f4f][5.4. 关于资源太多的问题]]
+
+** 1 需求
+   :PROPERTIES:
+   :CUSTOM_ID: org71420ca
+   :END:
+
+因为有个小孩上幼儿园了，想开始教他一些汉语拼音和基本的汉字，但通过一书本和卡片又有些枯燥乏味，于上就上网搜索一些辅助认字的应用，还购买了悟空识字APP，在用的过程中发现他设置了很严格的关卡，学什么字，也是被固定死的，也就是只有把今天的学习完成了才能进行下一课，这对于上小学的小朋友可能比较好，但是对于幼儿来说的话，太过严格的限制往往容易让其失去兴趣。而且，说实话他其中的一些动画做得太过牵强，本来基本没有联系的东西加在一起，扰乱视听。小孩子字没认几个，就想着完后面的游戏，可以说有一点本末倒置。
+
+在搜寻的过程中还发现了GCompris-qt，
+是一个非常优秀的辅助教育套件，集成了大量的应用。而且是支持多语言，也就是说有中文的翻译版本。其中有一个帮助学习词汇的应用
+lang，因为其中有看图听音，听音辨字等小游戏，对于学习是已经够了。但是其中的图片全是
+art4apps 项目中已有的图片，对于类似讲中文的用户来讲的话还是有点不合适。
+于是就想，是否可以将自己的图片和声音加到GCompris中去，由我来安排他学什么字，根据实际随时调整。我虽没胡直接用QT开发过东西，但实际上是有一些接触的，经过一番折腾，真就实现了。现在想来其实不困难，主要是其上踩了一些坑，这里记下来以供参考，主要针对有一定开发能力的人群。
+
+*NOTE*
+这个过程会影响到letter_{inword}、missing_{letter}、hangman这三个应用，因为他们是其于lang/resources/content_{*}
+和 words.json 数据的。具体如何处理请看文章末尾。
+
+想想购买悟空识字有些后悔了，我的近200人民币啊。
+
+** 2 准备
+   :PROPERTIES:
+   :CUSTOM_ID: orgc354aff
+   :END:
+
+首先，你需要学习[[https://gcompris.net/wiki/Qt_Quick_development_process][Qt
+Quick development process]]
+和[[https://gcompris.net/wiki/Voice_translation_Qt][Voice translation
+Qt]]这篇文章。总的来说，就是下载源码，准备开发环境，准备图片和声音。
+
+*** 2.1 准备源码
+    :PROPERTIES:
+    :CUSTOM_ID: orgd83bb20
+    :END:
+
+GCompris-qt源码，到Github上下载下来，他会依赖于另一个项目qml-box2d,如果你是通过
+git clone
+下来的源码的话，在cmake的时他会自动去下载，但如果你采取的下载ZIP格式的压缩包的话则需要手动将qml-box2d下载后放到GCompris-qt/external文件夹下。
+
+*** 2.2 准备开发环境
+    :PROPERTIES:
+    :CUSTOM_ID: org70503bc
+    :END:
+
+#+BEGIN_EXAMPLE
+    sudo apt-get install cmake
+    sudo apt-get install g++
+    sudo apt-get install libgl1-mesa-dev
+    sudo apt-get install libssl-dev
+#+END_EXAMPLE
+
+#+BEGIN_EXAMPLE
+    sudo apt-get install qt5-default qtdeclarative5-dev qtmultimedia5-dev qml-module-qtquick-controls libqt5svg5-dev libqt5xmlpatterns5-dev libqt5sensors5-dev qml-module-qtquick-particles2 qttools5-dev-tools qml-module-qtmultimedia libqt5multimedia5-plugins
+#+END_EXAMPLE
+
+*** 2.3 准备图片和声音
+    :PROPERTIES:
+    :CUSTOM_ID: org550cf39
+    :END:
+
+GCompris-qt的图片和声音在github
+上的另一个项目中，GCompris-data，全部有约500M大小，下载的过程中可能出现服务器断开连接的情况，可以参照网上的一个教程，就是在gitee.com上建一个帐户，将github上的项目先克隆过来，然后通过国内的网络进行下载，失败的概率要小很多。
+
+**** 2.3.1 图片的处理
+     :PROPERTIES:
+     :CUSTOM_ID: org911295c
+     :END:
+
+下载后压缩包解压后可以将自己准备的图片放到 GCompris-data/words/words/
+这下目录下，最好自己在给图片命名的时候有下特点，比如hz1.jpg等等。
+
+**** 2.3.2 声音的处理
+     :PROPERTIES:
+     :CUSTOM_ID: orgb08f275
+     :END:
+
+声音用Audacity这个软件进行录制，如果你还没有安装的话，就sudo apt install
+audacity安装，录制的过程就简单了，可以一条一条的录，也可以一次性全部录好后进行批量导出。我采用的是后一种办法，但要求你先将你的图片对应的汉字按次充准备好，最好是打印出来，在录的过程中要方便一些，可以保证每个词中间的间隔的时间短一些，切分后加入到软件中播放的效果才好。录好了要先进行混音，就是把立体声转单声道，尔后分段设置好标记才可以批量导出。这里要注意的是设置标记不可以用中文，软件会卡死。我就依次用数字给进行标记的，你可以用hz1,hz2等这样的标记，跟图片对应起来。当然如果你不想每次都输入hz,也可只输字母，等导出来了后再写两行代码全部重命名就是了。如果在录的过程中读的顺序错了或者少读了两个字，这也没有关系，一会再补上就是了，没有必要全部重录一遍。最后有一个配置文件设置图片和声音的对应关系，所以图和音的名字具体是什么并不重要，只是有一定的显然的对应关系，方便你后一步进行处理。但是名字中不能有汉字，否则会出现找不到资源的情况。导出的时候选择ogg格式。
+
+还有你读的字有的声音大，有的声音小，这也没有关系，在导出后处理一下就好了。这要求你的计算机上装有
+normalize-audio 这个包。
+
+#+BEGIN_EXAMPLE
+    for f in *.ogg; do
+      normalize-ogg $f
+    done
+#+END_EXAMPLE
+
+处理好的声音文件放到GCompris-data/voices/zh_{CN}/words/
+这个文件夹下，可能你下载下来的资源，在zh_{CN下没有words这个文件夹}，新建一个就好。
+
+为了保证
+letter_{inword}、missing_{letter和hangman这几个应用的正常工作}，特别是我发现原生的语音在使用这几个应用时单词是不发音的，主要是其中缺少单词的录音。所以将voices/en_{US}/words/文件夹下的所有声音文件拷贝到voices/zh_{CN}/words/这下文件夹下。
+
+**** 2.3.3 资源编译
+     :PROPERTIES:
+     :CUSTOM_ID: org61858fc
+     :END:
+
+接下来就是处理这些图片和声音生成QT程序所需要的rcc文件了，就是将准备的图片和声音编译成二进制的资源文件了。这在GCompris-data目录下都有脚本工具，clean_{all.sh用于清理生成的资源文件}，generate_{allrcc.sh}
+用于生成背景音乐和声音。生成的声音资源文件在 voices/ogg/.rcc/voices-ogg
+下面，复制到 ~/.local/share/KDE/gcompris-qt/data2/voices-ogg/
+下面就是了。这个是gcompris-qt
+要搜索的目录之一。当然这里还没有提到图片资源，还需要你进入到GCompris-data/words目录中，执行generate_{langrcc.sh}
+words,完成后会在当前目录下生成.rcc的目录，将其中的Contents 和 words.rcc
+复制到
+~/.local/share/KDE/gcompris-qt/data2/words/目录下面。这里要注意的是复制的时候其中的Contents不能少，其中记录了资源文件的MD5校验码，软件加载资源的时候要进行验证。
+
+至此该准备的就已经准备好了，接下来，我们就要进行集成了。
+
+** 3 集成
+   :PROPERTIES:
+   :CUSTOM_ID: org338ea6d
+   :END:
+
+这一步说难不难，就是容易采坑，顺便提一下，其中lang这个应用界面的灵活性还有得提升，后面再讲是哪里，为什么。
+
+*** 3.1 修改两个JSON文件
+    :PROPERTIES:
+    :CUSTOM_ID: org8cbca23
+    :END:
+
+进入GCompris-qt/src/activites/lang/resource目录，这是专门存取资源的目录，其中的
+content-zh_{CN.json}
+需要根据实际进行修改，当然，如果你的目录中没有这个目录，将content-zh_{TW.json}
+复制一份，改个名字就是了。这个文件中将所有声音文件的名字和图片文件名字对应起来就好了。其中，不需要的条目可以删除了。有一个细节要注意的是，这是JSON文件，如果哪儿少了或者多了逗号什么的，加载会失败。你可以将其中的内容复制到网上[[https://www.json.cn][JSON在线格式验证]]进行检查，看哪里有问题，改过来就好了。
+
+第二个要修改的JSON文件是words.json这其中记录了要加入到lang这个应用中去的课程，这也是一个标准的JSON文件，他其中设想了有章节Chapter、课Lesson，但实际上目录这个版本只用到课lesson，但是这种层次关系不能改，否则也有可能不能加载成功。我的意思是你可以将所有的内容放到一章中去，没有必要分chapter。课程内容有数量限制，最大是12,当然如果你需要的话可以到源码中找到修改。这里有几个地方要提一下，以便理解，此文件中有个地方写了"imgPrefix":
+"qrc:/gcompris/data/"这是怎么来的呢？解释一下：在生成资源的时候，generate_{langrcc.sh自动写到qrc文件中去的}，然后又被编译进了rcc文件，相当于设定了图片访问目录。理解这一点主要是便于大家理解为什么lesson中的每个图的地址要写成这样
+"image":
+"words/hz170.jpg"，如果你要省略掉words的话需要修改generate_{langrcc.sh,修改qrc}
+文件来达到目的。最后提醒一下，改完后最好不是到json.cn上去验证一下有没有问题。
+
+*Note*这时还有一个坑。文件中的课程名字如果修改了的话，就要看下一节了，否则可以略过。
+
+*** 3.2 修改一个QML文件
+    :PROPERTIES:
+    :CUSTOM_ID: orgb4b82d3
+    :END:
+
+这里说的QML文件指的是Lang.qml文件，在GCompris-qt/src/activites/lang目录中，就是resource目录的上一级，打开它，文件末尾有一个常量记录了要如何翻译words.json中记录的课程名字。我给改为了如下的样子，你可以根据自己的需要来改。不要忘记最后的"}"。
+
+#+BEGIN_EXAMPLE
+    property var categoriesTranslations: {
+       "数字(1)": "数字(1)",
+       "数字(2)": "数字(2)",
+       "身体(1)": "身体(1)",
+       "身体(2)": "身体(2)",
+       "人物(1)": "人物(1)",
+       "人物(2)": "人物(2)",
+       "人物(3)": "人物(3)",
+       "幼儿识字": "幼儿识字"}
+#+END_EXAMPLE
+
+至此基本上要改的地方就改完了。接下来就是编译运行进行测试了。
+
+** 4 编译测试
+   :PROPERTIES:
+   :CUSTOM_ID: org95de4a2
+   :END:
+
+在GCompris-qt目录下建一个目录build，进行build 运行 cmake
+..，等着生成Makefile，现在可以通过 make getSvnTranslations
+下载界面翻译文件了。但是下载的过程有点慢，于是我不想下载我用不上的po
+文件， 修改GCompris-qt/tools/l10n-fetch-po-files.py
+，在第47行后插入一行，加上all_{languages}=["zh_{CN}"]，注意行前不能有空格。下载完成后要在
+build 目录中再次运行 cmake ..，让其将刚刚下载的 po
+文件加入资源列表，接下来 make BuildTranslations 编译翻译文件。然后
+make，就是较长的等待，可能要15分钟左右。完成后在 build/bin/ 下会生成一个
+gcompris-qt文件，执行他。你可能需要在其设置中切换locale，并将自动下载声音和图片关闭。
+
+没什么问题的话可以 sudo make install 安装到系统中，大功告成。
+
+** 5 后续
+   :PROPERTIES:
+   :CUSTOM_ID: orgdaee62e
+   :END:
+
+*** 5.1 删除部队应用
+    :PROPERTIES:
+    :CUSTOM_ID: org1e0489a
+    :END:
+
+GCompris-qt
+中的应用太多也是个问题，让小孩子眼花，可以考虑将其他暂时不想让他完的应用却掉。方法也很简单，修改GCompris-qt/src/activites/activites.txt将不想要的应用名字删除掉，如果涉及改变了菜单的，我指的是比如将lang提升到最顶级，哪还要修改
+lang 这个应用的ActivityInfo.qml 中的section的值为 section:
+"reading",这样就将其放到了阅读的下一级了。
+
+对于如何找出在某个目录下的所有应用，以reading菜单为例，可以用这句： find
+. -type f -name ActivityInfo.qml |xargs grep 'section:
+"reading'。然后可以用shell或者python等进行进一步处理，或者用excel/wps等把名字分出来，并排好序。
+
+修改完毕后需要在 build目录下再执行一次 cmake ..，然后再make。
+
+*** 5.2 解决声音卡顿的问题
+    :PROPERTIES:
+    :CUSTOM_ID: org1ddc94b
+    :END:
+
+当然，GCompris-qt有两个问题，一是QT版本的没有GTK的快，在树莓派上运行还有点卡。另一个是最开始声音听起来有点卡，这不是它的原因，需要你修改/etc/pulse/default.pa
+添加 load-module module-udev-detect
+tsched=0，当然卡顿的可能性有很多，但是我是用这种方法解决的哈。
+
+*** 5.3 解决部分应用不能正常工作的问题
+    :PROPERTIES:
+    :CUSTOM_ID: org56b8794
+    :END:
+
+最后讲一下文章最前面提到的几个应用，因为资源依赖的关系，在我们的修改后他们不能正常工作了，因为他们本来设计就是用来处理英文单词的，对于中日韩语言的可能都不太合适。我的做法是在GCompris-qt/src/activites/resource目录下新建一个
+words目录，然后将 resource/content-en.json 复制到
+words/content-zh_{CN.json}，将原来resource/words.json复制为words/words.json，然后将letter_{inword.js}，missing_{letter.js,hangman.js中资源url}
+"qrc:/gcompris/src/activities/lang/resource/"
+修改为"qrc:/gcompris/src/activities/lang/resource/words/"。然后保存后要到
+GCompris-qt/build 目录下去再执行一次 cmake
+..，将我们添加的words目录加入资源列表，再次make，这样所有的应用都可以正常工作了。
+
+另外，在我删除部分应用后，还可能涉及到找不到某些资源文件情况，比如说letter_{inword中的飞机图片和云朵图片找不到}，原因是他用的是braille_{fun和clickonletter应用中资源}，解决办法是将找不到的资源文件添加到GCompris-qt/src/activities/CMakeLists.txt最后一行的GCOMPRIS_{ADDRCC变量中}。我的做法是把没有加入到菜单中的应用的资源文件都加到了这里，就都可以正常运行了。
+
+*** 5.4 关于资源太多的问题
+    :PROPERTIES:
+    :CUSTOM_ID: org0b13f4f
+    :END:
+
+如果你只有10个字要加入课程，完全可以用手动的就行了，但如果有500个字要加入课程，哪么有一个批量处理的工具有太好了。当然你也可以借助
+Excel来进行处理，效率也还可以。如果你需要这样一个工具，可以留言。
+
+Author: bienilz
+
+Created: 2019-09-30 Mon 22:00
+
+[[http://validator.w3.org/check?uri=referer][Validate]]

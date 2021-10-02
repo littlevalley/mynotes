@@ -1,0 +1,16 @@
+.foot {
+  background: none repeat scroll 0 0 #20252d;
+  border-top: 1px solid #1d1d1d;
+  margin: auto;
+  color:#888;
+}
+
+#footer_new {
+  margin: auto;
+  padding: 10px 0;
+  width: 960px;
+}
+
+#footer_new a {
+  color: #888;
+}

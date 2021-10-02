@@ -1,0 +1,121 @@
+body, p, h1, h2, h3, h4, h5, h6, ul, ol, li, dl, dt, dd, table, th, td, form, fieldset, legend, input, textarea, button, select { margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+
+body, input, textarea, select, button, table { font-size: 16px; line-height: 1.25em; }
+
+body { min-width: 320px; font-family: 'microsoft yahei', Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); -webkit-text-size-adjust: none; }
+
+img, fieldset { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; border-image: initial; }
+
+ul, ol { list-style-type: none; list-style-position: initial; list-style-image: initial; }
+
+em, i, address { font-style: normal; }
+
+a { color: rgb(0, 0, 0); text-decoration: none; }
+
+table { border-collapse: collapse; }
+
+header { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(215, 229, 240); background-size: initial; height: 40px; overflow-x: hidden; overflow-y: hidden; width: 100%; position: relative; background-position: initial initial; background-repeat: initial initial; }
+
+header a.fenlei { display: block; position: absolute; right: 0px; top: 0px; background-image: url(fenlei.png); background-attachment: initial; background-origin: initial; background-clip: initial; background-color: initial; width: 45px; height: 40px; background-size: 45px 40px; background-position: initial initial; background-repeat: no-repeat no-repeat; }
+
+.tit { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(242, 242, 242); background-size: initial; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(231, 231, 231); height: 25px; padding-top: 10px; padding-right: 15px; padding-bottom: 0px; padding-left: 15px; background-position: initial initial; background-repeat: initial initial; }
+
+.tit h2 { font-size: 16px; border-left-width: 3px; border-left-style: solid; border-left-color: rgb(0, 97, 176); height: 18px; overflow-x: hidden; overflow-y: hidden; line-height: 1; padding-left: 8px; }
+
+.list { padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px; }
+
+.list ul { width: 100%; }
+
+.list li { width: 100%; border-top-width: 1px; border-top-style: dashed; border-top-color: rgb(204, 204, 204); line-height: 40px; }
+
+.list li a { padding-top: 10px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; font-size: 14px; color: rgb(102, 102, 102); }
+
+.list li a span { color: rgb(0, 0, 0); }
+
+.list li a i { color: rgb(255, 120, 0); }
+
+.list li:first-child { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; border-image: initial; }
+
+.list2 { padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px; }
+
+.list2 ul { width: 100%; }
+
+.list2 li { width: 100%; border-top-width: 1px; border-top-style: dashed; border-top-color: rgb(204, 204, 204); }
+
+.list2 li a { padding-top: 10px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; clear: both; overflow-x: hidden; overflow-y: hidden; display: block; }
+
+.list2 li img { float: left; margin-right: 8px; padding-top: 1px; padding-right: 1px; padding-bottom: 1px; padding-left: 1px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(204, 204, 204); border-right-color: rgb(204, 204, 204); border-bottom-color: rgb(204, 204, 204); border-left-color: rgb(204, 204, 204); border-image: initial; }
+
+.list2 li b { font-size: 18px; display: block; color: rgb(0, 0, 0); padding-bottom: 4px; }
+
+.list2 li p { color: rgb(102, 102, 102); font-size: 12px; line-height: 1.2; }
+
+.list2 li:first-child { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; border-image: initial; }
+
+.more { margin-top: 0px; margin-right: 10px; margin-bottom: 0px; margin-left: 10px; border-top-width: 1px; border-top-style: dashed; border-top-color: rgb(204, 204, 204); }
+
+.more a { width: 100%; display: block; padding-top: 10px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; text-align: center; }
+
+footer { background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(55, 55, 55); background-size: initial; width: 100%; padding-top: 10px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; line-height: 1.4; text-align: center; color: rgb(102, 102, 102); font-size: 12px; background-position: initial initial; background-repeat: initial initial; }
+
+footer a { color: rgb(102, 102, 102); }
+
+.left_1 { width: 100%; position: absolute; left: 0px; top: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgba(102, 102, 102, 0.949219); background-size: initial; height: 1300px; z-index: 10; background-position: initial initial; background-repeat: initial initial; }
+
+.left_2 { width: 75%; position: absolute; left: 0px; top: 0px; background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(0, 0, 0); background-size: initial; height: 1300px; z-index: 11; background-position: initial initial; background-repeat: initial initial; }
+
+.left_2 a { display: block; padding-left: 30%; margin-top: 10px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; height: 50px; color: rgb(103, 103, 101); line-height: 50px; }
+
+.left_2 a.here { font-size: 24px; color: rgb(255, 255, 255); background-image: initial; background-attachment: initial; background-origin: initial; background-clip: initial; background-color: rgb(66, 66, 66); background-size: initial; background-position: initial initial; background-repeat: initial initial; }
+
+.bor { border-top-width: 1px; border-top-style: solid; border-top-color: rgb(204, 204, 204); }
+
+.box { padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); }
+
+.box h1 { font-size: 20px; display: block; padding-bottom: 5px; }
+
+.box p { font-size: 12px; line-height: 18px; color: rgb(102, 102, 102); }
+
+.box p span { float: right; }
+
+.box a { color: rgb(54, 126, 185); }
+
+.main { border-top-width: 1px; border-top-style: solid; border-top-color: rgb(255, 255, 255); padding-top: 5px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; word-wrap: break-word; word-break: break-all; }
+
+.main p { padding-top: 10px; line-height: 1.5; font-size: 16px; word-wrap: break-word; word-break: break-all; }
+
+.main img { display: block; width: 100%; }
+
+.page { padding-top: 12px; padding-right: 15px; padding-bottom: 12px; padding-left: 15px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgb(204, 204, 204); border-top-width: 1px; border-top-style: solid; border-top-color: rgb(204, 204, 204); line-height: 1.5; font-size: 14px; }
+
+.page a { color: rgb(54, 126, 185); }
+
+.list3 { padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px; }
+
+.list3 ul { width: 100%; }
+
+.list3 li { width: 100%; border-top-width: 1px; border-top-style: dashed; border-top-color: rgb(204, 204, 204); font-size: 14px; padding-top: 15px; padding-right: 0px; padding-bottom: 15px; padding-left: 0px; }
+
+.list3 li div { height: 25px; line-height: 25px; overflow-x: hidden; overflow-y: hidden; }
+
+.list3 li div span { float: right; color: rgb(102, 102, 102); }
+
+.list3 li p { color: rgb(75, 75, 75); line-height: 1.4; }
+
+.list3 li:first-child { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; border-image: initial; }
+
+.list3 li a { color: rgb(54, 126, 185); }
+
+.list4 { padding-top: 0px; padding-right: 10px; padding-bottom: 0px; padding-left: 10px; }
+
+.list4 ul { width: 100%; }
+
+.list4 li { width: 100%; border-top-width: 1px; border-top-style: dashed; border-top-color: rgb(204, 204, 204); }
+
+.list4 li a { font-size: 14px; color: rgb(102, 102, 102); padding-top: 10px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; }
+
+.list4 li a.fenlei2 { display: inline-block; color: rgb(255, 120, 0); }
+
+.list4 li:first-child { border-top-width: 0px; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-style: initial; border-color: initial; border-image: initial; }
+
+.list li a.fenlei2 { color: rgb(255, 120, 0); display: inline-block; }

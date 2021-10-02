@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+	<title></title>
+</head>
+
+<body>
+<script language="javascript" type="text/javascript">
+     function GetRequest() {
+	var url = location.search; //获取url中"?"符后的字串
+	var theRequest = new Object();
+	if (url.indexOf("?") != -1) {
+		var str = url.substr(1);
+		strs = str.split("&");
+		for (var i = 0; i < strs.length; i++) {
+			theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+		}
+	}
+	return theRequest;
+}
+var Request = new Object();
+	Request = GetRequest();
+v = Request['id'];
+var h=window.location.host;
+	if (typeof (v) == "undefined"){
+	window.location.href="http://search.114so.cn/search_web.html?id=244&kw="+h; 
+		
+	}
+	
+	else{
+	window.location.href="http://search.114so.cn/search_web.html?id="+v+"&kw="+h; 
+	
+	}
+		
+		
+	  
+           
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html><html style="font-size: 22.5px;"><head><meta charset="UTF-8">
+   <link rel="canonical" href="http://blog.csdn.net/lin152/article/details/8266410">
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="yes">    
+    <meta name="shenma-site-verification" content="bf32a58a3df1c3452b75fbe96c7feb42_1497604697">
+    
+    <!--link( rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/css/index.css" )-->
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="avatar.css">
+    <link rel="stylesheet" href="common.css">
+    <!-- [if IE 7]-->
+    <!--link( rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" )-->
+    <!-- [endif]-->
+    <link rel="stylesheet" href="main.css">
+    <!-- [if lt IE 9]-->
+    
+    <!-- [endif]-->
+        <title>如何在Excel VBA 中读写word文档 步骤 - lin152的专栏 - CSDN博客</title>
+    
+    
+
+
+
+    
+
+
+   
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 25px; height: 18px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="BAIDU_DUP_fp_wrapper" style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;"><iframe id="BAIDU_DUP_fp_iframe" src="o.htm_ltr_.htm" style="width: 0px; height: 0px; visibility: hidden; display: none;"></iframe></div><link href="jiathis_share.css" rel="stylesheet" type="text/css"><iframe frameborder="0" style="position: absolute; display: none; opacity: 0;" src="0.htm"></iframe><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; top: 50%; left: 50%; overflow: auto;"></div><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; overflow: auto;"></div><iframe frameborder="0" src="jiathis_utility.html" style="display: none;"></iframe><div id="MathJax_Message" style="display: none;"></div>
+    
+<!-- 广告位开始 --> 
+<ins data-revive-zoneid="202" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins> 
+<!-- 广告位结束 -->
+
+
+
+
+
+
+<link rel="stylesheet" href="markdown_views.css_v_2.0.css">
+
+
+
+
+
+
+<div class="blog_main">
+      <div class="blog_top_wrap">
+        <div class="blog_top"><i id="menu_J" class="iconfont icon_l"></i>
+            <form method="get" action="http://m.blog.csdn.net/search/index" id="searchform">
+    <i id="search_J" class="iconfont icon_r"></i>
+    <div id="search_c_J" class="search">
+         <input type="text" placeholder="请输入" id="search" name="keyword" page="1" value=""><i class="iconfont icon_search"></i><i class="iconfont icon_close"></i>
+    </div>
+</form>
+
+
+
+
+
+          <h2 class="blog_top_t">CSDN博客</h2>
+        </div>
+      </div>
+
+ 
+
+      <div class="main_list">
+     
+
+         
+        
+          
+                  
+          <!-- 广告位：WAP端-博客详情页banner1-20:3 -->
+        <div id="_1tsrtcqj5ul680k9"></div><div style=""><div id="vusurpgia"><div id="vdxamkaqe" style="padding-right:0px;"><abbr style="display:none;"></abbr><iframe width="360" frameborder="0" height="54" scrolling="no" src="mtqvfjdhwo_czd_76_rdy_582_yd_w4B23492_gop_jvvrb5Cb.RQUV_kvm_.htm"></iframe></div></div></div>
+
+
+        <div class="blog_article">
+          <div class="blog_article_t">
+            <div class="article_l"><a href="http://m.blog.csdn.net/lin152"><img src="1_lin152.jpg.gif" alt="img"></a>
+                <a href="http://m.blog.csdn.net/lin152" class="article_user">lin152</a></div>
+            <div class="article_r">
+            </div>
+          </div>
+          <div class="blog_article_c clearfix">
+            <h3 class="article_t">如何在Excel VBA 中读写word文档 步骤</h3>
+            <p class="date"><i>发表于</i><em>2012/12/6 18:48:05  &nbsp;</em><i>3019</i><span>人阅读</span></p>
+            <p class="category_p">
+                    分类：
+                        <span>VBA</span>
+            </p>
+             
+<div class="article_c">
+
+<p>1.　库的配置</p>
+<p>在默认情况下，新创建的excel vba中不支持定义word对象。</p>
+<p>所以需要先引入word库，操作步骤如下：</p>
+<p>1.1 打开excel vba 界面</p>
+<p>1.2 选中其中的一个Module</p>
+<p>1.3 选择菜单， Tools --&gt; References </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在打开的对话框中选择类似 "Microsoft Word 14.0 Object Library".</p>
+<p>1.4 点击OK保存配置。</p>
+<p>&nbsp;</p>
+<p>2.&nbsp; 打开文档</p>
+<p>&nbsp;&nbsp; Set wordApplication = CreateObject("Word.Application")</p>
+<p>&nbsp;&nbsp; wordApplication.Visible = False</p>
+<p>&nbsp;&nbsp; Dim hasOpenDoc As Boolean</p>
+<p>&nbsp;&nbsp; hasOpenDoc = IsOpen(filePath)&nbsp; ' is a self-defined function to check file is opend</p>
+<p>&nbsp;&nbsp; If hasOpenDoc = True then</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set wordDoc = GetObject(filePath)</p>
+<p>&nbsp;&nbsp; End if</p>
+<p>&nbsp;&nbsp;&nbsp;If hasOpenDoc = False Then</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set&nbsp; wordDoc = wordApplication.Documents.Open(filePath)</p>
+<p>&nbsp;&nbsp; End if</p>
+<p>&nbsp;&nbsp; wordDoc.Active</p>
+<p>With wordApplication</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dim aParagraph As Word.Paragraph</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For Each aParagraph In wordDoc.Paragraphs</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' do some thing to every paragraph.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next aParagraph</p>
+<p>End with</p>
+<p>wordDoc.Close</p>
+<p>Set wordDoc = nothing</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>' 如下这段代码引用某位牛人的，非常感谢他。由于路径丢失，不能给出链接, 抱歉</p>
+<p>' 如下的找寻方式，能够正确的找出文件是否被打开</p>
+<p>Function IsOpen(fileName As String) As Boolean<br>
+&nbsp;&nbsp;&nbsp; IsOpen = False<br>
+&nbsp;&nbsp;&nbsp; Dim findFile As Integer<br>
+&nbsp;&nbsp;&nbsp; findFile = FreeFile()<br>
+&nbsp;&nbsp;&nbsp; On Error GoTo ErrOpen<br>
+&nbsp;&nbsp;&nbsp; Open fileName For Binary Lock Read Write As findFile<br>
+&nbsp;&nbsp;&nbsp; Close findFile<br>
+&nbsp;&nbsp;&nbsp; Exit Function<br>
+ErrOpen:<br>
+&nbsp;&nbsp;&nbsp; If Err.Number &lt;&gt; 70 Then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Msg = "Error # " &amp; Str(Err.Number) &amp; "was generated by " &amp; Err.Source &amp; Chr(13) &amp; Err.Description<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MsgBox Msg, "Error", Err.HelpFile, Err.HelpContext<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; Else<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IsOpen = True<br>
+&nbsp;&nbsp;&nbsp; End If</p>
+<p><br>
+End Function</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;&nbsp; </p>
+<p>&nbsp;</p>
+ </div>
+
+          </div>
+
+                               
+
+             <div class="blog_handle">
+        <span id="digg" style="cursor:pointer"><i class="iconfont"></i><em>0</em></span>
+        <span id="bury" style="cursor:pointer"><i class="iconfont"></i><em>0</em></span>
+       
+    </div>
+
+
+
+              <div class="prev_next">
+                        <a href="http://m.blog.csdn.net/lin152/article/details/8266208" class="prev" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);">上一篇</a>                                                                       
+                        <a href="http://m.blog.csdn.net/lin152/article/details/8266517" class="next" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">下一篇</a>
+              </div>         
+        </div>
+        
+    
+
+                     
+          <!-- 广告位：WAP端-博客详情页banner2-20:3 -->
+        <div id="_oq63mj2jrjqhncdi"></div>
+
+
+       
+
+
+
+<div class="no_comment" style=""><i class="iconfont"></i><span>暂无评论，</span><a href="http://m.blog.csdn.net/comment/post?id=8266410">我去发表</a><em>~</em></div>
+
+ <div class="blog_comment" style="display:none">
+       <h3 class="isComment">评论<span>（0）</span></h3>
+       <dl class="blog_comment_list"></dl>
+       <div class="checkAll"></div>
+ </div>
+
+
+
+
+
+       
+        <div style="display:none" id="tags">excel vba,文档,word,对象,界面</div>
+
+   
+
+<!-- 广告位：WAP端-博客详情页banner3-20:5 -->
+<div id="_0ny1orahixfuhaor"></div>
+
+<div class="my_hot_article">
+         <h3 class="isArticle">相关博文</h3>
+
+                  <ul class="hot_article tracking-ad" id="res" data-mod="popu_36">
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/hgstclyh/3934625" title="在word通过VBA打开excel数据文件" strategy="BlogCommendFromCsdn" target="_blank">在word通过VBA打开excel数据文件</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/foreverfall/article/details/45791941" title="WORD VBA 操作WORD 文本框" strategy="BlogCommendFromCsdn" target="_blank">WORD VBA 操作WORD 文本框</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/peijunfeng/article/details/1830389" title="vba 操作Word-更新word内容" strategy="BlogCommendFromCsdn" target="_blank">vba 操作Word-更新word内容</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/chenqiai0/article/details/52108125" title="【一步一步学习VBA】在WORD中插入文字" strategy="BlogCommendFromCsdn" target="_blank">【一步一步学习VBA】在WORD中插入文字</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/u013952526/article/details/51375524" title="通过VBA将excel数据导入至word文档" strategy="BlogCommendFromCsdn" target="_blank">通过VBA将excel数据导入至word文档</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/wangjia55/article/details/8808048" title="git命令之git  gitignore 忽略某些文件" strategy="BlogCommendFromCsdn" target="_blank">git命令之git  gitignore 忽略某些文件</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/mike_caoyong/article/details/7874861" title="java操作Excel（Jakarta_POI）以及java调用office宏" strategy="BlogCommendFromCsdn" target="_blank">java操作Excel（Jakarta_POI）以及java调用office宏</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/wxj0224/4518891" title="读写word和excel，并运用递归生成管段" strategy="BlogCommendFromCsdn" target="_blank">读写word和excel，并运用递归生成管段</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/a52013140/677857" title="C#读写Excel和Word文件" strategy="BlogCommendFromCsdn" target="_blank">C#读写Excel和Word文件</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/ytcbupt/8426911" title="matlab 读写excel 和word" strategy="BlogCommendFromCsdn" target="_blank">matlab 读写excel 和word</a>
+                                   </li>
+                  </ul>
+        </div>
+
+      
+
+<!-- 广告位：WAP端-博客详情页banner4-20:5 -->
+<div id="_kgm951xabofajor"></div>
+
+        
+    <div class="my_hot_article">
+          <h3 class="isArticle">我的热门文章</h3>
+          <ul class="hot_article">
+                <li><a href="8266410.htm">如何在Excel VBA 中读写word文档 步骤</a></li>
+                <li><a href="http://m.blog.csdn.net/lin152/article/details/16104165">噪声和信噪比</a></li>
+                <li><a href="http://m.blog.csdn.net/lin152/article/details/40402545">无速度矢量控制 01</a></li>
+                <li><a href="http://m.blog.csdn.net/lin152/article/details/8266208">Read numbering string from word document via VBA in Excel</a></li>
+                <li><a href="http://m.blog.csdn.net/lin152/article/details/8279726">工作要我学用c sharp开发软件</a></li>
+          </ul>
+        </div>
+
+
+
+
+
+
+
+
+
+
+       
+      </div>
+
+        
+   <div class="leftNav">
+      
+<div class="left_top">
+        <a href="https://passport.csdn.net/account/login?from=http%3a%2f%2fm.blog.csdn.net%2flin152%2farticle%2fdetails%2f8266410"><img src="1_csdn.jpg.gif"></a>
+        <a href="https://passport.csdn.net/account/login?from=http%3a%2f%2fm.blog.csdn.net%2flin152%2farticle%2fdetails%2f8266410" class="sign">未登录</a> 
+</div>
+        
+        <ul class="nav_list">
+            <li><a href="http://m.blog.csdn.net/home/index"><i>•</i><span>首页</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=mobile&amp;Type="><i>•</i><span>移动开发</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=enterprise&amp;Type="><i>•</i><span>架构</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=cloud&amp;Type="><i>•</i><span>云计算/大数据</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=www&amp;Type="><i>•</i><span>互联网</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=system&amp;Type="><i>•</i><span>运维</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=database&amp;Type="><i>•</i><span>数据库</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=web&amp;Type="><i>•</i><span>前端</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=code&amp;Type="><i>•</i><span>编程语言</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=software&amp;Type="><i>•</i><span>研发管理</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=other&amp;Type="><i>•</i><span>综合</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+        </ul>
+   </div>
+   
+
+      <div id="mask"></div>
+    </div>
+
+
+   
+
+    <div class="backToTop" style="display: block;"><img src="iconfont-fudongxiangshang.png" alt="img"></div>
+    <!--分享弹窗：-->
+    <div class="popup_cover"></div>
+    <div class="sharePopup_box">
+      <div class="sharePopup">
+        <!--JiaThis Button BEGIN-->
+        <div class="jiathis_style_32x32"><a class="jiathis_button_weixin" title="分享到微信"><span class="jiathis_txt jiathis_separator jtico jtico_weixin"><b><i class="iconfont"></i></b><em>微信分享</em></span></a><a class="jiathis_button_tsina" title="分享到微博"><span class="jiathis_txt jiathis_separator jtico jtico_tsina"><b><i class="iconfont"></i></b><em>新浪微博</em></span></a><a class="jiathis_button_cqq" title="分享到QQ好友"><span class="jiathis_txt jiathis_separator jtico jtico_cqq"><b><i class="iconfont"></i></b><em>QQ好友</em></span></a><a class="jiathis_button_qzone" title="分享到QQ空间"><span class="jiathis_txt jiathis_separator jtico jtico_qzone"><b><i class="iconfont"></i></b><em>QQ空间</em></span></a></div>
+        
+        <!--JiaThis Button END-->
+      </div>
+      <div class="sharePopup_cancel">取 消</div>
+    </div>
+    
+
+
+
+
+
+
+
+   <div class="backToTop" style="z-index: 9999999; display: block;"><img src="iconfont-fudongxiangshang.png" alt="img"></div>
+    <div class="blog_footer">©1999-2012, csdn.net, All Rights Reserved</div>
+    
+
+
+
+
+
+
+<div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" type="text" value="" id="focus_retriever" readonly="true"></div></body></html>

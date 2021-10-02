@@ -1,0 +1,364 @@
+<!DOCTYPE html><html style="font-size: 22.5px;"><head><meta charset="UTF-8">
+   <link rel="canonical" href="http://blog.csdn.net/pashine/article/details/42100237">
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-status-bar-style" content="yes">    
+    <meta name="shenma-site-verification" content="bf32a58a3df1c3452b75fbe96c7feb42_1497604697">
+    
+    <!--link( rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/css/index.css" )-->
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="avatar.css">
+    <link rel="stylesheet" href="common.css">
+    <!-- [if IE 7]-->
+    <!--link( rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" )-->
+    <!-- [endif]-->
+    <link rel="stylesheet" href="main.css">
+    <!-- [if lt IE 9]-->
+    
+    <!-- [endif]-->
+        <title>VBA获取某文件夹下所有文件和子文件目录的文件 - Gold Country---Pashine技术博客 - CSDN博客</title>
+    
+    
+
+
+
+    
+
+
+   
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 25px; height: 18px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><link href="jiathis_share.css" rel="stylesheet" type="text/css"><iframe frameborder="0" style="position: absolute; display: none; opacity: 0;" src="0.htm"></iframe><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; top: 50%; left: 50%; overflow: auto;"></div><div class="jiathis_style" style="position: absolute; z-index: 1000000000; display: none; overflow: auto;"></div><iframe frameborder="0" src="jiathis_utility.html" style="display: none;"></iframe><div id="MathJax_Message" style="display: none;"></div>
+    
+<!-- 广告位开始 --> 
+<ins data-revive-zoneid="202" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins> 
+<!-- 广告位结束 -->
+
+
+
+
+
+
+<link rel="stylesheet" href="markdown_views.css_v_2.0.css">
+
+
+
+
+
+
+<div class="blog_main">
+      <div class="blog_top_wrap">
+        <div class="blog_top"><i id="menu_J" class="iconfont icon_l"></i>
+            <form method="get" action="http://m.blog.csdn.net/search/index" id="searchform">
+    <i id="search_J" class="iconfont icon_r"></i>
+    <div id="search_c_J" class="search">
+         <input type="text" placeholder="请输入" id="search" name="keyword" page="1" value=""><i class="iconfont icon_search"></i><i class="iconfont icon_close"></i>
+    </div>
+</form>
+
+
+
+
+
+          <h2 class="blog_top_t">CSDN博客</h2>
+        </div>
+      </div>
+
+ 
+
+      <div class="main_list">
+     
+
+         
+        
+          
+                  
+          <!-- 广告位：WAP端-博客详情页banner1-20:3 -->
+        <div id="_6b6vlvzxn0jrwwmi"></div>
+
+
+        <div class="blog_article">
+          <div class="blog_article_t">
+            <div class="article_l"><a href="http://m.blog.csdn.net/pashine"><img src="1_pashine.jpg" alt="img"></a>
+                <a href="http://m.blog.csdn.net/pashine" class="article_user">pashine</a></div>
+            <div class="article_r">
+            </div>
+          </div>
+          <div class="blog_article_c clearfix">
+            <h3 class="article_t">VBA获取某文件夹下所有文件和子文件目录的文件</h3>
+            <p class="date"><i>发表于</i><em>2014/12/23 11:11:54  &nbsp;</em><i>23312</i><span>人阅读</span></p>
+            <p class="category_p">
+                    分类：
+                        <span>Excel/VBA</span>
+                        <span>VB6.0</span>
+            </p>
+             
+<div class="article_c">
+
+<pre name="code" class="vb" style="width: 100%; overflow: hidden;">&lt;strong&gt;VBA获取某文件夹下所有文件，或子文件目录的文件&lt;/strong&gt;
+</pre><pre name="code" class="vb" style="width: 100%; overflow: hidden;"></pre><pre name="code" class="vb" style="width: 100%; overflow: hidden;">'-------------------------------------------
+'获取某文件夹下的所有Excel文件
+'-------------------------------------------
+Sub getExcelFile(sFolderPath As String)
+On Error Resume Next
+Dim f As String
+Dim file() As String
+Dim x
+k = 1
+
+ReDim file(1)
+file(1) = sFolderPath &amp; "\"
+
+    f = Dir(file(1) &amp; "*.xlsx")     '通配符*.*表示所有文件，*.xlsx Excel文件
+    Do Until f = ""
+       'Range("a" &amp; x) = f
+       Range("a" &amp; x).Hyperlinks.Add Anchor:=Range("a" &amp; x), Address:=file(i) &amp; f, TextToDisplay:=f
+        x = x + 1
+        f = Dir
+    Loop
+
+End Sub
+
+'-------------------------------------------
+'获取某文件夹下的所有文件和子目录下的文件
+'-------------------------------------------
+Sub getAllFile(sFolderPath As String)
+'Columns(1).Delete
+On Error Resume Next
+Dim f As String
+Dim file() As String
+Dim i, k, x
+x = 1
+i = 1
+k = 1
+
+ReDim file(1 To i)
+file(1) = sFolderPath &amp; "\"
+
+'-- 获得所有子目录
+Do Until i &gt; k
+    f = Dir(file(i), vbDirectory)
+        Do Until f = ""
+            If InStr(f, ".") = 0 Then
+                k = k + 1
+                ReDim Preserve file(1 To k)
+                file(k) = file(i) &amp; f &amp; "\"
+            End If
+            f = Dir
+        Loop
+    i = i + 1
+Loop
+
+'-- 获得所有子目录下的所有文件
+For i = 1 To k
+    f = Dir(file(i) &amp; "*.*")    '通配符*.*表示所有文件，*.xlsx Excel文件
+    Do Until f = ""
+       'Range("a" &amp; x) = f
+       Range("a" &amp; x).Hyperlinks.Add Anchor:=Range("a" &amp; x), Address:=file(i) &amp; f, TextToDisplay:=f
+        x = x + 1
+        f = Dir
+    Loop
+Next
+End Sub
+</pre><br>
+ </div>
+
+          </div>
+
+                               
+
+             <div class="blog_handle">
+        <span id="digg" style="cursor:pointer"><i class="iconfont"></i><em>1</em></span>
+        <span id="bury" style="cursor:pointer"><i class="iconfont"></i><em>0</em></span>
+       
+    </div>
+
+
+
+              <div class="prev_next">
+              </div>         
+        </div>
+        
+    
+
+                     
+          <!-- 广告位：WAP端-博客详情页banner2-20:3 -->
+        <div id="_4ow0k6h2lvzn0zfr"></div>
+
+
+       
+
+
+
+<div class="no_comment" style="display:none"><i class="iconfont"></i><span>暂无评论，</span><a href="http://m.blog.csdn.net/comment/post?id=42100237">我去发表</a><em>~</em></div>
+
+ <div class="blog_comment" style="">
+       <h3 class="isComment">评论<span>（1）</span></h3>
+       <dl class="blog_comment_list"> <dl class="blog_comment_list">      <dt class="clearfix">        <label><a href="http://m.blog.csdn.net/blog/index?username=ok11223388"><img src="3_ok11223388.jpg.gif" alt="ok11223388"></a><a href="42100237.htm#" class="com_user">ok11223388</a></label><span><em>1</em>楼</span>      </dt>      <dd>         <p class="comment_c">idea very good</p>         <div class="com_time clearfix"><span>2015-06-17 21:28</span><a href="http://m.blog.csdn.net/comment/post?id=42100237&amp;replyId=5148977&amp;replyUserName=ok11223388#reply" class="com_reply">回复</a></div>       </dd>     </dl></dl>
+       <div class="checkAll"><a href="http://m.blog.csdn.net/comment/post?id=42100237">发表评论</a></div>
+ </div>
+
+
+
+
+
+       
+        <div style="display:none" id="tags">vba,class,pre,vb</div>
+
+   
+
+<!-- 广告位：WAP端-博客详情页banner3-20:5 -->
+<div id="_7d4mx7ii7t10dx6r"></div>
+
+<div class="my_hot_article">
+         <h3 class="isArticle">相关博文</h3>
+
+                  <ul class="hot_article tracking-ad" id="res" data-mod="popu_36">
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/lornce/5220800" title="VBA读取文件夹下所有文件" strategy="BlogCommendFromCsdn" target="_blank">VBA读取文件夹下所有文件</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/alexbnlee/article/details/6932339" title="Excel VBA - 遍历某个文件夹中文件、文件夹及批量建立txt" strategy="BlogCommendFromCsdn" target="_blank">Excel VBA - 遍历某个文件夹中文件、文件夹及批量建立txt</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://download.csdn.net/download/dqxxx/2970874" title="VBA'提取文件夹下所有文件名[张志晨]" strategy="BlogCommendFromCsdn" target="_blank">VBA'提取文件夹下所有文件名[张志晨]</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/rfb0204421/article/details/7195557" title="VBA使用FileSystemObject将读取或写入文本文件" strategy="BlogCommendFromCsdn" target="_blank">VBA使用FileSystemObject将读取或写入文本文件</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/u012250252/article/details/44102861" title="VBA 读取/写入文本文件" strategy="BlogCommendFromCsdn" target="_blank">VBA 读取/写入文本文件</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/ghxbob/article/details/26973319" title="【VBA】VBA打开文件选择框、取得文件全路径与文件名" strategy="BlogCommendFromCsdn" target="_blank">【VBA】VBA打开文件选择框、取得文件全路径与文件名</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/niepangu/article/details/49096263" title="VBA如何获取当前EXCEL文件的路径" strategy="BlogCommendFromCsdn" target="_blank">VBA如何获取当前EXCEL文件的路径</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/nisaijie/article/details/5377553" title="用VBA获取文件夹中的文件列表" strategy="BlogCommendFromCsdn" target="_blank">用VBA获取文件夹中的文件列表</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/liuxiang860927/article/details/10359145" title="Excel VBA 获取指定路径下的文件夹名称" strategy="BlogCommendFromCsdn" target="_blank">Excel VBA 获取指定路径下的文件夹名称</a>
+                                   </li>
+                                   <li>                                      
+                                       <a href="http://blog.csdn.net/htl258/article/details/4548556" title="BULK INSERT用法详解,文本导入SQL,字段数量不等实例." strategy="BlogCommendFromCsdn" target="_blank">BULK INSERT用法详解,文本导入SQL,字段数量不等实例.</a>
+                                   </li>
+                  </ul>
+        </div>
+
+      
+
+<!-- 广告位：WAP端-博客详情页banner4-20:5 -->
+<div id="_8751s21k3x7s0pb9"></div>
+
+        
+    <div class="my_hot_article">
+          <h3 class="isArticle">我的热门文章</h3>
+          <ul class="hot_article">
+                <li><a href="http://m.blog.csdn.net/pashine/article/details/7686109">Excel中只对可见数据求和，实现完美自动筛选.</a></li>
+                <li><a href="42100237.htm">VBA获取某文件夹下所有文件和子文件目录的文件</a></li>
+                <li><a href="http://m.blog.csdn.net/pashine/article/details/1845036">使用批处理设置、启动和停止服务  </a></li>
+                <li><a href="http://m.blog.csdn.net/pashine/article/details/12880095">DataGridView控件用法（一）绑定数据-修改列值-序号列-交换列顺序</a></li>
+                <li><a href="http://m.blog.csdn.net/pashine/article/details/41242137">通过VBA在Excel中添加菜单和菜单项按钮（Excel启动时候添加）</a></li>
+          </ul>
+        </div>
+
+
+
+
+
+
+
+
+
+
+       
+      </div>
+
+        
+   <div class="leftNav">
+      
+<div class="left_top">
+        <a href="https://passport.csdn.net/account/login?from=http%3a%2f%2fm.blog.csdn.net%2fpashine%2farticle%2fdetails%2f42100237"><img src="1_csdn.jpg.gif"></a>
+        <a href="https://passport.csdn.net/account/login?from=http%3a%2f%2fm.blog.csdn.net%2fpashine%2farticle%2fdetails%2f42100237" class="sign">未登录</a> 
+</div>
+        
+        <ul class="nav_list">
+            <li><a href="http://m.blog.csdn.net/home/index"><i>•</i><span>首页</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=mobile&amp;Type="><i>•</i><span>移动开发</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=enterprise&amp;Type="><i>•</i><span>架构</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=cloud&amp;Type="><i>•</i><span>云计算/大数据</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=www&amp;Type="><i>•</i><span>互联网</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=system&amp;Type="><i>•</i><span>运维</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=database&amp;Type="><i>•</i><span>数据库</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=web&amp;Type="><i>•</i><span>前端</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=code&amp;Type="><i>•</i><span>编程语言</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=software&amp;Type="><i>•</i><span>研发管理</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+                <li><a href="http://m.blog.csdn.net/Column/Column?Channel=other&amp;Type="><i>•</i><span>综合</span><img src="iconfont-youjiantou.png" alt="img" class="arrow_r"></a></li>
+        </ul>
+   </div>
+   
+
+      <div id="mask"></div>
+    </div>
+
+
+   
+
+    <div class="backToTop" style="display: block;"><img src="iconfont-fudongxiangshang.png" alt="img"></div>
+    <!--分享弹窗：-->
+    <div class="popup_cover"></div>
+    <div class="sharePopup_box">
+      <div class="sharePopup">
+        <!--JiaThis Button BEGIN-->
+        <div class="jiathis_style_32x32"><a class="jiathis_button_weixin" title="分享到微信"><span class="jiathis_txt jiathis_separator jtico jtico_weixin"><b><i class="iconfont"></i></b><em>微信分享</em></span></a><a class="jiathis_button_tsina" title="分享到微博"><span class="jiathis_txt jiathis_separator jtico jtico_tsina"><b><i class="iconfont"></i></b><em>新浪微博</em></span></a><a class="jiathis_button_cqq" title="分享到QQ好友"><span class="jiathis_txt jiathis_separator jtico jtico_cqq"><b><i class="iconfont"></i></b><em>QQ好友</em></span></a><a class="jiathis_button_qzone" title="分享到QQ空间"><span class="jiathis_txt jiathis_separator jtico jtico_qzone"><b><i class="iconfont"></i></b><em>QQ空间</em></span></a></div>
+        
+        <!--JiaThis Button END-->
+      </div>
+      <div class="sharePopup_cancel">取 消</div>
+    </div>
+    
+
+
+
+
+
+
+
+   <div class="backToTop" style="z-index: 9999999; display: block;"><img src="iconfont-fudongxiangshang.png" alt="img"></div>
+    <div class="blog_footer">©1999-2012, csdn.net, All Rights Reserved</div>
+    
+
+
+
+
+
+
+<div style="position:fixed; top:0; left:0; overflow:hidden;"><input style="position:absolute; left:-300px;" type="text" value="" id="focus_retriever" readonly="true"></div></body></html>

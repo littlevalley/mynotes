@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="origin">
+    <meta property="og:description" content="先看看vue中使用的表单校验，npm 安装表单校验相关的依赖后会自动生成一个文件夹，在这个文件夹的index.js中配置即可，如下 这里还安装了中文依赖包 再来看看表单校验自定义错误提示信息messa">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>vue--表单检验、常用到的一些正则表达校验、身份证15位转18位 - 望兰鸟 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="https://common.cnblogs.com/favicon.ico?v=20200522" type="image/x-icon">
+    
+    <link rel="stylesheet" href="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+    <link id="MainCss" rel="stylesheet" href="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-buildtowin.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-buildtowin-mobile.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/shenpeng/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/shenpeng/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/shenpeng/wlwmanifest.xml">
+    <script async="" src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+    <script src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js"></script>
+    <script>
+        var currentBlogId = 433557;
+        var currentBlogApp = 'shenpeng';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var skinName = 'BuildtoWin';
+    </script>
+    
+    
+    
+<style>
+.vimvixen-console-frame {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 2147483647;
+  border: none;
+  background-color: unset;
+  pointer-events:none;
+}
+
+.vimvixen-hint {
+  background-color: yellow;
+  border: 1px solid gold;
+  font-weight: bold;
+  position: absolute;
+  text-transform: uppercase;
+  z-index: 2147483647;
+  font-size: 12px;
+  color: black;
+}
+</style><link rel="preload" href="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_2020061901.js" async=""></script><link rel="preload" href="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script></head>
+<body>
+    <a name="top"></a>
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/shenpeng/"><img id="blogLogo" src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/shenpeng/">林间小树</a>
+</h1>
+<h2>
+
+</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/shenpeng/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%9C%9B%E5%85%B0%E9%B8%9F">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/shenpeng/rss/">
+订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			<span id="stats_post_count">随笔 - 
+34&nbsp; </span>
+<span id="stats_article_count">文章 - 
+0&nbsp; </span>
+<span id="stats-comment_count">评论 - 
+1</span>
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/shenpeng/p/11654382.html">
+    <span>vue--表单检验、常用到的一些正则表达校验、身份证15位转18位</span>
+    
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                
+<div id="cnblogs_post_body" class="blogpost-body ">
+    <p>&nbsp;</p>
+<p>先看看vue中使用的表单校验，npm 安装表单校验相关的依赖后会自动生成一个文件夹，在这个文件夹的index.js中配置即可，如下</p>
+<p>这里还安装了中文依赖包</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>import Vue from 'vue'<span style="color: #000000;">;
+import VeeValidate,{ Validator } from </span>'vee-validate'<span style="color: #000000;">;
+import message from </span>'./message'<span style="color: #000000;">;
+
+Vue.use(VeeValidate)
+Validator.localize(</span>'ch'<span style="color: #000000;">, message);
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;">验证规则</span>
+Validator.extend('mobile',{ <span style="color: #008000;">//</span><span style="color: #008000;">手机号码验证</span>
+    getMessage: '请输入正确的手机号码！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        </span><span style="color: #0000ff;">return</span>  /^(\+86)?1[3456789]\d{9}$/<span style="color: #000000;">.test(value);
+    }
+})
+
+Validator.extend(</span>'custName',{ <span style="color: #008000;">//</span><span style="color: #008000;"> 客户名称</span>
+    getMessage: '请输入正确的客户名称！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        </span><span style="color: #0000ff;">return</span> /^[\u4E00-\u9FA5A-Za-z()（）]+$/<span style="color: #000000;">.test(value);
+    }
+})
+
+Validator.extend(</span>'email',{ <span style="color: #008000;">//</span><span style="color: #008000;">邮箱地址验证</span>
+    getMessage: '请输入正确的邮箱地址！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        </span><span style="color: #0000ff;">return</span> /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/<span style="color: #000000;">.test(value);
+    }
+})
+
+Validator.extend(</span>'cardId',{ <span style="color: #008000;">//</span><span style="color: #008000;">身份证号码验证</span>
+    getMessage: '请输入正确的身份证号码！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        </span><span style="color: #0000ff;">return</span> /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/<span style="color: #000000;">.test(value);
+    }
+})
+
+Validator.extend(</span>'isQQ',{ <span style="color: #008000;">//</span><span style="color: #008000;">QQ号码验证</span>
+    getMessage: '请输入正确的QQ号码！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        </span><span style="color: #0000ff;">return</span> /^[1-9][0-9]{4,}$/<span style="color: #000000;">.test(value);
+    }
+})
+
+Validator.extend(</span>'isWX',{ <span style="color: #008000;">//</span><span style="color: #008000;">微信号码验证</span>
+    getMessage: '请输入正确的微信号码！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        </span><span style="color: #0000ff;">return</span> /^[a-zA-Z]([-_a-zA-Z0-9]{5,19})+$/<span style="color: #000000;">.test(value);
+    }
+})
+
+Validator.extend(</span>'isPhone',{ <span style="color: #008000;">//</span><span style="color: #008000;">电话号码验证</span>
+    getMessage: '请输入正确的电话号码！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        </span><span style="color: #0000ff;">return</span> /^(\+86)?1[3456789]\d{9}$/<span style="color: #000000;">.test(value);
+    }
+})
+
+Validator.extend(</span>'isfax',{ <span style="color: #008000;">//</span><span style="color: #008000;">传真号码验证</span>
+    getMessage: '请输入正确的传真号码！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        </span><span style="color: #0000ff;">return</span> /^(\d{3,4}-)?\d{7,8}$/<span style="color: #000000;">.test(value);
+    }
+})
+
+Validator.extend(</span>'isHomeNum',{ <span style="color: #008000;">//</span><span style="color: #008000;">家庭电话号码</span>
+    getMessage: '请输入正确的家庭电话号码！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        let reg </span>= /^(\d{3,4}-)\d{7,8}$/<span style="color: #000000;">;
+        let reg1 </span>= /^(1[3456789]\d{9})$/<span style="color: #000000;">;
+        let reg2 </span>= /^(\+86)?[0-9]{1,11}$/<span style="color: #000000;">;
+        </span><span style="color: #0000ff;">return</span> reg.test(value) || reg1.test(value) ||<span style="color: #000000;"> reg2.test(value);
+    }
+})
+
+Validator.extend(</span>'isTax',{ <span style="color: #008000;">//</span><span style="color: #008000;">传真号码验证</span>
+    getMessage: '请输入正确的税务号！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        let reg </span>= /^[A-Z0-9]{15}$/<span style="color: #000000;">;
+        let reg1 </span>= /^[A-Z0-9]{18}$/<span style="color: #000000;">;
+        </span><span style="color: #0000ff;">return</span> reg.test(value) ||<span style="color: #000000;"> reg1.test(value)
+    }
+})
+
+Validator.extend(</span>'isCard',{ <span style="color: #008000;">//</span><span style="color: #008000;">通用证件号码验证</span>
+    getMessage: '请输入正确的号码！'<span style="color: #000000;">,
+    validate: value </span>=&gt;<span style="color: #000000;"> {
+        let reg </span>= /^[\u4e00-\u9fa5]+$/<span style="color: #000000;">;
+        </span><span style="color: #0000ff;">return</span> !<span style="color: #000000;">reg.test(value);
+    }
+})</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p>再来看看表单校验自定义错误提示信息message.js文件</p>
+<p><img src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/1054735-20191011152726504-300311484.png" alt=""></p>
+<p>&nbsp;</p>
+<p>以下是常规js校验</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008000;">//</span><span style="color: #008000;"> 身份证15位转18位</span>
+<span style="color: #000000;">checkCardID (cardID) {
+    let v </span>= <span style="color: #0000ff;">new</span><span style="color: #000000;"> Array();
+    let vs </span>= "10X98765432"<span style="color: #000000;">;
+    let cardObj </span>=<span style="color: #000000;"> {
+        code:</span>''<span style="color: #000000;">,
+        val: </span>''<span style="color: #000000;">
+    }
+    v.push(</span>2, 4, 8, 5, 10, 9, 7, 3, 6, 1, 2, 4, 8, 5, 10, 9, 7<span style="color: #000000;">);
+    </span><span style="color: #0000ff;">if</span> (cardID.length != 15<span style="color: #000000;">) {
+        cardObj.code </span>= '0'<span style="color: #000000;">;
+        cardObj.val </span>= "请输入15位身份证号码！"<span style="color: #000000;">;
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> cardObj;
+    }
+    let reg </span>= /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">if</span> (reg.test(cardID) === <span style="color: #0000ff;">false</span><span style="color: #000000;">) {
+        cardObj.code </span>= '0'<span style="color: #000000;">;
+        cardObj.val </span>= "请输入正确的身份证信息"
+        <span style="color: #0000ff;">return</span><span style="color: #000000;"> cardObj;
+    }
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">将15位的号码转换位17位</span>
+    let cardIDcardID17 = cardID.substring(0, 6) + "19" + cardID.substring(6<span style="color: #000000;">);
+    let N </span>= 0<span style="color: #000000;">;
+    let R </span>= -1<span style="color: #000000;">;
+    let T </span>= '0';<span style="color: #008000;">//</span><span style="color: #008000;">储存最后一个数字</span>
+    let j = 0<span style="color: #000000;">;
+    </span><span style="color: #008000;">//</span><span style="color: #008000;">计数出第18位数字</span>
+    <span style="color: #0000ff;">for</span> (let i = 16; i &gt;= 0; i--<span style="color: #000000;">) {
+        N </span>+= parseInt(cardIDcardID17.substring(i, i + 1)) *<span style="color: #000000;"> v[j];
+        j</span>++<span style="color: #000000;">;
+    }
+    R </span>= N % 11<span style="color: #000000;">;
+    T </span>=<span style="color: #000000;"> vs.charAt(R);
+    cardObj.code </span>= '1'<span style="color: #000000;">;
+    cardObj.val </span>= cardIDcardID17 +<span style="color: #000000;"> T;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> cardObj;
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">判断输入的月份是否正确</span>
+<span style="color: #000000;">checkMonth(month) {
+    </span><span style="color: #0000ff;">if</span> (month &lt; 1 || month &gt; 12<span style="color: #000000;">) {
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+},
+</span><span style="color: #008000;">/*</span><span style="color: #008000;">*
+**检查你输入的天数是否正确
+**yean为年
+**month为月
+**day为日
+*</span><span style="color: #008000;">*/</span><span style="color: #000000;">
+checkDay (year, month, day) {
+    let Mday </span>= 0<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">if</span> (day &lt; 1 || day &gt; 31<span style="color: #000000;">) {
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+    }
+    </span><span style="color: #0000ff;">if</span> (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12<span style="color: #000000;">) {
+        Mday </span>= 31<span style="color: #000000;">;
+    }
+    </span><span style="color: #0000ff;">if</span> (month == 4 || month == 6 || month == 9 || month == 11<span style="color: #000000;">) {
+        Mday </span>= 30<span style="color: #000000;">;
+    }
+    </span><span style="color: #0000ff;">if</span> (month == 2<span style="color: #000000;">) {
+        Mday </span>=<span style="color: #000000;"> isLeapYear(year);
+    }
+    </span><span style="color: #0000ff;">if</span> (day &gt;<span style="color: #000000;"> Mday) {
+        </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">false</span><span style="color: #000000;">;
+    }
+    </span><span style="color: #0000ff;">return</span> <span style="color: #0000ff;">true</span><span style="color: #000000;">;
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">判断你输入的年是否位闰年</span>
+<span style="color: #000000;">isLeapYear(year) {
+    </span><span style="color: #0000ff;">return</span> (year % 4 == 0 &amp;&amp; year % 100 != 0) || (year % 400 == 0) ? 29 : 28<span style="color: #000000;">;
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 身份证判断</span>
+<span style="color: #000000;">isCardId(card) {
+    let reg </span>= /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card);
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 护照判断</span>
+<span style="color: #000000;">isPassPort(card) {
+    let reg </span>= /^([a-zA-z]|[0-9]){6,64}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card);
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 港澳台通行证</span>
+<span style="color: #000000;">isPassCard(card) {
+    let reg </span>= /^[HMhm]{1}([0-9]{10}|[0-9]{8})$/<span style="color: #000000;">;
+    let reg1 </span>= /^[0-9]{8}$/<span style="color: #000000;">;
+    let reg2 </span>= /^[0-9]{10}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span> reg.test(card) || reg1.test(card) ||<span style="color: #000000;"> reg2.test(card);
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 军人证件</span>
+<span style="color: #000000;">isSoldier (card) {
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> 样本： 军字第2001988号, 士字第P011816X号</span>
+    let reg = /^[\u4E00-\u9FA5](字第)([0-9a-zA-Z]{4,8})(号?)$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card) 
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 组织机构代码证</span>
+<span style="color: #000000;">isOrg (card) {
+    let reg </span>= /^[A-Za-z0-9]{9}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 工商登记证</span>
+<span style="color: #000000;">isBusiness (card) {
+    let reg </span>= /^([A-Za-z0-9]{15}|[A-Za-z0-9]{18})$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 税务登记证</span>
+<span style="color: #000000;">isTaxAdministration (card) {
+    let reg </span>= /^([A-Z0-9]{15}|[A-Z0-9]{17}|[A-Z0-9]{20})$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 事业单位法人证</span>
+<span style="color: #000000;">isInstitution (card) {
+    let reg </span>= /^12[\d\w\W]{16}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 社会团体法人登记证</span>
+<span style="color: #000000;">isSocialOrganization (card) {
+    let reg </span>= /^51[\d\w\W]{16}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 18为证件号码校验</span>
+<span style="color: #000000;">isEighteen (card){
+    let reg </span>= /^[A-Za-z0-9]{18}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 外国人永久居留居住证</span>
+<span style="color: #000000;">isForeign(card) {
+    let reg </span>= /^[A-Za-z0-9]{15}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 户口本校验</span>
+<span style="color: #000000;">isAccountCard(card) {
+    </span><span style="color: #008000;">//</span><span style="color: #008000;"> 户口本</span>
+    <span style="color: #008000;">//</span><span style="color: #008000;"> 规则： 15位数字, 18位数字, 17位数字 + X</span>
+    <span style="color: #008000;">//</span><span style="color: #008000;"> 样本： 441421999707223115</span>
+    <span style="color: #0000ff;">var</span> reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 统一社会信用代码证</span>
+<span style="color: #000000;">isSocialCredit (card) {
+    let reg </span>= /^[A-Za-z0-9]{18}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+
+</span><span style="color: #008000;">/*</span><span style="color: #008000;">*证件子类型*</span><span style="color: #008000;">*/</span>
+<span style="color: #008000;">//</span><span style="color: #008000;">外国驻华新闻机构证 21</span>
+<span style="color: #000000;">isCheckCard1 (card){
+    let reg </span>= /^21[A-Za-z0-9]{16}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+isCheckCard789 (card){
+    let reg </span>= /^21[A-Za-z0-9]{16}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">宗教活动场所登记证 71</span>
+<span style="color: #000000;">isCheckCard2 (card){
+    let reg </span>= /^71[A-Za-z0-9]{16}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">民办非企业单位登记证 52</span>
+<span style="color: #000000;">isCheckCard3 (card){
+    let reg </span>= /^52[A-Za-z0-9]{16}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">基金会法人登记证 53</span>
+<span style="color: #000000;">isCheckCard4 (card){
+    let reg </span>= /^53[A-Za-z0-9]{16}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">工会法人资格证书 8</span>
+<span style="color: #000000;">isCheckCard5 (card){
+    let reg </span>= /^8[A-Za-z0-9]{17}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">律师事务所执业许可证 3</span>
+<span style="color: #000000;">isCheckCard6 (card){
+    let reg </span>= /^3[A-Za-z0-9]{17}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">外国律师事务所驻华代表处执业许可证 3</span>
+<span style="color: #000000;">isCheckCard7 (card){
+    let reg </span>= /^3[A-Za-z0-9]{17}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">基层群众性自治组织特别法人统一社会信用代码证书 55</span>
+<span style="color: #000000;">isCheckCard8 (card){
+    let reg </span>= /^55[A-Za-z0-9]{16}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">上海市农村集体经济组织登记证书 N</span>
+<span style="color: #000000;">isCheckCard9 (card){
+    let reg </span>= /^N[A-Za-z0-9]{17}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},
+</span><span style="color: #008000;">//</span><span style="color: #008000;">境外非政府组织代表机构登记证书 G</span>
+<span style="color: #000000;">isCheckCard10 (card){
+    let reg </span>= /^G[A-Za-z0-9]{17}$/<span style="color: #000000;">;
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> reg.test(card)
+},</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+</div>
+<div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/shenpeng/category/1356352.html" target="_blank">js</a>,             <a href="https://www.cnblogs.com/shenpeng/category/1347706.html" target="_blank">vue</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/shenpeng/tag/vue%E3%80%81%E8%A1%A8%E5%8D%95%E6%A0%A1%E9%AA%8C%E3%80%81%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C/">vue、表单校验、正则表达校验</a></div>
+
+    <div id="blog_post_info"></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/shenpeng/p/11654343.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/shenpeng/p/11654343.html" title="发布于 2019-10-11 15:11">js--时间转成字符串、获取时间戳</a>
+    <br>
+    <a href="https://www.cnblogs.com/shenpeng/p/11654619.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/shenpeng/p/11654619.html" title="发布于 2019-10-11 15:42">js--翻书效果的实现</a>
+
+</div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2019-10-11 15:16</span>&nbsp;
+<a href="https://www.cnblogs.com/shenpeng/">望兰鸟</a>&nbsp;
+阅读(<span id="post_view_count">...</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=11654382" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(11654382);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/highlight.js"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 433557, cb_blogApp = 'shenpeng', cb_blogUserGuid = '07ab7ecb-f99f-e611-845c-ac853d9f53ac';
+    var cb_entryId = 11654382, cb_entryCreatedDate = '2019-10-11 15:16', cb_postType = 1; 
+    loadViewCount(cb_entryId);
+    loadSideColumnAd();
+</script><a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<script>
+    var commentManager = new blogCommentManager();
+    commentManager.renderComments(0);
+</script>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    注册用户登录后才能发表评论，请 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a>
+     或 
+    <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，
+    <a href="https://www.cnblogs.com/">访问</a> 网站首页。
+</div></div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"></div>
+    <div id="opt_under_post"></div>
+    <script async="" src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+    <script>
+        var mobileVisit = screen.width < 500;
+        window.googletag = window.googletag || { cmd: [] };
+        googletag.cmd.push(function () {
+            googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1592365906576-0').addService(googletag.pubads());
+            if (!mobileVisit) {
+                googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1592366332455-0').addService(googletag.pubads());
+            }
+            googletag.pubads().enableSingleRequest();
+            googletag.enableServices();
+        });
+    </script>
+    <div id="cnblogs_c1" class="c_ad_block">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;" data-google-query-id="CJKi9MyUmeoCFYbQfAodOUAEoA">
+            
+        <div id="google_ads_iframe_/1090369/C1_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C1_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C1_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div>
+    </div>
+    <div id="under_post_news"></div>
+    <div id="cnblogs_c2" class="c_ad_block">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;" data-google-query-id="CJOi9MyUmeoCFYbQfAodOUAEoA">
+            <script>
+                if (!mobileVisit) {
+                    if (canShowAdsense()) {
+                        googletag.cmd.push(function () { googletag.display('div-gpt-ad-1592366332455-0'); });
+                    } else {
+                        $('#cnblogs_c2').hide();
+                    }
+                }
+            </script>
+        <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none; width: 468px; height: 60px;"></div></div>
+    </div>
+    <div id="under_post_kb">
+<div class="itnews c_ad_block">
+    <b>最新 IT 新闻</b>:
+    <br>
+ ·              <a href="https://news.cnblogs.com/n/665788/" target="_blank">从引领者到追随者，库克带不动苹果创新</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/665785/" target="_blank">找车更精准！哈啰出行宣布旗下共享单车全面接入北斗定位</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/665784/" target="_blank">Instagram晒视频：马斯克分享与小儿子Baby X的互动</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/665783/" target="_blank">小米武汉总部营收破110亿 雷军：按容纳1万人规划建研发中心</a>
+            <br>
+ ·              <a href="https://news.cnblogs.com/n/665782/" target="_blank">联想集团董事长杨元庆：智慧经济发展将迎来新起点</a>
+            <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="c_ad_block">
+<b>历史上的今天：</b>
+<br>
+
+2019-10-11    <a href="https://www.cnblogs.com/shenpeng/p/11654343.html">js--时间转成字符串、获取时间戳</a>
+    <br>
+2019-10-11    <a href="https://www.cnblogs.com/shenpeng/p/11654308.html">vue--判断两个对象是否相等</a>
+    <br>
+</div>
+    <script type="text/javascript">
+        fixPostBody();
+        deliverBigBanner();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);        deliverAdT2();
+        deliverAdC1();
+        deliverAdC2();
+        loadNewsAndKb();
+        loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+        loadOptUnderPost();
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<div id="sidebar_news" class="newsItem">
+            <script>loadBlogNews();</script>
+</div>
+
+<div id="sidebar_ad"></div>
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" title="Calendar" cellspacing="0" cellpadding="0" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2020/05/24'); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2020年6月</td>
+                            <td class="CalNextPrev" align="right">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar('2020/07/24'); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+                    <th class="CalDayHeader" abbr="日" scope="col" align="center">日</th>
+                    <th class="CalDayHeader" abbr="一" scope="col" align="center">一</th>
+                    <th class="CalDayHeader" abbr="二" scope="col" align="center">二</th>
+                    <th class="CalDayHeader" abbr="三" scope="col" align="center">三</th>
+                    <th class="CalDayHeader" abbr="四" scope="col" align="center">四</th>
+                    <th class="CalDayHeader" abbr="五" scope="col" align="center">五</th>
+                    <th class="CalDayHeader" abbr="六" scope="col" align="center">六</th>
+        </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            <a href="https://www.cnblogs.com/shenpeng/archive/2020/06/02.html"><u>2</u></a>
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                        <td class="" align="center">
+                            5
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        6
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            7
+                        </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            13
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            14
+                        </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                <a href="https://www.cnblogs.com/shenpeng/archive/2020/06/18.html"><u>18</u></a>
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            20
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            21
+                        </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="CalTodayDay" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            27
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            28
+                        </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                3
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            4
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            5
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                10
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            11
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2020 望兰鸟
+<br><span id="poweredby">Powered by .NET Core on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    
+
+
+<iframe src="vue--%E8%A1%A8%E5%8D%95%E6%A3%80%E9%AA%8C%E3%80%81%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E6%A0%A1%E9%AA%8C%E3%80%81%E8%BA%AB%E4%BB%BD%E8%AF%8115%E4%BD%8D%E8%BD%AC18%E4%BD%8D%20-%20%E6%9C%9B%E5%85%B0%E9%B8%9F%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/console.html" id="vimvixen-console-frame" class="vimvixen-console-frame"></iframe><div id="SL_balloon_obj" alt="0" style="display: block;"><div id="SL_button" class="SL_ImTranslatorLogo" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/imtranslator-s.png&quot;) repeat scroll 0% 0%; display: none;"></div><div id="SL_shadow_translation_result2" style="display: none;"></div><div id="SL_shadow_translator"><div id="SL_planshet"><div id="SL_arrow_up" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/up.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_Bproviders"><div class="SL_BL_LABLE_ON" title="Google" id="SL_P0"><div id="SL_PN0">G</div></div><div class="SL_BL_LABLE_ON" title="Microsoft" id="SL_P1"><div id="SL_PN1">M</div></div><div class="SL_BL_LABLE_ON" title="Translator" id="SL_P2"><div id="SL_PN2">T</div></div><div class="SL_BL_LABLE_ON" title="Yandex" id="SL_P3"><div id="SL_PN3">Y</div></div></div><div id="SL_alert_bbl"><div id="SLHKclose" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/delete.png&quot;) repeat scroll 0% 0%;"></div><div id="SL_alert_cont"></div></div><div id="SL_TB"><table id="SL_tables" cellspacing="1"><tr><td class="SL_td" width="10%" align="right"><input id="SL_locer" type="checkbox" title="锁定语言"></td><td class="SL_td" width="20%" align="left"><select id="SL_lng_from" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="auto" selected="selected">检测语言</option><option value="eo">世界语</option><option value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" width="3" align="center"><div id="SL_switch_b" title="切换语言" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/switchb.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="20%" align="left"><select id="SL_lng_to" class="SL_lngs" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/select.png&quot;) no-repeat scroll 100% 0px;"><option value="eo">世界语</option><option selected="selected" value="zh-CN">中文简体</option><option value="zh-TW">中文繁体</option><option value="da">丹麦语</option><option value="uk">乌克兰语</option><option value="uz">乌兹别克语</option><option value="ur">乌尔都语</option><option value="hy">亚美尼亚语</option><option value="ig">伊博语</option><option value="ru">俄语</option><option value="bg">保加利亚语</option><option value="sd">信德语</option><option value="sn">修纳语</option><option value="si">僧伽罗语</option><option value="hr">克罗地亚语</option><option value="is">冰岛语</option><option value="gl">加利西亚语</option><option value="ca">加泰罗尼亚语</option><option value="hu">匈牙利语</option><option value="zu">南非祖鲁语</option><option value="kn">卡纳达语</option><option value="lb">卢森堡语</option><option value="hi">印地语</option><option value="su">印尼巽他语</option><option value="jw">印尼爪哇语</option><option value="id">印尼语</option><option value="gu">古吉拉特语</option><option value="ky">吉尔吉斯语</option><option value="kk">哈萨克语</option><option value="tr">土耳其语</option><option value="tg">塔吉克语</option><option value="sr">塞尔维亚语</option><option value="st">塞索托语</option><option value="haw">夏威夷语</option><option value="cy">威尔士语</option><option value="bn">孟加拉语</option><option value="ceb">宿务语</option><option value="ne">尼泊尔语</option><option value="eu">巴斯克语</option><option value="af">布尔语(南非荷兰语)</option><option value="iw">希伯来语</option><option value="el">希腊语</option><option value="ku">库尔德语</option><option value="fy">弗里西语</option><option value="de">德语</option><option value="it">意大利语</option><option value="yi">意第绪语</option><option value="la">拉丁语</option><option value="lv">拉脱维亚语</option><option value="no">挪威语</option><option value="cs">捷克语</option><option value="sk">斯洛伐克语</option><option value="sl">斯洛文尼亚语</option><option value="sw">斯瓦希里语</option><option value="pa">旁遮普语</option><option value="ja">日语</option><option value="ps">普什图语</option><option value="ka">格鲁吉亚语</option><option value="mi">毛利语</option><option value="fr">法语</option><option value="pl">波兰语</option><option value="bs">波斯尼亚语</option><option value="fa">波斯语</option><option value="te">泰卢固语</option><option value="ta">泰米尔语</option><option value="th">泰语</option><option value="ht">海地克里奥尔语</option><option value="ga">爱尔兰语</option><option value="et">爱沙尼亚语</option><option value="sv">瑞典语</option><option value="be">白俄罗斯语</option><option value="xh">科萨</option><option value="co">科西嘉语</option><option value="lt">立陶宛语</option><option value="so">索马里语</option><option value="yo">约鲁巴语</option><option value="my">缅甸语</option><option value="ro">罗马尼亚语</option><option value="lo">老挝语</option><option value="fi">芬兰语</option><option value="gd">苏格兰盖尔语</option><option value="hmn">苗语</option><option value="en">英语</option><option value="nl">荷兰语</option><option value="tl">菲律宾语</option><option value="sm">萨摩亚语</option><option value="pt">葡萄牙语</option><option value="mn">蒙古语</option><option value="es">西班牙语</option><option value="ha">豪萨语</option><option value="vi">越南语</option><option value="az">阿塞拜疆语</option><option value="am">阿姆哈拉语</option><option value="sq">阿尔巴尼亚语</option><option value="ar">阿拉伯语</option><option value="ko">韩语</option><option value="mk">马其顿语</option><option value="mg">马尔加什语</option><option value="mr">马拉地语</option><option value="ml">马拉雅拉姆语</option><option value="ms">马来语</option><option value="mt">马耳他语</option><option value="km">高棉语</option><option value="ny">齐切瓦语</option></select></td><td class="SL_td" width="8%" align="center"><div id="SL_TTS_voice" title="undefined" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/ttsvoice.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="8%" align="center"><div id="SL_copy" title="复制译文" class="SL_copy" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/copy.png&quot;) repeat scroll 0% 0%;"><div id="SL_copy_tip"></div></div></td><td class="SL_td" width="8%" align="center"><div id="SL_bbl_font_patch"></div><div id="SL_bbl_font" title="字体大小" class="SL_bbl_font" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/font.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="8%" align="center"><div id="SL_bbl_help" title="帮助" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bhelp.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="15%" align="right"><div id="SL_pin" class="SL_pin_off" title="固定弹出窗口" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/pin-on.png&quot;) repeat scroll 0% 0%;"></div></td></tr></table></div></div><div id="SL_shadow_translation_result" style="visibility: visible;"></div><div id="SL_loading" class="SL_loading" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/loading.gif&quot;) repeat scroll 0% 0%;"></div><div id="SL_player2" style="display: none;"></div><div id="SL_alert100" style="display: none;">文本转语音功能仅限200个字符</div><div id="SL_Balloon_options" style="background: rgb(255, 255, 255) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bg3.png&quot;) repeat scroll 0% 0%;"><div id="SL_arrow_down" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/down.png&quot;) repeat scroll 0% 0%;"></div><table id="SL_tbl_opt" width="100%"><tr><td class="SL_td" width="5%" align="center"><input id="SL_BBL_locer" type="checkbox" checked="checked" title="显示翻译器的按钮 3 秒"></td><td class="SL_td" width="5%" align="left"><div id="SL_BBL_IMG" title="显示翻译器的按钮 3 秒" style="background: rgba(0, 0, 0, 0) url(&quot;moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/img/util/bbl-logo.png&quot;) repeat scroll 0% 0%;"></div></td><td class="SL_td" width="70%" align="center"><a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?bbl" target="_blank" class="SL_options" id="SL_opt1" title="显示选项">选项</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?hist" target="_blank" class="SL_options" id="SL_opt2" title="翻译历史记录">历史</a> : <a href="moz-extension://738cdd04-a955-4995-93fd-b7340e85ee06/content/html/options/options.html?feed" target="_blank" class="SL_options" id="SL_opt3" title="反馈">反馈</a> : <a href="https://imtranslator.net/extensions/?tp=ff-ImTranslator&amp;a=0" target="_blank" class="SL_options" id="SL_opt4" title="作出一点点贡献">Donate</a></td><td class="SL_td" width="15%" align="right"><span id="SL_Balloon_Close" class="SL_options" title="关闭">关闭</span></td></tr></table></div></div></div></body></html>

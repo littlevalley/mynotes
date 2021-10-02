@@ -1,0 +1,390 @@
+<html><head><meta charset="UTF-8">
+
+
+
+<meta content="width=device-width,user-scalable=no" name="viewport">
+<meta name="apple-itunes-app" content="app-id=425349261">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>PyQt4在TextEdit控件中创建右键菜单 - CSDN博客</title>
+<link rel="Stylesheet" type="text/css" href="wapall.css">
+
+</head>
+<body>
+<div id="wrap">
+<div id="header">
+<a class="home" href="http://www.csdn.net/"><img src="home.png"></a> 
+<a class="logo" href="http://m.blog.csdn.net/">
+<img src="logo.jpg"></a>
+<a id="loginname" href="http://m.blog.csdn.net/blog/bienilz">bienilz</a>
+</div>
+<div id="nav">
+<a href="http://m.blog.csdn.net/" id="shouye1">首页</a>
+<a href="http://m.blog.csdn.net/column/index" id="zhuanlan1">专栏</a>
+<a href="http://m.blog.csdn.net/People/index" id="zhuanjia1">专家</a>
+<a href="http://m.blog.csdn.net/home/hot" id="rewen1">热文</a>
+</div>
+<div id="main">
+        <div id="top">
+        <div class="avatar">
+        <a href="http://m.blog.csdn.net/blog/qingyang1014" class="name">qingyang1014的专栏</a>
+        </div>
+        <div class="content">
+        <h1><a href="38625821.htm#">[原]PyQt4在TextEdit控件中创建右键菜单</a></h1>
+        <p class="time"><span>2014-8-17</span><span>阅读374</span> <a href="38625821.htm#comment">评论<span id="sp_cmt">0</span></a></p>
+        <div id="articlecontent">
+        
+<p>今天开发界面遇到一个问题，想将textedit的显示内容及时清空，但是由于系统自带的菜单没有清空功能，就需要自己添加该部分内容。</p>
+<p>查了很多资料：</p>
+<p>大致分为两种方法：</p>
+<p>1.一种是修改父窗口Widget的menu方法，添加整体的右键菜单，然后继承父类；通过捕捉右击鼠标的动作设定响应函数。</p>
+<p>2.第二种是重写子类的右键菜单，但是需要设定两个参数：</p>
+<p>self.textBrowser.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)<br>
+&nbsp;self.textBrowser.customContextMenuRequested.connect(self.showTextContextMe)<br>
+</p>
+<p>CustomContextMenu：保持通用菜单设置；<br>
+</p>
+<p>customContextMenuRequested：当有右击鼠标的动作时，弹出菜单，<br>
+</p>
+<p>showTextContextMe：显示位置函数<br>
+</p>
+<p><br>
+</p>
+<p>实际编程中，存在矛盾，如果完全继承父类菜单，修改子类菜单时需要重新设定父类菜单的功能，实现起来比较繁琐；</p>
+<p>但是菜单内容可以自己设置。</p>
+<p><br>
+</p>
+<p>编写位置显示函数时遇到以下效果区别：</p>
+<p>方法一：</p>
+<p>&nbsp; &nbsp; &nbsp; #将菜单在当前位置显示 &nbsp; &nbsp; &nbsp;&nbsp;<br>
+# &nbsp; &nbsp; &nbsp; &nbsp;self.TextContextMenu.move(QtGui.QCursor.pos())&nbsp;<br>
+# &nbsp; &nbsp; &nbsp; &nbsp;self.TextContextMenu.show() &nbsp;<br>
+&nbsp; &nbsp; &nbsp;方法二：<br>
+&nbsp; &nbsp; &nbsp; &nbsp; #在当前坐标下显示，但是菜单停止不走动<br>
+&nbsp; &nbsp; &nbsp; &nbsp; self.TextContextMenu.exec_(QtGui.QCursor.pos()) &nbsp; &nbsp; &nbsp; &nbsp;<br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br>
+&nbsp; &nbsp; &nbsp; &nbsp; #将菜单在右上方显示<br>
+# &nbsp; &nbsp; &nbsp; &nbsp;self.TextContextMenu.move(self.pos() + pos) &nbsp;<br>
+</p>
+<p><br>
+</p>
+<p>以下是参考的内容，转载过来作为标记：</p>
+<p>转自：<a target="_blank" href="http://blog.csdn.net/yuanzhangmei1/article/details/7724077">http://blog.csdn.net/yuanzhangmei1/article/details/7724077</a></p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px">
+<span style="font-size:18px">最近在看C++ GUI&nbsp; Qt4部分其中有个例子对于扩展一个应用程序提供一个上下文菜单，其中该程序只是定义一个变量来实现其中用到了一个函数（下文会给予解答）。但是更高级的是重新定义事件处理函数void contextMenuEvent(QContextMenuEvent *event)。下面讲解其contextMenuEvent(QContextMenuEvent *event)。</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px">
+<span style="line-height:20px"></span><span style="font-size:18px">&nbsp;</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">QWidget及其子类都可有右键菜单，因为QWidget有以下两个与右键菜单有关的函数：</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">Qt::ContextMenuPolicy contextMenuPolicy () const</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">void setContextMenuPolicy ( Qt::ContextMenuPolicy policy )</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">Qt::ContextMenuPolicy枚举类型包括：Qt::DefaultContextMenu, Qt::NoContextMenu, Qt::PreventContextMenu, Qt::ActionsContextMenu, and Qt::CustomContextMenu。<br>
+</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">使用方式如下：</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px">
+<span style="font-size:18px"><strong>1）默认是Qt::DefaultContextMenu。<br style="line-height:normal">
+</strong>它是利用右键菜单事件contextMenuEvent()来处理（which means the contextMenuEvent() handler is called)。就是要重写contextMenuEvent( QContextMenuEvent * event )函数。</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px">
+<span style="font-size:18px">例子(该例子即是我改写的)</span></p>
+<div class="dp-highlighter bg_cpp" style="font-family:Consolas,'Courier New',Courier,mono,serif; background-color:rgb(231,229,220); width:936.53125px; overflow:auto; padding-top:1px; line-height:26px; margin:18px 0px!important">
+<div class="bar" style="padding-left:45px">
+<div class="tools" style="padding:3px 8px 10px 10px; font-size:9px; line-height:normal; font-family:Verdana,Geneva,Arial,Helvetica,sans-serif; color:silver; background-color:rgb(248,248,248); border-left-width:3px; border-left-style:solid; border-left-color:rgb(153,153,153)">
+<strong>[cpp]</strong>&nbsp;<a target="_blank" href="http://blog.csdn.net/yuanzhangmei1/article/details/7724077#" class="ViewSource" title="view plain" style="color:rgb(160,160,160); text-decoration:none; background-color:inherit; border:none; padding:0px; margin:0px 10px 0px 0px; font-size:9px">view
+ plain</a><a target="_blank" href="http://blog.csdn.net/yuanzhangmei1/article/details/7724077#" class="CopyToClipboard" title="copy" style="color:rgb(160,160,160); text-decoration:none; background-color:inherit; border:none; padding:0px; margin:0px 10px 0px 0px; font-size:9px">copy</a><a target="_blank" href="http://blog.csdn.net/yuanzhangmei1/article/details/7724077#" class="PrintSource" title="print" style="color:rgb(160,160,160); text-decoration:none; background-color:inherit; border:none; padding:0px; margin:0px 10px 0px 0px; font-size:9px">print</a><a target="_blank" href="http://blog.csdn.net/yuanzhangmei1/article/details/7724077#" class="About" title="?" style="color:rgb(160,160,160); text-decoration:none; background-color:inherit; border:none; padding:0px; margin:0px 10px 0px 0px; font-size:9px">?</a>
+<div style="position:absolute; left:434px; top:808px; width:29px; height:14px; z-index:99">
+</div>
+</div>
+</div>
+<ol start="1" class="dp-cpp" style="padding:0px; border:none; list-style-position:initial; background-color:rgb(255,255,255); color:rgb(92,92,92); margin:0px 0px 1px 45px!important">
+<li class="alt" style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:inherit; line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit"><span style="margin:0px; padding:0px; border:none; background-color:inherit">&lt;span&nbsp;style=</span><span class="string" style="margin:0px; padding:0px; border:none; color:red; background-color:inherit">"font-size:18px;"</span><span style="margin:0px; padding:0px; border:none; background-color:inherit">&gt;</span><span class="keyword" style="margin:0px; padding:0px; border:none; color:blue; background-color:inherit; font-weight:bold">void</span><span style="margin:0px; padding:0px; border:none; background-color:inherit">&nbsp;MainWindow::contextMenuEvent(QContextMenuEvent&nbsp;*event)&nbsp;&nbsp;</span></span></li><li style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:rgb(85,85,85); line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit">{&nbsp;&nbsp;</span></li><li class="alt" style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:inherit; line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit">&nbsp;&nbsp;</span></li><li style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:rgb(85,85,85); line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit">&nbsp;&nbsp;&nbsp;&nbsp;Context&nbsp;=&nbsp;<span class="keyword" style="margin:0px; padding:0px; border:none; color:blue; background-color:inherit; font-weight:bold">new</span><span style="margin:0px; padding:0px; border:none; background-color:inherit">&nbsp;QMenu();&nbsp;&nbsp;</span></span></li><li class="alt" style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:inherit; line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit">&nbsp;&nbsp;&nbsp;&nbsp;Context-&gt;addAction(ui-&gt;actionCut);&nbsp;&nbsp;</span></li><li style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:rgb(85,85,85); line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit">&nbsp;&nbsp;&nbsp;&nbsp;Context-&gt;addAction(ui-&gt;actionCope);&nbsp;&nbsp;</span></li><li class="alt" style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:inherit; line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit">&nbsp;&nbsp;&nbsp;&nbsp;Context-&gt;addAction(ui-&gt;actionPase);&nbsp;&nbsp;</span></li><li style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:rgb(85,85,85); line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit">&nbsp;&nbsp;&nbsp;&nbsp;spreadsheet-&gt;setContextMenuPolicy(Qt::DefaultContextMenu);&nbsp;&nbsp;</span></li><li class="alt" style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:inherit; line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit">&nbsp;&nbsp;&nbsp;&nbsp;Context-&gt;exec(QCursor::pos());&nbsp;&nbsp;</span></li><li style="margin:0px!important; padding:0px 3px 0px 10px!important; border-style:none none none solid; border-left-width:3px; border-left-color:rgb(153,153,153); list-style:decimal-leading-zero outside; background-color:rgb(245,250,226); color:rgb(85,85,85); line-height:18px">
+<span style="margin:0px; padding:0px; border:none; color:black; background-color:inherit">}&lt;/span&gt;&nbsp;&nbsp;</span></li></ol>
+</div>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px">
+<span style="font-size:18px"><strong>2）使用Qt::CustomContextMenu。<br style="line-height:normal">
+</strong>它是发出QWidget::customContextMenuRequested信号，注意仅仅只是发信号，意味着要自己写显示右键菜单的slot。这个信号是QWidget唯一与右键菜单有关的信号（也是自有的唯一信号），同时也是很容易被忽略的signal：</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">void customContextMenuRequested ( const QPoint &amp; pos )</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">该信号的发出条件是：用户请求contextMenu（常规就是鼠标右击啦）且同时被击的widget其contextMenuPolicy又是Qt::CustomContextMenu。<br>
+注意：pos是该widget接收右键菜单事件的位置，一般是在该部件的坐标系中。但是对于QAbstratScrollArea及其子类例外，是对应着其视口viewport()的坐标系。如常用的QTableView、QHeaderView就是QAbstratScrollArea的子类。<br>
+因为仅发信号，所以需自己写显示右键菜单的slot来响应，例如一个表格（QTableView类型）表头的显示右键菜单槽：<br>
+datatable-&gt;horizontalHeader()-&gt;setContextMenuPolicy(Qt::CustomContextMenu);<br>
+connect(datatable-&gt;horizontalHeader(), SIGNAL(customContextMenuRequested(const QPoint&amp;)),&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this, SLOT(show_contextmenu(const QPoint&amp;)));//this是datatable所在窗口<br>
+QMenu *cmenu = NULL;<br>
+show_contextmenu(const QPoint&amp; pos)<br>
+{<br>
+&nbsp;&nbsp;&nbsp; if(cmenu)//保证同时只存在一个menu，及时释放内存<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; delete cmenu;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmenu = NULL;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; QMenu cmenu = new QMenu(datatable-&gt;horizontalHeader());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp; QAction *ascendSortAction = cmenu-&gt;addAction("升序");<br>
+&nbsp;&nbsp;&nbsp; QAction *descendSortAction = cmenu-&gt;addAction("降序");<br>
+&nbsp;&nbsp;&nbsp; QAction *filterAction = cmenu-&gt;addAction("过滤");<br>
+&nbsp;&nbsp;&nbsp; QAction *reshowAction = cmenu-&gt;addAction("重载");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp; connect(ascendSortAction, SIGNAL(triggered(bool)), this, SLOT(sort_ascend()));<br>
+&nbsp;&nbsp;&nbsp; connect(descendSortAction, SIGNAL(triggered(bool)), this, SLOT(sort_descend()));<br>
+&nbsp;&nbsp;&nbsp; connect(filterAction, SIGNAL(triggered(bool)), this, SLOT(show_filter_dlg()));<br>
+&nbsp;&nbsp;&nbsp; connect(reshowAction, SIGNAL(triggered(bool)), this, SLOT(reshow_data()));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp; cmenu-&gt;exec(QCursor::pos());//在当前鼠标位置显示<br>
+&nbsp;&nbsp;&nbsp; //cmenu-&gt;exec(pos)是在viewport显示<br>
+}</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">也可先做好cmenu，好处是始终使用一个：<br>
+&nbsp;&nbsp;&nbsp; QMenu cmenu = new QMenu(datatable-&gt;horizontalHeader());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp; QAction *ascendSortAction = cmenu-&gt;addAction("升序");<br>
+&nbsp;&nbsp;&nbsp; QAction *descendSortAction = cmenu-&gt;addAction("降序");<br>
+&nbsp;&nbsp;&nbsp; QAction *filterAction = cmenu-&gt;addAction("过滤");<br>
+&nbsp;&nbsp;&nbsp; QAction *reshowAction = cmenu-&gt;addAction("重载");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp; connect(ascendSortAction, SIGNAL(triggered(bool)), this, SLOT(sort_ascend()));<br>
+&nbsp;&nbsp;&nbsp; connect(descendSortAction, SIGNAL(triggered(bool)), this, SLOT(sort_descend()));<br>
+&nbsp;&nbsp;&nbsp; connect(filterAction, SIGNAL(triggered(bool)), this, SLOT(show_filter_dlg()));<br>
+&nbsp;&nbsp;&nbsp; connect(reshowAction, SIGNAL(triggered(bool)), this, SLOT(reshow_data()));<br>
+show_contextmenu(const QPoint&amp; pos)<br>
+{<br>
+&nbsp;&nbsp;&nbsp; if(cmenu)<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmenu-&gt;exec(QCursor::pos());<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px; line-height:26px">
+<span style="font-size:18px"><strong>3）使用Qt::ActionsContextMenu。<br style="line-height:normal">
+</strong>把部件的所有action即QWidget::actions()作为context menu显示出来。<br style="line-height:normal">
+还是上面的例子，要在表格（QTableView类型）表头显示右键菜单：<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QAction *ascendSortAction = new QAction("升序", this);<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QAction *descendSortAction = new QAction("降序", this);<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QAction *filterAction = new QAction("过滤", this);<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QAction *unfilterAction = new QAction("取消过滤", this);<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connect(ascendSortAction, SIGNAL(triggered(bool)), this, SLOT(sort_ascend()));<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connect(descendSortAction, SIGNAL(triggered(bool)), this, SLOT(sort_descend()));<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connect(filterAction, SIGNAL(triggered(bool)), this, SLOT(filter_table()));<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connect(unfilterAction, SIGNAL(triggered(bool)), this, SLOT(unfilter_table()));<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; datatable-&gt;horizontalHeader()-&gt;addAction(ascendSortAction);<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; datatable-&gt;horizontalHeader()-&gt;addAction(descendSortAction);<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; datatable-&gt;horizontalHeader()-&gt;addAction(filterAction);<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; datatable-&gt;horizontalHeader()-&gt;addAction(unfilterAction);<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br style="line-height:normal">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; datatable-&gt;horizontalHeader()-&gt;setContextMenuPolicy(Qt::ActionsContextMenu);</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">另外两个就是不显示context menu了：<br>
+Qt::NoContextMenu<br>
+&nbsp;&nbsp;&nbsp; the widget does not feature a context menu, context menu handling is deferred to the widget's parent.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+Qt::PreventContextMenu<br>
+&nbsp;&nbsp;&nbsp; the widget does not feature a context menu, and in contrast to NoContextMenu, the handling is not deferred to the widget's parent. This means that all right mouse button events are guaranteed to be delivered to the widget itself through mousePressEvent(),
+ and mouseReleaseEvent().</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px"><strong>补充：</strong><br>
+&nbsp;&nbsp;&nbsp; 使用Qt::ActionsContextMenu比较简洁，但是如果需要根据当前菜单弹出的位置来定义不同菜单，或者像上个例子，在表格（QTableView类型）表头显示右键菜单时，我需要知道是哪一列表头被点击，从而在后来调用sort_ascend()排序函数时能够根据不同列进行不同排序策略，那么Qt::ActionsContextMenu就做不到了。<br>
+&nbsp;&nbsp;&nbsp; 这种需要捕捉弹出位置的情况只好用Qt::ActionsContextMenu了，customContextMenuRequested ( const QPoint &amp; pos )信号返回点击位置pos（在表头视口坐标系中位置），然后表头即可调用logicalIndexAt(pos)函数得到被点击section对应的index即被点击部分的列号，然后存下来可供后面action激活的排序槽使用。<br>
+show_contextmenu(const QPoint&amp; pos)<br>
+{<br>
+&nbsp;&nbsp;&nbsp; //get related column of headerview<br>
+&nbsp;&nbsp;&nbsp; contextmenu_column = datatable-&gt;horizontalHeader()-&gt;logicalIndexAt(pos);</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">&nbsp;&nbsp;&nbsp; //show contextmenu<br>
+&nbsp;&nbsp;&nbsp; if(cmenu)<br>
+&nbsp;&nbsp;&nbsp; {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cmenu-&gt;exec(QCursor::pos());<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px"><br>
+</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px">此外还有一篇文章：</span></p>
+<p style="margin-top:0px; margin-bottom:0px; padding-top:0px; padding-bottom:0px; font-family:Arial; font-size:14px">
+<span style="font-size:18px"><br>
+</span></p>
+<div><span style="font-size:18px">http://blog.sina.com.cn/s/blog_7c4674df0100xnmu.html<br>
+</span></div>
+<div><span style="font-size:18px"><br>
+</span></div>
+<div><span style="font-size:18px"></span>
+<div>
+<h2 id="t_7c4674df0100xnmu">pyqt&nbsp;创建右键菜单</h2>
+(2012-01-26 19:05:21)
+<div><a target="_blank"><cite><img src="sg_trans.gif" width="15" align="absMiddle" height="15" alt="">转载<em>▼</em></cite></a></div>
+</div>
+<div id="sina_keyword_ad_area">
+<table>
+<tbody>
+<tr>
+<td>标签：
+<h3><a target="_blank" href="http://search.sina.com.cn/?c=blog&amp;q=%D4%D3%CC%B8&amp;by=tag">杂谈</a></h3>
+</td>
+<td>分类： <a target="_blank" href="http://blog.sina.com.cn/s/articlelist_2084992223_1_1.html">
+Python</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="sina_keyword_ad_area2">
+<div>
+<ol type="1">
+<li style="color:rgb(92,92,92)"><span style="color:#008200">#coding=utf-8</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><strong><span style="color:#006699">import</span></strong><span style="color:black">&nbsp;<wbr>sys&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><strong><span style="color:#006699">from</span></strong><span style="color:black">&nbsp;<wbr>PyQt4&nbsp;<wbr></span><strong><span style="color:#006699">import</span></strong><span style="color:black">&nbsp;<wbr>QtGui&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><strong><span style="color:#006699">from</span></strong><span style="color:black">&nbsp;<wbr>PyQt4.QtCore&nbsp;<wbr></span><strong><span style="color:#006699">import</span></strong><span style="color:black">&nbsp;<wbr>Qt&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span> </li><li style="background:#f8f8f8; color:#5c5c5c"><strong><span style="color:#006699">class</span></strong><span style="color:black">&nbsp;<wbr>MainWindow(QtGui.QMainWindow):&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><strong><span style="color:#006699">def</span></strong><span style="color:black">&nbsp;<wbr>__init__(</span><span style="color:black">self</span><span style="color:black">):&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>super(MainWindow,&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">).__init__()&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.createContextMenu()&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span> </li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><strong><span style="color:#006699">def</span></strong><span style="color:black">&nbsp;<wbr>createContextMenu(</span><span style="color:black">self</span><span style="color:black">):&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:blue">''</span><span style="color:#008200">'''</span><span style="color:black">&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:#008200">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">创建右键菜单</span><span style="color:black">&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:#008200">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>'''</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">#&nbsp;<wbr></span><span style="color:#008200">必须将</span><span style="color:#008200">ContextMenuPolicy</span><span style="color:#008200">设置为</span><span style="color:#008200">Qt.CustomContextMenu</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">#&nbsp;<wbr></span><span style="color:#008200">否则无法使用</span><span style="color:#008200">customContextMenuRequest<wbr>ed</span><span style="color:#008200">信号</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.setContextMenuPolicy(Qt.CustomContextMenu)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.customContextMenuRequest<wbr>ed.connect(</span><span style="color:black">self</span><span style="color:black">.showContextMenu)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">#&nbsp;<wbr></span><span style="color:#008200">创建</span><span style="color:#008200">QMenu</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.contextMenu&nbsp;<wbr>=&nbsp;<wbr>QtGui.QMenu(</span><span style="color:black">self</span><span style="color:black">)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.actionA&nbsp;<wbr>=&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.contextMenu.addAction(u</span><span style="color:blue">'</span><span style="color:blue">动作</span><span style="color:blue">A'</span><span style="color:black">)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.actionB&nbsp;<wbr>=&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.contextMenu.addAction(u</span><span style="color:blue">'</span><span style="color:blue">动作</span><span style="color:blue">B'</span><span style="color:black">)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.actionC&nbsp;<wbr>=&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.contextMenu.addAction(u</span><span style="color:blue">'</span><span style="color:blue">动作</span><span style="color:blue">C'</span><span style="color:black">)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">#&nbsp;<wbr></span><span style="color:#008200">将动作与处理函数相关联</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">#&nbsp;<wbr></span><span style="color:#008200">这里为了简单，将所有</span><span style="color:#008200">action</span><span style="color:#008200">与同一个处理函数相关联，</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">#&nbsp;<wbr></span><span style="color:#008200">当然也可以将他们分别与不同函数关联，实现不同的功能</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.actionA.triggered.connect(</span><span style="color:black">self</span><span style="color:black">.actionHandler)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.actionB.triggered.connect(</span><span style="color:black">self</span><span style="color:black">.actionHandler)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.actionB.triggered.connect(</span><span style="color:black">self</span><span style="color:black">.actionHandler)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span> </li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><strong><span style="color:#006699">def</span></strong><span style="color:black">&nbsp;<wbr>showContextMenu(</span><span style="color:black">self</span><span style="color:black">,&nbsp;<wbr>pos):&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:blue">''</span><span style="color:#008200">'''</span><span style="color:black">&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:#008200">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">右键点击时调用的函数</span><span style="color:black">&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:#008200">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>'''</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">#&nbsp;<wbr></span><span style="color:#008200">菜单显示前，将它移动到鼠标点击的位置</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.contextMenu.move(</span><span style="color:black">self</span><span style="color:black">.pos()&nbsp;<wbr>+&nbsp;<wbr>pos)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">self</span><span style="color:black">.contextMenu.show()&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span> </li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><strong><span style="color:#006699">def</span></strong><span style="color:black">&nbsp;<wbr>actionHandler(</span><span style="color:black">self</span><span style="color:black">):&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:blue">''</span><span style="color:#008200">'''</span><span style="color:black">&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:#008200">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:#008200">菜单中的具体</span><span style="color:#008200">action</span><span style="color:#008200">调用的函数</span><span style="color:black">&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:#008200">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>'''</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><strong><span style="color:#006699">print</span></strong><span style="color:black">&nbsp;<wbr></span><span style="color:blue">'action&nbsp;<wbr>handler'</span><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr></span> </li><li style="background:#f8f8f8; color:#5c5c5c"><strong><span style="color:#006699">if</span></strong><span style="color:black">&nbsp;<wbr>__name__==</span><span style="color:blue">'__main__'</span><span style="color:black">:&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">app&nbsp;<wbr>=&nbsp;<wbr>QtGui.QApplication(sys.argv)&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span><span style="color:black">window&nbsp;<wbr>=&nbsp;<wbr>MainWindow()&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="color:rgb(92,92,92)"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>window.show()&nbsp;<wbr>&nbsp;<wbr></span>
+</li><li style="background:#f8f8f8; color:#5c5c5c"><span style="color:black">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>sys.exit(app.exec_())&nbsp;<wbr>&nbsp;<wbr></span>
+</li></ol>
+</div>
+<br clear="all">
+<p><span style="color:#625b49">QListWidget</span> <span style="color:#625b49">对象的创建这里不在阐述。本文以载入</span><span style="color:#625b49">UI</span><span style="color:#625b49">为实例</span></p>
+<p><span style="color:#625b49"># -*- coding: utf-8 -*-</span></p>
+<p><span style="color:#625b49">from PyQt4 import QtCore, QtGui, uic<br>
+from PyQt4.QtCore import pyqtSignature<br>
+<br>
+class Ui_formDialog(QtGui.QDialog):<br>
+<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> def __init__(self, parent=None):<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> QtGui.QWidget.__init__(self)<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> uic.loadUi("</span><span style="color:#0055ff">form.ui</span><span style="color:#625b49">", self)&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> #form.ui&nbsp;<wbr></span>
+<span style="color:#625b49">为</span><span style="color:#625b49">QT</span><span style="color:#625b49">界面文件</span>
+<span style="color:#625b49">QListWidget</span><span style="color:#625b49">对象名为</span><span style="color:#625b49">&nbsp;<wbr></span><span style="color:#00cc22">listView1</span><span style="color:#625b49"><br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> self.</span><span style="color:red">listDataBind()</span><span style="color:#625b49">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> #</span><span style="color:#625b49">添加</span><span style="color:#625b49">QListWidgetItme<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> self.</span><span style="color:#00cc22">listView1</span><span style="color:#625b49">.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)&nbsp;<wbr>&nbsp;<wbr> #</span><span style="color:#625b49">定义右键菜单</span><span style="color:#625b49"><br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> &nbsp;<wbr><br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> def&nbsp;<wbr></span><span style="color:red">listDataBind(self)</span><span style="color:#625b49">:<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> item = ['OaK','Banana','Apple','Orange','Grapes','Jayesh']<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> for lst in item:<br>
+&nbsp;<wbr>&nbsp;<wbr> &nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> self.</span><span style="color:#00cc22">listView1</span><span style="color:#625b49">.addItem(QtGui.QListWidgetItem(lst))<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span></p>
+<p><span style="color:#625b49">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> #</span><span style="color:#625b49">激活菜单事件</span><span style="color:#625b49"><br>
+&nbsp;<wbr>&nbsp;<wbr> @pyqtSignature("QPoint")<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> def on_</span><span style="color:#00cc22">listView1</span><span style="color:#625b49">_customContextMenuRequest<wbr>ed(self, point):<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> item = self.</span><span style="color:#00cc22">listView1</span><span style="color:#625b49">.itemAt(point)<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> #</span><span style="color:#625b49">空白区域不显示菜单</span><span style="color:#625b49"><br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> if item != None:</span></p>
+<p><span style="color:#625b49">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> self.rightMenuShow()</span></p>
+<p><span style="color:#625b49"><br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> #</span><span style="color:#625b49">创建右键菜单</span><span style="color:#625b49"><br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> def rightMenuShow(self):<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> rightMenu = QtGui.QMenu(self.</span><span style="color:#00cc22">listView1</span><span style="color:#625b49">)<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> removeAction = QtGui.QAction(u"</span><span style="color:#625b49">删除</span><span style="color:#625b49">", self, triggered=self.close)&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> # triggered</span>
+<span style="color:#625b49">为右键菜单点击后的激活事件。这里</span><span style="color:#625b49">slef.close</span><span style="color:#625b49">调用的是系统自带的关闭事件。</span><span style="color:#625b49"><br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> rightMenu.addAction(removeAction)<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr><br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> addAction = QtGui.QAction(u"</span><span style="color:#625b49">添加</span><span style="color:#625b49">", self, triggered=self.addItem)&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> #</span>
+<span style="color:#625b49">也可以指定自定义对象事件</span><span style="color:#625b49"><br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> rightMenu.addAction(addAction)<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> rightMenu.exec_(QtGui.QCursor.pos())<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr></span></p>
+<p><span style="color:#625b49">&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> def addItem(self):<br>
+&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr>&nbsp;<wbr> pass</span></p>
+</div>
+<br>
+</div>
+<div><span style="font-size:18px"><br>
+</span></div>
+<br>
+
+        </div>
+        </div>
+        <div class="next_page">
+            <a href="http://m.blog.csdn.net/blog/qingyang1014/38593197" class="next_btn">上一篇</a>
+            <a href="http://m.blog.csdn.net/blog/qingyang1014/38628275" class="next_btn">下一篇</a>
+        </div>
+        <div class="comment">
+        <p><a name="comment"></a>发表评论</p>
+        <p><textarea id="con" rows="4" style="width:99%;"></textarea></p>
+        <p><input type="button" class="login_sub1" value="提 交" style="margin-top:0;" onclick="subform()"></p>
+        </div>
+        <div class="comment_sub">
+        <span class="lf10">查看评论</span>
+        <ul id="cmt_ul">        </ul>
+        <a href="http://m.blog.csdn.net/comment/38625821" class="lf10">更多评论（0）</a>
+        </div>
+        </div>
+        
+        
+
+</div>
+
+<div class="back-top" id="ding1">
+<a href="38625821.htm#" onclick="document.body.scrollTop=0;return false;">
+<img src="back-top.jpg">回顶部</a>
+</div>
+<div id="footer">
+<p><a class="now" href="http://m.blog.csdn.net/">移动版</a>|<a href="http://blog.csdn.net/" onclick="document.cookie='wap-pc=1; domain=blog.csdn.net; path=/;';">桌面版</a></p>
+<p>©1999-2012, CSDN.NET, All Rights Reserved</p>
+</div>
+
+</div>
+
+
+
+
+</body></html>

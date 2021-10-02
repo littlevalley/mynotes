@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Dig Into Org Mode</title>
+  <meta name="description" content="Org mode was one of the main reasons I tried Emacs (and left behind 15 years ofVim), and now it is a central part of how I organize my work. Org mode can hel...">
+
+  <meta property="og:title" content="Dig Into Org Mode" />
+  <meta property="og:description" content="Org mode was one of the main reasons I tried Emacs (and left behind 15 years ofVim), and now it is a central part of how I organize my work. Org mode can hel..." />
+
+  <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="canonical" href="http://blog.aaronbieber.com//2016/01/30/dig-into-org-mode.html">
+  <link rel="alternate" type="application/rss+xml" title="The Chronicle" href="http://blog.aaronbieber.com/feed.xml" />
+  <link rel="shortcut icon" href="/images/favicon.gif">
+
+  <link href='https://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <script src="//fast.eager.io/SHvf4DiSoU.js"></script>
+
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/chronicle.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <header role="banner">
+    <hgroup>
+  <h1><a href="/">The Chronicle</a></h1>
+  
+    <h2>of a ColdFusion Expatriate</h2>
+  
+</hgroup>
+
+  </header>
+  <div id="nav_floater">
+    <nav role="navigation">
+      <ul class="subscription" data-subscription="rss">
+  <li><a href="/feed.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+</ul>
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:http://blog.aaronbieber.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Home</a></li>
+  <li><a href="/archive.html">Archives</a></li>
+</ul>
+
+<h2><a href="/">The Chronicle</a></h2>
+
+    </nav>
+  </div>
+  <div id="main">
+    <div id="content">
+      <div class="blog-post">
+  <article class="hentry" role="article">
+    <header>
+      <h1 class="entry-title">Dig Into Org Mode</h1>
+      <p class="meta">
+        <span class="glyphicon glyphicon-calendar"></span> January 30, 2016
+        
+      </p>
+    </header>
+
+    <div class="entry-content"><p><img class="noborder" src="/images/uploads/dig-into-org-mode/screenshot.png"></p>
+
+<p>Org mode was one of the main reasons I tried Emacs (and left behind 15 years of
+Vim), and now it is a central part of how I organize my work. Org mode can help
+you take notes, track tasks, build agendas, process tabular data, and more. It&rsquo;s
+so flexible that everyone uses it differently.</p>
+
+<p>I use Org mode primarily to capture tasks and keep track of their progress. I
+sometimes take notes in Org mode, but I haven&rsquo;t completely fleshed out my
+note-taking and searching workflow, so I&rsquo;ll talk mostly about task management
+here.</p>
+
+<h2 id="org-setup-essentials">Org Setup Essentials</h2>
+
+<p>Before you can start building a refined Org workflow, you need to set up some
+basics.</p>
+
+<h3 id="define-your-todo-states">Define Your Todo States</h3>
+
+<p>Org mode keeps track of the state that a task is in by applying a keyword to it,
+usually something like &ldquo;TODO&rdquo; or &ldquo;DONE.&rdquo; The keyword appears at the beginning of
+every task and Org lets you cycle through them easily to track task
+progress. When you use a list of keywords that describe a progression of states,
+Org calls that a &ldquo;sequence.&rdquo;</p>
+
+<p>You can also configure multiple sequences of task states and use key bindings to
+toggle between the sequences, but I haven&rsquo;t found a use for that feature
+myself&hellip; Yet.</p>
+
+<p>The easiest way to set your default task sequence is by setting
+<code>org-todo-keywords</code>, like this:</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">org-todo-keywords</span>
+      <span class="o">'</span><span class="p">((</span><span class="nc">sequence</span> <span class="s">"TODO"</span> <span class="s">"IN-PROGRESS"</span> <span class="s">"WAITING"</span> <span class="s">"|"</span> <span class="s">"DONE"</span> <span class="s">"CANCELED"</span><span class="p">)))</span>
+</code></pre></div>
+<p>The observant among you will notice three things about this configuration:</p>
+
+<ul>
+<li>It is a list of lists. This supports the multiple sequences I mentioned above.</li>
+<li>My sequence starts with the symbol &ldquo;sequence.&rdquo; That tells Org that the
+following items are a sequence of states rather than a list of task types.</li>
+<li>One of the items is a pipe. The pipe is optional, but if it is present, the
+task states following it will all be considered by Org to mean &ldquo;complete.&rdquo; I
+use it to mark tasks as DONE or CANCELED.</li>
+</ul>
+
+<p>If you wish to configure your task states differently in each Org file, you can
+use a line like this at the top (the syntax, including the pipe, is the same):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">#+TODO: TODO IN-PROGRESS WAITING | DONE CANCELED
+</code></pre></div>
+<p>Even more about Org states is covered in <a href="(http://orgmode.org/manual/Workflow-states.html#Workflow-states)">Workflow states</a> in the Org
+manual.</p>
+
+<h3 id="define-your-agenda-files">Define Your Agenda Files</h3>
+
+<p>I keep all of my Org files in a single directory in my Dropbox
+(<code>~/Dropbox/org</code>). I like to keep a single file for tasks and a single file for
+notes, but you can absolutely break it up into as many files as you wish, or
+create a new file for each meeting or set of notes.</p>
+
+<p>For pure task management, Org&rsquo;s agenda features are so rich that it almost
+doesn&rsquo;t make sense to edit the task file itself, so I keep all tasks in a single
+file, <code>~/Dropbox/org/tasks.org</code>.</p>
+
+<p>The &ldquo;agenda&rdquo; is a specific feature of Org that lets you view summaries of the
+data in your task files, manipulate their parameters, and even use search and
+tags to build your own custom views. Before you can do any of that, you need to
+teach Org where to look for all of the files you wish to include in your
+agenda.</p>
+
+<p>You can do that by setting <code>org-agenda-files</code>:</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">org-agenda-files</span> <span class="o">'</span><span class="p">(</span><span class="s">"~/Dropbox/org/"</span><span class="p">))</span>
+</code></pre></div>
+<p>If you know a little Elisp you may notice that the variable is set to a list. If
+you store your task files in more than one location, you can supply each of
+those locations in the list (like <code>&#39;(&quot;/dir/one&quot; &quot;/dir/two&quot;)</code> and so on).</p>
+
+<h2 id="basic-usage">Basic Usage</h2>
+
+<p>Now that you&rsquo;ve set all this stuff up, how do you actually use it?</p>
+
+<p>I use two major entry points into the Org system: &ldquo;agenda,&rdquo; and &ldquo;capture.&rdquo; Let&rsquo;s
+talk about them one at a time.</p>
+
+<h3 id="using-the-agenda">Using the Agenda</h3>
+
+<p>The agenda is a ridiculously powerful feature of Org Mode. In addition to being
+a dynamic daily or weekly interactive task list, it is also a front-end for
+searching and generating other types of customized reports. You can think of it
+as a way to summarize Org data.</p>
+
+<p>I use the agenda chiefly to display my weekly tasks. When you have
+<code>org-agenda-files</code> configured, you can simply call <code>org-agenda-list</code> to generate
+an agenda, which, by default, will be the weekly display. Because I use the
+agenda as my primary interface to a lot of my work, I prefer to open the agenda
+by itself in the current frame. To do that, I wrote a small function and
+assigned it to a key binding:</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nb">defun</span> <span class="nv">air-pop-to-org-agenda</span> <span class="p">(</span><span class="nv">split</span><span class="p">)</span>
+  <span class="s">"Visit the org agenda, in the current window or a SPLIT."</span>
+  <span class="p">(</span><span class="nv">interactive</span> <span class="s">"P"</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">org-agenda-list</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">when</span> <span class="p">(</span><span class="nb">not</span> <span class="nv">split</span><span class="p">)</span>
+    <span class="p">(</span><span class="nv">delete-other-windows</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nv">define-key</span> <span class="nv">global-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c t a"</span><span class="p">)</span> <span class="ss">'air-pop-to-org-agenda</span><span class="p">)</span>
+</code></pre></div>
+<p>The &ldquo;air&rdquo; part is just a namespace prefix that I use for all of my custom
+functions for historical reasons I won&rsquo;t go into; the important part is the
+<code>split</code> argument, which allows me to optionally allow the window to split as it
+does normally by specifying a prefix.</p>
+
+<div class="infobox">
+<p>When the <code>interactive</code> call specifies “P”, the function will be passed an
+argument with a “truthy” or “falsy” value depending on whether the <em>prefix key</em>
+was pressed. In practice what that means is if you invoke the function by
+pressing <code>C-u</code> followed by the key the function is bound to, <code>prefix</code> will be
+true, otherwise it will be false.</p>
+
+<p>In the example above, <code>C-c t a</code> opens the agenda list and deletes all other
+windows, whereas <code>C-u C-c t a</code> (which I use much less often), allows the other
+windows to remain open.</p>
+</div>
+
+<p>My mnemonic for these key bindings is <code>t</code> for &ldquo;todo&rdquo; and <code>a</code> for &ldquo;agenda.&rdquo; My
+other Org-related bindings all start the same way.</p>
+
+<p>The agenda view is only useful if you have saved tasks with either <code>DEADLINE</code> or
+<code>SCHEDULED</code> dates. Without dates associated with the tasks, Org wouldn&rsquo;t know
+where to place them in the agenda. I&rsquo;ll talk more about scheduling in the
+following section.</p>
+
+<h4 id="essential-agenda-keys">Essential Agenda Keys</h4>
+
+<p>The agenda list is interactive. To see all of the keys available, just invoke
+the mode help with <code>C-h m</code> from within the agenda list. Here are the most
+critical ones that I use all the time:</p>
+
+<p>Press <code>TAB</code> to reveal the Org file that the item at point comes from. I use
+this when I need to get in there and edit the notes within that item or make
+more involved changes. I also bound <code>RET</code> to the function
+<code>org-agenda-switch-to</code>, which does the same thing but doesn&rsquo;t use a split.</p>
+
+<p>I have re-bound my motion keys because I use Evil, but the arrow keys move among
+items by default, and <code>n</code> and <code>p</code> will move between headings (like days of the
+week).</p>
+
+<p>Pressing <code>S-Left</code> or <code>S-Right</code> while on a task will change the task&rsquo;s scheduled
+or deadline date by one day in either direction. I use this mostly to push out
+stuff I know I&rsquo;m not going to get to today.</p>
+
+<p>Press <code>t</code> on a task to cycle its current state (e.g. from &ldquo;TODO&rdquo; to
+&ldquo;IN-PROGRESS,&rdquo; etc.)</p>
+
+<p>Following the pattern used by many other Emacs packages, pressing <code>g</code> anywhere
+in the agenda will redraw it (recomputing days, statuses, etc.) I use this right
+after I&rsquo;ve changed a date or cycled the state of a task so that things are
+displayed where they should be.</p>
+
+<p>Finally, and perhaps most importantly, press <code>s</code> anywhere in the agenda view to
+save all Org buffers that provide data to the agenda. When you make changes to
+task states, dates, and so on, Org edits the buffers containing those items, but
+won&rsquo;t save them automatically. Press <code>s</code> to make sure everything&rsquo;s saved, once
+you&rsquo;re happy with your changes.</p>
+
+<p>As with all systems in Emacs, use the mode help to see what other keys are
+available and re-bind the ones that don&rsquo;t feel right.</p>
+
+<h3 id="using-capture">Using Capture</h3>
+
+<p>Once you&rsquo;re funneling all of your tasks through Org Mode, you&rsquo;ll need a way to
+very quickly add new tasks no matter what else you&rsquo;re doing. The Org mechanism
+for this is called &ldquo;capture,&rdquo; and it allows you to add items to Org files from
+anywhere in Emacs.</p>
+
+<p>You can actually add any type of item to any file, but I use it simply to add
+task items to my task list. The simplest way to invoke capture is to simply call
+<code>org-capture</code>, typically via a binding. When you call that function, a split
+will open prompting you to select a &ldquo;template,&rdquo; and you probably won&rsquo;t have any
+so you&rsquo;ll only be given the option to &ldquo;C,&rdquo; customize, or &ldquo;q,&rdquo; abort.</p>
+
+<p>So let&rsquo;s create a template. You can do this by setting the variable
+<code>org-capture-templates</code> and the format of the data is more straightforward than
+it looks at first:</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">org-capture-templates</span>
+      <span class="o">'</span><span class="p">((</span><span class="s">"a"</span> <span class="s">"My TODO task format."</span> <span class="nv">entry</span>
+         <span class="p">(</span><span class="nv">file</span> <span class="s">"todo.org"</span><span class="p">)</span>
+         <span class="s">"* TODO %?
+SCHEDULED: %t"</span><span class="p">)))</span>
+</code></pre></div>
+<p>The value of <code>org-capture-templates</code> is a list of template entries where each
+entry contains a single letter key for selecting or identifying the template
+(&ldquo;a&rdquo; above), a descriptive name, a type (&ldquo;entry&rdquo; above), the target for the
+entry (above I have used a filename, which will be relative to <code>org-directory</code>),
+and finally the template text itself.</p>
+
+<p>A large number of variables are available within your template text, and targets
+other than a filename are also possible. All of that is documented in the manual
+for <code>org-capture-templates</code> (<code>C-h v org-capture-templates RET</code>).</p>
+
+<p>In my template I have used <code>%t</code> to insert a timestamp, and I&rsquo;ve specified <code>%?</code>
+to place the cursor right after the &ldquo;TODO&rdquo; keyword when the template is
+shown. You are under no obligation to follow my, or anyone&rsquo;s, format here. I
+always want my new tasks to be scheduled so that they appear in my agenda, so
+I&rsquo;ve added that bit of metadata to my capture template.</p>
+
+<p>Now that you have a capture template, calling <code>org-capture</code> will show its name
+along with its key in the menu, and pressing that key (&ldquo;a&rdquo; in my example above),
+opens a split with the template contents so you can edit it as necessary, then
+of course press <code>C-c C-c</code> to save and close the capture or <code>C-c C-k</code> to abort
+(that is noted in the window itself as well).</p>
+
+<p>I only have one template and I don&rsquo;t want to have to press two keys to capture
+it, so I&rsquo;ve wrapped my own function around it:</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nb">defun</span> <span class="nv">air-org-task-capture</span> <span class="p">()</span>
+  <span class="s">"Capture a task with my default template."</span>
+  <span class="p">(</span><span class="nv">interactive</span><span class="p">)</span>
+  <span class="p">(</span><span class="nv">org-capture</span> <span class="no">nil</span> <span class="s">"a"</span><span class="p">))</span>
+</code></pre></div>
+<p>All that does is call <code>org-capture</code> with its optional template key argument. Now
+you can bind that to a global key and you&rsquo;re off to the races!</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="nv">define-key</span> <span class="nv">global-map</span> <span class="p">(</span><span class="nv">kbd</span> <span class="s">"C-c c"</span><span class="p">)</span> <span class="ss">'air-org-task-capture</span><span class="p">)</span>
+</code></pre></div>
+<p>When I press <code>C-c c</code>, a split opens with my scheduled task template and I can
+just type in the subject line and press <code>C-c C-c</code> to save it. This has saved me
+hours and allowed me to enter tasks quickly into my agenda without having to
+navigate buffers or think too much.</p>
+
+<h2 id="useful-tweaks">Useful Tweaks</h2>
+
+<p>After using this system for a while you inevitably find ways in which it could
+work better for you, and since Org is such a monster, there is almost always
+some configuration you can tweak to fix it. These are the tweaks I have found
+that work for me and their descriptions:</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">org-agenda-text-search-extra-files</span> <span class="o">'</span><span class="p">(</span><span class="nv">agenda-archives</span><span class="p">))</span>
+</code></pre></div>
+<p>When you perform a text search (the &ldquo;s&rdquo; selection from the <code>org-agenda</code> pop-up),
+include the archives for all of the files in Org&rsquo;s agenda files list. If you
+archive things regularly, which I do, this helps you dig stuff out of there when
+you&rsquo;re looking for it.</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">org-blank-before-new-entry</span> <span class="p">(</span><span class="k">quote</span> <span class="p">((</span><span class="nv">heading</span><span class="p">)</span> <span class="p">(</span><span class="nv">plain-list-item</span><span class="p">))))</span>
+</code></pre></div>
+<p>I tend to leave a blank line at the end of the content of each task entry. This
+causes Org to automatically place a blank line before a new heading or plain
+text list item, just the way I like it.</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">org-enforce-todo-dependencies</span> <span class="no">t</span><span class="p">)</span>
+</code></pre></div>
+<p>This one is pretty awesome; it forces you to mark all child tasks as &ldquo;DONE&rdquo;
+before you can mark the parent as &ldquo;DONE.&rdquo; The agenda view already has the notion
+of &ldquo;blocked&rdquo; tasks (those with incomplete child tasks), which should appear
+dimmed (that, of course, is also customizable). This makes it even harder to
+slack off on your work.</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">org-log-done</span> <span class="p">(</span><span class="k">quote</span> <span class="nb">time</span><span class="p">))</span>
+</code></pre></div>
+<p>I like to know when tasks have changed status. Setting this option causes Org to
+insert an annotation in a task when it is marked as done including a timestamp
+of when exactly that happened.</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">org-log-redeadline</span> <span class="p">(</span><span class="k">quote</span> <span class="nb">time</span><span class="p">))</span>
+</code></pre></div>
+<p>Adding yet further auditing, this option causes Org to insert annotations when
+you change the deadline of a task, which will note the previous deadline date
+and when it was changed. Very useful for figuring out how many times you &ldquo;kicked
+the can down the road.&rdquo;</p>
+<div class="highlight"><pre><code class="language-cl" data-lang="cl"><span class="p">(</span><span class="k">setq</span> <span class="nv">org-log-reschedule</span> <span class="p">(</span><span class="k">quote</span> <span class="nb">time</span><span class="p">))</span>
+</code></pre></div>
+<p>This does the same as above, but for the scheduled dates, which I use more often.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Org Mode is much more vast than one blog post could describe, but hopefully this
+will give you a jumping-off point for starting a delightful and effective task
+management workflow using Org!</p>
+
+<p>As always, if you have questions about any of this or want to sing my praises,
+drop a comment down below.</p>
+</div>
+
+    <footer>
+      <p class="meta">
+        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Aaron Bieber</span></span>
+
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-01-30T15:59:04-05:00" pubdate data-updated="true">January 30, 2016</time>
+        
+
+
+      </p>
+      <div class="sharing">
+</div>
+
+      <p class="meta">
+        
+        <a class="basic-alignment left" href="/2016/01/23/introducing-octopress-el.html" title="Previous Post: Introducing Octopress.el">&laquo; Introducing Octopress.el</a>
+        
+        
+        <a class="basic-alignment right" href="/2016/01/31/advanced-window-management-with-slate.html" title="Next Post: Advanced Window Management With Slate">Advanced Window Management With Slate &raquo;</a>
+        
+      </p>
+    </footer>
+  </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><script type="text/javascript">
+ var disqus_shortname = 'aaronbieber';
+ // var disqus_developer = 1;
+ var disqus_identifier = 'http://blog.aaronbieber.com/2016/01/30/dig-into-org-mode.html';
+ var disqus_url = 'http://blog.aaronbieber.com/2016/01/30/dig-into-org-mode.html';
+ var disqus_script = 'embed.js';
+
+ (function () {
+   var dsq = document.createElement('script');
+   dsq.type = 'text/javascript';
+   dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ }());
+</script>
+</div>
+  </section>
+</div>
+
+<aside class="sidebar">
+  <div class="bio">
+  <img alt="" src="/images/aaron-bieber.png"/>
+
+  <p>Hi, I'm Aaron Bieber. Once, long ago, I wrote ColdFusion for a living. Now I lead software engineers at HubSpot in Boston.
+</p>
+</div>
+
+  <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2017/08/26/the-right-tool-for-the-job.html">The Right Tool for the Job</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2017/03/19/organizing-notes-with-refile.html">Organizing Notes With Refile</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/12/29/don-t-use-terminal-emacs.html">Don't Use Terminal Emacs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/11/24/org-capture-from-anywhere-on-your-mac.html">Org Capture From Anywhere on Your Mac</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2016/11/23/creating-org-mode-structure-templates.html">Creating Org Mode Structure Templates</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+
+  
+
+  
+  
+
+  
+
+
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 Aaron Bieber, All Rights Reserved
+  &mdash;
+  <span class="credit">Powered by <a href="http://jekyllrb.com/">Jekyll</a> and <a href="http://octopress.org">Octopress</a></span>
+</p>
+</footer>
+
+  <script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-28490825-2', 'aaronbieber.com');
+ ga('send', 'pageview');
+</script>
+
+<script>
+ $(document).ready(function() {
+   $('a[href^="http://"]').attr('target','_blank');
+ });
+</script>
+
+</body>
+</html>

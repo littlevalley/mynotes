@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://www.cnblogs.com/shizhijie/p/8297840.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="origin-when-crossorigin">
+    <meta name="description" content="假设有变量 var=http://www.aaa.com/123.htm 1. # 号截取，删除左边字符，保留右边字符。 echo ${var#*//} 其中 var 是变量名，# 号是运算符，*//">
+    <meta property="og:description" content="假设有变量 var=http://www.aaa.com/123.htm 1. # 号截取，删除左边字符，保留右边字符。 echo ${var#*//} 其中 var 是变量名，# 号是运算符，*//">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="https://common.cnblogs.com/favicon.svg" type="image/svg+xml">
+    
+    <link rel="stylesheet" href="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/blog-common.min.css">
+    <link id="MainCss" rel="stylesheet" href="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/bundle-banlieue13.min.css">
+    <link type="text/css" rel="stylesheet" href="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/cnblogs.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/bundle-banlieue13-mobile.min.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/shizhijie/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/shizhijie/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/shizhijie/wlwmanifest.xml">
+    <script async="" src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/analytics.js"></script><script>
+        var currentBlogId = 354148;
+        var currentBlogApp = 'shizhijie';
+        var cb_enable_mathjax = false;
+        var isLogined = false;
+        var isBlogOwner = false;
+        var skinName = 'Banlieue13';
+        var visitorUserId = '';
+        var hasCustomScript = false;
+        try {
+            if (hasCustomScript && document.referrer && document.referrer.indexOf('baidu.com') >= 0) {
+                Object.defineProperty(document, 'referrer', { value: '' });
+                Object.defineProperty(Document.prototype, 'referrer', { get: function(){ return ''; } });
+            }
+        } catch(error) { }
+    </script>
+        <script>
+            var currentPostDateAdded = '2018-01-16 05:39';
+        </script>
+    <script src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/jquery-2.2.0.min.js"></script>
+    <script src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/blog-common.min.js"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    
+    
+    
+    <script type="text/javascript">
+        window.codeHighlightEngine = 1
+        window.enableCodeLineNumber = false
+    </script>
+</head>
+<body class="skin-banlieue13 has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/logo.svg" alt="博客园Logo"></a></li>
+                <li><a href="https://www.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-sitehome&#39;)">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-news&#39;)">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-q&#39;)">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-brands&#39;)">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-ing&#39;)">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-edu&#39;)">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3">
+                        <button type="submit" id="zzk_search_button">
+                            <img src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/search.svg" alt="搜索">
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: none;">
+                        <img id="new_post_icon" class="navbar-icon" src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/newpost.svg" alt="写随笔">
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx" alt="我的博客" title="我的博客" style="display: none;">
+                        <img id="myblog_icon" class="navbar-icon" src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/myblog.svg" alt="我的博客">
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: none;">
+                        <img id="msg_icon" class="navbar-icon" src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/message.svg" alt="短消息">
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: none;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/">
+                            <img id="user_icon" class="navbar-avatar" src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/avatar-default.svg" alt="用户头像">
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://passport.cnblogs.com/GetBlogApplyStatus.aspx">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/lite-mode-check.svg" class="hide"><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: inline;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: inline;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a href="https://www.cnblogs.com/shizhijie/"><img id="blogLogo" src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/shizhijie/">勿忘初心-Lislie杰</a>
+</h1>
+<h2></h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+	<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/shizhijie/">
+首页</a>
+</li>
+	<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+	<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E4%BA%BA%E6%83%85%E4%B8%96%E6%95%85">
+联系</a></li>
+	<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+	<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/shizhijie/rss/">
+订阅</a>
+	
+<a id="blog_nav_rss_image" href="https://www.cnblogs.com/shizhijie/rss/">
+    <img src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/xml.gif" alt="订阅">
+</a></li>
+</ul>
+
+
+
+			<div class="blogStats">
+				
+				<!--done-->
+随笔- 447&nbsp;
+文章- 0&nbsp;
+评论- 26&nbsp;
+阅读- 
+<span title="总阅读数: 1279178">
+127万</span>&nbsp;
+
+
+
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/shizhijie/p/8297840.html">
+    <span>Linux 的字符串截取很有用。有八种方法。</span>
+    
+
+
+
+</a>
+
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<ol class="commentlist">
+<li id="comment-11296" class="comment even thread-even depth-1">
+<div id="div-comment-11296" class="comt-main">
+<p>假设有变量 var=http://www.aaa.com/123.htm</p>
+<p><strong>1. # 号截取，删除左边字符，保留右边字符。</strong></p>
+<pre class="prettyprint prettyprinted"><span class="pln">echo $<span class="pun">{<span class="kwd">var<span class="com">#*//}</span></span></span></span></pre>
+<p>其中 var 是变量名，# 号是运算符，*// 表示从左边开始删除第一个 // 号及左边的所有字符</p>
+<p>即删除 http://</p>
+<p>结果是 ：www.aaa.com/123.htm</p>
+<p><strong>2. ## 号截取，删除左边字符，保留右边字符。</strong></p>
+<pre class="prettyprint prettyprinted"><span class="pln">echo $<span class="pun">{<span class="kwd">var<span class="com">##*/}</span></span></span></span></pre>
+<p>##*/ 表示从左边开始删除最后（最右边）一个 / 号及左边的所有字符</p>
+<p>即删除 http://www.aaa.com/</p>
+<p>结果是 123.htm</p>
+<p><strong>3. %号截取，删除右边字符，保留左边字符</strong></p>
+<pre class="prettyprint prettyprinted"><span class="pln">echo $<span class="pun">{<span class="kwd">var<span class="pun">%<span class="com">/*}</span></span></span></span></span></pre>
+<p>%/* 表示从右边开始，删除第一个 / 号及右边的字符</p>
+<p>结果是：http://www.aaa.com</p>
+<p><strong>4. %% 号截取，删除右边字符，保留左边字符</strong></p>
+<pre class="prettyprint prettyprinted"><span class="pln">echo $<span class="pun">{<span class="kwd">var<span class="pun">%%<span class="com">/*}</span></span></span></span></span></pre>
+<p>%%/* 表示从右边开始，删除最后（最左边）一个 / 号及右边的字符</p>
+<p>结果是：http:</p>
+<p><strong>5. 从左边第几个字符开始，及字符的个数</strong></p>
+<pre class="prettyprint prettyprinted"><span class="pln">echo $<span class="pun">{<span class="kwd">var<span class="pun">:<span class="lit">0<span class="pun">:<span class="lit">5<span class="pun">}</span></span></span></span></span></span></span></span></pre>
+<p>其中的 0 表示左边第一个字符开始，5 表示字符的总个数。</p>
+<p>结果是：http:</p>
+<p><strong>6. 从左边第几个字符开始，一直到结束。</strong></p>
+<pre class="prettyprint prettyprinted"><span class="pln">echo $<span class="pun">{<span class="kwd">var<span class="pun">:<span class="lit">7<span class="pun">}</span></span></span></span></span></span></pre>
+<p>其中的 7 表示左边第8个字符开始，一直到结束。</p>
+<p>结果是 ：www.aaa.com/123.htm</p>
+<p><strong>7. 从右边第几个字符开始，及字符的个数</strong></p>
+<pre class="prettyprint prettyprinted"><span class="pln">echo $<span class="pun">{<span class="kwd">var<span class="pun">:<span class="lit">0<span class="pun">-<span class="lit">7<span class="pun">:<span class="lit">3<span class="pun">}</span></span></span></span></span></span></span></span></span></span></pre>
+<p>其中的 0-7 表示右边算起第七个字符开始，3 表示字符的个数。</p>
+<p>结果是：123</p>
+<p><strong>8. 从右边第几个字符开始，一直到结束。</strong></p>
+<pre class="prettyprint prettyprinted"><span class="pln">echo $<span class="pun">{<span class="kwd">var<span class="pun">:<span class="lit">0<span class="pun">-<span class="lit">7<span class="pun">}</span></span></span></span></span></span></span></span></pre>
+<p>表示从右边第七个字符开始，一直到结束。</p>
+<p>结果是：123.htm</p>
+<p><strong>注：</strong>（左边的第一个字符是用 0 表示，右边的第一个字符用 0-1 表示）</p>
+<div class="comt-meta wrapper"><span class="comt-author"><span class="comt-author"><a>su226</a></span></span>
+<div class="tooltip tooltip1">
+<p><span class="fa fa-user">&nbsp;&nbsp;&nbsp;su226</span></p>
+<p><span class="fa fa-envelope">&nbsp;&nbsp;136***1939@qq.com</span></p>
+<p><span class="fa fa-external-link">&nbsp;<a href="http://www.jb51.net/article/56563.htm" rel="nofollow" target="_blank">&nbsp;&nbsp;参考地址</a></span></p>
+</div>
+<span class="comt-author">9个月前 (04-23)</span></div>
+</div>
+</li>
+<li id="comment-16794" class="comment odd alt thread-odd thread-alt depth-1">
+<div class="comt-avatar wrapper">
+<div class="tooltip">
+<p><span class="fa fa-user">&nbsp;&nbsp;&nbsp;wenxin667</span></p>
+<p><span class="fa fa-envelope">&nbsp;&nbsp;140***2918@qq.com</span></p>
+</div>
+</div>
+<div id="div-comment-16794" class="comt-main">
+<p><strong>@su226</strong></p>
+<p>描述的有点儿不容易懂，看了好久才勉强明白&nbsp;<span class="marked">#&nbsp;<span class="marked">##&nbsp;<span class="marked">%&nbsp;<span class="marked">%%。</span></span></span></span></p>
+<p><span class="marked">#、<span class="marked">##&nbsp;表示从左边开始删除。一个&nbsp;<span class="marked">#&nbsp;表示从左边删除到第一个指定的字符；两个&nbsp;<span class="marked">#&nbsp;表示从左边删除到最后一个指定的字符。</span></span></span></span></p>
+<p><span class="marked">%、<span class="marked">%%&nbsp;表示从右边开始删除。一个&nbsp;<span class="marked">%&nbsp;表示从右边删除到第一个指定的字符；两个&nbsp;<span class="marked">%&nbsp;表示从左边删除到最后一个指定的字符。</span></span></span></span></p>
+<p>删除包括了指定的字符本身。</p>
+<div class="comt-meta wrapper"><span class="comt-author"><span class="comt-author"><a>wenxin667</a></span></span>
+<div class="tooltip tooltip1">
+<p><span class="fa fa-user">&nbsp;&nbsp;&nbsp;wenxin667</span></p>
+<p><span class="fa fa-envelope">&nbsp;&nbsp;140***2918@qq.com</span></p>
+</div>
+<span class="comt-author">5个月前 (08-24)</span></div>
+</div>
+</li>
+<li id="comment-21609" class="comment even thread-even depth-1">
+<div class="comt-avatar wrapper">
+<div class="tooltip">
+<p><span class="fa fa-user">&nbsp;&nbsp;&nbsp;amau</span></p>
+<p><span class="fa fa-envelope">&nbsp;&nbsp;1@1***t</span></p>
+</div>
+</div>
+<div id="div-comment-21609" class="comt-main">
+<pre class="prettyprint prettyprinted"><span class="com">#!bin/bash<span class="pln">
+<span class="com">#author:amau<span class="pln">
+
+<span class="kwd">var<span class="pun">=<span class="str">"http://www.runoob.com/linux/linux-shell-variable.html"<span class="pln">
+
+s1<span class="pun">=<span class="pln">$<span class="pun">{<span class="kwd">var<span class="pun">%%<span class="pln">t<span class="pun">*}<span class="pln">
+s2<span class="pun">=<span class="pln">$<span class="pun">{<span class="kwd">var<span class="pun">%<span class="pln">t<span class="pun">*}<span class="pln">
+s3<span class="pun">=<span class="pln">$<span class="pun">{<span class="kwd">var<span class="pun">%%.*}<span class="pln">
+s4<span class="pun">=<span class="pln">$<span class="pun">{<span class="kwd">var<span class="com">#*/}<span class="pln">
+s5<span class="pun">=<span class="pln">$<span class="pun">{<span class="kwd">var<span class="com">##*/}</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+<p>echo "关于字符串的截取%，#的使用方法"<br>echo "原字符串为："${var}<br>echo "%%t*的效果："${s1}<br>echo "%t*的效果："${s2}<br>echo "%%.*的效果："${s3}<br>echo "#*/的效果："${s4}<br>echo "##*/的效果："${s5}</p>
+<p>运行结果：</p>
+<pre class="prettyprint prettyprinted"><span class="pun">关于字符串的截取%，#的使用方法<span class="pln">
+<span class="pun">原字符串为：<span class="pln">http<span class="pun">:<span class="com">//www.runoob.com/linux/linux-shell-variable.html<span class="pln">
+<span class="pun">%%<span class="pln">t<span class="pun">*的效果：<span class="pln">h
+<span class="pun">%<span class="pln">t<span class="pun">*的效果：<span class="pln">http<span class="pun">:<span class="com">//www.runoob.com/linux/linux-shell-variable.h<span class="pln">
+<span class="pun">%%.*的效果：<span class="pln">http<span class="pun">:<span class="com">//www<span class="pln">
+<span class="com">#*/的效果：/www.runoob.com/linux/linux-shell-variable.html<span class="pln">
+<span class="com">##*/的效果：linux-shell-variable.html</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></pre>
+</div>
+</li>
+</ol>
+</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(8297840,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow(&#39;ebae0ff0-ed07-e711-845c-ac853d9f53ac&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/shizhijie/" target="_blank"><img src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/20170313211023.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/shizhijie/">人情世故</a><br>
+            <a href="https://home.cnblogs.com/u/shizhijie/followees/">关注 - 0</a><br>
+            <a href="https://home.cnblogs.com/u/shizhijie/followers/">粉丝 - 56</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;ebae0ff0-ed07-e711-845c-ac853d9f53ac&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(8297840,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">2</span>
+    </div>
+    <div class="buryit" onclick="votePost(8297840,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev">
+
+    <a href="https://www.cnblogs.com/shizhijie/p/8296951.html" class="p_n_p_prefix">« </a> 上一篇：    <a href="https://www.cnblogs.com/shizhijie/p/8296951.html" title="发布于 2018-01-16 15:36">Linux 磁盘管理</a>
+    <br>
+    <a href="https://www.cnblogs.com/shizhijie/p/8301855.html" class="p_n_p_prefix">» </a> 下一篇：    <a href="https://www.cnblogs.com/shizhijie/p/8301855.html" title="发布于 2018-01-17 11:21">vi编辑时出现E325:ATTENTION</a>
+
+</div>
+</div>
+		</div>
+		<div class="postDesc">posted @ 
+<span id="post-date">2018-01-16 17:39</span>&nbsp;
+<a href="https://www.cnblogs.com/shizhijie/">人情世故</a>&nbsp;
+阅读(<span id="post_view_count">45578</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditPosts.aspx?postid=8297840" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(8297840);return false;">收藏</a>&nbsp;
+<a href="javascript:void(0)" onclick="reportManager.report({ currentUserId: &#39;&#39;, targetType: &#39;blogPost&#39;, targetId: &#39;8297840&#39;, targetLink: &#39;https://www.cnblogs.com/shizhijie/p/8297840.html&#39;, title: &#39;Linux 的字符串截取很有用。有八种方法。&#39; })">举报</a></div>
+	</div>
+	
+	
+</div><!--end: topics 文章、评论容器-->
+
+<script src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/highlight.min.js" async="" onload="markdown_highlight()"></script>
+<script>
+    var allowComments = true, cb_blogId = 354148, cb_blogApp = 'shizhijie', cb_blogUserGuid = 'ebae0ff0-ed07-e711-845c-ac853d9f53ac';
+    var cb_entryId = 8297840, cb_entryCreatedDate = '2018-01-16 17:39', cb_postType = 1;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/shizhijie/p/8297840.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/shizhijie/p/8297840.html#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><div class="login_tips">
+    登录后才能查看或发表评论，立即 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return account.login(&#39;!comments&#39;);">登录</a> 或者
+    <a href="https://www.cnblogs.com/">逛逛</a> 博客园首页
+</div>
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="https://cloud.baidu.com/campaign/bccdiscount/index.html?track=cp:bokeyuan|pf:pc|pp:H-bokeyuan-21bccsanqi-neiyewenzilian|pu:21bccsanqi-neiyewenzilian|ci:21bcc|kw:10370321" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-百度智能云&#39;)">【推荐】百度智能云超值优惠：新用户首购云服务器1核1G低至69元/年</a><br><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-ucancode&#39;)">【推荐】跨平台组态\工控\仿真\CAD 50万行C++源码全开放免费下载！</a><br><a href="https://www.aliyun.com/minisite/goods?taskCode=yds2021-09zy&amp;recordId=883117&amp;userCode=swh7dvlt" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-阿里云-cps&#39;)">【推荐】阿里云云大使特惠：新用户购ECS服务器1核2G最低价87元/年</a><br><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-华为专区&#39;)">【推荐】和开发者在一起：华为开发者社区，入驻博客园科技品牌专区</a><br><a href="https://www.cnblogs.com/cmt/p/15147135.html" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-众安保险&#39;)">【推广】园子与爱卡汽车爱宝险合作，随手就可以买一份的百万医疗保险</a><br></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+             <a onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;Pangle-C1&#39;)" target="_blank" rel="nofollow" href="https://c.gridsumdissector.com/r/?gid=gad_545_ph4hkwzt&amp;ck=32&amp;adk=442&amp;autorefresh=__AUTOREFRESH__">
+                <img style="width: 300px; height: 250px;" src="./Linux 的字符串截取很有用。有八种方法。 - 人情世故 - 博客园_files/35695-20210817131346802-930113090.jpg" alt="" onload="gscmdImpress()">
+             </a>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card">
+<b>编辑推荐：</b>
+<br>
+
+· <a href="https://www.cnblogs.com/chopper-poet/p/15328054.html" target="_blank">记一次 k8s pod 频繁重启的优化之旅</a>
+    <br>
+· <a href="https://www.cnblogs.com/kklldog/p/netcore-with-microservices-11.html" target="_blank">.Net Core with 微服务：分布式事务 - 可靠消息最终一致性</a>
+    <br>
+· <a href="https://www.cnblogs.com/zhujiqian/p/15312435.html" target="_blank"> 通过 Wireshark 抓包分析谈谈 DNS 域名解析的那些事儿</a>
+    <br>
+· <a href="https://www.cnblogs.com/eventhorizon/p/15316955.html" target="_blank">概述 .NET 6 ThreadPool 实现</a>
+    <br>
+· <a href="https://www.cnblogs.com/xuanyuan/p/15266447.html" target="_blank">现代操作系统管理内存，到底是分段还是分页？</a>
+    <br>
+</div></div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br>
+ ·          <a href="https://news.cnblogs.com/n/702886/" target="_blank">程序员的时代红利快消失了，我要抓住它（2021-09-25 09:00）</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/702885/" target="_blank">Nature封面：史上最小人造飞行器，仅一粒沙子大小，能搭载复杂集成电路（2021-09-25 08:52）</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/702884/" target="_blank">抖音“防沉迷系统”再升级，真能防住青少年吗？（2021-09-25 08:48）</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/702883/" target="_blank">苹果手机终于不被人“爱疯”了（2021-09-25 08:47）</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/702882/" target="_blank">与百度合作7年，北京现代推出第三代智能网联系统（2021-09-25 08:41）</a>
+        <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+setTimeout(function() { incrementViewCount(cb_entryId); }, 50);       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/shizhijie/">
+            人情世故
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/shizhijie/" title="入园时间：2017-03-13">
+            4年6个月
+        </a>
+        <br>
+        粉丝：
+        <a href="https://home.cnblogs.com/u/shizhijie/followers/">
+            56
+        </a>
+        <br>
+        关注：
+        <a href="https://home.cnblogs.com/u/shizhijie/followees/">
+            0
+        </a>
+        <div id="p_b_follow">
+<a href="javascript:void(0)" onclick="follow(&#39;ebae0ff0-ed07-e711-845c-ac853d9f53ac&#39;)">+加关注</a></div>
+        <script>getFollowStatus('ebae0ff0-ed07-e711-845c-ac853d9f53ac');</script>
+    </div>
+</div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="calendar"><div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2021/08/25&#39;); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年9月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2021/10/25&#39;); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">29</td>
+                            <td class="CalOtherMonthDay" align="center">30</td>
+                            <td class="CalOtherMonthDay" align="center">31</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        4
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            5
+                        </td>
+                            <td class="" align="center">
+                                6
+                            </td>
+                            <td class="" align="center">
+                                7
+                            </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            11
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            12
+                        </td>
+                            <td class="" align="center">
+                                13
+                            </td>
+                            <td class="" align="center">
+                                14
+                            </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            18
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            19
+                        </td>
+                            <td class="" align="center">
+                                20
+                            </td>
+                            <td class="" align="center">
+                                21
+                            </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                        <td class="CalTodayDay" align="center">
+                            25
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            26
+                        </td>
+                            <td class="" align="center">
+                                27
+                            </td>
+                            <td class="" align="center">
+                                28
+                            </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            2
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            3
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                4
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            9
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/shizhijie/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/shizhijie/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/shizhijie/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/shizhijie/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/shizhijie/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+    <li><a id="itemListLink" onclick="this.blur();WarpClass(&#39;itemListLink&#39;, &#39;itemListLin_con&#39;);return false;" href="https://www.cnblogs.com/shizhijie/p/8297840.html#">更多链接</a></li>
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"></div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div class="catListPostArchive">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+
+        <ul>
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2019/03.html" rel="" target="">
+    2019年3月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2019/01.html" rel="" target="">
+    2019年1月(3)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/12.html" rel="" target="">
+    2018年12月(6)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/11.html" rel="" target="">
+    2018年11月(13)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/10.html" rel="" target="">
+    2018年10月(23)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/09.html" rel="" target="">
+    2018年9月(25)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/08.html" rel="" target="">
+    2018年8月(8)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/07.html" rel="" target="">
+    2018年7月(17)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/06.html" rel="" target="">
+    2018年6月(2)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/05.html" rel="" target="">
+    2018年5月(21)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/04.html" rel="" target="">
+    2018年4月(30)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/03.html" rel="" target="">
+    2018年3月(18)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/02.html" rel="" target="">
+    2018年2月(45)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2018/01.html" rel="" target="">
+    2018年1月(59)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2017/12.html" rel="" target="">
+    2017年12月(65)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2017/11.html" rel="" target="">
+    2017年11月(32)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2017/10.html" rel="" target="">
+    2017年10月(20)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2017/09.html" rel="" target="">
+    2017年9月(40)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2017/08.html" rel="" target="">
+    2017年8月(15)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2017/06.html" rel="" target="">
+    2017年6月(1)
+</a>
+ 
+                </li>                
+                <li data-category-list-item-visible="false" style="display: none">
+                    
+<a href="https://www.cnblogs.com/shizhijie/archive/2017/05.html" rel="" target="">
+    2017年5月(2)
+</a>
+ 
+                </li>                
+            <li><a href="javascript:void(0)" onclick="sideColumnManager.loadMore(this)">更多</a></li>
+        </ul>
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/shizhijie/p/10332970.html">1. Re:Elasticsearch Java API的基本使用</a></li>
+                    <li class="recent_comment_body"><p>大佬，请教下 在哪里设置es的访问密码？</p>
+</li>
+                    <li class="recent_comment_author">--WeKnowWeCan</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/shizhijie/p/8967762.html">2. Re:使用EXtjs6.2构建web项目</a></li>
+                    <li class="recent_comment_body"><p>抄的傻逼狗</p>
+</li>
+                    <li class="recent_comment_author">--kaydon</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/shizhijie/p/8005680.html">3. Re:JqGrid 获取所有数据</a></li>
+                    <li class="recent_comment_body"><p>mark！！</p>
+</li>
+                    <li class="recent_comment_author">--灵雨飘零</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/shizhijie/p/10332970.html">4. Re:Elasticsearch Java API的基本使用</a></li>
+                    <li class="recent_comment_body"><p>为啥不写注释</p>
+</li>
+                    <li class="recent_comment_author">--阿纯</li>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/shizhijie/p/7657049.html">5. Re:JAVA Comparator 接口排序用法</a></li>
+                    <li class="recent_comment_body"><p>哎嗨，都快忘光了。<br>
+博主的代码不能直接copy啊，还需要手动选，这个感觉不太方便。</p>
+</li>
+                    <li class="recent_comment_author">--我欲皆真</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/9366247.html">
+                            1. Sql 四大排名函数（ROW_NUMBER、RANK、DENSE_RANK、NTILE）简介(61306)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/7768973.html">
+                            2. Pycharm及python安装详细教程(58673)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/8243934.html">
+                            3. 使用spring+quartz配置多个定时任务(58030)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/8297840.html">
+                            4. Linux 的字符串截取很有用。有八种方法。(45578)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/8422662.html">
+                            5. session的生命周期(44856)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/8422662.html">
+                            1. session的生命周期(3)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/10332970.html">
+                            2. Elasticsearch Java API的基本使用(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/9802309.html">
+                            3. 关于RabbitMQ交换机的理解(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/8378454.html">
+                            4. 分布式系统开发之技术介绍(2)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/shizhijie/p/8378384.html">
+                            5. 关于分布式的一些理解和认识(2)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+    <div class="catListView">
+        <h3 class="catListTitle">推荐排行榜</h3>
+        <div id="TopDiggPostsBlock">
+            <ul style="word-break: break-all">
+                        <li>
+                            <a href="https://www.cnblogs.com/shizhijie/p/8422662.html">
+                                1. session的生命周期(8)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/shizhijie/p/8378454.html">
+                                2. 分布式系统开发之技术介绍(3)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/shizhijie/p/8022563.html">
+                                3. java关于Timer schedule执行定时任务(3)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/shizhijie/p/8005696.html">
+                                4. 获取jqGrid中选择的行的数据以及 jqGrid获得所有行数据的方法(3)
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.cnblogs.com/shizhijie/p/10005682.html">
+                                5. 安装redis出现cc adlist.o /bin/sh:1:cc:not found的解决方法(2)
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+</div></div></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 人情世故
+<br><span id="poweredby">Powered by .NET 6 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        "不管做什么，只要坚持下去就会看到不一样！在路上，不卑不亢!"
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8NACB8VE9qlHm6Ujjqxvg5AwL8QXcwMflHJn8B0ywMQuKJAEwEksq-7Jw9rBXIv898kVA6lWeOUoWXPcnFCFo1fQJ74vA5CyN3d85JGZbv7TCznVYKAEfx1MWC8m9PgzPtzk8n8t6ObBMqNFy5OWAPI">
+
+
+</body></html>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 10:56 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org4ce49c8">1. 语法表</a>
+<ul>
+<li><a href="#orgb252992">1.1. 概述</a></li>
+</ul>
+</li>
+<li><a href="#org6b25065">2. 键盘映射</a>
+<ul>
+<li><a href="#org3f6a225">2.1. 按键序列</a></li>
+<li><a href="#org61c1115">2.2. 键盘映射表概论</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org4ce49c8" class="outline-2">
+<h2 id="org4ce49c8"><span class="section-number-2">1</span> 语法表</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+语法表定义每个字符的语法角色，定义单词、符号和其他语法结构的起始和结束位置。Font Lock模式和其他复杂的移动命令都会用到语法表。
+</p>
+</div>
+
+<div id="outline-container-orgb252992" class="outline-3">
+<h3 id="orgb252992"><span class="section-number-3">1.1</span> 概述</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+在语法表中可以查询每个字符的语法分类和其他语法属性。Lisp程序用语法表做文本扫描和光标移动。
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6b25065" class="outline-2">
+<h2 id="org6b25065"><span class="section-number-2">2</span> 键盘映射</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+键盘输入事件和各种命令的绑定记录在称为键盘映射表的数据结构中。每个映射将一个单独的输入事件与一个映射表或者是命令关联。如果一个输入事件与映射表关联，那么这个映射表是用来查询下一个输入事件映射的，如此递归，直到找到与输入事件关联的命令。整个过程被称作“按键查询”。
+</p>
+</div>
+<div id="outline-container-org3f6a225" class="outline-3">
+<h3 id="org3f6a225"><span class="section-number-3">2.1</span> 按键序列</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+按键序列是由一个或者多个输入事件构成的单元。按键序列包括字符键、功能键、鼠标动作以及系统事件。Emacs Lisp中用字符串或者向量表示。除非明确说明，Emacs Lisp函数参数两种形式都可以使用。
+</p>
+
+<p>
+在字符串表示的序列中，字符和数字表示的是他们自己，控制符由`"\C-"'子串和`"\M-"'字串打头，例如，`"\C-x"'代表`C-x'。而&lt;TAB&gt;,&lt;RET&gt;,&lt;ESC&gt;和&lt;DEL&gt;事件分别由`"\t"',`"\r"',`"\e"',和`"\d"'代表。代表一个完整的按键序列的字符串是由单个字串的串联。比如：`"\C-xl"'表示的按键序列是`C-x l'。
+</p>
+
+<p>
+函数： kdb keyseq-text
+函数将KEYSEQ-TEXT（一个字符串常量）转换成按键序列（一个字符串或者向量）。KEYSEQ-TEXT的形式如`C-x C-k &lt;RET&gt;'，功能键要用`&lt;&#x2026;&gt;'括起来。
+n
+</p>
+<div class="org-src-container">
+<pre class="src src-elisp"><span class="org-rainbow-delimiters-depth-1">(</span>kbd <span class="org-string">"C-x"</span><span class="org-rainbow-delimiters-depth-1">)</span> =&gt; <span class="org-string">"\C-x"</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>kbd <span class="org-string">"C-x C-f"</span><span class="org-rainbow-delimiters-depth-1">)</span> =&gt; <span class="org-string">"\C-x\C-f"</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>kbd <span class="org-string">"C-x 4 C-f"</span><span class="org-rainbow-delimiters-depth-1">)</span> =&gt; <span class="org-string">"\C-x4\C-f"</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>kbd <span class="org-string">"X"</span><span class="org-rainbow-delimiters-depth-1">)</span> =&gt; <span class="org-string">"X"</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>kbd <span class="org-string">"RET"</span><span class="org-rainbow-delimiters-depth-1">)</span> =&gt; <span class="org-string">"\^M"</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>kbd <span class="org-string">"C-c SPC"</span><span class="org-rainbow-delimiters-depth-1">)</span> =&gt; <span class="org-string">"\C-c "</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>kbd <span class="org-string">"&lt;f1&gt; SPC"</span><span class="org-rainbow-delimiters-depth-1">)</span> =&gt; <span class="org-rainbow-delimiters-depth-1">[</span>f1 32<span class="org-rainbow-delimiters-depth-1">]</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>kbd <span class="org-string">"C-M-&lt;down&gt;"</span><span class="org-rainbow-delimiters-depth-1">)</span> =&gt; <span class="org-rainbow-delimiters-depth-1">[</span>C-M-down<span class="org-rainbow-delimiters-depth-1">]</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org61c1115" class="outline-3">
+<h3 id="org61c1115"><span class="section-number-3">2.2</span> 键盘映射表概论</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+键盘映射表是为每个按键序列设置其绑定的按键的数据结构。</p>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
