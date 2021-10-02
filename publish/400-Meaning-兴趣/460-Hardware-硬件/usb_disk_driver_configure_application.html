@@ -1,0 +1,1061 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 12:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>U盘驱动配置工具开发</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<h1 class="title">U盘驱动配置工具开发</h1>
+<p>
+手里有一个EAGET的U盘，想做一个类似于某宝上卖的加密U盘，基本原理是使用量产工具将
+其格式化为CDROM加U盘公开分区和隐藏分区模式，在CDROM中放加解密工具，U盘插上电脑后
+可以运行CDROM中的程序来挂载隐藏分区。
+</p>
+
+<p>
+遇到的问题是EAGET的USBTOOLBAR工具是建立在WINDOWS系统设置正常的前提下的，如果系统
+USB存储驱动被恶意程序修改，比如加上了过滤驱动，会使程序从U盘上读取到数据不是期望
+的数据，导致无法显示隐藏盘。
+</p>
+
+<p>
+解决的办法只有一种，就是想方设法地让系统针对我们的U盘使用原来正常的驱动。本文的
+重点是如何开发一个小工具，解决USB存储驱动设置被篡改的问题。学习和尝试的过程就不
+写了，以下主要记录相关知识的要点。
+</p>
+
+<p>
+U盘插入系统后驱动安装和设备启动的过程在Microsoft 文档<a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/kernel/adding-a-pnp-device-to-a-running-system">Adding a pnp Device to a
+Running System</a> 一文中讲得非常清楚，大概如下：
+</p>
+
+<ul class="org-ul">
+<li>总线驱动程序发现设备，将通知pnp 管理器</li>
+
+<li>Pnp 管理器与总线交互收集设备信息，配置设备并将相关信息存入注册表</li>
+
+<li>内核模式中的Pnp 管理器与用户模式的pnp 管理器和安装组件协调，查找并安装前端过滤
+驱动、功能驱动以及后端过滤驱动</li>
+
+<li>分配资源，启动设备</li>
+</ul>
+
+<p>
+值得注意的是系统为设备匹配驱动的过程，如果U盘在系统上使用过，在注册表中
+HKLM\System\CurrentControlSet\Enum\USBSTOR 路径下会有记录，其中包括设备实例所需
+的驱动、配置及驱动信息，系统会直接使用这里的设置为U盘匹配驱动，只有当注册表中找
+不到U盘实例的信息时才会为其安装驱动。驱动安装的过程在 <a href="https://docs.microsoft.com/zh-cn/windows-hardware/drivers/install/step-2--a-driver-for-the-device-is-selected#searching-for-the-driver">Microsoft 文档：如何选择驱
+动程序</a>中有详细的描述。
+</p>
+
+<p>
+而恶意程序修改驱动配置则主要是加入自己写的过滤驱动，其配置位置则在注册表
+HKLM\System\CurrentControlSet\Control\Class 下关于USBSTOR Class Guid 项。
+</p>
+
+<p>
+为了不使用系统自动为U盘安装的驱动，则要改变应用于U盘实例的配置及其安装类（错误配
+置的位置）。有两种方案，其一是专门针对某U盘设计一个驱动程序，在U盘插入系统后进行
+安装，因为驱动的INF文件中可以配置自定义的安装类，即可绕过恶意配置的拦截；其二是
+修改当前驱动配置，即前文提到注册表项，直接绕过恶意配置，当然同样需要添加自定义的
+CLASS。这里之所以不直接修改{4D36E967-E325-11CE-BFC1-08002BE10318}项的原因是为了
+最大限度保持系统稳定，以避免造成其他磁盘不可用。
+</p>
+
+<p>
+方案一是基于系统会选择最为匹配的驱动的基础上，方案二则是基于注册表其实是系统查找
+驱动的第一位置。 
+</p>
+
+<p>
+<code>方案一</code> 的优点是通过管理员权限即可安装驱动，缺点是首先要针对自己的U盘准备磁盘驱
+动及INF文件，其次是要通过手动更新驱动（不论是通过设备管理器还是通过编写程序），
+再次安装设备驱动的过程比较长。此方案经过简单实验论证，参照libusb 项目，应该是可
+以成功的。难度不高，主要是INF文件的编写，<a href="https://docs.microsoft.com/zh-cn/windows-hardware/drivers/install/overview-of-inf-files">微软文档INF文件</a>有详细的介绍。
+</p>
+
+<p>
+<code>方案二</code> 的优点是速度快，不需要用户过多的操作，缺点是使用程序直接操作注册表关键
+位置需要SYSTEM用户权限。此方案通过手动修改注册表进行验证可行。
+</p>
+
+<p>
+综合比较，第二案更加适合制作加密U盘的应用场景。
+</p>
+
+<p>
+由于与系统高度相关，选择Windows 编程常用的C/C++语言。据前文所述，难点是提升程
+序操作权限。
+</p>
+
+<p>
+## 提权工作服务程序
+</p>
+
+<p>
+由于需要System用户才可以操作相应注册表项，所以需要想法提升程序的权限，参照网上可
+查的at 漏洞法、超级Cmd法、Psexe法，在程序中适宜用创建服务的方法来提升权限，基本
+原理是创建的系统服务默认是以 System 用户来执行的，查看任务管理器是就明白了。
+</p>
+
+<p>
+## 交互界面程序
+</p>
+
+<p>
+如果使用系统服务的方式，与用户的交互就比较弱，为了给用户更好的体验，创建一个对话
+框，对话框担负着与用户和服务程序交互任务。
+</p>
+
+<p>
+服务程序主要是为了解决操作注册表的权限限制问题。服务程序有自己特定的要求，主要有
+3个函数。
+</p>
+
+<ul class="org-ul">
+<li>StartServiceCtrlDispatcher 注册并开始服务</li>
+<li>RegisterServiceCtrlHandler 注册服务的控制方法（回调）</li>
+<li>SetServiceStatus 报告服务状态</li>
+</ul>
+
+<p>
+## 基本写法
+</p>
+
+<p>
+```
+void main(int argc, char* argv[])
+{ 
+   SERVICE_TABLE_ENTRY ServiceTable[2];
+   ServiceTable[0].lpServiceName = "ServiceName";
+   ServiceTable[0].lpServiceProc = (LPSERVICE_MAIN_FUNCTION)ServiceMain;
+</p>
+
+<p>
+   ServiceTable[1].lpServiceName = NULL;
+   ServiceTable[1].lpServiceProc = NULL;
+   // Start the control dispatcher thread for our service
+   StartServiceCtrlDispatcher(ServiceTable);
+}
+```
+</p>
+
+<p>
+```
+void ServiceMain(int argc, char** argv) 
+{ 
+   int error; 
+</p>
+
+<p>
+ServiceStatus.dwServiceType = 
+   SERVICE_WIN32; 
+ServiceStatus.dwCurrentState = 
+   SERVICE_START_PENDING; 
+ServiceStatus.dwControlsAccepted   =  
+   SERVICE_ACCEPT_STOP | 
+   SERVICE_ACCEPT_SHUTDOWN;
+ServiceStatus.dwWin32ExitCode = 0; 
+ServiceStatus.dwServiceSpecificExitCode = 0; 
+ServiceStatus.dwCheckPoint = 0; 
+ServiceStatus.dwWaitHint = 0; 
+</p>
+
+<p>
+//为服务注册控制方法 ControlHandler
+hStatus = RegisterServiceCtrlHandler(
+   "ServiceName", 
+   (LPHANDLER_FUNCTION)ControlHandler); 
+if (hStatus == (SERVICE_STATUS_HANDLE)0) 
+{ 
+   // Registering Control Handler failed
+   return; 
+}  
+</p>
+
+<p>
+// 在 InitService 中做一些准备工作，如果不能完成则退出
+error = InitService(); 
+if (error) 
+{
+   // Initialization failed
+   ServiceStatus.dwCurrentState = 
+      SERVICE_STOPPED; 
+   ServiceStatus.dwWin32ExitCode = -1; 
+   SetServiceStatus(hStatus, &amp;ServiceStatus); 
+   return; 
+} 
+// 向服务管理器报告服务状态，否则服务管理器会报告错误
+ServiceStatus.dwCurrentState = 
+   SERVICE_RUNNING; 
+SetServiceStatus (hStatus, &amp;ServiceStatus);
+</p>
+
+<p>
+   // The worker loop of a service
+   while (ServiceStatus.dwCurrentState == 
+          SERVICE_RUNNING)
+   {
+      int result = DoSomething()
+      if (result)
+      {
+         ServiceStatus.dwCurrentState = 
+            SERVICE_STOPPED; 
+         ServiceStatus.dwWin32ExitCode      = -1; 
+         SetServiceStatus(hStatus, 
+                          &amp;ServiceStatus);
+         return;
+      }
+      Sleep(SLEEP_TIME);
+   }
+   return; 
+}
+```
+</p>
+
+<p>
+```
+// Control Handler
+void ControlHandler(DWORD request) 
+{ 
+   switch(request) 
+   { 
+      case SERVICE_CONTROL_STOP: 
+		 OutputDebugString("Monitoring stopped.");
+         WriteToLog("Monitoring stopped.");
+</p>
+
+<p>
+ServiceStatus.dwWin32ExitCode = 0; 
+ServiceStatus.dwCurrentState = SERVICE_STOPPED; 
+SetServiceStatus (hStatus, &amp;ServiceStatus);
+return; 
+</p>
+
+<p>
+case SERVICE_CONTROL_SHUTDOWN: 
+   OutputDebugString("Monitoring stopped.");
+   WriteToLog("Monitoring stopped.");
+</p>
+
+<p>
+ServiceStatus.dwWin32ExitCode = 0; 
+ServiceStatus.dwCurrentState = SERVICE_STOPPED; 
+SetServiceStatus (hStatus, &amp;ServiceStatus);
+return; 
+</p>
+
+<p>
+      default:
+         break;
+    } 
+```
+</p>
+
+<p>
+## 注册表操作
+</p>
+
+<p>
+注册表操作的大体流程是先打用RegOpenKey打开注册表，而后增、删、查、改等操作，最后
+RegCloseKey 关闭注册表。
+</p>
+
+<p>
+RegOpenKey 打开注册表，第二个参数是要打开的路径，第三个参数是返回的句柄。
+</p>
+
+<p>
+` lRet = RegOpenKey(HKEY_LOCAL_MACHINE, OLD_CLASS_KEY, &amp;hKey);`
+</p>
+
+<p>
+RegSaveKey 备份指定项，第二个参数是要保存到磁盘上的路径。
+</p>
+
+<p>
+` lRet = RegSaveKey(hKey,service_class_back_file_path,NULL);`
+</p>
+
+<p>
+SHDeleteKey 删除注册表，不同于RegDeleteKey，它可以递归删除所有的子项及键值。但需
+要提供不同的头文件。
+</p>
+
+<p>
+``` 
+#include &lt;shlwapi.h&gt;
+lRet = SHDeleteKey(hKey, NEW_CLASS_GUID);
+```
+</p>
+
+<p>
+RegCreateKey 创建项，如果存在则打开它，参数同RegOpenKey
+lRet = RegCreateKey(hKey, NEW_CLASS_GUID, &amp;hKeyClass);
+</p>
+
+<p>
+RegRestoreKeyA 恢复注册表项，第二个参数是文件路径，第三个参数表示是否强制恢复
+</p>
+
+<p>
+` lRet = RegRestoreKeyA(hKeyClass,service_class_back_file_path,REG_FORCE_RESTORE); `
+</p>
+
+<p>
+RegSetValueExA 设置键的值，第一个参数是打开注册表项的句柄，第二个是其下的键名，
+第三个未用，第四个表示值的类型，第五个是要设置的值，第六个是指值的长度。这里要注
+意的是第四个参数是强制转换为BYTE指针的，第六个参数也是指字节长度。
+</p>
+
+<p>
+` lRet = RegSetValueExA(hKeyClass, "Class", 0, REG_SZ, (BYTE*)NEW_CLASS_NAME,11); `
+</p>
+
+<p>
+RegQueryKey 查询键的值，第二个参数是键名，第三个未用，第四个接收值的类型，第五个
+接收值，第六个接收值的长度。
+</p>
+
+<p>
+` lRet =
+RegQueryValueExA(hKey,"Driver",0,&amp;gv_type,(LPBYTE)old_driver,(LPDWORD)&amp;old_driver_size); `
+</p>
+
+<p>
+RegCloseKey 关闭句柄。
+</p>
+
+<p>
+` RegCloseKey(hKey); `
+</p>
+
+<p>
+在本案例中采取的方法是，先将原Class( {4D36E967-E325-11CE-BFC1-08002BE10318}项 )
+备份出来，而后恢复到新的项上，修改成新Class的名字，恢复过滤驱动设置为系统默认设
+置，然后修改注册表中U盘枚举项下我们U盘的设置，使它使用新的Class(即系统默认设置)，
+以绕过恶意程序对U盘的劫持。
+</p>
+
+<p>
+## 权限管理
+</p>
+
+<p>
+在恢复注册表项时可能还会遇到权限问题，这时需要 EnablePrivilege 和 SetPrivilege
+这两个函数来设置权限，他们的定义如下。
+</p>
+
+<p>
+```
+int EnablePrivilege(LPCTSTR lpszPrivilege, BOOL bEnable)
+{
+    HANDLE hToken;
+    TOKEN_PRIVILEGES tp;
+    LUID luid;
+    if(!OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY | TOKEN_READ, &amp;hToken))
+        return 1;
+    if(!LookupPrivilegeValue(NULL, lpszPrivilege, &amp;luid))
+        return 2;
+    tp.PrivilegeCount = 1;
+    tp.Privileges[0].Luid = luid;
+    tp.Privileges[0].Attributes = (bEnable) ? SE_PRIVILEGE_ENABLED : 0;
+    AdjustTokenPrivileges(hToken, FALSE, &amp;tp, NULL, NULL, NULL);
+    CloseHandle(hToken);
+    return 0;
+}
+</p>
+
+<p>
+bool SetPrivilege(LPCTSTR lpszPrivilege, BOOL bEnablePrivilege)
+{
+    HANDLE hToken = NULL;
+    TOKEN_PRIVILEGES tp;
+    LUID luid;
+    if(OpenProcessToken(::GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &amp;hToken) == 0)
+    {
+        return false;
+    }
+    if (!LookupPrivilegeValueA(NULL, lpszPrivilege, &amp;luid))
+    {
+        return false;
+    }
+    tp.PrivilegeCount = 1;
+    tp.Privileges[0].Luid = luid;
+    if(bEnablePrivilege)
+    {
+        tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
+    }
+    else
+    {
+        tp.Privileges[0].Attributes = 0;
+    }
+    if (!AdjustTokenPrivileges(hToken, FALSE, &amp;tp, sizeof(TOKEN_PRIVILEGES), (PTOKEN_PRIVILEGES)NULL, (PDWORD)NULL))
+    {
+        return false;
+    }
+    return 0;
+}
+```
+</p>
+
+<p>
+## 管道通信
+</p>
+
+<p>
+管道通信其实是服务端与客户端的通信，读取端作为服务端建立管道，等候连接，待客户端
+连接上管道并写入数据即可读出。
+</p>
+
+<p>
+```
+#define MY_STATUS_PIPE "\\\\.\\Pipe\\mydisk_status"
+#define MY_CMD_PIPE "\\\\.\\Pipe\\mydisk_cmd"
+</p>
+
+<p>
+    //创建状态管道等候连接
+    hPipeCmd = CreateNamedPipe(MY_CMD_PIPE,PIPE_ACCESS_DUPLEX,PIPE_TYPE_BYTE|PIPE_READMODE_BYTE|PIPE_WAIT,PIPE_UNLIMITED_INSTANCES,0,0,NMPWAIT_WAIT_FOREVER,0);
+```
+</p>
+
+<p>
+```
+my_message * ReadCmd()
+{
+    //等待客户端连接
+    if(ConnectNamedPipe(hPipeCmd,NULL)==NULL)
+    {
+        //如果上次连接没有使用 DisconnectNamedPipe 断开，则会出现此错误
+        if(GetLastError()!=ERROR_PIPE_CONNECTED)
+        {
+            WriteToLog("Waiting user to connect command pipe error.\n");
+            return FALSE;
+        }
+    }
+    my_message * cmd = (my_message *)malloc(sizeof(my_message));
+    //注意要在适当的地方释放内存
+    if(cmd==NULL)return NULL;
+    BOOL fSuccess = false;
+    DWORD len=0;
+    LPBYTE p = (LPBYTE)cmd;
+    while(TRUE)
+    {
+        fSuccess = ReadFile(hPipeCmd,p,sizeof(my_message)-(p- (LPBYTE)cmd),&amp;len,NULL);
+        if(!fSuccess || p+len&gt;= (LPBYTE)cmd+sizeof(my_message))break;
+        p = p +len;
+    }
+    //断开连接
+    DisconnectNamedPipe(hPipeCmd);
+    if(fSuccess)
+    {
+        return cmd;
+    }
+    return NULL;
+}
+```
+</p>
+
+<p>
+在客户端（GUI）中，采取如下方式写入命令，并等待读取完成状态。
+</p>
+
+<p>
+```
+BOOL service_exec_cmd(LONG cmd,HWND hwndDlg,LPCSTR device)
+{
+    if(WaitNamedPipe(MY_CMD_PIPE,NMPWAIT_WAIT_FOREVER)==FALSE)
+    {
+        MessageBox(hwndDlg,"Maybe the service is not ready. You can restart this application or try again.","ERROR",MB_OK|MB_ICONERROR);
+        return FALSE;
+    }
+    hPipeCmd = CreateFile(MY_CMD_PIPE,GENERIC_READ|GENERIC_WRITE,0,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
+    if(hPipeCmd == INVALID_HANDLE_VALUE)
+    {
+        MessageBox(hwndDlg,"Open command pipe failed.","ERROR",MB_OK|MB_ICONERROR);
+        return FALSE;
+    }
+    DWORD dwWrite;
+    my_message *msg =( my_message *) malloc(sizeof(my_message));
+    memset(msg,'\0',sizeof(my_message));
+    msg-&gt;p1=cmd;
+    strcpy(msg-&gt;p2,device);
+    if(!WriteFile(hPipeCmd,(LPBYTE)msg,sizeof(my_message),&amp;dwWrite,NULL))
+    {
+        MessageBox(hwndDlg,"Send command to service failed.","ERROR",MB_OK|MB_ICONERROR);
+        free(msg);
+        msg = NULL;
+        return FALSE;
+    }
+</p>
+
+<p>
+//重置为0用来接收响应
+memset(msg,'\0',sizeof(my_message));
+//读取工作响应
+</p>
+
+<p>
+if(ConnectNamedPipe(hPipeStatus,NULL)==NULL)
+{
+    if(GetLastError()!=ERROR_PIPE_CONNECTED)
+    {
+        MessageBox(hwndDlg,"Waiting service connect to status pipe error.","ERROR",MB_OK|MB_ICONERROR);
+        free(msg);
+        msg=NULL;
+        return FALSE;
+    }
+}
+</p>
+
+<p>
+BOOL fSuccess = false;
+DWORD len=0;
+LPBYTE lpMsg = (LPBYTE)msg;
+LPBYTE p = lpMsg;
+char log_buffer[MAX_PATH];
+while(TRUE)
+{
+    fSuccess = ReadFile(hPipeStatus,p,sizeof(my_message)-(p-lpMsg),&amp;len,NULL);
+    sprintf(log_buffer,"%d",GetLastError());
+    if(!fSuccess)MessageBox(hwndDlg,log_buffer,"ERROR",MB_OK|MB_ICONERROR);
+    if(!fSuccess || p+len&gt;=lpMsg+sizeof(my_message))break;
+    p = p +len;
+}
+DisconnectNamedPipe(hPipeStatus);
+</p>
+
+<p>
+    if(fSuccess &amp;&amp; msg-&gt;p1 ==ERROR_SUCCESS)
+    {
+        if(msg!=NULL)free(msg);
+        return TRUE;
+    }
+    if(fSuccess &amp;&amp; cmd!=ID_GET_INFO)MessageBox(hwndDlg,msg-&gt;p2,"ERROR",MB_OK|MB_ICONERROR);
+    if(msg!=NULL)free(msg);
+    return FALSE;
+}
+```
+</p>
+
+<p>
+关于 my_message，这是自定义的结构体，定义如下：
+</p>
+
+<p>
+```
+typedef struct _my_message{
+    LONG p1;
+    char p2[MAX_PATH];
+} my_message;
+```
+</p>
+
+<p>
+因为系统不保证结构体内存空间的连续性，所以采取动态分配空间的方式，保证在写入管道
+的时候是连续的内存块。
+</p>
+
+<p>
+界面主要为用户提供直观的交互接口，不需要太复杂，需要一些按钮来发送命令，需要一些
+简单信息的显示。
+</p>
+
+<p>
+## 文件检查
+</p>
+
+
+<p>
+## 创建与删除服务
+</p>
+
+<p>
+```
+bool_t usb_service_create(const char *name, const char *display_name,
+                          const char *binary_path, unsigned long type,
+                          unsigned long start_type)
+{
+    SC_HANDLE scm = NULL;
+    SC_HANDLE service = NULL;
+    bool_t ret = FALSE;
+</p>
+
+<p>
+if (!usb_service_load_dll())
+{
+    return FALSE;
+}
+</p>
+
+<p>
+do
+{
+    scm = open_sc_manager(NULL, SERVICES_ACTIVE_DATABASE,
+                          SC_MANAGER_ALL_ACCESS);
+</p>
+
+<p>
+if (!scm)
+{
+    USBERR("opening service control "
+           "manager failed: %s", usb_win_error_to_string());
+    break;
+}
+</p>
+
+<p>
+service = open_service(scm, name, SERVICE_ALL_ACCESS);
+</p>
+
+<p>
+if (service)
+{
+    if (!change_service_config(service,
+                               type,
+                               start_type,
+                               SERVICE_ERROR_NORMAL,
+                               binary_path,
+                               NULL,
+                               NULL,
+                               NULL,
+                               NULL,
+                               NULL,
+                               display_name))
+    {
+        USBERR("changing config of "
+               "service '%s' failed: %s",
+               name, usb_win_error_to_string());
+        break;
+    }
+    ret = TRUE;
+    break;
+}
+</p>
+
+<p>
+if (GetLastError() == ERROR_SERVICE_DOES_NOT_EXIST)
+{
+    service = create_service(scm,
+                             name,
+                             display_name,
+                             GENERIC_EXECUTE,
+                             type,
+                             start_type,
+                             SERVICE_ERROR_NORMAL,
+                             binary_path,
+                             NULL, NULL, NULL, NULL, NULL);
+</p>
+
+<p>
+        if (!service)
+        {
+            USBERR("creating "
+                   "service '%s' failed: %s",
+                   name, usb_win_error_to_string());
+        }
+        ret = TRUE;
+    }
+}
+while (0);
+</p>
+
+<p>
+if (service)
+{
+    start_service(service,0,NULL);//创建以后则打开
+    close_service_handle(service);
+}
+</p>
+
+<p>
+if (scm)
+{
+    close_service_handle(scm);
+}
+</p>
+
+<p>
+usb_service_free_dll();
+</p>
+
+<p>
+    return ret;
+}
+```
+</p>
+
+<p>
+这一段代码来自于 <a href="https://sourceforge.net/projects/libusb-win32/">libusb-win32</a> ，这是一个值得一读的项目，删除服务的方法在其中也有。
+</p>
+
+<p>
+## 对话框
+</p>
+
+<p>
+创建一个对话框也是很简单了，就一句话。第一个参数来自于WinMain 的第一个参数，第二
+个参数是使用 MAKEINTRESOURCE 宏对 DLG_MAIN <b>* 资源 *</b> 的处理，第三个参数是一个消
+息处理回调函数。
+</p>
+
+<p>
+```
+return DialogBox(hInst,MAKEINTRESOURCE(DLG_MAIN),NULL,(DLGPROC)DialogProc);
+```
+## 消息处理
+</p>
+
+<p>
+先说消息处理函数 DialogProc，就像下面这个样子，WM_INITDIALOG,WM_CLOSE的意思就一
+目了然了，前者是在对话框初始化，后者是对话框关闭时收到的消息，而 WM_COMMAND 则表
+示用户点击按钮发送了某个消息，具体是哪个按钮呢，从wParam 参数可以找到。
+</p>
+
+<p>
+```
+BOOL CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch(uMsg)
+    {
+    case WM_INITDIALOG:
+    {
+</p>
+
+<p>
+}
+return TRUE;
+</p>
+
+<p>
+case WM_CLOSE:
+{
+    EndDialog(hwndDlg, 0);
+</p>
+
+<p>
+}
+return TRUE;
+</p>
+
+<p>
+case WM_COMMAND:
+{
+    switch(LOWORD(wParam))
+    {
+    case ID_MOUNT_PUBLIC:
+    case ID_MOUNT_HIDE:
+    case ID_MOUNT_SECRET:
+    case ID_RESET_CONFIG:
+    case ID_DELETE_USBSTOR_ENUM:
+        if(strlen(device_id)&lt;=0)
+        {
+            MessageBox(hwndDlg,"You must select one device.","ERROR",MB_OK|MB_ICONERROR);
+            return TRUE;
+        }
+        if(!PostThreadMessage(nThreadID,LOWORD(wParam),(WPARAM)device_id,0))
+        {
+            char log_buffer[MAX_PATH];
+            sprintf(log_buffer,"Send command to working thread failed.[%d]",GetLastError());
+            MessageBox(hwndDlg,log_buffer,"ERROR",MB_OK|MB_ICONERROR);
+        }
+        break;
+    case ID_EXIT:
+        PostThreadMessage(nThreadID,ID_EXIT,NULL,0);
+        PostMessage(hwndDlg,WM_CLOSE,NULL,NULL);
+        break;
+    case ID_FRESH_DEVICE_LIST:
+        FreshDeviceList(dev_cmbox);
+        break;
+    }
+}
+return TRUE;
+</p>
+
+<p>
+    }
+    return FALSE;
+}
+```
+</p>
+
+<p>
+此例中，wParam 是一个数字，被按下的按钮的ID 号，按钮是怎么定义和运用的呢，请看下
+一节 ** 资源 **。
+</p>
+
+<p>
+## 资源
+</p>
+
+<p>
+我的工程中有一个文件 resource.h，定义了对话框和按钮的ID号，其中的内容大致如下：
+</p>
+
+<p>
+```
+#ifndef IDC_STATIC
+#define IDC_STATIC (-1)
+#endif
+</p>
+
+<p>
+#define DLG_MAIN                                100
+</p>
+
+<p>
+#define ID_MOUNT_PUBLIC WM_USER+1
+#define ID_MOUNT_HIDE WM_USER+2
+#define ID_MOUNT_SECRET WM_USER+3
+#define ID_RESET_CONFIG WM_USER+4
+#define ID_EXIT WM_USER+5
+#define ID_GET_INFO WM_USER+5
+#define ID_DELETE_USBSTOR_ENUM WM_USER+7
+#define ID_FRESH_DEVICE_LIST WM_USER+8
+```
+这里要注意的是ID号最好不要乱定义，否则在执行过程中可能存在莫名其妙的错误，一般是
+在WM_USER段以上。
+</p>
+
+<p>
+而资源文件则是 resource.rc，是关于对话框、图标等具体定义，<a href="https://docs.microsoft.com/en-us/windows/win32/menurc/resource-definition-statements">微软文档中资源定义语法</a>
+有详细介绍。下面只是一个例子。
+</p>
+
+<p>
+```
+#include &lt;windows.h&gt;
+#include &lt;commctrl.h&gt;
+#include &lt;richedit.h&gt;
+#include "resource.h"
+</p>
+
+<p>
+MYICON ICON "favicon.ico"
+<i>/
+/</i> Dialog resources
+//
+LANGUAGE 0, SUBLANG_NEUTRAL
+DLG_MAIN DIALOG 0, 0, 210, 150
+STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
+CAPTION "MyApp"
+FONT 10, "Ms Shell Dlg"
+{
+ICON MYICON,106,10,125
+COMBOBOX IDI_DEVICE,55,5,150,20,WS_VSCROLL|WS_TABSTOP|CBS_DROPDOWNLIST
+DEFPUSHBUTTON "刷新设备",ID_FRESH_DEVICE_LIST,55,25,70,20
+DEFPUSHBUTTON "挂载分区",ID_MOUNT_PUBLIC,135,25,70,20
+DEFPUSHBUTTON "挂载隐藏区",ID_MOUNT_HIDE,135,45,70,20
+DEFPUSHBUTTON "挂载加密区",ID_MOUNT_SECRET,135,65,70,20
+DEFPUSHBUTTON "重置驱动",ID_RESET_CONFIG,135,85,70,20
+DEFPUSHBUTTON "清除U盘记录",ID_DELETE_USBSTOR_ENUM,135,105,70,20
+DEFPUSHBUTTON "退出",ID_EXIT,135,125,70,20
+LTEXT "选择U盘",IDC_STATIC,5,5,50,20
+</p>
+
+<p>
+LTEXT "当前系统",IDC_STATIC,5,50,50,20
+LTEXT "",IDT_SYSTEM,55,50,70,20,WS_BORDER
+LTEXT "配置结果",IDC_STATIC,5,70,50,20
+LTEXT "",IDT_DRIVER,55,70,70,20,WS_BORDER
+LTEXT "程序版本",IDC_STATIC,5,90,50,20
+LTEXT "Version 1.0",IDC_STATIC,55,90,70,20,WS_BORDER
+</p>
+
+<p>
+LTEXT "解决驱动配置错误引起的U盘读写问题。",IDC_STATIC,55,120,70,30
+}
+</p>
+
+<p>
+<i>/
+/</i> Manifest resources
+//
+LANGUAGE 0, SUBLANG_NEUTRAL
+1                  RT_MANIFEST    ".\\manifest.xml"
+```
+</p>
+
+<p>
+## 线程
+</p>
+
+<p>
+我们的应用中涉及到使用管道进行通信，存在阻塞的可能情况，为了给用户较好的操作体验，
+需要把这种费时的读写操作分离出来，使用单独线程进行处理，主线程与子线程之间采取消
+息进行通信。
+</p>
+
+<p>
+```
+HANDLE hStartEvent;
+HANDLE hThread;
+unsigned nThreadID;
+//创建线程
+hThread = (HANDLE)_beginthreadex(NULL,0,ProcessThread,(LPVOID)hwndDlg,0,&amp;nThreadID);
+if(hThread==0)
+{
+    MessageBox(hwndDlg,"Create working thread failed.","ERROR",MB_OK|MB_ICONERROR);
+    CloseHandle(hStartEvent);
+    return FALSE;
+}
+WaitForSingleObject(hStartEvent,INFINITE);
+CloseHandle(hStartEvent);
+```
+</p>
+
+<p>
+线程的定义。
+</p>
+
+<p>
+```
+unsigned __stdcall ProcessThread(LPVOID lpParameter)
+{
+    MSG msg;
+    //查看有无消息，这里主要是保证消息队列被创建
+    PeekMessage(&amp;msg,NULL,WM_USER,WM_USER,PM_NOREMOVE);
+    if(!SetEvent(hStartEvent))
+    {
+        return 1;
+    }
+    char file_path[MAX_PATH];
+    HWND hwndDlg = (HWND)(lpParameter);
+    while(TRUE)
+    {
+        //获取消息
+        if(GetMessage(&amp;msg,0,0,0))
+        {
+            char * device = (char *)msg.wParam;
+            switch(msg.message)
+            {
+            case ID_MOUNT_PUBLIC:
+                break;
+            case ID_EXIT:
+                return 0;
+</p>
+
+<p>
+            case ID_MOUNT_HIDE:
+                break;
+            case ID_MOUNT_SECRET:
+                break;
+            case ID_RESET_CONFIG:
+                break;
+            case ID_DELETE_USBSTOR_ENUM:
+                break;
+            }
+        }
+    }
+}
+```
+</p>
+
+<p>
+消息的发送。
+` PostThreadMessage(nThreadID,LOWORD(wParam),(WPARAM)device_id,0); `
+</p>
+
+<p>
+关于PeekMessage、GetMessage 和 PostThreadMessage 的介绍可以从<a href="https://www.cnblogs.com/aimenfeifei/p/4238711.html">这里</a>了解到。
+</p>
+
+<p>
+如果使用CodeBlocks，在创建工程的时候，服务程序可以选择 win32 console 程序，而界
+面程序要选择 win32 Gui 程序，这会减少一些麻烦，因为IDE 为你设置好了编译和连接选
+项，当然你也可以采取手动方式在设置工程的编译和连接选项。有时这还是必须的，比如提
+醒undefined reference to xxxx 的时候，就需要添加一些连接库，比如 setupapi 等等。
+</p>
+
+<p>
+使用 UltraISO 将开发的驱动配（重）置工具打包到ISO镜像中，再使用量产工具重新量产U
+盘为USB CDROM+USB DISK，驱动配（重）置工具位于CD中，U盘插入系统后，运行程序重置驱动，
+成功解决U盘驱动被劫持的问题。当然，对于USB CDROM也被禁用的情况，此法就不可用了。
+</p>
+
+<p>
+本作品采用<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议</a> 进行许可。
+</p>
+</div>
+</body>
+</html>

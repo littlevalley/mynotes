@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 12:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<p>
+电脑是2008年买的AcerTM4720，在现在看来是比较老的配置了，所以用了Debian 6
+一段时间后，特别是在装了许多软件后，电脑开始有点吃力了，于是在网上寻找其他类Unix系统，发现了FreeBSD，按照<a href="http://blog.163.com/sujoe_2006/blog/static/33531512014237923628/">U盘安装Freebsd 10</a>博客中描述的步骤进行了安装。在配置Xorg的时候出现的黑屏，重启后将整个系统安装完毕。但是使用的体验非常的不好，特别是按
+Ctrl+Alt+F[n] 进入其他终端的时候会出现花屏。
+在网上搜索后找到了关于<a href="http://zh.wikipedia.org/wiki/%E6%98%BE%E7%A4%BA%E6%A8%A1%E5%BC%8F%E8%AE%BE%E5%AE%9A">KMS</a>和<a href="http://blog.csdn.net/ganxingming/article/details/764482">FrameBuffer</a>的一些知识，无知的我就认为这是内核上的问题罢了，先搁在一边吧。
+</p>
+
+<p>
+接着去体验KDE了，一个老旧的电脑显得特别吃力，一狠心再一次重装。这次装的是Xorg-minimal，在配置的时候居然神奇的发现，可以在X和字符终端切换了，只是的切换的时候反映有点慢，检查了/etc/X11/xorg.conf文件，其中只有一个显卡设备，由"vesa"驱动，心想是不是装上intel的显卡驱动要好些呢，于是参照[[<a href="http://forum.ubuntu.org.cn/viewtopic.php?t=114571">http://forum.ubuntu.org.cn/viewtopic.php?t=114571</a>][]]进行了设置，并重装了驱动，在X和字符终端上进行切换的时候又出现了花屏，于是只好将xorg.conf改回去，没有加载intel的驱动，系统又可以进行切换了，此时我肯定的说这是驱动的原因。
+</p>
+
+<p>
+结论：如果用Ctr＋Alt＋F［n］从图形终端向虚拟终端进行切换时出现了花屏，则应该是驱动的原因。
+</p>
+
+<p>
+今天在中国freebsd 论坛上找到了方法：在/boot/loader.conf 中添加
+kern.vty=vt，也就是说不使用默认的 cs
+控制台显示驱动，而用新的vt驱动。但是在编译内核的时候还是要保留 sc
+设备的，不然编译 vesa 驱动时通不过。
+</p>
+</div>
+</body>
+</html>

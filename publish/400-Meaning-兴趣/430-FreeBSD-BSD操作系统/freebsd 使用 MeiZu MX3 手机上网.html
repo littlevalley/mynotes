@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 12:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<p>
+根据手册 man urndis 的内容，在freebsd 4.7中就可以使用urndis
+了，从但是在release版本中包含驱动的是freebsd 9.3，要使用手机的rndis
+功能上网，可以将驱动编译在内核中，也可以在loader.conf中进行配置，手册原文如下：
+</p>
+
+<p>
+点击(此处)折叠或打开
+</p>
+
+<ol class="org-ol">
+<li>To compile this driver into the kernel, place the following lines in
+your</li>
+<li>kernel configuration file:</li>
+<li>device ehci</li>
+<li>device uhci</li>
+<li>device ohci</li>
+<li>device xhci</li>
+<li>device usb</li>
+<li>device urndis</li>
+<li>Alternatively, to load the driver as a module at boot time, place
+the</li>
+<li>following line in loader.conf(5):</li>
+
+<li>if\_urndis\_load="YES"</li>
+<li></li>
+</ol>
+
+<p>
+具体如何编译内核请参考<a href="http://www.freebsd.org/doc/zh_CN/books/handbook/">FreeBSD
+Hanbook</a>！
+</p>
+
+<p>
+在完成驱动加载后，以root身份运行bsdconfig配置网络接口（Network
+Managment）。
+</p>
+
+<p>
+点击(此处)折叠或打开
+</p>
+
+<ol class="org-ol">
+<li>bsdconfig</li>
+</ol>
+
+<p>
+依次进入Network Managment -&gt;Network Interfaces -&gt;Networking Devices
+(ue0) -&gt; DHCP 完成配置后保存退出。
+</p>
+
+<p>
+这是Freebsd 10.1 下面的操作，其他版本的参照执行。
+</p>
+
+<p>
+测试一下吧： ping www.baidu.com
+</p>
+
+<p>
+不出意外的话，你可以愉快地上网了。
+</p>
+
+<p>
+（当然，你现在看到的这篇文章就是通过我的手机上网贴上来的。）
+</p>
+</div>
+</body>
+</html>

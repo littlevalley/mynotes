@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 12:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs Lisp 手册 －－ Advising Emacs Lisp Functions 翻译</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<h1 class="title">Emacs Lisp 手册 －－ Advising Emacs Lisp Functions 翻译</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgcd89125">1. 前言</a></li>
+<li><a href="#orga379247">2. 补丁函数</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcd89125" class="outline-2">
+<h2 id="orgcd89125"><span class="section-number-2">1</span> 前言</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+在使用 ace-pinyin-jump-char 时发现一个 bug，传入 avy&#x2013;generic-jump 的参数不对，
+其不支持 avy-style，于是想给补一下。一些大家说最好使用 advice，于是在网上搜索了
+一下，这方面的中文资料比较少，EmacsWiki 上的一篇 Emacs Lisp 手册笔记都把这章跳过
+未译，于是用了点时间把手册看了一遍，并翻译记录如下。
+</p>
+
+<p>
+关于述语约定：很多地方说 advice 是建议，但我感觉不太好理解，我这里将 advice 译作
+补丁，有时可能会用装饰。其实类似 Python Djong 的装饰，译为装饰还准确些吧。
+</p>
+
+<p>
+由于个人水平有限，有的地方可能有误，欢迎指正。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga379247" class="outline-2">
+<h2 id="orga379247"><span class="section-number-2">2</span> 补丁函数</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+当你需要修改定义在其他库中的函数，或者需要修改一个钩子，比如 `FOO-function'、过
+滤器、变量或者其他存储函数值的对象时，你可以使用恰当的设置函数，比如`fset' 、
+`defun' 设置命名函数，`setq' 设置钩子函数，`set-process-filter' 设置过滤器。但这
+些都太笨了，因为将已有的值完全丢弃不用了。
+</p>
+
+<p>
+"建议"功能可以让你使用“advising the function”为已经存在的函数添加一些功能，相
+比重新定义整个函数，这是一个更加清洁的方式。
+</p>
+
+<p>
+Emacs 的补丁系统提供了两套功能来做这事：核心的一种，用于变量或者对象域存储的函数
+值（使用`add-function’ 和 `remove-function'），另一种是处于更高层的，用于命名函
+数（使用 `advice-add' 和 `advice-remove'）。
+</p>
+
+<p>
+例如：为了跟踪过滤器 PROC 的调用过程，你可以使用：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">my-tracing-function</span> <span class="org-rainbow-delimiters-depth-2">(</span>proc string<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"Proc %S received %S"</span> proc string<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">add-function</span> <span class="org-builtin">:before</span> <span class="org-rainbow-delimiters-depth-2">(</span>process-filter PROC<span class="org-rainbow-delimiters-depth-2">)</span> #'my-tracing-function<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+这样，进程的输出会首先传给 `my-tracing-function'，然后再传给原来的过滤器。
+`my-tracing-function' 收到的传入参数同原来的函数是一样的。完成后，你可以使用以下
+代码恢复未被跟踪前的行为：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">remove-function</span> <span class="org-rainbow-delimiters-depth-2">(</span>process-filter PROC<span class="org-rainbow-delimiters-depth-2">)</span> #'my-tracing-function<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+同样的，如果你想跟踪函数 `dispaly-buffer' 的运行，你可以使用：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">his-tracing-function</span> <span class="org-rainbow-delimiters-depth-2">(</span>orig-fun <span class="org-type">&amp;rest</span> args<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span>message <span class="org-string">"display-buffer called with args %S"</span> args<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>res <span class="org-rainbow-delimiters-depth-5">(</span>apply orig-fun args<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>message <span class="org-string">"display-buffer returned %S"</span> res<span class="org-rainbow-delimiters-depth-3">)</span>
+    res<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+
+<span class="org-rainbow-delimiters-depth-1">(</span>advice-add 'display-buffer <span class="org-builtin">:around</span> #'his-tracing-function<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+这里，`his-tracing-function' 会被使用原来的函数及其参数进行调用，所以，他可以在
+需要的时候调用原来函数。当你已经尝试过看他的输出后，你可以使用如下方式恢复到未被
+跟踪之前的状态：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>advice-remove 'display-buffer #'his-tracing-function<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+前面两个例子中使用的参数 `:before' 和 `:around' 指定了两个函数如何组合，因为有许
+多可选的方式。我们添加的函数也被称为 =补丁=。
+</p>
+</div>
+
+
+<ol class="org-ol">
+<li><a id="org007e699"></a>处理补丁的原语<br />
+<div class="outline-text-3" id="text-2-1">
+<p>
+&#x2013; 宏： add-function where place function &amp;optional props
+       这个宏是为存储在 PLACE 中的 FUNCTION 添加补丁的便捷方式（请参看
+       Generializied Variables）。
+</p>
+
+<p>
+WHERE 决定了 FUNCTION 是如何与已经存在的函数组合的，比如：FUNCTION 是在原
+函数之前还是之后调用。请看 Advice combinators，了解可用组合方式。
+</p>
+
+<p>
+当装饰一个变量（它的名字常常以 `-function' 结尾），你可以选择 FUNCTION 用
+于全局还是仅仅当前缓冲区：如果 PLACE 只是符号， FUNCTION 将被添加到 PLACE
+的全局值中。不论 PLACE 是像 `(local SYMBOL)'，还是返回变量名的表达式，
+FUNCTION 都只会作用于当前缓冲区。最后，如果你想修饰字面变量，你必须使用
+`(var VARIABLE)'。
+</p>
+
+<p>
+每一个通过 `add-function' 添加的函数都可以附带一个属性列表 PROPS。目前只
+有两个属性有特定意义：
+</p>
+
+<p>
+`name'
+      这个属性给补丁一个名字，`remove-function' 可以用来识别移除的函数，
+      主要用在 FUNCTION 是匿名函数的情况。
+</p>
+
+<p>
+`depth'
+       这个属性定义如何给这个补丁排序，用于多个补丁的民政部。默认民政部下，
+       其值为0。如果为100，则说明这个补丁应当被排在尽可以靠里的位置，
+       而-100则表示应当被排在尽可能靠外的位置。当两个补丁有相同的深度值时，
+       最近添加的处于最外层。
+</p>
+
+<p>
+对于 `:before' 补丁，处于最外层是指这个补丁要在其他补丁运行前首先被运行，
+而处于最里层，则指其在原函数被调用前运行，他和原函数之间没有其他要被运行
+的补丁。同样的，对于 `:after' 补丁，最里层指其在原函数后立即执行，最外层
+指在所有补丁的末尾执行。一个 `:override' 补丁只会覆盖原函数，而其他补丁
+将会作用于新的函数上。
+</p>
+
+<p>
+如果 FUNCTION 不是一个可交互的函数，重组之后的函数将继承其交互说明，如果有，
+继承原函数的交互属性。否则，重组之后的函数，将是一个可交互的函数，使用新的交
+互说明。有一个例外：如果 FUNCTION 的交互说明是一个函数（不是表达式或者字符
+串），将会使用原函数的交互字符串作为一个参数调用这个函数，其结果作为重组的函
+数的交互说明。可以使用 `advice-eval-interactive-spec' 来解析作为参数传递过来
+的交互说明。
+</p>
+
+<p>
+<b>注意</b>:FUNCTION 的交互说明将会作用于重组的函数，所以应当遵守重组函数的约定，
+ 而不是 FUNCTION。在许多案例中，这没有区别，因为两者是完全等价的，但在使用
+ `:around'、`:filter-args' 和 `:filter-return' 方式时就不一样了，FUNCTION 接
+ 收原函数存放在 PLACE 中的参数就不同了。
+</p>
+
+
+<p>
+&#x2013; 宏： remove-function place function
+        这个宏将FUNCTION从PLACE中移除。这只对用 `add-function' 添加的FUNCTION有
+        用。
+</p>
+
+<p>
+FUNCTION 将会与加入到 PLACE 中的所有函数使用`equal' 进行对比，并且尝试与
+lambda 表达式进行对比。 另外还会与加入 PLACE 的函数的 `name' 属性进行对比，
+比使用 `equal' 与 lambda 表达式对比要可靠些。
+</p>
+
+<p>
+&#x2013; 函数： advice-function-member-p advice function-def
+          如果 ADVICE 已经在 FUNCTION-DEF 则返回 non-`nil'。同上面的
+          `remove-function' 一样， ADVICE 除了可以是一个实际的函数，也可以是一个
+          补丁片断的 `name'。
+</p>
+
+<p>
+&#x2013; 函数： advice-function-mapc f function-def
+   对添加到 FUNCTION-DEF 的所有的补丁应用函数 F。调用 F 函数时会传两个参数：补丁
+   函数及其属性列表。
+</p>
+
+<p>
+&#x2013; 函数： advice-eval-interactive-spec spec
+    对一个交互说明求值，就像包含这样一个交互说明的函数执行过程一样，然后返回得到
+    的参数列表。比如： `(advice-eval-interactive-spec "r\nP")' 将返回一个具有3个
+    元素的列表，包括选区的前后边界和输入的前缀参数。
+</p>
+</div>
+</li>
+
+<li><a id="org91a06a5"></a>修补命名函数<br />
+<div class="outline-text-3" id="text-2-2">
+<p>
+补丁通常用于命名函数和宏。你可能像这样使用 `add-function'：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">add-function</span> <span class="org-builtin">:around</span> <span class="org-rainbow-delimiters-depth-2">(</span>symbol-function 'FUN<span class="org-rainbow-delimiters-depth-2">)</span> #'his-tracing-function<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+但实际上在这种情况你应该用 `advice-add' 和 `advice-remove'。这对函数用于命名函数
+的补丁，与 `add-function' 相比有以下特征：它们知道如何应对宏和自动加载
+（autoloaded）的函数；让 `describe-function' 保持原函数和新加补厅的说明文档；在
+函数重复定义前添加和移除补丁。
+</p>
+
+<p>
+`advice-add' 可以在不重写整个函数的情况下修改已经存在函数的表现形式。但是，这也
+可能是 bug 的来源，因为已经存在的调用者还假定基是原来的表现，当补丁修改函数表现
+后，就可能工作不正常了。补丁还可能在调试中造成混乱，特别是调试者没有注意到或者不
+记得这个函数已经被补丁修改过的时候。
+</p>
+
+<p>
+因为这些原因，补丁应该被用在不使用其他方式个性函数表现形式的情况下。如果你可以用
+钩子来做相同的事，应该优先选择钩子（请看钩子）。如果你只是简单想改变某个按键的行
+为，你最好重写一个新的命令，将按键绑定的新命令上（请看 Remapping Commands）。
+Emacs 自己的源文件不应该在 Emacs 的其他函数上加补丁。（当前有一些违背这条约定的例外，但我们准
+备下步将其改掉。）
+</p>
+
+<p>
+特殊语句（请看 Special Forms）不能加补丁，但宏可以加，像函数一样。当然，这不会影
+响那些已经被宏展开的代码，所以，你要保证补丁在宏展开之前安装。
+</p>
+
+<p>
+为原语加补丁也是可以的（请看 What Is a Function），但最好 <b>不要</b> 这样干，主要基
+于两点考虑：一是有一些原语被用于补丁机制，为基加补丁可能造成死循环；二是许多原语
+被C直接调用，这类调用不管补丁。因此，你可能因有些情况补丁有用（Lisp 代码），而有
+些调用有没有用（C代码）而疯掉。
+</p>
+
+<p>
+&#x2013; 宏： define-advice symol (where lambda-list &amp;optional name depth) &amp;rest body
+    这个宏定义了一个补丁并将其添加到了名叫 SYMBOL 的函数。如果 NAME 为 `nil'，这
+    个补丁是个匿名函数，或者名为 `symbol@name'。请看 `advice-add' 了解其他参数的
+    解释。
+</p>
+
+<p>
+&#x2013; 函数： advice-add symbol where function &amp;optional props
+   将补丁 FUNCTION 添加到命名函数 SYMBOL。WHERE 和 PROPS 与 `add-function' 中的
+   参数意义一样。
+</p>
+
+<p>
+&#x2013; 函数： advice-remove symbol function
+    从函数 SYMBOL 上移除补丁 FUNCTION。FUNCTION 同样可以是补丁的‘name’。
+</p>
+
+<p>
+&#x2013; 函数： advice-member-p function symbol
+    如果补丁 FUNCTION 已经被添加到了命名函数 SYMBOL 上了，则返回 non-'nil' 。FUNCTION 同样可以是补丁的‘name’。
+</p>
+
+<p>
+&#x2013; 函数： advice-mapc function symbol
+    对添加到命名函数 SYMBOL 上的所有补丁调用 FUNCTION，调用时传给两个参数：补丁
+    函数及其所有属性。
+</p>
+</div>
+</li>
+
+<li><a id="org2f503e2"></a>组装补丁的方式<br />
+<div class="outline-text-3" id="text-2-3">
+<p>
+以下是 `add-function' 和 `advice-add' 的 WHERE 参数的可选形式，指定补丁 FUNCTION
+和原函数该如何组装。
+</p>
+
+<p>
+`:before'
+    在原函数之前调用 FUNCTION。两个函数收到的参数一样，新组合的返回值是原函数的
+    返回值。更进一步说，新组合等同于下面这句：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;rest</span> r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span>apply FUNCTION r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span>apply OLDFUN r<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+<p>
+`(add-function :before FUNVAR FUNCTION)' 等同于单函数钩子 `(add-hook
+'HOOKVAR FUNCTION)'。
+</p>
+
+<p>
+`:after'
+    在原函数之后调用 FUNCTION。两个函数收到的参数一样，新组合的返回值是原函数的
+    返回值。更进一步说，新组合等同于下面这句：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;rest</span> r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">prog1</span> <span class="org-rainbow-delimiters-depth-3">(</span>apply OLDFUN r<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">(</span>apply FUNCTION r<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+<p>
+`(add-function :after FUNVAR FUNCTION)' 等同于单函数钩子 `(add-hook
+'HOOKVAR FUNCTION 'append)'。
+</p>
+
+<p>
+`:override'
+    使用 FUNCTION 完全替换原函数。如果你使用 `remove-function' ，原函数还会被恢复。
+</p>
+
+<p>
+`:around'
+    调用 FUNCTION 而不是原函数，但将原函数作为 FUNCTION 的附加参数。这是最灵活的
+    组合。比如，它允许你使用不同的参数调用原函数，或多次调用，或使用一个 let 绑
+    定调用，或将完成的工作交给原函数，或完全替换他。更进一步讲，两个函数的组合等
+    同于下面这句：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;rest</span> r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span>apply FUNCTION OLDFUN r<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+`:before-while' 
+    在原函数之前调用 FUNCTION，但如果 FUNCTION 返回值为 `nil' 则不再调用原函数。
+    两个函数传入参数一样，新组合的返回值是原函数的返回值。更进一步讲，新组合等同
+    于下面这句：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;rest</span> r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">and</span> <span class="org-rainbow-delimiters-depth-3">(</span>apply FUNCTION r<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">(</span>apply OLDFUN r<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+当 HOOKVAR 通过‘run-hook-with-args-until-failure’运行， ‘(add-function
+:before-while FUNVAR FUNCTION)’ 等同于单函数钩子‘(add-hook 'HOOKVAR
+FUNCTION)’。
+</p>
+
+<p>
+`:before-until'
+     在原函数之前调用 FUNCTION，但只当 FUNCTION 返回 `nil' 时才调用原函数。更进
+     一步讲，新组合等同于下面这句：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;rest</span> r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">or</span> <span class="org-rainbow-delimiters-depth-3">(</span>apply FUNCTION r<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">(</span>apply OLDFUN r<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+当 HOOKVAR 通过‘run-hook-with-args-until-success’运行， ‘(add-function
+:before-untill FUNVAR FUNCTION)’ 等同于单函数钩子‘(add-hook 'HOOKVAR
+FUNCTION)’。
+</p>
+
+<p>
+‘:after-while’
+     在原函数返回 non-`nil' 才调用 FUNCTION。两个函数收到的参数一样，新组合的返
+     回值是 FUNCTION 的返回值。更进一步讲，新组合等同于下面这句：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;rest</span> r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">and</span> <span class="org-rainbow-delimiters-depth-3">(</span>apply OLDFUN r<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">(</span>apply FUNCTION r<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+当 HOOKVAR 通过 ‘run-hook-with-args-until-failure' 运行时，‘(add-function
+ :after-while FUNVAR FUNCTION)’ 等同于单函数钩子 ‘(add-hook 'HOOKVAR FUNCTION 'append)’。
+</p>
+
+<p>
+‘:after-until’
+    先调用原函数，当其返回 `nil' 时，再调用 FUNCTION。更进一步讲，新组合等同于下
+    面这句：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;rest</span> r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">or</span>  <span class="org-rainbow-delimiters-depth-3">(</span>apply OLDFUN r<span class="org-rainbow-delimiters-depth-3">)</span> <span class="org-rainbow-delimiters-depth-3">(</span>apply FUNCTION r<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+<p>
+当 HOOKVAR 通过 ‘run-hook-with-args-until-success' 运行时，‘(add-function
+ :after-until FUNVAR FUNCTION)’ 等同于 ‘(add-hook 'HOOKVAR FUNCTION 'append)’。     
+</p>
+
+<p>
+‘:filter-args’
+    先调用 FUNCTION，并将其返回值（列表）作为新的参数传给原函数。更进一步讲，新
+    组合等同于下面这句：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;rest</span> r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span>apply OLDFUN <span class="org-rainbow-delimiters-depth-3">(</span>funcall FUNCTION r<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+‘:filter-return’
+    先调用原函数，然后将其返回值作为参数传给 FUNCTION。更进一步讲，新组合等同于
+    下面这句：
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">lambda</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;rest</span> r<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-2">(</span>funcall FUNCTION <span class="org-rainbow-delimiters-depth-3">(</span>apply OLDFUN r<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="org425d5ce"></a>适配原 defadvice<br />
+<div class="outline-text-3" id="text-2-4">
+<p>
+许多代码用的原来的 `defadvice' 机制，已经被新的 `advice-add' 替代了。原来的实现
+和语法要更简单。
+</p>
+
+<p>
+老的补丁片断像这样：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defadvice</span> <span class="org-function-name">previous-line</span> <span class="org-rainbow-delimiters-depth-2">(</span>before next-line-at-end
+                                 <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-type">&amp;optional</span> arg try-vscroll<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Insert an empty line when moving up from the top line."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">and</span> next-line-add-newlines <span class="org-rainbow-delimiters-depth-4">(</span>= arg 1<span class="org-rainbow-delimiters-depth-4">)</span>
+           <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-keyword">save-excursion</span> <span class="org-rainbow-delimiters-depth-5">(</span>beginning-of-line<span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">(</span>bobp<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+      <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">progn</span>
+        <span class="org-rainbow-delimiters-depth-4">(</span>beginning-of-line<span class="org-rainbow-delimiters-depth-4">)</span>
+        <span class="org-rainbow-delimiters-depth-4">(</span>newline<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+可以按新的补丁机制转换成普通函数：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">previous-line--next-line-at-end</span> <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-type">&amp;optional</span> arg try-vscroll<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Insert an empty line when moving up from the top line."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">and</span> next-line-add-newlines <span class="org-rainbow-delimiters-depth-4">(</span>= arg 1<span class="org-rainbow-delimiters-depth-4">)</span>
+           <span class="org-rainbow-delimiters-depth-4">(</span><span class="org-keyword">save-excursion</span> <span class="org-rainbow-delimiters-depth-5">(</span>beginning-of-line<span class="org-rainbow-delimiters-depth-5">)</span> <span class="org-rainbow-delimiters-depth-5">(</span>bobp<span class="org-rainbow-delimiters-depth-5">)</span><span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+      <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-keyword">progn</span>
+        <span class="org-rainbow-delimiters-depth-4">(</span>beginning-of-line<span class="org-rainbow-delimiters-depth-4">)</span>
+        <span class="org-rainbow-delimiters-depth-4">(</span>newline<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+很显然，这实际上没有修改 `previous-line' 。原补丁还需要：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>ad-activate 'previous-line<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+而新的补丁机制需要：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span>advice-add 'previous-line <span class="org-builtin">:before</span> #'previous-line--next-line-at-end<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+<b>注意</b> `ad-activate' 具有全局效果：它将指定函数的所有的补丁都激活。如果你只想激
+活或者停止某一个补丁，则需要使用 `ad-enable-advice' 和 `ad-disable-advice' 来使
+用或者禁止它。 新机制没有这个限制。
+</p>
+
+<p>
+像这样的包围装饰补丁：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defadvice</span> <span class="org-function-name">foo</span> <span class="org-rainbow-delimiters-depth-2">(</span>around foo-around<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Ignore case in `</span><span class="org-doc"><span class="org-constant">foo</span></span><span class="org-doc">'."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>case-fold-search t<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+    ad-do-it<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>ad-activate 'foo<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+可以像这样转换：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">defun</span> <span class="org-function-name">foo--foo-around</span> <span class="org-rainbow-delimiters-depth-2">(</span>orig-fun <span class="org-type">&amp;rest</span> args<span class="org-rainbow-delimiters-depth-2">)</span>
+  <span class="org-doc">"Ignore case in `</span><span class="org-doc"><span class="org-constant">foo</span></span><span class="org-doc">'."</span>
+  <span class="org-rainbow-delimiters-depth-2">(</span><span class="org-keyword">let</span> <span class="org-rainbow-delimiters-depth-3">(</span><span class="org-rainbow-delimiters-depth-4">(</span>case-fold-search t<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span>
+    <span class="org-rainbow-delimiters-depth-3">(</span>apply orig-fun args<span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>advice-add 'foo <span class="org-builtin">:around</span> #'foo--foo-around<span class="org-rainbow-delimiters-depth-1">)</span>
+</pre>
+</div>
+
+<p>
+关于补丁的 <code>class</code> ，注意 新的 `:before' 与老的 `before' 不完全相同，因为老的补
+丁中你可以修改函数的参数（比如：使用 `ad-set-arg'），这会影响原函数得到的参数。
+而新的 `:before'，在补丁中通过 `setq' 修改参数对原函数看到的参数没有影响。当移植
+带有 `before' 的如前所述的补丁时，你需要将其转换为 `:around' 或者 `:filter-args'
+补丁。
+</p>
+
+<p>
+同样的，老的 `after' 补丁可能通过修改 `ad-return-value' 影响最后的返回值，而新的
+`:after' 补丁不会，所以，当你移植这样的老的 `after' 补丁时，则需要将其转换为
+`:around' 或者 `:filter-return' 补丁。
+</p>
+</div>
+</li>
+
+<li><a id="org55ad9c2"></a>修补结果<br />
+<div class="outline-text-3" id="text-2-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">defun avy--generic-jump-around-advice <span class="org-rainbow-delimiters-depth-1">(</span>orig-fun <span class="org-type">&amp;rest</span> args<span class="org-rainbow-delimiters-depth-1">)</span>
+  <span class="org-string">"&#38024;&#23545; `</span><span class="org-string"><span class="org-constant">ace-pinyin-jump-char</span></span><span class="org-string">' &#21450; `</span><span class="org-string"><span class="org-constant">ace-pinyin-jump-char-2</span></span><span class="org-string">' &#30340;&#20462;&#34917;</span>
+<span class="org-string">&#20989;&#25968;&#12290;&#21028;&#26029;&#20256;&#20837;&#30340;&#31532;3&#20010;&#21442;&#25968;&#26159;&#21542;&#26159;&#25968;&#23383;&#65292;&#22914;&#26524;&#26159;&#21017;&#21407;&#26679;&#35843;&#29992;&#21407;&#20989;&#25968;&#65292;&#21542;&#21017;&#65292;</span>
+<span class="org-string">&#25130;&#21462;&#21069;2&#20010;&#21442;&#25968;&#35843;&#29992;&#21407;&#20989;&#25968;&#12290;"</span>
+  <span class="org-rainbow-delimiters-depth-1">(</span><span class="org-keyword">if</span>  <span class="org-rainbow-delimiters-depth-2">(</span>number-or-marker-p <span class="org-rainbow-delimiters-depth-3">(</span>car <span class="org-rainbow-delimiters-depth-4">(</span>nthcdr 2 args<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+      <span class="org-rainbow-delimiters-depth-2">(</span>apply orig-fun args<span class="org-rainbow-delimiters-depth-2">)</span>
+      <span class="org-rainbow-delimiters-depth-2">(</span>apply orig-fun <span class="org-rainbow-delimiters-depth-3">(</span>butlast args <span class="org-rainbow-delimiters-depth-4">(</span>- <span class="org-rainbow-delimiters-depth-5">(</span>length args<span class="org-rainbow-delimiters-depth-5">)</span> 2<span class="org-rainbow-delimiters-depth-4">)</span><span class="org-rainbow-delimiters-depth-3">)</span><span class="org-rainbow-delimiters-depth-2">)</span>
+      <span class="org-rainbow-delimiters-depth-1">)</span><span class="org-rainbow-delimiters-unmatched">)</span>
+
+<span class="org-rainbow-delimiters-unmatched">(</span><span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-1">(</span>not  <span class="org-rainbow-delimiters-depth-2">(</span>advice-member-p 'avy--generic-jump-around-advice 'avy--generic-jump<span class="org-rainbow-delimiters-depth-2">)</span> <span class="org-rainbow-delimiters-depth-1">)</span>
+    <span class="org-rainbow-delimiters-depth-1">(</span> advice-add 'avy--generic-jump <span class="org-builtin">:around</span> #'avy--generic-jump-around-advice <span class="org-rainbow-delimiters-depth-1">)</span><span class="org-rainbow-delimiters-unmatched">)</span>
+
+<span class="org-rainbow-delimiters-unmatched">(</span>global-set-key <span class="org-rainbow-delimiters-depth-1">(</span>kbd <span class="org-string">"M-g"</span><span class="org-rainbow-delimiters-depth-1">)</span> 'ace-pinyin-jump-char-2<span class="org-rainbow-delimiters-unmatched">)</span>
+
+</pre>
+</div>
+
+<p>
+至此，可以输入两个字母来定位到汉字或者英文。
+</p>
+
+<p>
+本作品采用<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议</a> 进行许可。</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</body>
+</html>

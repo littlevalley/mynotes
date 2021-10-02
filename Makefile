@@ -6,7 +6,10 @@ INDEX_FILE_NAME:=index.org
 INDEX_FILE_PATH:=$(BASE_DIR)/$(INDEX_FILE_NAME)
 ABOUT_FILE_PATH:=$(BASE_DIR)/about.org
 INBOX_FILE_PATH:=$(BASE_DIR)/inbox.org
-INBOX_DIR:=$(BASE_DIR)/../inbox COLUMN_NUM:=$(shell expr `( echo $(BASE_DIR) | grep -o '/' | wc -l)` + 2 ) # 导出org文件的配置 ORG_CONFIG_FILE:=~/mynotes/publish-config.el
+INBOX_DIR:=$(BASE_DIR)/../inbox 
+COLUMN_NUM:=$(shell expr `( echo $(BASE_DIR) | grep -o '/' | wc -l)` + 2 ) 
+# 导出org文件的配置 
+ORG_CONFIG_FILE:=~/mynotes/publish-config.el
 
 EMACS_OPTS:=--eval "(load-file \"$(ORG_CONFIG_FILE)\")"
 
@@ -55,7 +58,7 @@ index:
 		if [ "$$line" = "$(INDEX_FILE_PATH)" ]; then continue ; fi; \
 		if [ "$$line" = "$(ABOUT_FILE_PATH)" ]; then continue ; fi; \
 		if [ "$$line" = "$(INBOX_FILE_PATH)" ]; then continue ; fi; \
-if [ "`echo \"$$line\"| grep '\['`" != ""  -o "`echo \"$$line\" | grep '\]'`" != "" ]; then \
+		if [ "`echo \"$$line\"| grep '\['`" != ""  -o "`echo \"$$line\" | grep '\]'`" != "" ]; then \
 			new_line=`echo $$line | sed 's/\[/【/g' `; \
 			new_line=`echo $$new_line | sed 's/\]/】/g' `; \
 			mv "$$line" "$$new_line"; \

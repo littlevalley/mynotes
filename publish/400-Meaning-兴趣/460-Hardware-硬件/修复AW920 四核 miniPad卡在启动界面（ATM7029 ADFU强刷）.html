@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 12:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#修复aw920-四核-minipad-卡在启动界面atm7029-adfu强刷">1. 修复AW920 四核 miniPad 卡在启动界面（ATM7029 ADFU强刷）</a>
+<ul>
+<li><a href="#一准备工具">1.1. 一、准备工具</a></li>
+<li><a href="#二n次尝试经过">1.2. 二、N次尝试经过</a></li>
+<li><a href="#三排查问题">1.3. 三、排查问题</a></li>
+<li><a href="#四总结">1.4. 四、总结</a></li>
+<li><a href="#五注意事项">1.5. 五、注意事项</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgc997d4e" class="outline-2">
+<h2 id="修复aw920-四核-minipad-卡在启动界面atm7029-adfu强刷"><span class="section-number-2">1</span> 修复AW920 四核 miniPad 卡在启动界面（ATM7029 ADFU强刷）</h2>
+<div class="outline-text-2" id="text-修复aw920-四核-minipad-卡在启动界面atm7029-adfu强刷">
+<p>
+好久没有用13年买的一个平板了，前两天拿出来准备看电子书，没电了，充好电后开机，结果卡在开机欢迎界面了，死活进不去，如图：
+</p>
+
+
+<div class="figure">
+<p><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191996015684000.gif" alt="uid-20962531-id-5755373-2397747191996015684000.gif" />
+</p>
+</div>
+
+<p>
+找度娘，有和我一个问题的，如图：
+</p>
+
+
+<div class="figure">
+<p><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191996677546000.jpg" alt="uid-20962531-id-5755373-2397747191996677546000.jpg" />
+</p>
+</div>
+
+
+<p>
+当然回答都很简单，说是可以用矩力的量产工具，重新刷一下就好，作为小白，开始了艰苦之旅。
+</p>
+</div>
+
+<div id="outline-container-org536979d" class="outline-3">
+<h3 id="一准备工具"><span class="section-number-3">1.1</span> 一、准备工具</h3>
+<div class="outline-text-3" id="text-一准备工具">
+<blockquote>
+<p>
+
+</p>
+
+<ol class="org-ol">
+<li>安装Windows系统的电脑</li>
+<li>十字小螺丝刀</li>
+<li>普通双头USB线</li>
+<li>尖头镊子</li>
+<li>剪刀</li>
+<li>电铬铁</li>
+</ol>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org996b882" class="outline-3">
+<h3 id="二n次尝试经过"><span class="section-number-3">1.2</span> 二、N次尝试经过</h3>
+<div class="outline-text-3" id="text-二n次尝试经过">
+<p>
+之前因为忘记密码，我刷过一次，有1.2版的工具，以及在爱华官网上下载的升级包，安装好工具后，联接USB线，打开平板，电脑没有任何反映，心想是不是要进入RECOVERY模式，于是按网上刷机友的介绍，开机后按住了音量加按键，成功进入，发现了一个名为XXX的设置，但是没有驱动，网上说安装目录下有ADFU驱动，（我开始不知道什么是ADFU，当然，现在也不明白），可就是不识别，打开设备管理工具，查看了设备VID和PID，分别为XXX和0C01，原来驱动的inf文件里面没有包含PID为0C01的条目，于是动手改了，加了一条信息后，成功安装了驱动，在量产软件里面也能发现了。
+</p>
+
+
+<p>
+量产软件里面选择固件什么的就不说了，网上多的是。点了下载按钮后，奇怪的是只能下载到5%，出现DOWNLOAD\_ADEC\_FAILED，没法，想是不是驱动不对，于是用驱动精灵下载安装了一个驱动，找到了
+andriod adb interface
+的设备，可是量产工具发现不了设备了。没法还是用原来的驱动吧，上网搜了一下DOWNLOAD\_ADEC\_FAILED，还真有遇到此问题的，就是没有我要的答案。
+</p>
+
+
+<div class="figure">
+<p><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191996956737000.jpg" alt="uid-20962531-id-5755373-2397747191996956737000.jpg" />
+</p>
+</div>
+
+<p>
+最后在一个英文论坛上，找到了一名话，原文记不住了，大意是说，设备没有进入可以接收文件的状态。我这就mengbi了，因为平板进入的是恢复模式，我选的是
+update from adb ,而且设备也积极响应我，说用adb sideload filename
+什么的发送文件，我心想量产工具应该在后台就干这事的吧，怎么就不行了。想起还有update
+from sdcard
+，随便找了一个文件假设是更新包，放到卡里试了一下，才知道卡刷是要zip格式的包，但是更新要对包进行校验，我下载的这个包根本就不行，为什么呢？线刷可以，卡刷不行，于是搜索了解到，线刷包和卡刷包结构就不一样，于是找方法想把线刷包转为卡刷包，在网上找办法，别人多是为了刷手机，线刷包的结构都和我的不一样。没法，只有试了，找到用Root助手和矩力的PAD修改工具，本以为线刷包是为加密防修改而设计的，原来不是，可以解开，尔后按别人的说法准备了system,boot.img，但是META-INF这个目录怎么来呢，网上说得简单，随便下载一个就行，我找了一个别人卡刷包里的打开看了里面的文件，都是针对文件系统里面的目录及文件生成的哈希码之类的，网上搜了一下，没有找到生成META-INF的方法和规则，但有人说是挺复杂的，算了，这条路一时半会走不通，还是解决线刷吧。用思前想后，才想起，我对adb不什么不清楚，搜索了下，联想到andriod
+adb interface
+,看网上说不要安装什么SDK环境，麻烦不说，主要是怎么与设备联起来，联起来后，又怎么把这四五个分区映像文件发到设备上对设备进行更新呢？算了，还是看怎么用现有的工具来刷机吧，毕竟以前刷过啊。可是我错了。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcf5ecd8" class="outline-3">
+<h3 id="三排查问题"><span class="section-number-3">1.3</span> 三、排查问题</h3>
+<div class="outline-text-3" id="text-三排查问题">
+<p>
+后来才知道这两次遇到的问题根本就不是一个问题。我开始怀疑是不是我的量产工具压根就不对，我AW920是爱华的平板，为什么要用一个Actions的量产工具呢，搜索后才知道，Actions
+是矩力的意思，才知道矩力是国货，才知道我这平板当时比较便宜的原因，以前真没有听过，可是矩力有哪么多芯片，我这个是不是该用这个1.2版呢，于是把机子拆开了。
+</p>
+
+<p>
+<img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191997242305000.gif" alt="uid-20962531-id-5755373-2397747191997242305000.gif" /><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191997498920000.gif" alt="uid-20962531-id-5755373-2397747191997498920000.gif" />
+</p>
+
+<p>
+ 看到了ATM7029芯片，并搜索了解了ATC2603A 、H5TQ2G83EFRPBC
+、H27UCG8T2MYRBC这几个主要芯片分别是电源及声音管理、RAM、FLASH的芯片。
+</p>
+
+
+<p>
+搜ATM7029刷机过程中找到了网友刷迪优美特的教程，（开始不知道迪优美特是个什么鬼）。
+</p>
+
+
+<div class="figure">
+<p><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191997766333000.jpg" alt="uid-20962531-id-5755373-2397747191997766333000.jpg" />
+</p>
+</div>
+
+
+<p>
+说ATM7029刷机要短接的问题，并列举了几种板子短接的位置，（为了看这个位置还注册成了<a href="http://www.znds.com">WWW.ZNDS.COM</a>的会员，注册会员还必须关注其微信公众平台，狗日的）。AW920的刷机短接点在哪儿呢？我就抱着板子看啊看啊，两天时间有空就看，明显的触点倒是多，但是搞硬件的经验和直觉告诉我，这些应该是测试点，对我来说没屌用。
+</p>
+
+
+<div class="figure">
+<p><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191998022835000.gif" alt="uid-20962531-id-5755373-2397747191998022835000.gif" />
+</p>
+</div>
+
+
+<p>
+又在网上搜索，看到的几篇短接FLASH芯片刷机的文章，联想到矩力MP#等，猜测ADFU应该是把平板当成U盘硬刷时的状态。我还得找我的短接点，下载了ATM702x\_HARDWARE\_DESIGN\_GUID，阅读后，证实了刷机应该有一个开关，就是没有讲开关在哪里，又下载了ATM7029的DATASHEET来看，没看出什么有用的东西，只是引脚啊、寄存器是怎么定义的，没用。还得继续看板子，把注意力转到FLASH芯片上来，因为其他触点不可靠，而FLASH芯片是实打实在那的。
+</p>
+
+
+<p>
+看到网上有说把D0~D7之间的任意两个引脚短接就可以实现，还给了一张图，如下：
+</p>
+
+
+<div class="figure">
+<p><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191998312130000.jpg" alt="uid-20962531-id-5755373-2397747191998312130000.jpg" />
+</p>
+</div>
+
+
+<p>
+我对着这张图去找这个引脚的时候才发现，怎么它说的NC引脚的位置我的却连了线的，好一阵才反应过来，我这FLASH芯片是BGA封闭的，边上的看是引脚的地方是芯片下面的球突引出来的，这D0~D7就不好判断了，
+但是仔细观察应该可以看出哪几个位置没有接线，但这也不重要了，
+反正不可能用相对关系来找引脚了。
+</p>
+
+
+<div class="figure">
+<p><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191998567635000.gif" alt="uid-20962531-id-5755373-2397747191998567635000.gif" />
+</p>
+</div>
+
+
+<p>
+接下来只能靠推断和猜测了，首先引脚上连了贴片电容的肯定不是，因为电容要充放电，多用于振荡电路等，数据传输线上是不可能的，第二没有接线的空引脚肯定不是了，剩下的就看运气了，真是上天眷顾，有眼缘，用尖头镊子一短接如下位置，居然成了。
+</p>
+
+
+<div class="figure">
+<p><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191998838468000.gif" alt="uid-20962531-id-5755373-2397747191998838468000.gif" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="file:///home/paulwp86/org/images/uid-20962531-id-5755373-2397747191999090321000.gif" alt="uid-20962531-id-5755373-2397747191999090321000.gif" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org97967d5" class="outline-3">
+<h3 id="四总结"><span class="section-number-3">1.4</span> 四、总结</h3>
+<div class="outline-text-3" id="text-四总结">
+<blockquote>
+<p>
+写了这么多，实际硬刷就如下几步：
+</p>
+</blockquote>
+
+<blockquote>
+<p>
+
+</p>
+
+<ol class="org-ol">
+<li>把机子拆开</li>
+<li>把电池电源线剪了，用绝缘胶布包一下</li>
+<li>把显示屏的线取下来</li>
+<li>把USB线插好</li>
+<li>用镊子短接引脚</li>
+<li>电脑上安装驱动</li>
+<li>在量产工具里选好刷机包后，点击下载</li>
+<li>等待下载完毕后，重启机子</li>
+</ol>
+</blockquote>
+</div>
+</div>
+
+<div id="outline-container-org0b9805a" class="outline-3">
+<h3 id="五注意事项"><span class="section-number-3">1.5</span> 五、注意事项</h3>
+<div class="outline-text-3" id="text-五注意事项">
+<blockquote>
+<p>
+
+</p>
+
+<p>
+一定不要接外置电源。原因是，只有不接外电源时，USB连接电脑时，平板会不断重启，另外一接USB线，平板就会启动是正常的，ATM7029有加电启动的特点。
+一定要把电池取下。因为，ATM7029刷机的原理类似于U盘启动盘制作，你看见谁的U盘是自带电源的？
+</p>
+
+<p>
+一定要把显示屏连接线取下，因为我试了，只有取下它后，在短接特定引脚时，才能被电脑发现。
+ 其他设备一定不要生搬硬套，因为机子搞坏我不负责。
+</p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+<!-- 2021-10-02 Sat 12:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Debian11+Fvwm2.6定制桌面</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Wu Peng" />
+<link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/org.css' /><link rel='stylesheet' type='text/css' href='file:///home/paul/mynotes/publish/css/header.css' />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="preamble" class="status">
+<div class="site_header"><div class="site_title" ><div class="title_main">WuPeng's Notes - 我的知识库</div><div class="title_sub">不积跬步，无以至千里；不积小流，无以成江海</div><div class="search"></div></div><div class="nav_bar"><ul><li><a href="file:///home/paul/mynotes/publish/index.html">笔记</a></li><li><a href="file:///home/paul/mynotes/publish/inbox.html">收集</a></li><li><a href="#contact">Contact</a></li><li style="float:right"><a href="file:///home/paul/mynotes/publish/about.html">关于</a></li></ul></div></div>
+</div>
+<div id="content">
+<h1 class="title">Debian11+Fvwm2.6定制桌面</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org66d0db3">1. 桌面的基本需求</a></li>
+<li><a href="#orgb92bbab">2. Fvwm2.6默认配置存在的不足</a></li>
+<li><a href="#org130db91">3. 桌面配置改进</a></li>
+<li><a href="#orgdff9d11">4. 需要安装的基本程序</a></li>
+<li><a href="#org5444cf6">5. 从Fvwm2.5 到 Fvwm2.6</a></li>
+</ul>
+</div>
+</div>
+<p>
+我用Fvwm 有好长时间了，之前有段时间进行了较为深入的学习和研究，定制了自己的桌面
+<a href="在Debian上用FVWM做自己的桌面.html">在Debian上用Fvwm定制自已的桌面</a>，用了一段时间后，还是感觉不太满意，反而觉得系统自
+带的默认配置还可以，只是改了改快捷键，然后用了一年。而今又感觉有点单调，在
+疑惑Fvwm是不是该被淘汰的时间，对流行的发行版进行充分考察，还是觉得Fvwm才是我的菜。
+</p>
+
+<div id="outline-container-org66d0db3" class="outline-2">
+<h2 id="org66d0db3"><span class="section-number-2">1</span> 桌面的基本需求</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+每个人需要的桌面功能并不一样，但最基本的需求无非是在桌面上通过鼠标和键盘可以打开
+自己想打开程序，按照自己的意愿调整程序窗口的位置、大小，全屏显示或者后台运行以及
+在不想用的时候将其关闭。如果能提供一些便捷的功能，比如状态显示、时间显示等等的就
+更加方便了。
+</p>
+
+<p>
+具体是通过菜单、按钮或者快捷键中的哪种方式打开程序，什么方式来操作窗口，以及让系
+统将常需要的信息显示在哪个位置是我们桌面需要配置的内容。大多数的发行版桌面反映的
+是开发者的意图，我们只需要去适应他们的想法和他们的设计成果。用的多了，习惯了也没
+有什么不妥，而我，需要的是自己的想法，适合自己电脑和使用习惯的想法，于是不可避免
+地要更多的精力来折腾罢了。
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb92bbab" class="outline-2">
+<h2 id="orgb92bbab"><span class="section-number-2">2</span> Fvwm2.6默认配置存在的不足</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+从正式使用FVWM2.5开始至今，主要用了两版配置，第一版是自己折腾的，第二版应该主要
+算是FVWM2.6自带的（只不过修改了快捷键）。用得久了，还是发现有些问题。
+</p>
+
+<ol class="org-ol">
+<li>120像素宽面板靠屏幕右侧，对于小屏笔记本来说，工作区域有点窄。</li>
+<li>面板中包含的4X4虚拟桌面环境使用的很少，占的位置不少。</li>
+<li>xosview 显示占用的区域仍然偏大，但显示的信息并不满足需求。</li>
+<li>FvwmIconMan 利用率并不高，因为我不会同时开几十个程序，而且我更愿意用
+FvwmWinList 来切换窗口。</li>
+<li>只有通过菜单或者快捷键来启动程序，缺少按钮启动方式，对于不熟悉我电脑的人太不
+友好。</li>
+<li>没有关机对话框，每次重启和关机时都要通过命令窗口，多有不便。</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org130db91" class="outline-2">
+<h2 id="org130db91"><span class="section-number-2">3</span> 桌面配置改进</h2>
+<div class="outline-text-2" id="text-3">
+<ol class="org-ol">
+<li>把FvwmButtons面板移到屏幕上方，由主菜单按钮、FvwmIconMan、FvwmPager、
+StanloneTray,Xosview、FvwmScript-DateTime 组成，程序启动、任务栏、虚拟桌面状
+态、系统托盘、时间、网络和电量状态等基本功能。</li>
+<li>去掉所有窗口的标题栏，使用FvwmIconMan 中右键菜单和快捷键盘来完成窗口位置、大
+小等调整以及窗口关闭功能。</li>
+<li>将虚拟桌面调整为4X1，即1个桌面4个页面，分别主要运行Emacs、Firefox、PcmanFm、
+其它程序，保持桌面条理。</li>
+<li>将Xosview 缩小只显示网络和电量状态条，其他详细信息，比如CPU/MEM/DISK等使用
+Conky 展示在桌面右侧。</li>
+<li>增加FvwmScript-Quit关机对话框。</li>
+<li>使用 pcmanfm 接管桌面，并设置桌面背景，可以在桌面上放点当前工作使用的文件，对
+陌生人更加友好。</li>
+<li>使用 plank 作为启动面板，放在窗口下方，智能隐藏，用鼠标启动程序更加便捷。同时能
+提醒自己电脑上究竟已经装了哪些程序。</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgdff9d11" class="outline-2">
+<h2 id="orgdff9d11"><span class="section-number-2">4</span> 需要安装的基本程序</h2>
+<div class="outline-text-2" id="text-4">
+<div class="org-src-container">
+<pre class="src src-bash"><span class="linenr">1: </span>apt-get install xorg fvwm menu pcmanfm conky-all sudo hibernate acpi mpg123 imagemagick xscreensaver emacs vim-gtk fcitx fcitx-table-wubi firefox-esr xchm xpdf gimp gthumb vlc audacious recoll libreoffice build-essential automake autoconf m4  cmake bash xdm p7zip xarchiver p7zip-full arj lhasa rpm unrar-free zip axel manpages-zh  minicom libreoffice-l10n-zh-cn xloadimage inetutils-tools net-tools xosview stalonetray volumeicon-alsa git brasero locales global virtualenv pulseaudio enca sdcv archmage mplayer gnome-icon-theme gnome-icon-theme-extras pandoc gparted wireless-tools wpasupplicant plank
+</pre>
+</div>
+
+<p>
+与原来相比，我使用pcmanfm 替代 rox ，同时使用 stalonetray,xosview,plank 这几个小
+程序让使用更加方便。 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5444cf6" class="outline-2">
+<h2 id="org5444cf6"><span class="section-number-2">5</span> 从Fvwm2.5 到 Fvwm2.6</h2>
+<div class="outline-text-2" id="text-5">
+<ol class="org-ol">
+<li>Fvwm2.6 没有 FvwmTaskbar 模块，使用 FvwmButtons 实现相同功能。</li>
+<li>使用FvwmButtons Swallow xosview 时启动过程中总有点问题，最后解决方式是在
+StartFunction 中启动 xosview ，在 FvwmButtons 中Swallow 加上参数。</li>
+</ol>
+<pre class="example">
+*SystemTray: (40x30, Swallow(NoClose,UseOld) xosview \ 
+'Exec exec xosview -page -mem -cpus -disk -load -swap -cpu  -captions -labels',Frame 0)
+</pre>
+<ol class="org-ol">
+<li>设置查看manpage 使用的终端。</li>
+</ol>
+<pre class="example">
+InfoStoreAdd terminal xterm
+</pre>
+<ol class="org-ol">
+<li>限制窗口的最大尺寸。</li>
+</ol>
+<pre class="example">
+Style * MaxWindowSize 100 100
+</pre>
+<ol class="org-ol">
+<li>设置 plank dock 的风格。</li>
+</ol>
+<pre class="example">
+Style plank !Title,!Handles,WindowListSkip,NeverFocus,BorderWidth 0
+</pre>
+<ol class="org-ol">
+<li>使用FvwmButtons 时设置尺寸的技巧，使用像素来设置行，可以较为直观地控制。</li>
+</ol>
+<pre class="example">
+PipeRead 'echo "*SystemTray: Geometry $[vp.width]x30+0+0"'
+*SystemTray: Rows 30
+*SystemTray: Columns $[vp.width]
+</pre>
+<ol class="org-ol">
+<li>系统默认 FvwmScript-DateTime 中设置有120像素宽度，需要根据 FvwmButtons 中的需
+要来修改。我的作法是把系统默认配置复制了一份到自己配置目录中按需求进行修改。</li>
+</ol>
+<pre class="example">
+*SystemTray: (60x30, Swallow DateTime 'Module FvwmScript "$[fvwm_scrpt]/FvwmScript-DateTime"',Frame 0)
+</pre>
+<ol class="org-ol">
+<li>stalonetray 也有自己的配置文件，特别是其中设尺寸的参数指的是在其中显示几图标
+的宽度。icon_size 指定了图标大小为18像素， geometry 指定了显示几个图标。6x1
+指的是显示6个图标到一排上。6个图标的宽度基本上要合 FvwmButtons 中设置的宽度一
+致，否则显示会出问题。</li>
+</ol>
+
+<pre class="example">
+*SystemTray: (110x30, Swallow(NoClose,UseOld) \
+stalonetray 'Exec exec stalonetray --config \
+"$[fvwm_home]/stalonetrayrc"', Frame 0)
+</pre>
+
+<pre class="example">
+geometry 6x1
+icon_size 18
+max_geometry 6x1
+</pre>
+<p>
+本作品采用<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">知识共享署名-非商业性使用-禁止演绎 3.0 未本地化版本许可协议</a> 进行许可。
+</p>
+</div>
+</div>
+</div>
+</body>
+</html>
